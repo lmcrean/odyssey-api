@@ -64,7 +64,6 @@ DEBUG = 'DEV' in os.environ
 ALLOWED_HOSTS = [
     os.environ.get('ALLOWED_HOST'),
     'localhost',
-    'https://thawing-temple-19345-62af8577bcc8.herokuapp.com/',
     '8000-lmcrean-momentsdrfapicl-wx2jvhoicv0.ws.codeinstitute-ide.net'
 ]
 
