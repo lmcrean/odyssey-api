@@ -64,7 +64,8 @@ DEBUG = 'DEV' in os.environ
 ALLOWED_HOSTS = [
     os.environ.get('ALLOWED_HOST'),
     'localhost',
-    '8000-lmcrean-momentsdrfapicl-wx2jvhoicv0.ws.codeinstitute-ide.net'
+    '8000-lmcrean-momentsdrfapicl-wx2jvhoicv0.ws.codeinstitute-ide.net',
+    'moments-api-clone-1a930203bd9f.herokuapp.com'
 ]
 
 if 'CLIENT_ORIGIN' in os.environ:
