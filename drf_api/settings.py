@@ -64,6 +64,7 @@ DEBUG = 'DEV' in os.environ
 ALLOWED_HOSTS = [
     os.environ.get('ALLOWED_HOST'),
     'localhost',
+    'https://thawing-temple-19345-62af8577bcc8.herokuapp.com/'
 ]
 
 if 'CLIENT_ORIGIN' in os.environ:
