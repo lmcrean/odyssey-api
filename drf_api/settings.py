@@ -65,7 +65,8 @@ ALLOWED_HOSTS = [
     os.environ.get('ALLOWED_HOST'),
     'localhost',
     '8000-lmcrean-momentsdrfapicl-wx2jvhoicv0.ws.codeinstitute-ide.net',
-    'moments-api-clone-1a930203bd9f.herokuapp.com'
+    'moments-api-clone-1a930203bd9f.herokuapp.com',
+    'moments-clone-44abd729bbac.herokuapp.com'
 ]
 
 if 'CLIENT_ORIGIN' in os.environ:
