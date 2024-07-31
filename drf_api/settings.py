@@ -68,7 +68,9 @@ ALLOWED_HOSTS = [
     'moments-api-clone-1a930203bd9f.herokuapp.com',
     'moments-clone-44abd729bbac.herokuapp.com',
     'odyssey-api-f3455553b29d.herokuapp.com',
-    'odyssey-frontend-1fed9e7a199c.herokuapp.com'
+    'odyssey-frontend-1fed9e7a199c.herokuapp.com',
+    '127.0.0.1:8000',
+    '127.0.0.1'
 ]
 
 if 'CLIENT_ORIGIN' in os.environ:
@@ -109,6 +111,7 @@ INSTALLED_APPS = [
     'comments',
     'likes',
     'followers',
+    'messaging'
 ]
 SITE_ID = 1
 MIDDLEWARE = [
