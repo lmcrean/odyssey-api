@@ -66,7 +66,9 @@ ALLOWED_HOSTS = [
     'localhost',
     '8000-lmcrean-momentsdrfapicl-wx2jvhoicv0.ws.codeinstitute-ide.net',
     'moments-api-clone-1a930203bd9f.herokuapp.com',
-    'moments-clone-44abd729bbac.herokuapp.com'
+    'moments-clone-44abd729bbac.herokuapp.com',
+    'odyssey-api-f3455553b29d.herokuapp.com',
+    'odyssey-frontend-1fed9e7a199c.herokuapp.com'
 ]
 
 if 'CLIENT_ORIGIN' in os.environ:
