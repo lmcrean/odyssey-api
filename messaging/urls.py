@@ -1,12 +1,9 @@
 # messaging/urls.py
 
 from django.urls import path
-from .views import MessageListView, MessageCreateView, MessageDetailView
+from .views import ConversationListView, ConversationDetailView
 
 urlpatterns = [
-    path('messaging/', MessageListView.as_view(), name='message-list'),
-    path('messaging/send/',
-         MessageCreateView.as_view(), name='message-create'),
-    path('messaging/<int:pk>/', MessageDetailView.as_view(),
-         name='message-detail'),
+    path('conversations/', ConversationListView.as_view(), name='conversation-list'),
+    path('conversations/<int:user_id>/', ConversationDetailView.as_view(), name='conversation-detail'),
 ]
