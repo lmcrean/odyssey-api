@@ -15,5 +15,6 @@ class MessageSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         recipient_id = validated_data.pop('recipient_id')
         recipient = User.objects.get(id=recipient_id)
-        message = Message.objects.create(recipient=recipient, **validated_data)
+        validated_data['recipient'] = recipient
+        message = Message.objects.create(**validated_data)
         return message
