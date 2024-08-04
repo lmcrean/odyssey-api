@@ -13,8 +13,6 @@ class PostListViewTests(APITestCase):
         Post.objects.create(owner=adam, title='a title')
         response = self.client.get('/posts/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        print(response.data)
-        print(len(response.data))
 
     def test_logged_in_user_can_create_post(self):
         self.client.login(username='adam', password='pass')
