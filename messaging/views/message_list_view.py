@@ -1,4 +1,4 @@
-# views/conversation_list_view.py
+# views/message_list_view.py
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -7,17 +7,17 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 
 
-class ConversationListView(APIView):
+class MessageListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         user = request.user
-        conversations = User.objects.filter(
+        messages = User.objects.filter(
             Q(sent_messages__recipient=user) | Q(received_messages__sender=user)
         ).distinct()
 
-        conversation_data = [
-            {"id": conversation.id, "username": conversation.username}
-            for conversation in conversations
+        message_data = [
+            {"id": message.id, "username": message.username}
+            for message in messages
         ]
-        return Response(conversation_data)
+        return Response(message_data)

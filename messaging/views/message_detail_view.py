@@ -1,4 +1,4 @@
-# messaging/views/conversation_detail_view.py
+# messaging/views/message_detail_view.py
 
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -6,7 +6,7 @@ from django.db.models import Q
 from messaging.models import Message
 from messaging.serializers import MessageSerializer
 
-class ConversationDetailView(ListAPIView):
+class MessageDetailView(ListAPIView):
     serializer_class = MessageSerializer
     permission_classes = [IsAuthenticated]
 
