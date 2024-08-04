@@ -7,14 +7,8 @@ from messaging.models import Message
 class MessageSerializer(serializers.ModelSerializer):
     recipient_id = serializers.IntegerField(write_only=True)
 
+class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ['id', 'sender', 'recipient', 'recipient_id', 'content', 'image', 'timestamp', 'read']
+        fields = ['id', 'sender', 'recipient', 'content', 'image', 'timestamp', 'read']
         read_only_fields = ['id', 'sender', 'timestamp', 'read', 'recipient']
-
-    def create(self, validated_data):
-        recipient_id = validated_data.pop('recipient_id')
-        recipient = User.objects.get(id=recipient_id)
-        validated_data['recipient'] = recipient
-        message = Message.objects.create(**validated_data)
-        return message

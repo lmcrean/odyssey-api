@@ -17,9 +17,14 @@ class MessageDetailSendView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         recipient_id = self.kwargs['user_id']
+        print(f"Performing create: Recipient ID: {recipient_id}")
         try:
             recipient = User.objects.get(id=recipient_id)
+            print(f"Recipient found: {recipient}")
         except User.DoesNotExist:
+            print("Recipient does not exist")
             raise ValidationError('Recipient does not exist')
-        serializer.save(sender=self.request.user, recipient=recipient)
 
+        # Pass recipient_id to the serializer
+        serializer.save(sender=self.request.user, recipient=recipient)
+        print(f"Message created: {serializer.instance}")
