@@ -1,4 +1,4 @@
-# drf-api/messaging/views/message_start_new_view.py
+# drf_api/messaging/views/message_start_new_view.py
 
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
@@ -27,4 +27,7 @@ class MessageListStartNewView(generics.CreateAPIView):
             raise ValidationError('Cannot start a chat with yourself.')
 
         serializer.save(sender=self.request.user, recipient=recipient)
-        return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        return Response(response.data)
