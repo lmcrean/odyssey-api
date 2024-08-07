@@ -21,3 +21,8 @@ class MessageDetailView(ListAPIView):
             (Q(sender=user) & Q(recipient_id=other_user_id)) |
             (Q(sender_id=other_user_id) & Q(recipient=user))
         ).order_by('timestamp')
+
+    def perform_destroy(self, instance):
+        if instance.sender != self.request.user:
+            raise ValidationError('You do not have permission to delete this message.')
+        instance.delete()

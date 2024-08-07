@@ -2,3 +2,4 @@ from .message_list_view import MessageListView
 from .message_detail_view import MessageDetailView
 from .message_detail_send_view import MessageDetailSendView
 from .message_start_new_view import MessageListStartNewView
+from .message_delete_view import MessageDeleteView
