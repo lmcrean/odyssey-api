@@ -6,11 +6,16 @@ from messaging.models import Message
 
 
 class MessageSerializer(serializers.ModelSerializer):
-    formatted_timestamp = serializers.SerializerMethodField()
+    date = serializers.SerializerMethodField()
+    time = serializers.SerializerMethodField()
+    
     class Meta:
         model = Message
-        fields = ['id', 'sender', 'recipient', 'content', 'image', 'formatted_timestamp', 'read']
-        read_only_fields = ['id', 'sender', 'formatted_timestamp', 'read', 'recipient']
+        fields = ['id', 'sender', 'recipient', 'content', 'image', 'date', 'time', 'read']
+        read_only_fields = ['id', 'sender', 'date', 'time', 'read', 'recipient']
     
-    def get_formatted_timestamp(self, obj):
-        return obj.timestamp.strftime('%d %b %Y %H:%M')
+    def get_date(self, obj):
+        return obj.timestamp.strftime('%d %b %Y')
+    
+    def get_time(self, obj):
+        return obj.timestamp.strftime('%H:%M')
