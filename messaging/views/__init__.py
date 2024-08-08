@@ -4,3 +4,4 @@ from .message_detail_send_view import MessageDetailSendView
 from .message_start_new_view import MessageListStartNewView
 from .message_delete_view import MessageDeleteView
 from .chat_delete_view import ChatDeleteView
+from .message_update_view import MessageUpdateView
