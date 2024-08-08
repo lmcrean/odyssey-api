@@ -12,3 +12,6 @@ class MessageSerializer(serializers.ModelSerializer):
         model = Message
         fields = ['id', 'sender', 'recipient', 'content', 'image', 'timestamp', 'read']
         read_only_fields = ['id', 'sender', 'timestamp', 'read', 'recipient']
+    
+    def get_formatted_timestamp(self, obj):
+        return obj.formatted_timestamp()

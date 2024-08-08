@@ -3,7 +3,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Message(models.Model):
     sender = models.ForeignKey(
         User,
@@ -20,7 +19,7 @@ class Message(models.Model):
         upload_to='message_images/',
         blank=True,
         null=True
-    )  # Image field for attachments
+    )
     timestamp = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
 
