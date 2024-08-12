@@ -2,6 +2,9 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 
+def get_default_profile_image():
+    # Return the correct path that matches Cloudinary's structure
+    return 'media/images/default_profile_dqcubz.jpg'
 
 class Profile(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -11,9 +14,8 @@ class Profile(models.Model):
     content = models.TextField(blank=True)
     image = models.ImageField(
         upload_to='images/', 
-        default='https://res.cloudinary.com/dh5lpihx1/image/upload/v1711907095/default_profile_dqcubz.jpg'
+        default=get_default_profile_image
     )
-
 
     class Meta:
         ordering = ['-created_at']
@@ -21,10 +23,8 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.owner}'s profile"
 
-
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(owner=instance)
-
 
 post_save.connect(create_profile, sender=User)
