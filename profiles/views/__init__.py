@@ -1,2 +1,3 @@
 from .profile_detail_view import ProfileDetail
 from .profile_list_view import ProfileList
+from .profile_list_most_followed_view import ProfileListMostFollowed
