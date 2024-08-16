@@ -40,6 +40,7 @@ class ProfileListMostFollowedViewTest(APITestCase):
                 title=f"User 3 Post {i}",
                 defaults={'image': f"https://res.cloudinary.com/dh5lpihx1/image/upload/v1/media/images/user3_{i}.jpg"}
             )
+        pass
 
     def test_most_followed_profiles(self):
         response = self.client.get('/profiles/most_followed/')
@@ -70,3 +71,7 @@ class ProfileListMostFollowedViewTest(APITestCase):
         # Confirm specific post URLs for user2
         self.assertEqual(results[0]['posts'][0], "https://res.cloudinary.com/dh5lpihx1/image/upload/v1/media/images/user2_1.jpg")
         self.assertEqual(results[0]['posts'][5], "https://res.cloudinary.com/dh5lpihx1/image/upload/v1/media/images/user2_6.jpg")
+
+        pass
+
+    pass
