@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Profile
 from followers.models import Follower
+from posts.models import Post
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -10,6 +11,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     posts_count = serializers.ReadOnlyField()
     followers_count = serializers.ReadOnlyField()
     following_count = serializers.ReadOnlyField()
+    posts = serializers.SerializerMethodField()
 
     def get_is_owner(self, obj):
         request = self.context['request']
@@ -24,10 +26,16 @@ class ProfileSerializer(serializers.ModelSerializer):
             return following.id if following else None
         return None
 
+    def get_posts(self, obj):
+        # Query for the latest six posts by the profile owner
+        posts = Post.objects.filter(owner=obj.owner).order_by('-created_at')[:6]
+        return [post.image.url for post in posts]  # Return only the image URLs
+
     class Meta:
         model = Profile
         fields = [
             'id', 'owner', 'created_at', 'updated_at', 'name',
             'content', 'image', 'is_owner', 'following_id',
             'posts_count', 'followers_count', 'following_count',
+            'posts',
         ]
