@@ -2,7 +2,6 @@ from rest_framework import serializers
 from posts.models import Post
 from likes.models import Like
 
-
 class PostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
@@ -24,6 +23,36 @@ class PostSerializer(serializers.ModelSerializer):
                 'Image width larger than 4096px!'
             )
         return value
+
+    def create(self, validated_data):
+        # Extract the image from the validated data if present
+        image = validated_data.pop('image', None)
+        
+        # Create the Post instance without the image
+        post = Post.objects.create(**validated_data)
+        
+        # If an image was uploaded, save it to the post
+        if image:
+            post.image = image
+            post.save()
+
+        return post
+
+    def update(self, instance, validated_data):
+        # Extract the image from the validated data if present
+        image = validated_data.pop('image', None)
+        
+        # Update the post instance with other fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        
+        # If an image was uploaded, save it to the post
+        if image:
+            instance.image = image
+        
+        # Save the updated instance
+        instance.save()
+        return instance
 
     def get_is_owner(self, obj):
         request = self.context['request']
