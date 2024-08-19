@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 def get_default_post_image():
     # Return the correct path that matches Cloudinary's structure
-    return 'media/images/default_post_rgq6aq.jpg'
+    return 'media/images/default_post_ovkj9a.jpg'
 
 
 class Post(models.Model):
