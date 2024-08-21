@@ -1,6 +1,5 @@
-# drf-api/messaging/serializers.py
-
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from messaging.models import Message
 from profiles.models import Profile
 
@@ -11,17 +10,15 @@ class MessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Message
-        fields = ['id', 'sender', 'sender_profile_image', 'recipient', 'content', 'image', 'date', 'time', 'read']
-        read_only_fields = ['id', 'sender', 'sender_profile_image', 'date', 'time', 'read', 'recipient']
-    
+        fields = ['id', 'sender', 'recipient', 'content', 'image', 'date', 'time', 'read', 'sender_profile_image']
+        read_only_fields = ['id', 'sender', 'date', 'time', 'read', 'recipient']
+
     def get_date(self, obj):
         return obj.timestamp.strftime('%d %b %Y')
-    
+
     def get_time(self, obj):
         return obj.timestamp.strftime('%H:%M')
 
     def get_sender_profile_image(self, obj):
-        # Return the sender's profile image URL, if available
-        if hasattr(obj.sender, 'profile') and obj.sender.profile.image:
-            return obj.sender.profile.image.url
-        return None
+        profile = Profile.objects.get(user=obj.sender)
+        return profile.image.url if profile.image else None
