@@ -20,5 +20,8 @@ class MessageSerializer(serializers.ModelSerializer):
         return obj.timestamp.strftime('%H:%M')
 
     def get_sender_profile_image(self, obj):
-        profile = Profile.objects.get(user=obj.sender)
-        return profile.image.url if profile.image else None
+        try:
+            profile = Profile.objects.get(owner=obj.sender)
+            return profile.image.url if profile.image else 'https://res.cloudinary.com/dh5lpihx1/image/upload/v1/media/images/default_profile_dqcubz.jpg'
+        except Profile.DoesNotExist:
+            return 'https://res.cloudinary.com/dh5lpihx1/image/upload/v1/media/images/default_profile_dqcubz.jpg'
