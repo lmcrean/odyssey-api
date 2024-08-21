@@ -7,10 +7,11 @@ class MessageSerializer(serializers.ModelSerializer):
     date = serializers.SerializerMethodField()
     time = serializers.SerializerMethodField()
     sender_profile_image = serializers.SerializerMethodField()
+    recipient_profile_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Message
-        fields = ['id', 'sender', 'recipient', 'content', 'image', 'date', 'time', 'read', 'sender_profile_image']
+        fields = ['id', 'sender', 'recipient', 'content', 'image', 'date', 'time', 'read', 'sender_profile_image', 'recipient_profile_image']
         read_only_fields = ['id', 'sender', 'date', 'time', 'read', 'recipient']
 
     def get_date(self, obj):
@@ -22,6 +23,13 @@ class MessageSerializer(serializers.ModelSerializer):
     def get_sender_profile_image(self, obj):
         try:
             profile = Profile.objects.get(owner=obj.sender)
+            return profile.image.url if profile.image else 'https://res.cloudinary.com/dh5lpihx1/image/upload/v1/media/images/default_profile_dqcubz.jpg'
+        except Profile.DoesNotExist:
+            return 'https://res.cloudinary.com/dh5lpihx1/image/upload/v1/media/images/default_profile_dqcubz.jpg'
+
+    def get_recipient_profile_image(self, obj):
+        try:
+            profile = Profile.objects.get(owner=obj.recipient)
             return profile.image.url if profile.image else 'https://res.cloudinary.com/dh5lpihx1/image/upload/v1/media/images/default_profile_dqcubz.jpg'
         except Profile.DoesNotExist:
             return 'https://res.cloudinary.com/dh5lpihx1/image/upload/v1/media/images/default_profile_dqcubz.jpg'
