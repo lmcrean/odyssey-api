@@ -26,3 +26,6 @@ class MessageDetailView(ListAPIView):
         if instance.sender != self.request.user:
             raise ValidationError('You do not have permission to delete this message.')
         instance.delete()
+
+    def get_serializer_context(self):
+        return {'request': self.request}
