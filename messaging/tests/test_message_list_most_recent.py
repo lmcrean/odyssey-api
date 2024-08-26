@@ -51,8 +51,8 @@ class MessageListViewTest(APITestCase):
         # Check the number of message users returned
         self.assertEqual(len(data), 1)
         
-        # Verify that the last message for user2 is truncated to 20 characters and ends with "..."
-        self.assertEqual(data[0]['last_message'], "This is a very long ...")  # Truncated to 20 characters
+        # Verify that the last message for user2 is truncated to 50 characters and ends with "..."
+        self.assertEqual(data[0]['last_message'], "This is a very long message from user2 that is als...")  # Truncated to 50 characters
         self.assertTrue(data[0]['last_message_time'])  # Should contain a formatted time string
 
         # Ensure that the older message does not appear in the last_message field

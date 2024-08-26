@@ -51,8 +51,8 @@ class MessageSerializer(serializers.ModelSerializer):
         ).order_by('-timestamp').first()
         
         if last_message_obj:
-            if len(last_message_obj.content) > 20:
-                return last_message_obj.content[:20] + '...'
+            if len(last_message_obj.content) > 50:
+                return last_message_obj.content[:50] + '...'
             return last_message_obj.content
         return None
 
