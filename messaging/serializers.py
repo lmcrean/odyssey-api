@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from messaging.models import Message
 from profiles.models import Profile
+from django.utils import timezone
+from django.db.models import Q
 
 class MessageSerializer(serializers.ModelSerializer):
     date = serializers.SerializerMethodField()
@@ -9,10 +11,13 @@ class MessageSerializer(serializers.ModelSerializer):
     sender_profile_image = serializers.SerializerMethodField()
     recipient_profile_image = serializers.SerializerMethodField()
     is_sender = serializers.SerializerMethodField()
+    last_message = serializers.SerializerMethodField()
+    last_message_time = serializers.SerializerMethodField()
 
     class Meta:
         model = Message
-        fields = ['id', 'sender', 'recipient', 'content', 'image', 'date', 'time', 'read', 'sender_profile_image', 'recipient_profile_image', 'is_sender']
+        fields = ['id', 'sender', 'recipient', 'content', 'image', 'date', 'time', 'read',
+                  'sender_profile_image', 'recipient_profile_image', 'is_sender', 'last_message', 'last_message_time']
         read_only_fields = ['id', 'sender', 'date', 'time', 'read', 'recipient']
 
     def get_date(self, obj):
@@ -38,3 +43,32 @@ class MessageSerializer(serializers.ModelSerializer):
     def get_is_sender(self, obj):
         request = self.context.get('request')
         return obj.sender == request.user
+
+    def get_last_message(self, obj):
+        last_message_obj = Message.objects.filter(
+            (Q(sender=obj.sender) & Q(recipient=obj.recipient)) |
+            (Q(sender=obj.recipient) & Q(recipient=obj.sender))
+        ).order_by('-timestamp').first()
+        
+        if last_message_obj:
+            if len(last_message_obj.content) > 20:
+                return last_message_obj.content[:20] + '...'
+            return last_message_obj.content
+        return None
+
+    def get_last_message_time(self, obj):
+        # Retrieve the time or date of the most recent message
+        last_message_obj = Message.objects.filter(
+            (Q(sender=obj.sender) & Q(recipient=obj.recipient)) |
+            (Q(sender=obj.recipient) & Q(recipient=obj.sender))
+        ).order_by('-timestamp').first()
+
+        if last_message_obj:
+            time_difference = timezone.now() - last_message_obj.timestamp
+            if time_difference.days > 365:
+                return last_message_obj.timestamp.strftime('%d %b %Y')
+            elif time_difference.days >= 1:
+                return last_message_obj.timestamp.strftime('%d %b')
+            else:
+                return last_message_obj.timestamp.strftime('%H:%M')
+        return None
