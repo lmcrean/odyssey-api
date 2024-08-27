@@ -2,6 +2,8 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
+
 
 class Message(models.Model):
     sender = models.ForeignKey(
@@ -15,11 +17,7 @@ class Message(models.Model):
         on_delete=models.CASCADE
     )
     content = models.TextField(blank=True)
-    image = models.ImageField(
-        upload_to='message_images/',
-        blank=True,
-        null=True
-    )
+    image = CloudinaryField('image', blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
 
