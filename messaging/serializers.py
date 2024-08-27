@@ -87,3 +87,9 @@ class MessageSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Invalid image file")
         
         return image
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.image:
+            representation['image'] = instance.image.url  # Ensure you're returning the full URL
+        return representation
