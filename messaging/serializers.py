@@ -4,6 +4,7 @@ from messaging.models import Message
 from profiles.models import Profile
 from django.utils import timezone
 from django.db.models import Q
+from PIL import Image
 
 class MessageSerializer(serializers.ModelSerializer):
     date = serializers.SerializerMethodField()
@@ -72,3 +73,17 @@ class MessageSerializer(serializers.ModelSerializer):
             else:
                 return last_message_obj.timestamp.strftime('%H:%M')
         return None
+
+    def validate_image(self, image):
+        # First check the file size to ensure it meets the size restrictions
+        if image.size > 5 * 1024 * 1024:  # 5MB limit
+            raise serializers.ValidationError("Image file too large (max 5MB)")
+
+        # Then check if the file is a valid image by trying to open it with PIL
+        try:
+            img = Image.open(image)
+            img.verify()  # Verifies the image without loading the full content
+        except (IOError, Image.DecompressionBombError):
+            raise serializers.ValidationError("Invalid image file")
+        
+        return image
