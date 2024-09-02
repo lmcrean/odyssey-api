@@ -12,6 +12,7 @@ class TestPopulateDb(TestCase):
         self.mock_data = {
             "profiles": [
                 {
+                    "id": 1,
                     "username": "testuser",
                     "name": "Test User",
                     "content": "Test content",
@@ -28,6 +29,7 @@ class TestPopulateDb(TestCase):
                     ]
                 },
                 {
+                    "id": 2,
                     "username": "testuser2",
                     "name": "Test User 2",
                     "content": "Test content 2"
