@@ -1,0 +1,65 @@
+.messageListSkeleton {
+    background-color: var(--color-secondary-background);
+    padding: 20px;
+    border-radius: 4px;
+  }
+  
+  .titleSkeleton {
+    width: 50%;
+    height: 24px;
+    background-color: var(--color-secondary-text);
+    margin-bottom: 20px;
+  }
+  
+  .messageItemSkeleton {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .avatarSkeleton {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--color-secondary-text);
+    margin-right: 15px;
+  }
+  
+  .contentSkeleton {
+    flex-grow: 1;
+  }
+  
+  .nameSkeleton {
+    width: 100px;
+    height: 16px;
+    background-color: var(--color-secondary-text);
+    margin-bottom: 5px;
+  }
+  
+  .previewSkeleton {
+    width: 80%;
+    height: 14px;
+    background-color: var(--color-secondary-text);
+  }
+  
+  .timeSkeleton {
+    width: 60px;
+    height: 14px;
+    background-color: var(--color-secondary-text);
+  }
+  
+  .titleSkeleton, .avatarSkeleton, .nameSkeleton, .previewSkeleton, .timeSkeleton {
+    animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 0.8;
+    }
+    100% {
+      opacity: 0.6;
+    }
+  }

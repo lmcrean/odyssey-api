@@ -1,0 +1,114 @@
+.MessageDetail {
+  color: var(--color-primary-text);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 100px); /* Adjust for NavbarMobile height */
+}
+
+.MessageUsername {
+  color: var(--color-primary-text);
+}
+
+.date-separator {
+  color: var(--color-secondary-text);
+}
+
+.DateSeparator {
+  text-align: center;
+  margin: 20px 0;
+  position: relative;
+}
+
+.DateSeparator::before,
+.DateSeparator::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 42%;
+  height: 1px;
+}
+
+.DateSeparator::before {
+  left: 0;
+}
+
+.DateSeparator::after {
+  right: 0;
+}
+
+.DateBubble {
+  background-color: var(--color-secondary-background);
+  color: var(--color-secondary-text);
+  padding: 5px 10px;
+  border-radius: 15px;
+  display: inline-block;
+  font-size: 0.8em;
+  position: relative;
+}
+
+.MessageWrapper {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.SenderWrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.RecipientWrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.MessageTriangle {
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 0;
+  z-index: 999;
+}
+
+.SenderMessage {
+  border-left: 10px solid var(--color-secondary-background);
+  border-top: 0px solid transparent;
+  border-bottom: 20px solid transparent;
+  filter: brightness(1.2) hue-rotate(20deg) contrast(0.8);
+  right: 1px;
+  border-radius: 0px 5px 0px 0px;
+}
+
+.RecipientMessage {
+  border-right: 10px solid var(--color-secondary-background);
+  border-top: 0px solid transparent;
+  border-bottom: 20px solid transparent;
+  left: 1px;
+  border-radius: 5px 0px 0px 0px;
+}
+
+.MessageTriangle .SenderMessage {
+  right: 0px;
+}
+
+.MessageTriangle .RecipientMessage {
+  left: 0px;
+}
+
+.FormContainer {
+  position: sticky;
+  bottom: 100px;
+  background-color: var(--color-secondary-background);
+  padding: 10px 0;
+  border-radius: 20px 20px 0 0;
+  filter: brightness(1.2) hue-rotate(20deg) contrast(0.8);
+}
+
+@media screen and (min-width: 769px) {
+  .MessageDetail {
+    height: 100vh; /* Full height for desktop */
+  }
+
+  .FormContainer {
+    bottom: 0; /* No adjustment needed for desktop */
+  }
+}

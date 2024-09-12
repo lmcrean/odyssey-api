@@ -1,0 +1,70 @@
+.messageDetailSkeleton {
+    background-color: var(--color-secondary-background);
+    padding: 20px;
+    border-radius: 4px;
+  }
+  
+  .headerSkeleton {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .avatarSkeleton {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--color-secondary-text);
+    margin-right: 15px;
+  }
+  
+  .nameSkeleton {
+    width: 120px;
+    height: 20px;
+    background-color: var(--color-secondary-text);
+  }
+  
+  .messageListSkeleton {
+    margin-bottom: 20px;
+  }
+  
+  .messageSkeleton {
+    margin-bottom: 15px;
+  }
+  
+  .messageContentSkeleton {
+    width: 80%;
+    height: 40px;
+    background-color: var(--color-secondary-text);
+    border-radius: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .messageTimeSkeleton {
+    width: 60px;
+    height: 14px;
+    background-color: var(--color-secondary-text);
+  }
+  
+  .inputSkeleton {
+    width: 100%;
+    height: 40px;
+    background-color: var(--color-secondary-text);
+    border-radius: 20px;
+  }
+  
+  .avatarSkeleton, .nameSkeleton, .messageContentSkeleton, .messageTimeSkeleton, .inputSkeleton {
+    animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 0.8;
+    }
+    100% {
+      opacity: 0.6;
+    }
+  }

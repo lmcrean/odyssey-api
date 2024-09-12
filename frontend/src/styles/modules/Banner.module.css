@@ -1,0 +1,5 @@
+/* Banner.module.css */
+.Background {
+    background-color: var(--color-secondary-background);
+    border-radius: 20px;
+  }

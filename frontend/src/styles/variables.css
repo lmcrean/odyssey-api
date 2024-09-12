@@ -1,0 +1,32 @@
+
+
+:root {
+    /* Dark Theme Colors  (will be dynamically changed in ThemeContext.js)  */
+    --color-background: #121212;
+    --color-secondary-background: #1F1F1F;
+    --color-primary-text: #f0e7e7;
+    --color-secondary-text: #B3B3B3;
+
+    /* Accent color (remains constant) */
+    --color-accent: #1DB954;
+  
+    /* Accessibility colors */
+    --color-error: #FF5252;
+    --color-success: #27c62c;
+    --color-info: #019641;
+
+    /* Button Colors */
+    --color-button-primary: var(--color-accent); 
+    --color-button-secondary: var(--color-secondary-background); 
+    --color-button-ignore: var(--color-secondary-background); 
+    --color-button-danger: var(--color-error); 
+ 
+    /* Text Input Colors */
+    --color-textarea-primary: var(--color-primary-text); 
+    --color-textarea-secondary: var(--color-secondary-background);
+    --color-textinput-text: var(--color-secondary-background);
+   
+     /* Fonts */
+     --font-primary: 'Core Sans C', sans-serif;
+     --font-secondary: 'Serifa', sans-serif;
+ }

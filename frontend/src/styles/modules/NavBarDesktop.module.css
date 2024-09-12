@@ -1,0 +1,66 @@
+.NavBarDesktop {
+  display: flex; 
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 80px;
+  background-color: var(--color-secondary-background);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  z-index: 1000;
+}
+
+.NavLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.ProfileLink {
+  margin-top: auto;
+}
+
+.NavLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 0;
+  width: 100%;
+  color: var(--color-secondary-text);
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.NavLink:hover {
+  background-color: var(--color-primary-background) !important;
+}
+
+.NavLink:hover .NavText {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.NavText {
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--color-secondary-text);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease-in-out;
+}
+
+.Active {
+  color: var(--color-info);
+}
+
+.Logo {
+  width: 50px; 
+  height: auto;
+  margin-bottom: 20px; /* Add spacing between logo and first nav link */
+}

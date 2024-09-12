@@ -1,0 +1,138 @@
+
+/* base.css */
+/* This file does generic styling for colors and typefaces */
+
+
+/* Disable tap highlight on mobile devices */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection for specific elements */
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Body and Typography */
+body {
+    background-color: var(--color-background);
+    color: var(--color-primary-text);
+    font-family: var(--font-secondary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-primary);
+    color: var(--color-primary-text);
+  }
+  
+  p, span, div {
+    color: var(--color-primary-text);
+  }
+  
+  /* Links */
+  a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: var(--color-info);
+  }
+  
+  /* Buttons */
+  button, .btn-primary {
+    background-color: var(--color-button-primary) !important;
+    color: var(--color-primary-text);
+    font-family: var(--font-primary);
+    border: 0px !important;
+  }
+
+ button.close, button span {
+    background-color: var(--color-button-ignore) !important;
+    color: var(--color-primary-text) !important;
+    border-radius: 4px;
+    font-weight: 300;
+    text-shadow: none;
+    ;
+  }
+
+.input-group-text {
+  background-color: var(--color-background) !important;
+  border: 1px solid #ced4da;
+  border-radius: 20px;
+}
+
+  .Button:hover:active,
+.Button:active,
+.Button:focus {
+  background-color: var(--color-accent) !important;
+}
+
+  .btn-secondary {
+    background-color: var(--color-button-secondary) !important;
+    color: var(--color-primary-text)
+ }
+
+  /* Inputs */
+  input, textarea {
+    background-color: var(--color-textarea-secondary) !important;
+    color: var(--color-textarea-primary) !important;
+    font-family: var(--font-secondary);
+    font-weight: 400;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    border-radius: 5px !important;
+  }
+
+[contenteditable="true"] {
+  -webkit-user-modify: read-write-plaintext-only;
+}
+
+  span {
+    color: var(--color-info) !important;
+  }
+
+  label {
+    color: var(--color-secondary-text) ;
+  }
+  
+  .green-filter {
+    filter: hue-rotate(-60deg);
+}
+
+.dropdown-menu {
+  background-color: var(--color-secondary-background);
+  filter: brightness(110%);
+}
+
+.dropdown-item {
+  color: var(--color-secondary-text);
+}
+
+.dropdown-item:hover {
+  background-color: var(--color-secondary-background);
+  filter: brightness(120%);
+  color: var(--color-secondary-text);
+}
+
+.modal-header, .modal-body, .modal-footer {
+  background-color: var(--color-secondary-background);
+  color: var(--color-secondary-text);
+  border-bottom: none;
+  border-top: none;
+  text-align: center;
+  justify-content: center;
+}
+
+img, .rounded {
+  border-radius: 20px !important;
+}

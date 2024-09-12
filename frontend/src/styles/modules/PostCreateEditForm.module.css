@@ -1,0 +1,36 @@
+.Container {
+  min-height: 343px;
+}
+
+.FormControl {
+  color: brown;
+}
+
+.ImageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-radius: 20px;
+}
+
+figure:hover .ImageOverlay {
+  opacity: 1;
+}
+
+.ImageOverlay span {
+  background-color: var(--color-background);
+  color: var(--color-primary-text);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}

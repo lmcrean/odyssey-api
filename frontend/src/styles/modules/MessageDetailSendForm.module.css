@@ -1,0 +1,107 @@
+.MessageSendForm {
+  padding: 15px;
+  z-index: 1000;
+  border-radius: 20px 20px 0 0;
+}
+
+.FormGroup {
+  margin-bottom: 10px;
+}
+
+.MessageInput {
+  resize: none;
+  background-color: var(--color-secondary-background) !important;
+  color: var(--color-primary-text);
+  border: 1px solid var(--color-secondary-text);
+  border-radius: 20px;
+}
+
+.MessageInput:focus { /*send to base.css */
+  background-color: var(--color-background) !important;
+  box-shadow: 0 0 0 .1em var(--color-accent);
+  border-color: none;
+}
+
+.FormActions {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.BrowseButton,
+.SendButton {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.BrowseButton {
+  background-color: var(--color-button-secondary);
+  border: none;
+  color: var(--color-primary-text);
+}
+
+.BrowseButton:hover {
+  background-color: var(--color-accent);
+  color: var(--color-primary-text);
+}
+
+.HiddenFileInput {
+  display: none;
+}
+
+.SendButton {
+  background-color: var(--color-button-primary);
+  border: none;
+  color: var(--color-primary-text);
+}
+
+.SendButton:hover {
+  background-color: var(--color-accent);
+}
+
+.ImagePreviewContainer {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.ImagePreview {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.RemoveImageButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 5px 8px;
+  border-radius: 50%;
+  background-color: var(--color-error);
+  color: var(--color-primary-text);
+  border: none;
+}
+
+.RemoveImageButton:hover {
+  background-color: var(--color-accent);
+}
+
+/* Add some space between the buttons */
+.BrowseButton {
+  margin-right: 10px;
+  margin-bottom: 0px;
+}
+
+/* Ensure icons are aligned properly */
+.BrowseButton svg,
+.SendButton svg {
+  margin-right: 5px;
+}

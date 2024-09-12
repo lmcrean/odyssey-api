@@ -1,0 +1,39 @@
+.PopularProfiles {
+    background-color: var(--color-secondary-background);
+    padding: 20px;
+    border-radius: 4px;
+  }
+  
+  .PopularProfilesTitle {
+    color: var(--color-primary-text) !important;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .ProfileItem {
+    color: var(--color-primary-text) !important;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .ProfileItem a {
+    color: var(--color-primary-text) !important; /* Ensure link text is readable */
+    text-decoration: none;
+  }
+  
+  .ProfileItem a:hover {
+    color: var(--color-accent) !important; /* Hover effect for links */
+  }
+  
+  .ProfileItem img {
+    margin-right: 10px;
+    border-radius: 50%;
+  }
+  
+  .ProfileItemName {
+    margin-left: 10px;
+    color: var(--color-primary-text) !important;
+  }
+  

@@ -1,0 +1,77 @@
+.SearchBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+}
+
+.SearchBar input {
+  background-color: var(--color-secondary-background);
+  border-radius: 20px;
+  color: var(--color-secondary-text);
+  padding-left: 40px;
+  margin-bottom: 16px;
+}
+
+.SearchBar .input-group-text {
+  background-color: var(--color-secondary-background);
+  border: none;
+  color: var(--color-secondary-text);
+  position: absolute;
+  z-index: 4;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-bottom: 5px;
+}
+
+.SearchBar .input-group {
+  position: relative;
+}
+
+.SearchIcon {
+  position: absolute;
+  font-size: 1.2rem;
+  padding: 9px;
+  padding-left: 15px;
+}
+
+.SearchIcon:hover {
+  cursor: default;
+  color: var(--color-primary-text);
+}
+
+.BackToTopButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.9;
+  transition: opacity 0.3s;
+}
+
+.BackToTopButton > *, .FeedSwitch {
+  color: var(--color-primary-text) !important;
+}
+
+.FeedSwitch {
+  margin-bottom: 5px !important;
+}
+
+@media (max-width: 768px) {
+  .BackToTopButton {
+    bottom: 120px;
+  }
+}
+
+.BackToTopButton:hover {
+  opacity: 1;
+}

@@ -1,0 +1,72 @@
+.postImageWrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 30px;
+    margin: 30px;
+  }
+  
+  .postImageWrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  
+  .showOverlay::after {
+    opacity: 1;
+  }
+  
+  .likeIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 72px;
+    color: #e74c3c;
+    opacity: 0;
+    z-index: 1;
+  }
+  
+  .likeAnimation {
+    animation: likeAnimation 0.3s ease forwards;
+  }
+  
+  .unlikeAnimation {
+    animation: unlikeAnimation 0.3s ease forwards;
+  }
+  
+  @keyframes likeAnimation {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, 20px) scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: translate(-50%, -60px) scale(1.2);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -70px) scale(1);
+    }
+  }
+  
+  @keyframes unlikeAnimation {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -70px) scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: translate(-50%, -40px) scale(0.8);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, 20px) scale(0.6);
+    }
+  }

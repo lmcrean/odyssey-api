@@ -1,0 +1,15 @@
+.Asset {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 120px;
+}
+
+.AssetSpinner {
+  filter: brightness(4); /* Increase brightness */
+}
+
+.AssetUpload {
+  color: var(--color-secondary-text) !important;
+}

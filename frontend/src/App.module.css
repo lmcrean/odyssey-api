@@ -1,0 +1,98 @@
+.App {
+  background-color: var(--color-background);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (min-width: 769px) {
+  .Main {
+    flex: 1;
+    margin-left: 100px !important;
+  }
+}
+
+.Main {
+  padding: 81px 10px auto;
+  margin: auto 10px;
+}
+
+.Content {
+  background-color: var(--color-secondary-background);
+  padding: 10px;
+  border-radius: 20px !important;
+  border: 1px solid var(--color-secondary-text);
+}
+
+.FillerImage {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.Image {
+  max-height: 40vh;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--color-secondary-text);
+  transition: color ease-in-out 0.3s;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:hover i {
+  color: var(--color-accent);
+  transition: color ease-in-out 0.3s;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+i {
+  font-size: 1.6rem;
+  padding: 7px;
+  vertical-align: middle;
+}
+
+i:hover {
+  cursor: pointer;
+  transition: color ease-in-out 0.3s;
+}
+
+figure {
+  text-align: center;
+  display: inline-block;
+}
+
+/* scrollbar */
+*::-webkit-scrollbar {
+  width: 5px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-secondary-text);
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-text);
+}
+
+button {
+  background-color: var(--color-info);
+}
+
+.infinite-scroll-component {
+  overflow: hidden !important;
+  padding: 20px;
+}
