@@ -59,13 +59,13 @@
   },
   "suites": [
     {
-      "title": "user-journey-landing-page.spec.js",
-      "file": "user-journey-landing-page.spec.js",
+      "title": "signed-in-landing-page.spec.js",
+      "file": "signed-in-landing-page.spec.js",
       "column": 0,
       "line": 0,
       "specs": [
         {
-          "title": "User Journey - Landing Page - mobile",
+          "title": "Signed-in Landing Page - mobile",
           "ok": true,
           "tags": [],
           "tests": [
@@ -79,21 +79,21 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 5413,
+                  "duration": 9128,
                   "errors": [],
                   "stdout": [
                     {
-                      "text": "Screenshot captured for mobile\n"
+                      "text": "Signed-in landing page screenshot captured for mobile\n"
                     }
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2024-09-13T17:48:36.690Z",
+                  "startTime": "2024-09-13T18:21:05.083Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "/workspace/moments-drf-api-clone-3/frontend/screenshots/user-journey-landing-page--986d3-ney---Landing-Page---mobile-chromium/test-finished-1.png"
+                      "path": "/workspace/moments-drf-api-clone-3/frontend/screenshots/signed-in-landing-page-Signed-in-Landing-Page---mobile-chromium/test-finished-1.png"
                     }
                   ]
                 }
@@ -101,13 +101,13 @@
               "status": "expected"
             }
           ],
-          "id": "a83c21fa414e9c4268b1-a537a21faee644c5f772",
-          "file": "user-journey-landing-page.spec.js",
-          "line": 11,
+          "id": "0bdad65ff1667e4d0ad5-3953b3919b94ef316158",
+          "file": "signed-in-landing-page.spec.js",
+          "line": 25,
           "column": 7
         },
         {
-          "title": "User Journey - Landing Page - tablet",
+          "title": "Signed-in Landing Page - tablet",
           "ok": true,
           "tags": [],
           "tests": [
@@ -121,21 +121,21 @@
                 {
                   "workerIndex": 1,
                   "status": "passed",
-                  "duration": 6320,
+                  "duration": 6295,
                   "errors": [],
                   "stdout": [
                     {
-                      "text": "Screenshot captured for tablet\n"
+                      "text": "Signed-in landing page screenshot captured for tablet\n"
                     }
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2024-09-13T17:48:36.778Z",
+                  "startTime": "2024-09-13T18:21:05.082Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "/workspace/moments-drf-api-clone-3/frontend/screenshots/user-journey-landing-page--e1b36-ney---Landing-Page---tablet-chromium/test-finished-1.png"
+                      "path": "/workspace/moments-drf-api-clone-3/frontend/screenshots/signed-in-landing-page-Signed-in-Landing-Page---tablet-chromium/test-finished-1.png"
                     }
                   ]
                 }
@@ -143,13 +143,13 @@
               "status": "expected"
             }
           ],
-          "id": "a83c21fa414e9c4268b1-56774de0d4e0f3363c73",
-          "file": "user-journey-landing-page.spec.js",
-          "line": 11,
+          "id": "0bdad65ff1667e4d0ad5-045b3c332d7d4fa4182f",
+          "file": "signed-in-landing-page.spec.js",
+          "line": 25,
           "column": 7
         },
         {
-          "title": "User Journey - Landing Page - laptop",
+          "title": "Signed-in Landing Page - laptop",
           "ok": true,
           "tags": [],
           "tests": [
@@ -163,21 +163,21 @@
                 {
                   "workerIndex": 2,
                   "status": "passed",
-                  "duration": 7221,
+                  "duration": 8717,
                   "errors": [],
                   "stdout": [
                     {
-                      "text": "Screenshot captured for laptop\n"
+                      "text": "Signed-in landing page screenshot captured for laptop\n"
                     }
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2024-09-13T17:48:36.685Z",
+                  "startTime": "2024-09-13T18:21:05.089Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "/workspace/moments-drf-api-clone-3/frontend/screenshots/user-journey-landing-page--27691-ney---Landing-Page---laptop-chromium/test-finished-1.png"
+                      "path": "/workspace/moments-drf-api-clone-3/frontend/screenshots/signed-in-landing-page-Signed-in-Landing-Page---laptop-chromium/test-finished-1.png"
                     }
                   ]
                 }
@@ -185,13 +185,13 @@
               "status": "expected"
             }
           ],
-          "id": "a83c21fa414e9c4268b1-ce55a7d8d31c8c733634",
-          "file": "user-journey-landing-page.spec.js",
-          "line": 11,
+          "id": "0bdad65ff1667e4d0ad5-fa97e2b6aece70a41fb5",
+          "file": "signed-in-landing-page.spec.js",
+          "line": 25,
           "column": 7
         },
         {
-          "title": "User Journey - Landing Page - desktop",
+          "title": "Signed-in Landing Page - desktop",
           "ok": true,
           "tags": [],
           "tests": [
@@ -205,21 +205,21 @@
                 {
                   "workerIndex": 3,
                   "status": "passed",
-                  "duration": 6978,
+                  "duration": 6094,
                   "errors": [],
                   "stdout": [
                     {
-                      "text": "Screenshot captured for desktop\n"
+                      "text": "Signed-in landing page screenshot captured for desktop\n"
                     }
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2024-09-13T17:48:36.694Z",
+                  "startTime": "2024-09-13T18:21:05.084Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "/workspace/moments-drf-api-clone-3/frontend/screenshots/user-journey-landing-page--52efb-ey---Landing-Page---desktop-chromium/test-finished-1.png"
+                      "path": "/workspace/moments-drf-api-clone-3/frontend/screenshots/signed-in-landing-page-Signed-in-Landing-Page---desktop-chromium/test-finished-1.png"
                     }
                   ]
                 }
@@ -227,9 +227,9 @@
               "status": "expected"
             }
           ],
-          "id": "a83c21fa414e9c4268b1-13772f4138bd291401e8",
-          "file": "user-journey-landing-page.spec.js",
-          "line": 11,
+          "id": "0bdad65ff1667e4d0ad5-4175fcafe14e615632b9",
+          "file": "signed-in-landing-page.spec.js",
+          "line": 25,
           "column": 7
         }
       ]
@@ -237,8 +237,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2024-09-13T17:48:35.688Z",
-    "duration": 8638.839,
+    "startTime": "2024-09-13T18:21:04.112Z",
+    "duration": 10450.465,
     "expected": 4,
     "skipped": 0,
     "unexpected": 0,
