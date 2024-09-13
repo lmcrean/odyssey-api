@@ -10,7 +10,6 @@ describe('User Journey', () => {
     it(`1. Landing Page - ${device.name}`, () => {
       cy.viewport(device.width, device.height);
       
-      cy.log(`Visiting the page for ${device.name}`);
       cy.visit('/', {
         onBeforeLoad(win) {
           cy.stub(win.console, 'log').as('consoleLog');
@@ -18,46 +17,51 @@ describe('User Journey', () => {
         }
       });
       
-      // Log any console errors
+      // Check for console errors
       cy.get('@consoleError').then((consoleError) => {
-        if (consoleError.callCount > 0) {
-          cy.log('Console errors:', consoleError.args);
-        }
+        expect(consoleError).to.have.callCount(0);
       });
 
-      // Check for basic page structure
-      cy.log('Checking for basic page structure');
-      cy.get('body', { timeout: 30000 }).should('be.visible');
-      cy.get('[data-testid=app-container]', { timeout: 30000 }).should('exist');
-      
       // Wait for content to load
-      cy.log(`Waiting for content to load for ${device.name}`);
       cy.get('[data-testid=post-item]', { timeout: 60000 }).should('exist');
       
-      // Check if posts are visible
-      cy.get('[data-testid=post-item]').should('have.length.gt', 0);
+      // Check if posts are visible and not overflowing
+      cy.get('[data-testid=post-item]').each(($post) => {
+        cy.wrap($post).should('be.visible');
+        cy.wrap($post).then(($el) => {
+          const rect = $el[0].getBoundingClientRect();
+          expect(rect.left).to.be.at.least(0);
+          expect(rect.right).to.be.at.most(device.width);
+        });
+      });
       
-      // Capture fully loaded state
+      // Check for horizontal overflow
+      cy.get('body').then(($body) => {
+        const bodyWidth = $body[0].scrollWidth;
+        expect(bodyWidth).to.be.at.most(device.width, 'Body should not overflow horizontally');
+      });
+      
+      // Check if content is scrollable
+      cy.window().then((win) => {
+        const bodyHeight = win.document.body.scrollHeight;
+        const viewportHeight = win.innerHeight;
+        
+        if (bodyHeight > viewportHeight) {
+          cy.log(`Content is scrollable: ${bodyHeight}px > ${viewportHeight}px`);
+        } else {
+          cy.log(`Content fits within viewport: ${bodyHeight}px <= ${viewportHeight}px`);
+        }
+        
+        // Ensure at least some content is visible
+        expect(bodyHeight).to.be.at.least(viewportHeight * 0.5, 'Content should fill at least half the viewport');
+      });
+      
+      // Capture screenshots
       cy.screenshot(`user-journey/1-landing-page/landing_page_loaded_${device.name}`, { capture: 'viewport' });
       
-      // Check if the page is scrollable
-      cy.document().then((doc) => {
-        const isScrollable = doc.documentElement.scrollHeight > doc.documentElement.clientHeight;
-        if (isScrollable) {
-          cy.log(`Page is scrollable for ${device.name}, scrolling and capturing`);
-          cy.scrollTo('bottom', { duration: 2000 });
-          cy.wait(2000); // Wait for any lazy-loaded content
-          cy.screenshot(`user-journey/1-landing-page/landing_page_scrolled_${device.name}`, { capture: 'viewport' });
-        } else {
-          cy.log(`Page is not scrollable for ${device.name} viewport`);
-        }
-      });
+      cy.scrollTo('bottom', { duration: 2000 });
+      cy.wait(2000);
+      cy.screenshot(`user-journey/1-landing-page/landing_page_scrolled_${device.name}`, { capture: 'viewport' });
     });
-  });
-
-  // Add error logging
-  Cypress.on('uncaught:exception', (err, runnable) => {
-    console.error('Uncaught exception:', err);
-    return false; // returning false here prevents Cypress from failing the test
   });
 });
