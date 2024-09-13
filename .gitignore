@@ -25,3 +25,8 @@ frontend/screenshots/
 # ignore all .png files
 
 *.png
+
+# ignore frontend/test-results.json and frontend/screenshots/.last-run.json
+
+frontend/test-results.json
+frontend/screenshots/.last-run.json
