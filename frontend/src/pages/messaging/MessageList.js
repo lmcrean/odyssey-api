@@ -27,7 +27,7 @@ function MessageList({ message, filter = "" }) {
     const fetchMessages = async () => {
     try {
       const { data } = await axiosReq.get(`/messages/?${filter}search=${query}`);
-      console.log("Fetched messages:", data);
+      
 
       setMessages({ results: Array.isArray(data) ? data : [] });
       setHasLoaded(true);

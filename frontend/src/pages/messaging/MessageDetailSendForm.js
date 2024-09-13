@@ -66,7 +66,7 @@ function MessageDetailSendForm({ setMessages }) {
         },
       });
       
-      console.log('Message sent successfully:', data);
+      
   
       setMessages(prevMessages => ({
         ...prevMessages,

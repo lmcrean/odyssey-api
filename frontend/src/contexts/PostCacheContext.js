@@ -7,7 +7,7 @@ export const PostCacheProvider = ({ children }) => {
   const [cachedPosts, setCachedPosts] = useState({});
 
   const cachePost = (post) => {
-    console.log('Caching post:', post.id);
+    
     setCachedPosts(prevCache => ({
       ...prevCache,
       [post.id]: post

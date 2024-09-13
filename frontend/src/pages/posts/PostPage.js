@@ -41,7 +41,7 @@ function PostPage() {
         cachePost(fetchedPost);
         setCommentsLoading(false);
       } catch (err) {
-        console.log(err);
+        
         setCommentsLoading(false);
       }
     };
@@ -56,7 +56,7 @@ function PostPage() {
           setComments(commentsData);
           setCommentsLoading(false);
         } catch (err) {
-          console.log(err);
+          
           setCommentsLoading(false);
         }
       };

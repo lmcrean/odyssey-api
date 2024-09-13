@@ -51,7 +51,7 @@ const Post = (props) => {
 
   const handlePostClick = () => {
     cachePost(props);
-    console.log('Post clicked, cached:', id);
+    
     history.push(`/posts/${id}`);
   };
 
@@ -64,7 +64,7 @@ const Post = (props) => {
       await axiosRes.delete(`/posts/${id}/`);
       history.push('/');
     } catch (err) {
-      console.log(err);
+      
     }
   };
 
@@ -86,7 +86,7 @@ const Post = (props) => {
         setShowOverlay(false);
       }, 800);
     } catch (err) {
-      console.log(err);
+      
     }
   };
 
@@ -112,7 +112,7 @@ const Post = (props) => {
         setShowOverlay(false);
       }, 800);
     } catch (err) {
-      console.log(err);
+      
     }
   };
 
