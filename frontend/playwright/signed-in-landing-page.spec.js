@@ -9,67 +9,70 @@ const devices = [
   { name: 'desktop', width: 1920, height: 1080 }
 ];
 
-async function signIn(request) {
-  const signInResponse = await request.post(`${BASE_URL}/api/dj-rest-auth/login/`, {
-    data: {
-      username: 'user',
-      password: 'qwerqwer*'
-    }
-  });
+test.describe('Signed-in Landing Page', () => {
+  devices.forEach(device => {
+    test(`${device.name}`, async ({ page }) => {
+      page.setViewportSize({ width: device.width, height: device.height });
 
-  expect(signInResponse.ok()).toBeTruthy();
-  return await signInResponse.json();
-}
+      // Navigate to sign-in page
+      await page.goto(`${BASE_URL}/signin`);
+      console.log(`Navigated to signin page: ${page.url()}`);
 
-devices.forEach(device => {
-  test(`Signed-in Landing Page - ${device.name}`, async ({ page, request }) => {
-    // Set the viewport size for the device
-    await page.setViewportSize({ width: device.width, height: device.height });
+      // Fill in credentials and submit
+      await page.fill('input[name="username"]', 'user');
+      await page.fill('input[name="password"]', 'qwerqwer*');
+      await page.click('button[type="submit"]');
+      console.log('Submitted sign-in form');
 
-    // Sign in
-    const authData = await signIn(request);
+      // Wait for navigation and network idle
+      await page.waitForLoadState('networkidle');
+      console.log(`Current URL after sign-in: ${page.url()}`);
 
-    // Navigate to the base URL
-    await page.goto(BASE_URL);
+      // Log localStorage contents
+      const localStorageData = await page.evaluate(() => {
+        const data = {};
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          data[key] = localStorage.getItem(key);
+        }
+        return data;
+      });
+      console.log('localStorage contents:', localStorageData);
 
-    // Set tokens in localStorage
-    await page.evaluate(({ accessToken, refreshToken }) => {
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
-    }, { 
-      accessToken: authData.access_token, 
-      refreshToken: authData.refresh_token 
-    });
+      // Verify user is signed in
+      const accessToken = await page.evaluate(() => localStorage.getItem('accessToken'));
+      console.log('Access token:', accessToken);
 
-    // Reload the page to apply the authenticated state
-    await page.reload({ waitUntil: 'networkidle' });
+      if (!accessToken) {
+        console.error('Access token not found in localStorage');
+        const pageContent = await page.content();
+        console.log('Page content:', pageContent);
+      } else {
+        expect(accessToken).toBeTruthy();
+        
+        // Check for an authenticated element
+        const signOutElement = await page.locator('text=Sign out').count();
+        console.log('Sign out element count:', signOutElement);
+        
+        if (signOutElement === 0) {
+          console.error('Sign out element not found');
+          const pageContent = await page.content();
+          console.log('Page content:', pageContent);
+        } else {
+          await expect(page.locator('text=Sign out')).toBeVisible();
+        }
+      }
 
-    // Take a screenshot of the signed-in landing page
-    await page.screenshot({
-      path: `screenshots/signed-in-landing-page-${device.name}.png`,
-      fullPage: false
-    });
+      // Navigate to the frontend URL and wait for network idle
+      await page.goto('http://localhost:8000', { waitUntil: 'networkidle' });
 
-    // Find all posts
-    const posts = await page.$$('[data-testid="post-item"]');
-
-    // If there's more than one post, scroll to the top of the second post
-    if (posts.length > 1) {
-      await page.evaluate((post) => {
-        post.scrollIntoView({ block: 'start', inline: 'start' });
-      }, posts[1]);
-      
-      // Wait a moment for any animations to settle
-      await page.waitForTimeout(500);
-
-      // Take a screenshot of the scrolled view
+      // Take a screenshot
       await page.screenshot({
-        path: `screenshots/signed-in-landing-page-${device.name}-scrolled.png`,
+        path: `screenshots/signed-in-landing-page-${device.name}.png`,
         fullPage: false
       });
-    }
 
-    // Log completion
-    console.log(`Signed-in landing page screenshot captured for ${device.name}`);
+      console.log(`Test completed for ${device.name}`);
+    });
   });
 });
