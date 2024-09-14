@@ -112,7 +112,7 @@ function MessageDetail() {
         recipientUsername={recipientUsername} 
         onDeleteClick={handleShowModal}
       />
-      <Row>
+      <Row className={styles.MessageDetailContainerRow}>
         <Col className="py-2 p-0 p-lg-2" lg={8}>
           {hasLoaded ? (
             <>

@@ -2,7 +2,7 @@
   color: var(--color-primary-text);
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 100px); /* Adjust for NavbarMobile height */
+  height: calc(100vh - 200px);
 }
 
 .MessageUsername {
@@ -105,7 +105,7 @@
 
 @media screen and (min-width: 769px) {
   .MessageDetail {
-    height: 100vh; /* Full height for desktop */
+    height: calc(100vh - 100px); /* Full height for desktop */
   }
 
   .FormContainer {
@@ -130,11 +130,19 @@
     bottom: 300px;
     right: 45px;
   }
+
+  .MessageDetailContainerRow {
+    padding-bottom: 120px;
+  }
 }
 
 @media (min-width: 769px) {
   .DesktopButton {
     bottom: 200px;
     right: 100px;
+  }
+
+  .MessageDetailContainerRow {
+    padding-bottom: 120px;
   }
 }
