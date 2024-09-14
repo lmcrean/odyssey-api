@@ -77,7 +77,8 @@ body {
 
   .btn-secondary {
     background-color: var(--color-button-secondary) !important;
-    color: var(--color-primary-text)
+    color: var(--color-primary-text);
+    border: 2px solid var(--color-primary-text);
  }
 
   /* Inputs */

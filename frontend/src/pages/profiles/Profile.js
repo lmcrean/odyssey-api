@@ -61,7 +61,7 @@ const Profile = (props) => {
                 overlay={<Tooltip>{"Unfollow"}</Tooltip>}
               >
                 <Button
-                  className={`${btnStyles.Button}`}
+                  className={`${btnStyles.Button} ${btnStyles.UndoButton}`}
                   onClick={() => handleUnfollow(profile)}
                   variant="secondary"
                 >
@@ -74,7 +74,7 @@ const Profile = (props) => {
                 overlay={<Tooltip>{"Follow"}</Tooltip>}
               >
                 <Button
-                  className={`${btnStyles.Button}`}
+                  className={`${btnStyles.Button} ${btnStyles.SocialButton}`}
                   onClick={() => handleFollow(profile)}
                 >
                   <i className="fas fa-user-plus"></i> {/* Follow Icon */}
@@ -85,7 +85,7 @@ const Profile = (props) => {
                 placement="top"
                 overlay={<Tooltip>{"Message"}</Tooltip>}>
               <Button
-                className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
+                className={`${btnStyles.Button} ${btnStyles.SocialButton} ${btnStyles.BlackOutline}`}
                 onClick={checkIfChatExists}
               >
                 <i className="fas fa-envelope"></i> {/* Message Icon */}
