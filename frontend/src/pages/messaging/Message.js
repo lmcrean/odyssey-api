@@ -7,8 +7,7 @@ import Image from "react-bootstrap/Image";
 import { Link } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 import { axiosRes } from "../../api/axiosDefaults";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
+import { MessageDetailDropdown } from "../../components/MoreDropdown";
 
 const Message = (props) => {
   const {
@@ -66,20 +65,15 @@ const Message = (props) => {
     ? currentUser.pk.toString() === sender_profile_id.toString()
     : false;
 
-  const handleDelete = async () => {
-    try {
-      await axiosRes.delete(`/messages/${id}/delete/`);
-      setMessages((prevMessages) => ({
-        ...prevMessages,
-        results: prevMessages.results.filter((message) => message.id !== id),
-      }));
-      setShowDeleteModal(false);
-    } catch (err) {
-      console.error("Error deleting message:", err);
-    }
+  const handleEdit = () => {
+    setIsEditing(true);
   };
 
-  const handleEdit = async () => {
+  const handleDelete = () => {
+    setShowDeleteModal(true);
+  };
+
+  const handleSaveEdit = async () => {
     try {
       const formData = new FormData();
       formData.append('content', newContent);
@@ -96,6 +90,19 @@ const Message = (props) => {
       setIsEditing(false);
     } catch (err) {
       console.error("Error editing message:", err);
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      await axiosRes.delete(`/messages/${id}/delete/`);
+      setMessages((prevMessages) => ({
+        ...prevMessages,
+        results: prevMessages.results.filter((message) => message.id !== id),
+      }));
+      setShowDeleteModal(false);
+    } catch (err) {
+      console.error("Error deleting message:", err);
     }
   };
 
@@ -147,7 +154,7 @@ const Message = (props) => {
               style={{ display: 'none' }}
             />
             <div className={styles.EditButtons}>
-              <Button onClick={handleEdit} variant="success" size="sm">
+              <Button onClick={handleSaveEdit} variant="success" size="sm">
                 Save
               </Button>
               <Button onClick={() => setIsEditing(false)} variant="secondary" size="sm">
@@ -172,18 +179,10 @@ const Message = (props) => {
             {showFullTimestamp ? `${date} ${time}` : time}
           </span>
           {is_sender && (
-            <div className={styles.MessageActions}>
-              <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-                <Button variant="link" size="sm" onClick={() => setIsEditing(true)}>
-                  <i className="fas fa-edit"></i>
-                </Button>
-              </OverlayTrigger>
-              <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-                <Button variant="link" size="sm" onClick={() => setShowDeleteModal(true)} data-testid="delete-button-card">
-                  <i className="fas fa-trash-alt"></i>
-                </Button>
-              </OverlayTrigger>
-            </div>
+            <MessageDetailDropdown
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
           )}
         </div>
       </div>
@@ -197,7 +196,7 @@ const Message = (props) => {
           <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleDelete} data-testid="delete-button-modal">
+          <Button variant="danger" onClick={handleConfirmDelete} data-testid="delete-button-modal">
             Delete
           </Button>
         </Modal.Footer>
