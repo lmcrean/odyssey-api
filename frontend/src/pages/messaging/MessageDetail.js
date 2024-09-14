@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 import { axiosReq, axiosRes } from "../../api/axiosDefaults";
 import Asset from "../../components/Asset";
@@ -15,6 +15,9 @@ import MessageDetailSendForm from "./MessageDetailSendForm";
 import MessageDetailHeader from "./MessageDetailHeader";
 import styles from "../../styles/modules/MessageDetail.module.css";
 import MessageDetailSkeleton from "../../components/MessageDetailsSkeleton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import useWindowSize from "../../hooks/useWindowSize";
 
 function MessageDetail() {
   const { id } = useParams();
@@ -23,14 +26,17 @@ function MessageDetail() {
   const [messages, setMessages] = useState({ results: [] });
   const [hasLoaded, setHasLoaded] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  const messagesEndRef = useRef(null);
+  const size = useWindowSize();
 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
         const { data } = await axiosReq.get(`/messages/${id}/`);
-
         setMessages({ results: data.results });
         setHasLoaded(true);
+        scrollToBottom();
       } catch (err) {
         console.error("Failed to fetch messages:", err);
         setHasLoaded(true);
@@ -52,8 +58,23 @@ function MessageDetail() {
   
     fetchRecipientUsername();
   }, [id]);
-  
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = document.documentElement.clientHeight;
+      
+      if (scrollHeight - scrollTop - clientHeight > 200) {
+        setShowScrollButton(true);
+      } else {
+        setShowScrollButton(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleDeleteChat = async () => {
     try {
@@ -66,6 +87,10 @@ function MessageDetail() {
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const groupMessagesByDate = (messages) => {
     const groupedMessages = {};
@@ -105,9 +130,9 @@ function MessageDetail() {
                         const isBegin = !isPreviousFromSameSender;
                         return (
                           <div key={message.id} className={`${styles.MessageWrapper} ${message.is_sender ? styles.SenderWrapper : styles.RecipientWrapper}`}>
-                        <Message
-                          key={message.id}
-                          {...message}
+                            <Message
+                              key={message.id}
+                              {...message}
                               sender={message.sender} 
                               sender_profile_id={message.sender}
                               recipient={message.recipient}
@@ -127,20 +152,21 @@ function MessageDetail() {
                 loader={<Asset spinner />}
                 hasMore={!!messages.next}
                 next={() => fetchMoreData(messages, setMessages)}
-              />
-            ) : (
+                />
+              ) : (
                 <Container className={styles.Content}>
-                <Asset src={NoResults} message="No messages found." />
-              </Container>
-            )}
-          </>
-        ) : (
-          <MessageDetailSkeleton />
-        )}
+                  <Asset src={NoResults} message="No messages found." />
+                </Container>
+              )}
+            </>
+          ) : (
+            <MessageDetailSkeleton />
+          )}
+          <div ref={messagesEndRef} />
         </Col>
       </Row>
       <Container className={styles.FormContainer}>
-      <MessageDetailSendForm setMessages={setMessages} />
+        <MessageDetailSendForm setMessages={setMessages} />
       </Container>
 
       <Modal show={showModal} onHide={handleCloseModal}>
@@ -157,6 +183,16 @@ function MessageDetail() {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {showScrollButton && (
+        <Button
+          className={`${styles.ScrollToBottomButton} ${size.width <= 768 ? styles.MobileButton : styles.DesktopButton}`}
+          onClick={scrollToBottom}
+          variant="secondary"
+        >
+          <FontAwesomeIcon icon={faArrowDown} />
+        </Button>
+      )}
     </Container>
   );
 }

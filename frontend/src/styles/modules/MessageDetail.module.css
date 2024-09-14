@@ -112,3 +112,29 @@
     bottom: 0; /* No adjustment needed for desktop */
   }
 }
+
+.ScrollToBottomButton {
+  position: fixed;
+  right: 20px;
+  z-index: 1000;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.ScrollToBottomButton:hover {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .MobileButton {
+    bottom: 300px;
+    right: 45px;
+  }
+}
+
+@media (min-width: 769px) {
+  .DesktopButton {
+    bottom: 200px;
+    right: 100px;
+  }
+}
