@@ -1,22 +1,27 @@
-// src/components/NavBarMobile.js
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCompass, faPlus, faEnvelope, faUser, faSignInAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faCompass, faPlus, faEnvelope, faUser, faSignInAlt, faUserPlus, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { useCurrentUser } from "../contexts/CurrentUserContext";
+import { ThemeContext } from "../contexts/ThemeContext";
 import styles from "../styles/modules/NavBarMobile.module.css";
 import NavBarMore from "./NavBarMore";
 
 const NavBarMobile = () => {
   const currentUser = useCurrentUser();
   const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const { lightMode, setLightMode } = useContext(ThemeContext);
 
   const toggleMore = () => setIsMoreOpen(!isMoreOpen);
 
   const closeMore = () => setIsMoreOpen(false);
+
+  const toggleTheme = () => {
+    setLightMode(!lightMode);
+  };
 
   const loggedInIcons = (
     <>
@@ -67,6 +72,12 @@ const NavBarMobile = () => {
           <FontAwesomeIcon icon={faUserPlus} />
         </NavLink>
         <span>Sign Up</span>
+      </div>
+      <div className={styles.NavItem} onClick={toggleTheme}>
+        <div className={styles.NavLink}>
+          <FontAwesomeIcon icon={lightMode ? faMoon : faSun} />
+        </div>
+        <span>{lightMode ? "Dark Mode" : "Light Mode"}</span>
       </div>
     </>
   );
