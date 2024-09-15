@@ -14,9 +14,6 @@ export const CurrentUserProvider = ({ children }) => {
 
   const handleMount = async () => {
     const accessToken = localStorage.getItem("accessToken");
-    const refreshToken = localStorage.getItem("refreshToken");
-    
-    
     
     if (!accessToken) {
       

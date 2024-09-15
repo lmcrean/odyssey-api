@@ -88,7 +88,7 @@ function PostsPage({ message, filter = "" }) {
         <Banner />
         <PopularProfiles mobile />
         {currentUser && (
-          <ButtonGroup className="`${styles.FeedSwitch} w-100 mb-3`">
+          <ButtonGroup className={`${styles.FeedSwitch} w-100 mb-3`}>
           <Button
               variant={pathname === "/" ? "primary" : "secondary"}
               onClick={() => handleTabChange("for-you")}

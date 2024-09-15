@@ -3,7 +3,6 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
 import appStyles from "../../App.module.css";
-import Asset from "../../components/Asset";
 import { useProfileData } from "../../contexts/ProfileDataContext";
 import Profile from "./Profile";
 import styles from "../../styles/modules/PopularProfiles.module.css";
