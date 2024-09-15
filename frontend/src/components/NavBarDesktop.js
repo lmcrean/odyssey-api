@@ -1,117 +1,91 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import styles from "../styles/modules/NavBarDesktop.module.css";
 import { NavLink } from "react-router-dom";
-import {
-  useCurrentUser,
-  useSetCurrentUser,
-} from "../contexts/CurrentUserContext";import Avatar from "./Avatar";
-import { removeTokenTimestamp } from "../utils/utils";
-import axios from "axios";
+import { useCurrentUser } from "../contexts/CurrentUserContext";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
-
+import { faCompass, faPlus, faEnvelope, faUser, faSignInAlt, faUserPlus, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import NavBarMore from "./NavBarMore";
 
 const NavBarDesktop = () => {
   const currentUser = useCurrentUser();
-  const setCurrentUser = useSetCurrentUser();
   const { lightMode, setLightMode } = useContext(ThemeContext);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
   const logoURL = "https://res.cloudinary.com/dh5lpihx1/image/upload/v1724410546/media/images/logo_buvyq3.png";
+
+  const toggleMore = () => setIsMoreOpen(!isMoreOpen);
+
+  const closeMore = () => setIsMoreOpen(false);
 
   const toggleTheme = () => {
     setLightMode(!lightMode);
   };
 
-  const handleSignOut = async () => {
-    try {
-      await axios.post("dj-rest-auth/logout/");
-      setCurrentUser(null);
-      removeTokenTimestamp();
-    } catch (err) {
-      // Handle error
-    }
-  };
-
   const loggedInIcons = (
     <>
-      <NavLink
-        className={styles.NavLink}
-        activeClassName={styles.Active}
-        to="/"
-      >
-        <i className="fas fa-home"></i>
-        <span className={styles.NavText}>Home Feed</span>
-      </NavLink>
-      <NavLink
-        className={styles.NavLink}
-        activeClassName={styles.Active}
-        to="/posts/create"
-      >
-        <i className="far fa-plus-square"></i>
-        <span className={styles.NavText}>Add Post</span>
-      </NavLink>
-      <NavLink
-        className={styles.NavLink}
-        activeClassName={styles.Active}
-        to="/messages"
-      >
-        <i className="fas fa-envelope"></i>
+      <div className={styles.NavItem}>
+        <NavLink exact to="/" className={styles.NavLink} activeClassName={styles.Active}>
+          <FontAwesomeIcon icon={faCompass} />
+        </NavLink>
+        <span className={styles.NavText}>Feed</span>
+      </div>
+      <div className={styles.NavItem}>
+        <NavLink to="/posts/create" className={styles.NavLink} activeClassName={styles.Active}>
+          <FontAwesomeIcon icon={faPlus} />
+        </NavLink>
+        <span className={styles.NavText}>Post</span>
+      </div>
+      <div className={styles.NavItem}>
+        <NavLink to="/messages" className={styles.NavLink} activeClassName={styles.Active}>
+          <FontAwesomeIcon icon={faEnvelope} />
+        </NavLink>
         <span className={styles.NavText}>Messages</span>
-      </NavLink>
-      <NavLink className={styles.NavLink} to="/" onClick={handleSignOut}>
-        <i className="fas fa-sign-out-alt"></i>
-        <span className={styles.NavText}>Sign out</span>
-      </NavLink>
-    </>
-  );
-  
-  const profileLink = (
-    <div className={styles.ProfileLink}>
-      <NavLink
-        className={styles.NavLink}
-        to={`/profiles/${currentUser?.profile_id}`}
-      >
-        <Avatar src={currentUser?.profile_image} height={40} />
+      </div>
+      <div className={`${styles.NavItem} ${styles.ProfileNavItem}`} onClick={toggleMore}>
+        <div className={styles.NavLink}>
+          <FontAwesomeIcon icon={faUser} />
+        </div>
         <span className={styles.NavText}>Profile</span>
-      </NavLink>
-    </div>
+      </div>
+    </>
   );
 
   const loggedOutIcons = (
     <>
-      <NavLink
-        className={styles.NavLink}
-        activeClassName={styles.Active}
-        to="/signin"
-      >
-        <i className="fas fa-sign-in-alt"></i>
-        <span className={styles.NavText}>Sign in</span>
-      </NavLink>
-      <NavLink
-        to="/signup"
-        className={styles.NavLink}
-        activeClassName={styles.Active}
-      >
-        <i className="fas fa-user-plus"></i>
-        <span className={styles.NavText}>Sign up</span>
-      </NavLink>
+      <div className={styles.NavItem}>
+        <NavLink exact to="/" className={styles.NavLink} activeClassName={styles.Active}>
+          <FontAwesomeIcon icon={faCompass} />
+        </NavLink>
+        <span className={styles.NavText}>Explore</span>
+      </div>
+      <div className={styles.NavItem}>
+        <NavLink to="/signin" className={styles.NavLink} activeClassName={styles.Active}>
+          <FontAwesomeIcon icon={faSignInAlt} />
+        </NavLink>
+        <span className={styles.NavText}>Sign In</span>
+      </div>
+      <div className={styles.NavItem}>
+        <NavLink to="/signup" className={styles.NavLink} activeClassName={styles.Active}>
+          <FontAwesomeIcon icon={faUserPlus} />
+        </NavLink>
+        <span className={styles.NavText}>Sign Up</span>
+      </div>
+      <div className={styles.NavItem} onClick={toggleTheme}>
+        <div className={styles.NavLink}>
+          <FontAwesomeIcon icon={lightMode ? faMoon : faSun} />
+        </div>
+        <span className={styles.NavText}>{lightMode ? "Dark Mode" : "Light Mode"}</span>
+      </div>
     </>
   );
 
   return (
     <nav className={styles.NavBarDesktop}>
       <img src={logoURL} alt="Logo" className={`${styles.Logo} green-filter`} />
-      {currentUser ? (
-        <>
-          {loggedInIcons}
-          {profileLink}
-        </>
-      ) : (
-        loggedOutIcons
-      )}
-    <button onClick={toggleTheme} className={styles.ThemeToggle}>
-      <FontAwesomeIcon icon={lightMode ? faMoon : faSun} />
-    </button>
+      <div className={styles.NavLinks}>
+        {currentUser ? loggedInIcons : loggedOutIcons}
+      </div>
+      {isMoreOpen && <NavBarMore onClose={closeMore} isDesktop={true} />}
     </nav>
   );
 };

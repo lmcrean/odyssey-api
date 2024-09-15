@@ -9,7 +9,7 @@ import { removeTokenTimestamp } from "../utils/utils";
 import axios from "axios";
 import styles from "../styles/modules/NavBarMore.module.css";
 
-const NavBarMore = ({ onClose }) => {
+const NavBarMore = ({ onClose, isDesktop }) => {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
   const { lightMode, setLightMode } = useContext(ThemeContext);
@@ -67,7 +67,7 @@ const NavBarMore = ({ onClose }) => {
   );
 
   return (
-    <div className={styles.NavBarMore} ref={moreRef}>
+    <div className={`${styles.NavBarMore} ${isDesktop ? styles.NavBarMoreDesktop : ''}`} ref={moreRef} >
       <NavItem icon={faUser} text="My Profile" onClick={handleProfileClick} itemKey="profile" />
       <NavItem icon={lightMode ? faMoon : faSun} text="Color Theme" onClick={toggleTheme} itemKey="theme" />
       <NavItem icon={faSignOutAlt} text="Sign Out" onClick={handleSignOut} itemKey="signout" />
