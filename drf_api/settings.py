@@ -76,7 +76,8 @@ ALLOWED_HOSTS = [
     'odyssey-api-f3455553b29d.herokuapp.com',
     'odyssey-frontend-1fed9e7a199c.herokuapp.com',
     '127.0.0.1:8000',
-    '127.0.0.1'
+    '127.0.0.1',
+    'odyssey.lauriecrean.dev'
 ]
 
 CORS_ALLOWED_ORIGINS = [
