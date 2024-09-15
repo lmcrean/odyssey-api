@@ -1,14 +1,27 @@
 /* src/styles/modules/NavBarMore.module.css */
 .NavBarMore {
   position: absolute;
-  bottom: 100%;
-  right: 0;
+  bottom: 110px;
+  right: 20px;
   background-color: var(--color-secondary-background);
   border-radius: 15px;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   padding: 10px;
   display: flex;
   flex-direction: column;
+}
+
+.NavBarMoreDesktop { /* Styles for NavBarMore when used in NavBarDesktop */
+  position: absolute;
+  bottom: 10px;
+  left: 100px;
+  background-color: var(--color-secondary-background);
+  border-radius: 15px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 165px;
 }
 
 .NavItem {

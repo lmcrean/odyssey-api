@@ -1,5 +1,5 @@
 .NavBarDesktop {
-  display: flex; 
+  display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
@@ -19,48 +19,55 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  flex-grow: 1;
 }
 
-.ProfileLink {
-  margin-top: auto;
+.NavItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 15px;
 }
 
 .NavLink {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 15px 0;
-  width: 100%;
+  width: 60px;
+  height: 35px;
   color: var(--color-secondary-text);
   text-decoration: none;
-  transition: all 0.3s ease-in-out;
-  position: relative;
+  transition: color 0.3s ease-in-out;
+  font-size: 24px;
 }
 
 .NavLink:hover {
-  background-color: var(--color-primary-background) !important;
-}
-
-.NavLink:hover .NavText {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.NavText {
-  margin-top: 5px;
-  font-size: 12px;
-  color: var(--color-secondary-text);
-  opacity: 0;
-  transform: translateX(-10px);
-  transition: all 0.3s ease-in-out;
+  background-color: var(--color-primary-background);
 }
 
 .Active {
-  color: var(--color-info);
+  background-color: var(--color-accent) !important;
+  border-radius: 30px !important;
+  color: var(--color-background) !important;
+}
+
+.NavText {
+  margin-top: 0px;
+  font-size: 12px;
+  color: var(--color-primary-text) !important;
 }
 
 .Logo {
-  width: 50px; 
+  width: 50px;
   height: auto;
-  margin-bottom: 20px; /* Add spacing between logo and first nav link */
+  margin-bottom: 20px;
+}
+
+.ProfileNavItem { /*special styling for the profile nav item */
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  width: 100%;
+  margin-bottom: 0;
 }
