@@ -1,6 +1,9 @@
+# messaging/tests/test_message_serializer_issender.py
+
 from django.contrib.auth.models import User
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
+from django.urls import reverse
 from profiles.models import Profile
 from messaging.models import Message
 
@@ -30,17 +33,21 @@ class IsSenderFieldTests(APITestCase):
         self.client.login(username='sender_user', password='password')
 
         # Perform GET request to retrieve the message list
-        url = f'/messages/{self.message.recipient.id}/'
+        url = reverse('message-detail', kwargs={'user_id': self.message.recipient.id})
         response = self.client.get(url)
 
         # Verify response status code and structure
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn('results', response.data)
-        self.assertIsInstance(response.data['results'], list)
-        self.assertGreater(len(response.data['results']), 0)
+        
+        # Parse JSON content
+        content = response.json()
+        
+        self.assertIn('results', content)
+        self.assertIsInstance(content['results'], list)
+        self.assertGreater(len(content['results']), 0)
 
         # Check that is_sender is True for the sender in the first message
-        first_message = response.data['results'][0]
+        first_message = content['results'][0]
         self.assertIn('is_sender', first_message)
         self.assertTrue(first_message['is_sender'])
 
@@ -49,16 +56,20 @@ class IsSenderFieldTests(APITestCase):
         self.client.login(username='recipient_user', password='password')
 
         # Perform GET request to retrieve the message list
-        url = f'/messages/{self.message.sender.id}/'
+        url = reverse('message-detail', kwargs={'user_id': self.message.sender.id})
         response = self.client.get(url)
 
         # Verify response status code and structure
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn('results', response.data)
-        self.assertIsInstance(response.data['results'], list)
-        self.assertGreater(len(response.data['results']), 0)
+        
+        # Parse JSON content
+        content = response.json()
+        
+        self.assertIn('results', content)
+        self.assertIsInstance(content['results'], list)
+        self.assertGreater(len(content['results']), 0)
 
         # Check that is_sender is False for the recipient in the first message
-        first_message = response.data['results'][0]
+        first_message = content['results'][0]
         self.assertIn('is_sender', first_message)
         self.assertFalse(first_message['is_sender'])
