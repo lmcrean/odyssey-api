@@ -12,6 +12,10 @@ class PostSerializer(serializers.ModelSerializer):
     comments_count = serializers.ReadOnlyField()
 
     def validate_image(self, value):
+        if not value:
+            raise serializers.ValidationError('An image is required.')
+        if not value.content_type.startswith('image/'):
+            raise serializers.ValidationError('The uploaded file is not an image.')
         if value.size > 2 * 1024 * 1024:
             raise serializers.ValidationError('Image size larger than 2MB!')
         if value.image.height > 4096:
@@ -25,32 +29,11 @@ class PostSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        # Extract the image from the validated data if present
-        image = validated_data.pop('image', None)
-        
-        # Create the Post instance without the image
-        post = Post.objects.create(**validated_data)
-        
-        # If an image was uploaded, save it to the post
-        if image:
-            post.image = image
-            post.save()
-
-        return post
+        return Post.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        # Extract the image from the validated data if present
-        image = validated_data.pop('image', None)
-        
-        # Update the post instance with other fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
-        
-        # If an image was uploaded, save it to the post
-        if image:
-            instance.image = image
-        
-        # Save the updated instance
         instance.save()
         return instance
 
