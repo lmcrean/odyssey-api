@@ -1,6 +1,9 @@
+# File: messaging/tests/test_message_serializer.py
+
 from django.contrib.auth.models import User
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
+from django.urls import reverse
 from profiles.models import Profile
 from messaging.models import Message
 
@@ -36,32 +39,40 @@ class MessageSerializerTests(APITestCase):
         self.client.login(username='user_with_image', password='password')
 
         # Perform GET request to retrieve the message list
-        url = f'/messages/{self.message_with_image.recipient.id}/'
+        url = reverse('message-detail', kwargs={'user_id': self.message_with_image.recipient.id})
         response = self.client.get(url)
 
         # Verify that the response contains a list of messages inside the "results" key
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn('results', response.data)
-        self.assertIsInstance(response.data['results'], list)
-        self.assertGreater(len(response.data['results']), 0)
-        self.assertIn('id', response.data['results'][0])
+        
+        # Parse JSON content
+        content = response.json()
+        
+        self.assertIn('results', content)
+        self.assertIsInstance(content['results'], list)
+        self.assertGreater(len(content['results']), 0)
+        self.assertIn('id', content['results'][0])
 
     def test_sender_profile_image_is_default(self):
         # Log in the user
         self.client.login(username='user_with_image', password='password')
 
         # Perform GET request to retrieve the message list
-        url = f'/messages/{self.message_with_image.recipient.id}/'
+        url = reverse('message-detail', kwargs={'user_id': self.message_with_image.recipient.id})
         response = self.client.get(url)
 
         # Verify response status code and structure
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn('results', response.data)
-        self.assertIsInstance(response.data['results'], list)
-        self.assertGreater(len(response.data['results']), 0)
+        
+        # Parse JSON content
+        content = response.json()
+        
+        self.assertIn('results', content)
+        self.assertIsInstance(content['results'], list)
+        self.assertGreater(len(content['results']), 0)
 
         # Check that the sender profile image is the default image in the first message
-        first_message = response.data['results'][0]
+        first_message = content['results'][0]
         self.assertIn('sender_profile_image', first_message)
         self.assertEqual(
             first_message['sender_profile_image'],
