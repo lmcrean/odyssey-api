@@ -1,7 +1,6 @@
 // src/pages/posts/PostCreateForm.js
 
 import React, { useRef, useState } from "react";
-
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
@@ -9,15 +8,11 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import Image from "react-bootstrap/Image";
-
 import Asset from "../../components/Asset";
-
 import Upload from "../../assets/upload.png";
-
 import styles from "../../styles/modules/PostCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/modules/Button.module.css";
-
 import { useHistory } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useRedirect } from "../../hooks/useRedirect";
@@ -25,7 +20,6 @@ import { useRedirect } from "../../hooks/useRedirect";
 function PostCreateForm() {
   useRedirect("loggedOut");
   const [errors, setErrors] = useState({});
-
   const [postData, setPostData] = useState({
     title: "",
     content: "",
@@ -45,11 +39,18 @@ function PostCreateForm() {
 
   const handleChangeImage = (event) => {
     if (event.target.files.length) {
-      URL.revokeObjectURL(image);
-      setPostData({
-        ...postData,
-        image: URL.createObjectURL(event.target.files[0]),
-      });
+      const file = event.target.files[0];
+      if (file.type.startsWith('image/')) {
+        URL.revokeObjectURL(image);
+        setPostData({
+          ...postData,
+          image: URL.createObjectURL(file),
+        });
+        setErrors({});
+      } else {
+        setErrors({ image: ['Please upload an image file.'] });
+        imageInput.current.value = null;
+      }
     }
   };
 
@@ -59,13 +60,18 @@ function PostCreateForm() {
 
     formData.append("title", title);
     formData.append("content", content);
+
+    if (imageInput.current.files.length === 0) {
+      setErrors({ image: ['An image is required.'] });
+      return;
+    }
+
     formData.append("image", imageInput.current.files[0]);
 
     try {
       const { data } = await axiosReq.post("/posts/", formData);
       history.push(`/posts/${data.id}`);
     } catch (err) {
-      
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
       }

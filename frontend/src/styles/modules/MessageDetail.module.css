@@ -96,7 +96,7 @@
 
 .FormContainer {
   position: sticky;
-  bottom: 100px;
+  bottom: 85px;
   background-color: var(--color-secondary-background);
   padding: 10px 0;
   border-radius: 20px 20px 0 0;
