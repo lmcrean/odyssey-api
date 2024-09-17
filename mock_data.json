@@ -1628,29 +1628,29 @@
               "user_id": 7
             }
           ]
-        },
-        {
-          "id": 8,
-          "username": "yoga_zen",
-          "name": "Mia Johnson",
-          "content": "Finding balance through yoga and meditation",
-          "image": "profilepictures/yoga_zen.jpg"
-        },
-        {
-          "id": 9,
-          "username": "history_buff",
-          "name": "Thomas Anderson",
-          "content": "Passionate about uncovering the past",
-          "image": "profilepictures/history_buff.jpg"
-        },
-        {
-          "id": 10,
-          "username": "eco_warrior",
-          "name": "Sophia Lee",
-          "content": "Advocating for a sustainable future",
-          "image": "profilepictures/eco_warrior.jpg"
         }
       ]
+    },
+    {
+      "id": 8,
+      "username": "yoga_zen",
+      "name": "Mia Johnson",
+      "content": "Finding balance through yoga and meditation",
+      "image": "profilepictures/yoga_zen.jpg"
+    },
+    {
+      "id": 9,
+      "username": "history_buff",
+      "name": "Thomas Anderson",
+      "content": "Passionate about uncovering the past",
+      "image": "profilepictures/history_buff.jpg"
+    },
+    {
+      "id": 10,
+      "username": "eco_warrior",
+      "name": "Sophia Lee",
+      "content": "Advocating for a sustainable future",
+      "image": "profilepictures/eco_warrior.jpg"
     }
   ]
 }
