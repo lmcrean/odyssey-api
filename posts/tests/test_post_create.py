@@ -7,6 +7,7 @@ from rest_framework import status
 from PIL import Image
 import tempfile
 
+
 class PostCreateTest(TestCase):
     def setUp(self):
         # Create a user to associate the post with
@@ -14,13 +15,12 @@ class PostCreateTest(TestCase):
 
     @patch('cloudinary.uploader.upload')
     def test_create_post_with_image_and_cloudinary(self, mock_upload):
-        # Log in the user
         self.client.login(username='testuser', password='pass')
 
         # Mock Cloudinary response
         mock_upload.return_value = {
             'public_id': 'media/images/test_image',
-            'url': 'https://res.cloudinary.com/dh5lpihx1/image/upload/v1/media/images/test_image'  # No .jpg initially
+            'url': 'https://res.cloudinary.com/dh5lpihx1/image/upload/v1/media/images/test_image'
         }
 
         # Create a temporary image file
@@ -34,21 +34,18 @@ class PostCreateTest(TestCase):
             post_data = {
                 'title': 'Test Post',
                 'content': 'This is a test post content',
-                'image': temp_image,  # Adding the generated image file
+                'image': temp_image,
             }
 
-            # Send the post request to create the post with the image
-            response = self.client.post('/posts/', post_data, format='multipart')
+            response = self.client.post('/api/posts/', post_data, format='multipart')
 
             # Assert that the post creation was successful (HTTP 201)
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
             # Assert that the post was created in the database
             self.assertEqual(Post.objects.count(), 1)
-            self.assertEqual(Post.objects.get().title, 'Test Post')
-
-            # Assert that the post is correctly associated with the logged-in user
             post = Post.objects.get()
+            self.assertEqual(post.title, 'Test Post')
             self.assertEqual(post.owner, self.user)
 
             # Assert that the mocked Cloudinary URL was used with .jpg extension
