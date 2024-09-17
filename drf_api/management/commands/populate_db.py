@@ -45,7 +45,8 @@ class Command(BaseCommand):
                     )
 
                     for comment_data in post_data.get('comments', []):
-                        comment_user = user_list[comment_data['user_id'] - 1]  
+                        comment_user_index = (comment_data['user_id'] - 1) % len(user_list)
+                        comment_user = user_list[comment_user_index]
                         Comment.objects.get_or_create(
                             owner=comment_user,
                             post=post,
@@ -53,7 +54,8 @@ class Command(BaseCommand):
                         )
 
                     for like_id in post_data.get('likes', []):
-                        like_user = user_list[like_id - 1]
+                        like_user_index = (like_id - 1) % len(user_list)
+                        like_user = user_list[like_user_index]
                         Like.objects.get_or_create(owner=like_user, post=post)
             else:
                 print(f"User {user.username} has no posts.")
