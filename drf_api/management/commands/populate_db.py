@@ -14,7 +14,7 @@ class Command(BaseCommand):
         with open('mock_data.json', 'r') as file:
             data = json.load(file)
 
-        user_mapping = {}
+        user_list = []
 
         # First, create all users
         for profile_data in data['profiles']:
@@ -23,7 +23,7 @@ class Command(BaseCommand):
             except IntegrityError:
                 user = User.objects.get(username=profile_data['username'])
             
-            user_mapping[profile_data['id']] = user
+            user_list.append(user)
 
             profile, _ = Profile.objects.get_or_create(owner=user)
             profile.name = profile_data.get('name', '')
@@ -32,7 +32,7 @@ class Command(BaseCommand):
 
         # Then, create posts, comments, and likes
         for profile_data in data['profiles']:
-            user = user_mapping[profile_data['id']]
+            user = user_list[profile_data['id'] - 1]  
             if 'posts' in profile_data:
                 for post_data in profile_data['posts']:
                     post, _ = Post.objects.get_or_create(
@@ -45,7 +45,7 @@ class Command(BaseCommand):
                     )
 
                     for comment_data in post_data.get('comments', []):
-                        comment_user = user_mapping[comment_data['user_id']]
+                        comment_user = user_list[comment_data['user_id'] - 1]  
                         Comment.objects.get_or_create(
                             owner=comment_user,
                             post=post,
@@ -53,7 +53,7 @@ class Command(BaseCommand):
                         )
 
                     for like_id in post_data.get('likes', []):
-                        like_user = user_mapping[like_id]
+                        like_user = user_list[like_id - 1]
                         Like.objects.get_or_create(owner=like_user, post=post)
             else:
                 print(f"User {user.username} has no posts.")
