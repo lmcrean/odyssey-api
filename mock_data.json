@@ -1,341 +1,1656 @@
 {
-    "profiles": [
-      {
-        "id": 1,
-        "username": "adventure_seeker",
-        "name": "Alex Thompson",
-        "content": "Exploring the world one adventure at a time",
-        "posts": [
-          {
-            "id": 1,
-            "title": "Scaling Mount Everest",
-            "content": "Just reached base camp! The view is breathtaking.",
-            "image": "placeholder_1.jpg",
-            "likes": [2, 4, 5, 7, 9],
-            "comments": [
-              {"id": 1, "content": "Wow, what an incredible journey!", "user_id": 2},
-              {"id": 2, "content": "Stay safe up there!", "user_id": 3},
-              {"id": 3, "content": "The mountains look majestic!", "user_id": 4},
-              {"id": 4, "content": "How's the altitude treating you?", "user_id": 5},
-              {"id": 5, "content": "Living the dream, Alex!", "user_id": 6},
-              {"id": 6, "content": "Can't wait to see more photos!", "user_id": 7}
-            ]
-          },
-          {
-            "id": 2,
-            "title": "Scuba Diving in the Great Barrier Reef",
-            "content": "The colors underwater are simply mesmerizing!",
-            "image": "placeholder_2.jpg",
-            "likes": [3, 5, 6, 8, 10],
-            "comments": [
-              {"id": 7, "content": "The marine life looks incredible!", "user_id": 8},
-              {"id": 8, "content": "Did you see any sharks?", "user_id": 9},
-              {"id": 9, "content": "The water is so clear!", "user_id": 10},
-              {"id": 10, "content": "Bucket list destination for sure!", "user_id": 2},
-              {"id": 11, "content": "How long did you stay underwater?", "user_id": 3},
-              {"id": 12, "content": "The colors are out of this world!", "user_id": 4}
-            ]
-          },
-          {
-            "id": 3,
-            "title": "Paragliding over the Alps",
-            "content": "Feeling on top of the world, literally!",
-            "image": "placeholder_3.jpg",
-            "likes": [1, 4, 6, 7, 8, 9],
-            "comments": [
-              {"id": 13, "content": "This looks terrifying but amazing!", "user_id": 5},
-              {"id": 14, "content": "What a rush that must be!", "user_id": 6},
-              {"id": 15, "content": "The view is breathtaking!", "user_id": 7},
-              {"id": 16, "content": "How long have you been paragliding?", "user_id": 8},
-              {"id": 17, "content": "I can almost feel the wind from here!", "user_id": 9},
-              {"id": 18, "content": "Living life to the fullest, Alex!", "user_id": 10}
-            ]
-          },
-          {
-            "id": 4,
-            "title": "Safari in Serengeti",
-            "content": "Witnessed the great wildebeest migration. Nature at its finest!",
-            "image": "placeholder_4.jpg",
-            "likes": [2, 3, 5, 7, 10],
-            "comments": [
-              {"id": 19, "content": "The wildlife looks incredible!", "user_id": 2},
-              {"id": 20, "content": "Did you see any big cats?", "user_id": 3},
-              {"id": 21, "content": "The savannah stretches forever!", "user_id": 4},
-              {"id": 22, "content": "What an amazing natural spectacle!", "user_id": 5},
-              {"id": 23, "content": "How close did you get to the animals?", "user_id": 6},
-              {"id": 24, "content": "Africa's beauty is unmatched!", "user_id": 7}
-            ]
-          },
-          {
-            "id": 5,
-            "title": "Kayaking in Alaska",
-            "content": "Paddling through icy waters, surrounded by glaciers.",
-            "image": "placeholder_5.jpg",
-            "likes": [1, 3, 4, 6, 8, 9],
-            "comments": [
-              {"id": 25, "content": "The glaciers look massive!", "user_id": 8},
-              {"id": 26, "content": "Isn't it freezing cold?", "user_id": 9},
-              {"id": 27, "content": "The water color is surreal!", "user_id": 10},
-              {"id": 28, "content": "Did you see any wildlife?", "user_id": 2},
-              {"id": 29, "content": "What a serene experience this must be.", "user_id": 3},
-              {"id": 30, "content": "Alaska's wilderness is calling me now!", "user_id": 4}
-            ]
-          },
-          {
-            "id": 6,
-            "title": "Hiking the Inca Trail",
-            "content": "Finally made it to Machu Picchu. The ancient ruins are awe-inspiring!",
-            "image": "placeholder_6.jpg",
-            "likes": [2, 4, 5, 7, 8, 10],
-            "comments": [
-              {"id": 31, "content": "The ruins look magical!", "user_id": 5},
-              {"id": 32, "content": "How long did the hike take?", "user_id": 6},
-              {"id": 33, "content": "The mountain backdrop is stunning!", "user_id": 7},
-              {"id": 34, "content": "Did you feel the ancient energy?", "user_id": 8},
-              {"id": 35, "content": "This is definitely on my bucket list now!", "user_id": 9},
-              {"id": 36, "content": "The Incas were truly remarkable builders.", "user_id": 10}
-            ]
-          }
-        ]
-      },
-
-      {
-        "id": 2,
-        "username": "fitness_fanatic",
-        "name": "Sarah Chen",
-        "content": "Personal trainer and nutrition enthusiast",
-        "posts": [
-          {
-            "id": 7,
-            "title": "5 Essential Exercises for Core Strength",
-            "content": "Planks, Russian twists, and more to get those abs burning!",
-            "image": "placeholder_7.jpg",
-            "likes": [1, 3, 5, 7, 9, 10],
-            "comments": [
-              {"id": 37, "content": "Great workout routine!", "user_id": 1},
-              {"id": 38, "content": "I'll definitely try these exercises.", "user_id": 3},
-              {"id": 39, "content": "How often should we do these?", "user_id": 4},
-              {"id": 40, "content": "My abs are sore just looking at this!", "user_id": 5},
-              {"id": 41, "content": "Any modifications for beginners?", "user_id": 6},
-              {"id": 42, "content": "Thanks for sharing, Sarah!", "user_id": 7}
-            ]
-          },
-          {
-            "id": 8,
-            "title": "Meal Prep Sunday: Healthy Lunch Ideas",
-            "content": "Prepping these delicious and nutritious meals for the week ahead.",
-            "image": "placeholder_8.jpg",
-            "likes": [1, 4, 6, 8, 9],
-            "comments": [
-              {"id": 43, "content": "These look delicious and healthy!", "user_id": 8},
-              {"id": 44, "content": "How long do these stay fresh?", "user_id": 9},
-              {"id": 45, "content": "Can you share the recipes?", "user_id": 10},
-              {"id": 46, "content": "Meal prep is such a time-saver!", "user_id": 1},
-              {"id": 47, "content": "Do you have any vegetarian options?", "user_id": 3},
-              {"id": 48, "content": "Your food photography skills are on point!", "user_id": 4}
-            ]
-          },
-          {
-            "id": 9,
-            "title": "HIIT vs. Steady-State Cardio",
-            "content": "Let's break down the pros and cons of each workout style.",
-            "image": "placeholder_9.jpg",
-            "likes": [2, 3, 5, 7, 8, 10],
-            "comments": [
-              {"id": 49, "content": "Great comparison! I prefer HIIT.", "user_id": 5},
-              {"id": 50, "content": "Steady-state is my go-to for stress relief.", "user_id": 6},
-              {"id": 51, "content": "Can you combine both in a workout routine?", "user_id": 7},
-              {"id": 52, "content": "Which one is better for weight loss?", "user_id": 8},
-              {"id": 53, "content": "I'm new to fitness, which should I start with?", "user_id": 9},
-              {"id": 54, "content": "Your explanations are always so clear, Sarah!", "user_id": 10}
-            ]
-          },
-          {
-            "id": 10,
-            "title": "The Importance of Rest Days",
-            "content": "Remember, recovery is just as important as the workout itself!",
-            "image": "placeholder_10.jpg",
-            "likes": [1, 2, 4, 6, 9],
-            "comments": [
-              {"id": 55, "content": "Rest days are so underrated!", "user_id": 1},
-              {"id": 56, "content": "What are good activities for rest days?", "user_id": 3},
-              {"id": 57, "content": "How many rest days per week do you recommend?", "user_id": 4},
-              {"id": 58, "content": "I always feel guilty on rest days. This helps!", "user_id": 5},
-              {"id": 59, "content": "Do you recommend active recovery or complete rest?", "user_id": 6},
-              {"id": 60, "content": "Great reminder for all fitness enthusiasts!", "user_id": 7}
-            ]
-          },
-          {
-            "id": 11,
-            "title": "Proper Form for Squats",
-            "content": "Master the squat with these tips for perfect form.",
-            "image": "placeholder_11.jpg",
-            "likes": [3, 5, 7, 8, 10],
-            "comments": [
-              {"id": 61, "content": "This helped me correct my form!", "user_id": 8},
-              {"id": 62, "content": "Any tips for dealing with knee pain during squats?", "user_id": 9},
-              {"id": 63, "content": "How low should we go in a squat?", "user_id": 10},
-              {"id": 64, "content": "Are bodyweight squats effective for beginners?", "user_id": 1},
-              {"id": 65, "content": "Can you show variations like sumo squats?", "user_id": 3},
-              {"id": 66, "content": "Your form is impeccable, Sarah!", "user_id": 4}
-            ]
-          },
-          {
-            "id": 12,
-            "title": "Staying Motivated: Tips and Tricks",
-            "content": "How to keep pushing when you feel like giving up.",
-            "image": "placeholder_12.jpg",
-            "likes": [1, 2, 4, 6, 7, 9],
-            "comments": [
-              {"id": 67, "content": "Just what I needed to hear today!", "user_id": 5},
-              {"id": 68, "content": "Setting small goals really helps me stay on track.", "user_id": 6},
-              {"id": 69, "content": "How do you personally stay motivated, Sarah?", "user_id": 7},
-              {"id": 70, "content": "Music is my biggest motivator during workouts.", "user_id": 8},
-              {"id": 71, "content": "Do you recommend working out with a partner?", "user_id": 9},
-              {"id": 72, "content": "Your positivity is contagious! Thanks for the boost!", "user_id": 10}
-            ]
-          }
-        ]
-      },
-      {
-        "id": 3,
-        "username": "tech_guru",
-        "name": "Raj Patel",
-        "content": "Software developer and AI enthusiast",
-        "posts": [
-          {
-            "id": 13,
-            "title": "Introduction to Machine Learning",
-            "content": "Exploring the basics of ML and its applications.",
-            "image": "placeholder_13.jpg",
-            "likes": [1, 2, 4, 5, 7, 9, 10],
-            "comments": [
-              {"id": 73, "content": "Great intro! Any recommended resources to learn more?", "user_id": 1},
-              {"id": 74, "content": "How is ML different from traditional programming?", "user_id": 2},
-              {"id": 75, "content": "What languages are best for ML?", "user_id": 4},
-              {"id": 76, "content": "The potential applications are mind-blowing!", "user_id": 5},
-              {"id": 77, "content": "Is ML the same as AI?", "user_id": 6},
-              {"id": 78, "content": "Thanks for breaking it down, Raj!", "user_id": 7}
-            ]
-          },
-          {
-            "id": 14,
-            "title": "The Future of Quantum Computing",
-            "content": "How quantum computers will revolutionize technology.",
-            "image": "placeholder_14.jpg",
-            "likes": [2, 3, 6, 8, 9],
-            "comments": [
-              {"id": 79, "content": "This sounds like science fiction!", "user_id": 8},
-              {"id": 80, "content": "When do you think quantum computers will be mainstream?", "user_id": 9},
-              {"id": 81, "content": "How will this affect current encryption methods?", "user_id": 10},
-              {"id": 82, "content": "The potential for scientific discoveries is exciting!", "user_id": 1},
-              {"id": 83, "content": "Are there any quantum computers in use now?", "user_id": 2},
-              {"id": 84, "content": "Great explanation of a complex topic, Raj!", "user_id": 4}
-            ]
-          },
-          {
-            "id": 15,
-            "title": "Building RESTful APIs with Node.js",
-            "content": "A step-by-step guide to creating efficient APIs.",
-            "image": "placeholder_15.jpg",
-            "likes": [1, 4, 5, 7, 8, 10],
-            "comments": [
-              {"id": 85, "content": "This guide is super helpful! Thanks, Raj!", "user_id": 5},
-              {"id": 86, "content": "How does Node.js compare to other backend technologies?", "user_id": 6},
-              {"id": 87, "content": "Any tips for API security?", "user_id": 7},
-              {"id": 88, "content": "Do you prefer MongoDB or SQL databases for APIs?", "user_id": 8},
-              {"id": 89, "content": "How do you handle API versioning?", "user_id": 9},
-              {"id": 90, "content": "Great tutorial! Can you cover authentication next?", "user_id": 10}
-            ]
-          },
-          {
-            "id": 16,
-            "title": "Cybersecurity Best Practices",
-            "content": "Protecting your digital life in an interconnected world.",
-            "image": "placeholder_16.jpg",
-            "likes": [2, 3, 5, 6, 9],
-            "comments": [
-              {"id": 91, "content": "These tips are crucial in today's digital age!", "user_id": 1},
-              {"id": 92, "content": "What's your opinion on password managers?", "user_id": 2},
-              {"id": 93, "content": "How often should we update our passwords?", "user_id": 4},
-              {"id": 94, "content": "Is using a VPN really necessary?", "user_id": 5},
-              {"id": 95, "content": "What are your thoughts on contentmetric security?", "user_id": 6},
-              {"id": 96, "content": "Great post! Can you talk about IoT security next?", "user_id": 7}
-            ]
-          },
-          {
-            "id": 17,
-            "title": "The Rise of Edge Computing",
-            "content": "Why processing data closer to the source is the future.",
-            "image": "placeholder_17.jpg",
-            "likes": [1, 4, 6, 7, 8, 10],
-            "comments": [
-              {"id": 97, "content": "How does this differ from cloud computing?", "user_id": 8},
-              {"id": 98, "content": "What industries will benefit most from edge computing?", "user_id": 9},
-              {"id": 99, "content": "Are there any security concerns with edge computing?", "user_id": 10},
-              {"id": 100, "content": "This could revolutionize IoT devices!", "user_id": 1},
-              {"id": 101, "content": "How does 5G play into edge computing?", "user_id": 2},
-              {"id": 102, "content": "Fascinating topic! Thanks for the insights, Raj.", "user_id": 4}
-            ]
-          },
-          {
-            "id": 18,
-            "title": "Demystifying Blockchain Technology",
-            "content": "Understanding the tech behind cryptocurrencies.",
-            "image": "placeholder_18.jpg",
-            "likes": [2, 3, 5, 7, 9],
-            "comments": [
-              {"id": 103, "content": "Great explanation! Is blockchain only for cryptocurrencies?", "user_id": 5},
-              {"id": 104, "content": "How does blockchain ensure security?", "user_id": 6},
-              {"id": 105, "content": "What's your take on the environmental impact of blockchain?", "user_id": 7},
-              {"id": 106, "content": "Can you explain smart contracts?", "user_id": 8},
-              {"id": 107, "content": "How might blockchain affect traditional banking?", "user_id": 9},
-              {"id": 108, "content": "Interesting post! What's next for blockchain tech?", "user_id": 10}
-            ]
-          }
-        ]
-      },
-      {
-        "id": 4,
-        "username": "bookworm",
-        "name": "Emily Roberts",
-        "content": "Avid reader and aspiring author"
-      },
-      {
-        "id": 5,
-        "username": "green_thumb",
-        "name": "Oliver Green",
-        "content": "Urban gardener and plant enthusiast"
-      },
-      {
-        "id": 6,
-        "username": "foodie_explorer",
-        "name": "Isabella Martinez",
-        "content": "Culinary adventurer and home chef"
-      },
-      {
-        "id": 7,
-        "username": "shutterbugged",
-        "name": "David Wong",
-        "content": "Capturing life's moments one click at a time"
-      },
-      {
-        "id": 8,
-        "username": "yoga_zen",
-        "name": "Mia Johnson",
-        "content": "Finding balance through yoga and meditation"
-      },
-      {
-        "id": 9,
-        "username": "history_buff",
-        "name": "Thomas Anderson",
-        "content": "Passionate about uncovering the past"
-      },
-      {
-        "id": 10,
-        "username": "eco_warrior",
-        "name": "Sophia Lee",
-        "content": "Advocating for a sustainable future"
-      }
-    ]
+  "profiles": [{
+      "id": 1,
+      "username": "adventure_seeker",
+      "name": "Alex Thompson",
+      "content": "Exploring the world one adventure at a time",
+      "image": "profilepictures/adventure_seeker.jpg",
+      "posts": [{
+          "id": 1,
+          "title": "Scaling Mount Everest",
+          "content": "Just reached base camp! The view is breathtaking.",
+          "image": "placeholder_1.jpg",
+          "likes": [2, 4, 5, 7, 9],
+          "comments": [{
+              "id": 1,
+              "content": "Wow, what an incredible journey!",
+              "user_id": 2
+            },
+            {
+              "id": 2,
+              "content": "Stay safe up there!",
+              "user_id": 3
+            },
+            {
+              "id": 3,
+              "content": "The mountains look majestic!",
+              "user_id": 4
+            },
+            {
+              "id": 4,
+              "content": "How's the altitude treating you?",
+              "user_id": 5
+            },
+            {
+              "id": 5,
+              "content": "Living the dream, Alex!",
+              "user_id": 6
+            },
+            {
+              "id": 6,
+              "content": "Can't wait to see more photos!",
+              "user_id": 7
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "Scuba Diving in the Great Barrier Reef",
+          "content": "The colors underwater are simply mesmerizing!",
+          "image": "placeholder_2.jpg",
+          "likes": [3, 5, 6, 8, 10],
+          "comments": [{
+              "id": 7,
+              "content": "The marine life looks incredible!",
+              "user_id": 8
+            },
+            {
+              "id": 8,
+              "content": "Did you see any sharks?",
+              "user_id": 9
+            },
+            {
+              "id": 9,
+              "content": "The water is so clear!",
+              "user_id": 10
+            },
+            {
+              "id": 10,
+              "content": "Bucket list destination for sure!",
+              "user_id": 2
+            },
+            {
+              "id": 11,
+              "content": "How long did you stay underwater?",
+              "user_id": 3
+            },
+            {
+              "id": 12,
+              "content": "The colors are out of this world!",
+              "user_id": 4
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "Paragliding over the Alps",
+          "content": "Feeling on top of the world, literally!",
+          "image": "placeholder_3.jpg",
+          "likes": [1, 4, 6, 7, 8, 9],
+          "comments": [{
+              "id": 13,
+              "content": "This looks terrifying but amazing!",
+              "user_id": 5
+            },
+            {
+              "id": 14,
+              "content": "What a rush that must be!",
+              "user_id": 6
+            },
+            {
+              "id": 15,
+              "content": "The view is breathtaking!",
+              "user_id": 7
+            },
+            {
+              "id": 16,
+              "content": "How long have you been paragliding?",
+              "user_id": 8
+            },
+            {
+              "id": 17,
+              "content": "I can almost feel the wind from here!",
+              "user_id": 9
+            },
+            {
+              "id": 18,
+              "content": "Living life to the fullest, Alex!",
+              "user_id": 10
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "title": "Safari in Serengeti",
+          "content": "Witnessed the great wildebeest migration. Nature at its finest!",
+          "image": "placeholder_4.jpg",
+          "likes": [2, 3, 5, 7, 10],
+          "comments": [{
+              "id": 19,
+              "content": "The wildlife looks incredible!",
+              "user_id": 2
+            },
+            {
+              "id": 20,
+              "content": "Did you see any big cats?",
+              "user_id": 3
+            },
+            {
+              "id": 21,
+              "content": "The savannah stretches forever!",
+              "user_id": 4
+            },
+            {
+              "id": 22,
+              "content": "What an amazing natural spectacle!",
+              "user_id": 5
+            },
+            {
+              "id": 23,
+              "content": "How close did you get to the animals?",
+              "user_id": 6
+            },
+            {
+              "id": 24,
+              "content": "Africa's beauty is unmatched!",
+              "user_id": 7
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "title": "Kayaking in Alaska",
+          "content": "Paddling through icy waters, surrounded by glaciers.",
+          "image": "placeholder_5.jpg",
+          "likes": [1, 3, 4, 6, 8, 9],
+          "comments": [{
+              "id": 25,
+              "content": "The glaciers look massive!",
+              "user_id": 8
+            },
+            {
+              "id": 26,
+              "content": "Isn't it freezing cold?",
+              "user_id": 9
+            },
+            {
+              "id": 27,
+              "content": "The water color is surreal!",
+              "user_id": 10
+            },
+            {
+              "id": 28,
+              "content": "Did you see any wildlife?",
+              "user_id": 2
+            },
+            {
+              "id": 29,
+              "content": "What a serene experience this must be.",
+              "user_id": 3
+            },
+            {
+              "id": 30,
+              "content": "Alaska's wilderness is calling me now!",
+              "user_id": 4
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "title": "Hiking the Inca Trail",
+          "content": "Finally made it to Machu Picchu. The ancient ruins are awe-inspiring!",
+          "image": "placeholder_6.jpg",
+          "likes": [2, 4, 5, 7, 8, 10],
+          "comments": [{
+              "id": 31,
+              "content": "The ruins look magical!",
+              "user_id": 5
+            },
+            {
+              "id": 32,
+              "content": "How long did the hike take?",
+              "user_id": 6
+            },
+            {
+              "id": 33,
+              "content": "The mountain backdrop is stunning!",
+              "user_id": 7
+            },
+            {
+              "id": 34,
+              "content": "Did you feel the ancient energy?",
+              "user_id": 8
+            },
+            {
+              "id": 35,
+              "content": "This is definitely on my bucket list now!",
+              "user_id": 9
+            },
+            {
+              "id": 36,
+              "content": "The Incas were truly remarkable builders.",
+              "user_id": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "username": "fitness_fanatic",
+      "name": "Sarah Chen",
+      "content": "Personal trainer and nutrition enthusiast",
+      "image": "profilepictures/fitness_fanatic",
+      "posts": [{
+          "id": 7,
+          "title": "5 Essential Exercises for Core Strength",
+          "content": "Planks, Russian twists, and more to get those abs burning!",
+          "image": "placeholder_7.jpg",
+          "likes": [1, 3, 5, 7, 9, 10],
+          "comments": [{
+              "id": 37,
+              "content": "Great workout routine!",
+              "user_id": 1
+            },
+            {
+              "id": 38,
+              "content": "I'll definitely try these exercises.",
+              "user_id": 3
+            },
+            {
+              "id": 39,
+              "content": "How often should we do these?",
+              "user_id": 4
+            },
+            {
+              "id": 40,
+              "content": "My abs are sore just looking at this!",
+              "user_id": 5
+            },
+            {
+              "id": 41,
+              "content": "Any modifications for beginners?",
+              "user_id": 6
+            },
+            {
+              "id": 42,
+              "content": "Thanks for sharing, Sarah!",
+              "user_id": 7
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "title": "Meal Prep Sunday: Healthy Lunch Ideas",
+          "content": "Prepping these delicious and nutritious meals for the week ahead.",
+          "image": "placeholder_8.jpg",
+          "likes": [1, 4, 6, 8, 9],
+          "comments": [{
+              "id": 43,
+              "content": "These look delicious and healthy!",
+              "user_id": 8
+            },
+            {
+              "id": 44,
+              "content": "How long do these stay fresh?",
+              "user_id": 9
+            },
+            {
+              "id": 45,
+              "content": "Can you share the recipes?",
+              "user_id": 10
+            },
+            {
+              "id": 46,
+              "content": "Meal prep is such a time-saver!",
+              "user_id": 1
+            },
+            {
+              "id": 47,
+              "content": "Do you have any vegetarian options?",
+              "user_id": 3
+            },
+            {
+              "id": 48,
+              "content": "Your food photography skills are on point!",
+              "user_id": 4
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "title": "HIIT vs. Steady-State Cardio",
+          "content": "Let's break down the pros and cons of each workout style.",
+          "image": "placeholder_9.jpg",
+          "likes": [2, 3, 5, 7, 8, 10],
+          "comments": [{
+              "id": 49,
+              "content": "Great comparison! I prefer HIIT.",
+              "user_id": 5
+            },
+            {
+              "id": 50,
+              "content": "Steady-state is my go-to for stress relief.",
+              "user_id": 6
+            },
+            {
+              "id": 51,
+              "content": "Can you combine both in a workout routine?",
+              "user_id": 7
+            },
+            {
+              "id": 52,
+              "content": "Which one is better for weight loss?",
+              "user_id": 8
+            },
+            {
+              "id": 53,
+              "content": "I'm new to fitness, which should I start with?",
+              "user_id": 9
+            },
+            {
+              "id": 54,
+              "content": "Your explanations are always so clear, Sarah!",
+              "user_id": 10
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "title": "The Importance of Rest Days",
+          "content": "Remember, recovery is just as important as the workout itself!",
+          "image": "placeholder_10.jpg",
+          "likes": [1, 2, 4, 6, 9],
+          "comments": [{
+              "id": 55,
+              "content": "Rest days are so underrated!",
+              "user_id": 1
+            },
+            {
+              "id": 56,
+              "content": "What are good activities for rest days?",
+              "user_id": 3
+            },
+            {
+              "id": 57,
+              "content": "How many rest days per week do you recommend?",
+              "user_id": 4
+            },
+            {
+              "id": 58,
+              "content": "I always feel guilty on rest days. This helps!",
+              "user_id": 5
+            },
+            {
+              "id": 59,
+              "content": "Do you recommend active recovery or complete rest?",
+              "user_id": 6
+            },
+            {
+              "id": 60,
+              "content": "Great reminder for all fitness enthusiasts!",
+              "user_id": 7
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "title": "Proper Form for Squats",
+          "content": "Master the squat with these tips for perfect form.",
+          "image": "placeholder_11.jpg",
+          "likes": [3, 5, 7, 8, 10],
+          "comments": [{
+              "id": 61,
+              "content": "This helped me correct my form!",
+              "user_id": 8
+            },
+            {
+              "id": 62,
+              "content": "Any tips for dealing with knee pain during squats?",
+              "user_id": 9
+            },
+            {
+              "id": 63,
+              "content": "How low should we go in a squat?",
+              "user_id": 10
+            },
+            {
+              "id": 64,
+              "content": "Are bodyweight squats effective for beginners?",
+              "user_id": 1
+            },
+            {
+              "id": 65,
+              "content": "Can you show variations like sumo squats?",
+              "user_id": 3
+            },
+            {
+              "id": 66,
+              "content": "Your form is impeccable, Sarah!",
+              "user_id": 4
+            }
+          ]
+        },
+        {
+          "id": 12,
+          "title": "Staying Motivated: Tips and Tricks",
+          "content": "How to keep pushing when you feel like giving up.",
+          "image": "placeholder_12.jpg",
+          "likes": [1, 2, 4, 6, 7, 9],
+          "comments": [{
+              "id": 67,
+              "content": "Just what I needed to hear today!",
+              "user_id": 5
+            },
+            {
+              "id": 68,
+              "content": "Setting small goals really helps me stay on track.",
+              "user_id": 6
+            },
+            {
+              "id": 69,
+              "content": "How do you personally stay motivated, Sarah?",
+              "user_id": 7
+            },
+            {
+              "id": 70,
+              "content": "Music is my biggest motivator during workouts.",
+              "user_id": 8
+            },
+            {
+              "id": 71,
+              "content": "Do you recommend working out with a partner?",
+              "user_id": 9
+            },
+            {
+              "id": 72,
+              "content": "Your positivity is contagious! Thanks for the boost!",
+              "user_id": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "username": "tech_guru",
+      "name": "Raj Patel",
+      "content": "Software developer and AI enthusiast",
+      "image": "profilepictures/tech_guru.jpg",
+      "posts": [{
+          "id": 13,
+          "title": "Introduction to Machine Learning",
+          "content": "Exploring the basics of ML and its applications.",
+          "image": "placeholder_13.jpg",
+          "likes": [1, 2, 4, 5, 7, 9, 10],
+          "comments": [{
+              "id": 73,
+              "content": "Great intro! Any recommended resources to learn more?",
+              "user_id": 1
+            },
+            {
+              "id": 74,
+              "content": "How is ML different from traditional programming?",
+              "user_id": 2
+            },
+            {
+              "id": 75,
+              "content": "What languages are best for ML?",
+              "user_id": 4
+            },
+            {
+              "id": 76,
+              "content": "The potential applications are mind-blowing!",
+              "user_id": 5
+            },
+            {
+              "id": 77,
+              "content": "Is ML the same as AI?",
+              "user_id": 6
+            },
+            {
+              "id": 78,
+              "content": "Thanks for breaking it down, Raj!",
+              "user_id": 7
+            }
+          ]
+        },
+        {
+          "id": 14,
+          "title": "The Future of Quantum Computing",
+          "content": "How quantum computers will revolutionize technology.",
+          "image": "placeholder_14.jpg",
+          "likes": [2, 3, 6, 8, 9],
+          "comments": [{
+              "id": 79,
+              "content": "This sounds like science fiction!",
+              "user_id": 8
+            },
+            {
+              "id": 80,
+              "content": "When do you think quantum computers will be mainstream?",
+              "user_id": 9
+            },
+            {
+              "id": 81,
+              "content": "How will this affect current encryption methods?",
+              "user_id": 10
+            },
+            {
+              "id": 82,
+              "content": "The potential for scientific discoveries is exciting!",
+              "user_id": 1
+            },
+            {
+              "id": 83,
+              "content": "Are there any quantum computers in use now?",
+              "user_id": 2
+            },
+            {
+              "id": 84,
+              "content": "Great explanation of a complex topic, Raj!",
+              "user_id": 4
+            }
+          ]
+        },
+        {
+          "id": 15,
+          "title": "Building RESTful APIs with Node.js",
+          "content": "A step-by-step guide to creating efficient APIs.",
+          "image": "placeholder_15.jpg",
+          "likes": [1, 4, 5, 7, 8, 10],
+          "comments": [{
+              "id": 85,
+              "content": "This guide is super helpful! Thanks, Raj!",
+              "user_id": 5
+            },
+            {
+              "id": 86,
+              "content": "How does Node.js compare to other backend technologies?",
+              "user_id": 6
+            },
+            {
+              "id": 87,
+              "content": "Any tips for API security?",
+              "user_id": 7
+            },
+            {
+              "id": 88,
+              "content": "Do you prefer MongoDB or SQL databases for APIs?",
+              "user_id": 8
+            },
+            {
+              "id": 89,
+              "content": "How do you handle API versioning?",
+              "user_id": 9
+            },
+            {
+              "id": 90,
+              "content": "Great tutorial! Can you cover authentication next?",
+              "user_id": 10
+            }
+          ]
+        },
+        {
+          "id": 16,
+          "title": "Cybersecurity Best Practices",
+          "content": "Protecting your digital life in an interconnected world.",
+          "image": "placeholder_16.jpg",
+          "likes": [2, 3, 5, 6, 9],
+          "comments": [{
+              "id": 91,
+              "content": "These tips are crucial in today's digital age!",
+              "user_id": 1
+            },
+            {
+              "id": 92,
+              "content": "What's your opinion on password managers?",
+              "user_id": 2
+            },
+            {
+              "id": 93,
+              "content": "How often should we update our passwords?",
+              "user_id": 4
+            },
+            {
+              "id": 94,
+              "content": "Is using a VPN really necessary?",
+              "user_id": 5
+            },
+            {
+              "id": 95,
+              "content": "What are your thoughts on contentmetric security?",
+              "user_id": 6
+            },
+            {
+              "id": 96,
+              "content": "Great post! Can you talk about IoT security next?",
+              "user_id": 7
+            }
+          ]
+        },
+        {
+          "id": 17,
+          "title": "The Rise of Edge Computing",
+          "content": "Why processing data closer to the source is the future.",
+          "image": "placeholder_17.jpg",
+          "likes": [1, 4, 6, 7, 8, 10],
+          "comments": [{
+              "id": 97,
+              "content": "How does this differ from cloud computing?",
+              "user_id": 8
+            },
+            {
+              "id": 98,
+              "content": "What industries will benefit most from edge computing?",
+              "user_id": 9
+            },
+            {
+              "id": 99,
+              "content": "Are there any security concerns with edge computing?",
+              "user_id": 10
+            },
+            {
+              "id": 100,
+              "content": "This could revolutionize IoT devices!",
+              "user_id": 1
+            },
+            {
+              "id": 101,
+              "content": "How does 5G play into edge computing?",
+              "user_id": 2
+            },
+            {
+              "id": 102,
+              "content": "Fascinating topic! Thanks for the insights, Raj.",
+              "user_id": 4
+            }
+          ]
+        },
+        {
+          "id": 18,
+          "title": "Demystifying Blockchain Technology",
+          "content": "Understanding the tech behind cryptocurrencies.",
+          "image": "placeholder_18.jpg",
+          "likes": [2, 3, 5, 7, 9],
+          "comments": [{
+              "id": 103,
+              "content": "Great explanation! Is blockchain only for cryptocurrencies?",
+              "user_id": 5
+            },
+            {
+              "id": 104,
+              "content": "How does blockchain ensure security?",
+              "user_id": 6
+            },
+            {
+              "id": 105,
+              "content": "What's your take on the environmental impact of blockchain?",
+              "user_id": 7
+            },
+            {
+              "id": 106,
+              "content": "Can you explain smart contracts?",
+              "user_id": 8
+            },
+            {
+              "id": 107,
+              "content": "How might blockchain affect traditional banking?",
+              "user_id": 9
+            },
+            {
+              "id": 108,
+              "content": "Interesting post! What's next for blockchain tech?",
+              "user_id": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "username": "bookworm",
+      "name": "Emily Roberts",
+      "content": "Avid reader and aspiring author",
+      "image": "profilepictures/bookworm.jpg",
+      "posts": [{
+          "id": 19,
+          "title": "Just finished 'The Great Gatsby'",
+          "content": "Fitzgerald's prose never fails to amaze me. What's your favorite classic novel?",
+          "image": "bookworm_post1.jpg",
+          "likes": [1, 3, 5, 7, 9],
+          "comments": [{
+              "id": 109,
+              "content": "I love that book! The symbolism is incredible.",
+              "user_id": 1
+            },
+            {
+              "id": 110,
+              "content": "Have you read 'To Kill a Mockingbird'? It's my favorite!",
+              "user_id": 3
+            },
+            {
+              "id": 111,
+              "content": "Gatsby is great, but I prefer 'Of Mice and Men'.",
+              "user_id": 5
+            },
+            {
+              "id": 112,
+              "content": "The roaring twenties come alive in Fitzgerald's writing.",
+              "user_id": 7
+            },
+            {
+              "id": 113,
+              "content": "I'm more of a Hemingway fan myself.",
+              "user_id": 9
+            },
+            {
+              "id": 114,
+              "content": "The green light at the end of the dock... so symbolic!",
+              "user_id": 2
+            }
+          ]
+        },
+        {
+          "id": 20,
+          "title": "My reading nook",
+          "content": "Just set up the perfect corner for my reading sessions. What's your ideal reading spot?",
+          "image": "bookworm_post2.jpg",
+          "likes": [2, 4, 6, 8, 10],
+          "comments": [{
+              "id": 115,
+              "content": "Looks so cozy! I love reading in my garden.",
+              "user_id": 2
+            },
+            {
+              "id": 116,
+              "content": "Nothing beats a good book and a cup of tea!",
+              "user_id": 4
+            },
+            {
+              "id": 117,
+              "content": "I'm jealous of your book collection!",
+              "user_id": 6
+            },
+            {
+              "id": 118,
+              "content": "Is that a vintage reading lamp? It's beautiful!",
+              "user_id": 8
+            },
+            {
+              "id": 119,
+              "content": "I can almost smell the books from here. Heaven!",
+              "user_id": 10
+            }
+          ]
+        },
+        {
+          "id": 21,
+          "title": "Book club meeting",
+          "content": "Had a great discussion about 'The Handmaid's Tale' at our book club. What book should we read next?",
+          "image": "bookworm_post3.jpg",
+          "likes": [1, 2, 3, 4, 5],
+          "comments": [{
+              "id": 120,
+              "content": "How about '1984'? It's another great dystopian novel.",
+              "user_id": 7
+            },
+            {
+              "id": 121,
+              "content": "I'd love to join your book club!",
+              "user_id": 8
+            },
+            {
+              "id": 122,
+              "content": "'Brave New World' would be an interesting comparison.",
+              "user_id": 9
+            },
+            {
+              "id": 123,
+              "content": "Maybe something lighter next time? 'Pride and Prejudice'?",
+              "user_id": 1
+            },
+            {
+              "id": 124,
+              "content": "I found 'The Handmaid's Tale' disturbing but powerful.",
+              "user_id": 3
+            },
+            {
+              "id": 125,
+              "content": "Let's do a classic like 'Jane Eyre'!",
+              "user_id": 5
+            },
+            {
+              "id": 126,
+              "content": "How often does your book club meet?",
+              "user_id": 2
+            }
+          ]
+        },
+        {
+          "id": 22,
+          "title": "Writing my first novel",
+          "content": "Finally started writing my own story. It's both exciting and terrifying!",
+          "image": "bookworm_post4.jpg",
+          "likes": [6, 7, 8, 9, 10],
+          "comments": [{
+              "id": 127,
+              "content": "That's amazing! What's it about?",
+              "user_id": 10
+            },
+            {
+              "id": 128,
+              "content": "Wishing you all the best on your writing journey!",
+              "user_id": 1
+            },
+            {
+              "id": 129,
+              "content": "Can't wait to read it when it's finished!",
+              "user_id": 2
+            },
+            {
+              "id": 130,
+              "content": "Remember, the first draft is just about getting it down!",
+              "user_id": 4
+            }
+          ]
+        },
+        {
+          "id": 23,
+          "title": "Bookstore haul",
+          "content": "Couldn't resist picking up a few new books. My TBR pile is getting out of control!",
+          "image": "bookworm_post5.jpg",
+          "likes": [3, 4, 5, 6, 7],
+          "comments": [{
+              "id": 131,
+              "content": "I see some great titles there!",
+              "user_id": 3
+            },
+            {
+              "id": 132,
+              "content": "A bookworm's work is never done!",
+              "user_id": 4
+            },
+            {
+              "id": 133,
+              "content": "Which one are you planning to read first?",
+              "user_id": 5
+            },
+            {
+              "id": 134,
+              "content": "I love the smell of new books!",
+              "user_id": 6
+            },
+            {
+              "id": 135,
+              "content": "Have you tried e-books? Saves a lot of space!",
+              "user_id": 7
+            },
+            {
+              "id": 136,
+              "content": "I have the same problem. Too many books, too little time!",
+              "user_id": 8
+            },
+            {
+              "id": 137,
+              "content": "Is that the new Stephen King? It's supposed to be great!",
+              "user_id": 9
+            },
+            {
+              "id": 138,
+              "content": "You'll need a bigger bookshelf soon!",
+              "user_id": 10
+            }
+          ]
+        },
+        {
+          "id": 24,
+          "title": "Favorite quotes",
+          "content": "Sharing some of my favorite literary quotes. What's a line that always stays with you?",
+          "image": "bookworm_post6.jpg",
+          "likes": [1, 2, 3, 8, 9, 10],
+          "comments": [{
+              "id": 139,
+              "content": "'Not all those who wander are lost' - Tolkien",
+              "user_id": 6
+            },
+            {
+              "id": 140,
+              "content": "I love 'It was the best of times, it was the worst of times'",
+              "user_id": 7
+            },
+            {
+              "id": 141,
+              "content": "'To be or not to be' - simple but powerful",
+              "user_id": 8
+            },
+            {
+              "id": 142,
+              "content": "'I am no bird; and no net ensnares me' - Jane Eyre",
+              "user_id": 9
+            },
+            {
+              "id": 143,
+              "content": "'It does not do to dwell on dreams and forget to live' - Dumbledore",
+              "user_id": 10
+            },
+            {
+              "id": 144,
+              "content": "'I took a deep breath and listened to the old brag of my heart. I am, I am, I am.' - Sylvia Plath",
+              "user_id": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "username": "green_thumb",
+      "name": "Oliver Green",
+      "content": "Urban gardener and plant enthusiast",
+      "image": "profilepictures/green_thumb.jpg",
+      "posts": [{
+          "id": 25,
+          "title": "My urban jungle",
+          "content": "Just added some new plants to my collection. Can you spot the monstera?",
+          "image": "green_thumb_post1.jpg",
+          "likes": [1, 3, 5, 7, 9],
+          "comments": [{
+              "id": 145,
+              "content": "Your plants look so healthy! What's your secret?",
+              "user_id": 1
+            },
+            {
+              "id": 146,
+              "content": "I see the monstera! It's beautiful!",
+              "user_id": 3
+            },
+            {
+              "id": 147,
+              "content": "Can you give some tips for keeping a fiddle leaf fig alive?",
+              "user_id": 5
+            },
+            {
+              "id": 148,
+              "content": "Is that a variegated pothos in the corner?",
+              "user_id": 7
+            },
+            {
+              "id": 149,
+              "content": "Your home must smell amazing with all these plants!",
+              "user_id": 9
+            },
+            {
+              "id": 150,
+              "content": "I'm inspired to start my own urban jungle now!",
+              "user_id": 2
+            },
+            {
+              "id": 151,
+              "content": "How often do you water your plants?",
+              "user_id": 4
+            }
+          ]
+        },
+        {
+          "id": 26,
+          "title": "Herb garden update",
+          "content": "My little herb garden is thriving! Fresh basil and mint for days.",
+          "image": "green_thumb_post2.jpg",
+          "likes": [2, 4, 6, 8, 10],
+          "comments": [{
+              "id": 152,
+              "content": "Nothing beats cooking with fresh herbs!",
+              "user_id": 2
+            },
+            {
+              "id": 153,
+              "content": "Your basil looks so lush! Mine always dies.",
+              "user_id": 4
+            },
+            {
+              "id": 154,
+              "content": "Have you tried growing cilantro?",
+              "user_id": 6
+            },
+            {
+              "id": 155,
+              "content": "Mint can be invasive. How do you control it?",
+              "user_id": 8
+            },
+            {
+              "id": 156,
+              "content": "I can almost smell the freshness from here!",
+              "user_id": 10
+            }
+          ]
+        },
+        {
+          "id": 27,
+          "title": "Repotting day",
+          "content": "Giving some of my plants new homes. It's like a spa day for them!",
+          "image": "green_thumb_post3.jpg",
+          "likes": [1, 2, 3, 4, 5],
+          "comments": [{
+              "id": 157,
+              "content": "What soil mix do you use?",
+              "user_id": 7
+            },
+            {
+              "id": 158,
+              "content": "Repotting always makes me nervous. Any tips?",
+              "user_id": 8
+            },
+            {
+              "id": 159,
+              "content": "Your plants must be so happy!",
+              "user_id": 9
+            },
+            {
+              "id": 160,
+              "content": "Do you add fertilizer when repotting?",
+              "user_id": 1
+            },
+            {
+              "id": 161,
+              "content": "Those terra cotta pots are beautiful!",
+              "user_id": 3
+            },
+            {
+              "id": 162,
+              "content": "How do you know when it's time to repot?",
+              "user_id": 5
+            },
+            {
+              "id": 163,
+              "content": "I always make such a mess when repotting. You look so organized!",
+              "user_id": 2
+            }
+          ]
+        },
+        {
+          "id": 28,
+          "title": "Balcony garden",
+          "content": "Making the most of my small outdoor space. You don't need a yard to grow veggies!",
+          "image": "green_thumb_post4.jpg",
+          "likes": [6, 7, 8, 9, 10],
+          "comments": [{
+              "id": 164,
+              "content": "What vegetables grow well in containers?",
+              "user_id": 10
+            },
+            {
+              "id": 165,
+              "content": "Your balcony looks like a little oasis!",
+              "user_id": 1
+            },
+            {
+              "id": 166,
+              "content": "Do you have any issues with pests?",
+              "user_id": 2
+            },
+            {
+              "id": 167,
+              "content": "How much sun does your balcony get?",
+              "user_id": 4
+            },
+            {
+              "id": 168,
+              "content": "I'm inspired to start my own balcony garden now!",
+              "user_id": 6
+            },
+            {
+              "id": 169,
+              "content": "Do you compost?",
+              "user_id": 8
+            }
+          ]
+        },
+        {
+          "id": 29,
+          "title": "New plant baby",
+          "content": "Couldn't resist this beautiful string of pearls. Any care tips?",
+          "image": "green_thumb_post5.jpg",
+          "likes": [3, 4, 5, 6, 7],
+          "comments": [{
+              "id": 170,
+              "content": "String of pearls love bright, indirect light!",
+              "user_id": 3
+            },
+            {
+              "id": 171,
+              "content": "Be careful not to overwater. They're succulents!",
+              "user_id": 4
+            },
+            {
+              "id": 172,
+              "content": "I've always wanted one of these. So pretty!",
+              "user_id": 5
+            },
+            {
+              "id": 173,
+              "content": "They can be tricky but so rewarding when they thrive!",
+              "user_id": 6
+            },
+            {
+              "id": 174,
+              "content": "Make sure it has good drainage!",
+              "user_id": 7
+            },
+            {
+              "id": 175,
+              "content": "I killed mine :( Hope you have better luck!",
+              "user_id": 9
+            },
+            {
+              "id": 176,
+              "content": "These propagate easily if you want to make more!",
+              "user_id": 1
+            }
+          ]
+        },
+        {
+          "id": 30,
+          "title": "Plant propagation",
+          "content": "Experimenting with propagating some of my plants. It's like magic watching roots grow!",
+          "image": "green_thumb_post6.jpg",
+          "likes": [1, 2, 3, 8, 9, 10],
+          "comments": [{
+              "id": 177,
+              "content": "What plants are you propagating?",
+              "user_id": 6
+            },
+            {
+              "id": 178,
+              "content": "Water or soil propagation?",
+              "user_id": 7
+            },
+            {
+              "id": 179,
+              "content": "I love propagating! Free plants!",
+              "user_id": 8
+            },
+            {
+              "id": 180,
+              "content": "How long did it take to see roots?",
+              "user_id": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "username": "foodie_explorer",
+      "name": "Isabella Martinez",
+      "content": "Culinary adventurer and home chef",
+      "image": "profilepictures/foodie_explorer.jpg",
+      "posts": [{
+          "id": 31,
+          "title": "Homemade pasta",
+          "content": "First attempt at making pasta from scratch. It's easier than I thought!",
+          "image": "foodie_explorer_post1.jpg",
+          "likes": [1, 3, 5, 7, 9],
+          "comments": [{
+              "id": 181,
+              "content": "Looks delicious! What sauce did you pair it with?",
+              "user_id": 1
+            },
+            {
+              "id": 182,
+              "content": "I've always wanted to try making pasta. Any tips?",
+              "user_id": 3
+            },
+            {
+              "id": 183,
+              "content": "Nothing beats fresh pasta! Well done!",
+              "user_id": 5
+            },
+            {
+              "id": 184,
+              "content": "Did you use a pasta machine or roll it by hand?",
+              "user_id": 7
+            },
+            {
+              "id": 185,
+              "content": "What flour did you use?",
+              "user_id": 9
+            },
+            {
+              "id": 186,
+              "content": "I can almost taste it through the screen!",
+              "user_id": 2
+            }
+          ]
+        },
+        {
+          "id": 32,
+          "title": "Farmers market haul",
+          "content": "Look at all these fresh, local ingredients! Time to get creative in the kitchen.",
+          "image": "foodie_explorer_post2.jpg",
+          "likes": [2, 4, 6, 8, 10, 1],
+          "comments": [{
+              "id": 187,
+              "content": "Those tomatoes look perfect!",
+              "user_id": 2
+            },
+            {
+              "id": 188,
+              "content": "I love farmers markets. What are you planning to cook?",
+              "user_id": 4
+            },
+            {
+              "id": 189,
+              "content": "Eating seasonal is the best. Enjoy!",
+              "user_id": 6
+            },
+            {
+              "id": 190,
+              "content": "That's a colorful haul! So many possibilities.",
+              "user_id": 8
+            }
+          ]
+        },
+        {
+          "id": 33,
+          "title": "Sushi night",
+          "content": "Decided to try making sushi at home. It's not perfect, but it was fun!",
+          "image": "foodie_explorer_post3.jpg",
+          "likes": [1, 2, 3, 4, 5, 6, 7],
+          "comments": [{
+              "id": 191,
+              "content": "Looks great for a first attempt!",
+              "user_id": 7
+            },
+            {
+              "id": 192,
+              "content": "What fillings did you use?",
+              "user_id": 8
+            },
+            {
+              "id": 193,
+              "content": "Homemade sushi is the best. Well done!",
+              "user_id": 9
+            },
+            {
+              "id": 194,
+              "content": "Did you make your own wasabi too?",
+              "user_id": 10
+            },
+            {
+              "id": 195,
+              "content": "I'm impressed! Sushi is tricky.",
+              "user_id": 1
+            },
+            {
+              "id": 196,
+              "content": "Now I'm craving sushi!",
+              "user_id": 3
+            },
+            {
+              "id": 197,
+              "content": "How did you prepare the rice?",
+              "user_id": 5
+            }
+          ]
+        },
+        {
+          "id": 34,
+          "title": "Spice collection",
+          "content": "Organized my spice drawer today. Ready to take on any cuisine!",
+          "image": "foodie_explorer_post4.jpg",
+          "likes": [6, 7, 8, 9],
+          "comments": [{
+              "id": 198,
+              "content": "What a collection! Any favorites?",
+              "user_id": 10
+            },
+            {
+              "id": 199,
+              "content": "I need to organize mine. This is inspiring!",
+              "user_id": 1
+            },
+            {
+              "id": 200,
+              "content": "I see some interesting blends there!",
+              "user_id": 2
+            },
+            {
+              "id": 201,
+              "content": "How do you store your spices to keep them fresh?",
+              "user_id": 4
+            },
+            {
+              "id": 202,
+              "content": "Is that saffron I see? Fancy!",
+              "user_id": 6
+            }
+          ]
+        },
+        {
+          "id": 35,
+          "title": "Sourdough success",
+          "content": "After weeks of practice, I finally got the perfect sourdough loaf!",
+          "image": "foodie_explorer_post5.jpg",
+          "likes": [3, 4, 5, 6, 7, 8, 9, 10],
+          "comments": [{
+              "id": 203,
+              "content": "That crust looks amazing!",
+              "user_id": 3
+            },
+            {
+              "id": 204,
+              "content": "Nothing beats the smell of fresh bread. Congrats!",
+              "user_id": 4
+            },
+            {
+              "id": 205,
+              "content": "I've been struggling with sourdough. Any tips?",
+              "user_id": 5
+            },
+            {
+              "id": 206,
+              "content": "How old is your starter?",
+              "user_id": 7
+            },
+            {
+              "id": 207,
+              "content": "The crumb looks perfect!",
+              "user_id": 9
+            },
+            {
+              "id": 208,
+              "content": "I can almost smell it through the screen!",
+              "user_id": 1
+            }
+          ]
+        },
+        {
+          "id": 36,
+          "title": "Food photography setup",
+          "content": "Working on improving my food photography skills. It's harder than it looks!",
+          "image": "foodie_explorer_post6.jpg",
+          "likes": [1, 2, 3, 8, 9],
+          "comments": [{
+              "id": 209,
+              "content": "The lighting looks perfect!",
+              "user_id": 6
+            },
+            {
+              "id": 210,
+              "content": "What camera do you use?",
+              "user_id": 7
+            },
+            {
+              "id": 211,
+              "content": "Food photography is an art. You're doing great!",
+              "user_id": 8
+            },
+            {
+              "id": 212,
+              "content": "Any tips for beginners?",
+              "user_id": 10
+            },
+            {
+              "id": 213,
+              "content": "I love the composition in this shot!",
+              "user_id": 2
+            },
+            {
+              "id": 214,
+              "content": "Do you use any special lenses?",
+              "user_id": 4
+            },
+            {
+              "id": 215,
+              "content": "The colors are so vibrant!",
+              "user_id": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "username": "shutterbugged",
+      "name": "David Wong",
+      "content": "Capturing life's moments one click at a time",
+      "image": "profilepictures/shutterbugged.jpg",
+      "posts": [{
+          "id": 37,
+          "title": "Golden Hour Magic",
+          "content": "Caught this stunning sunset at the beach. Nature's light show never disappoints!",
+          "image": "shutterbugged_post1.jpg",
+          "likes": [1, 3, 5, 7, 9, 2],
+          "comments": [{
+              "id": 216,
+              "content": "The colors are breathtaking!",
+              "user_id": 1
+            },
+            {
+              "id": 217,
+              "content": "What camera settings did you use?",
+              "user_id": 3
+            },
+            {
+              "id": 218,
+              "content": "I wish I was there right now.",
+              "user_id": 5
+            },
+            {
+              "id": 219,
+              "content": "Golden hour is the best time for photos!",
+              "user_id": 7
+            },
+            {
+              "id": 220,
+              "content": "The reflection on the water is perfect.",
+              "user_id": 9
+            }
+          ]
+        },
+        {
+          "id": 38,
+          "title": "Urban Exploration",
+          "content": "Found this hidden alley in the city. Sometimes beauty is just around the corner!",
+          "image": "shutterbugged_post2.jpg",
+          "likes": [2, 4, 6, 8],
+          "comments": [{
+              "id": 221,
+              "content": "I love urban photography!",
+              "user_id": 2
+            },
+            {
+              "id": 222,
+              "content": "The contrast between light and shadow is striking.",
+              "user_id": 4
+            },
+            {
+              "id": 223,
+              "content": "Where is this? I want to visit!",
+              "user_id": 6
+            },
+            {
+              "id": 224,
+              "content": "The composition draws the eye in perfectly.",
+              "user_id": 8
+            },
+            {
+              "id": 225,
+              "content": "Black and white was a great choice for this shot.",
+              "user_id": 10
+            },
+            {
+              "id": 226,
+              "content": "I never would have noticed this spot. Great eye!",
+              "user_id": 1
+            }
+          ]
+        },
+        {
+          "id": 39,
+          "title": "Macro Marvel",
+          "content": "Got up close and personal with this little guy. Macro photography opens up a whole new world!",
+          "image": "shutterbugged_post3.jpg",
+          "likes": [3, 5, 7, 9, 1, 2, 4],
+          "comments": [{
+              "id": 227,
+              "content": "The detail is incredible!",
+              "user_id": 3
+            },
+            {
+              "id": 228,
+              "content": "What macro lens do you use?",
+              "user_id": 5
+            },
+            {
+              "id": 229,
+              "content": "Nature is amazing up close.",
+              "user_id": 7
+            },
+            {
+              "id": 230,
+              "content": "The colors are so vivid!",
+              "user_id": 9
+            }
+          ]
+        },
+        {
+          "id": 40,
+          "title": "Street Life",
+          "content": "Captured this candid moment downtown. Street photography is all about being in the right place at the right time.",
+          "image": "shutterbugged_post4.jpg",
+          "likes": [4, 6, 8, 10, 2],
+          "comments": [{
+              "id": 231,
+              "content": "This tells such a story!",
+              "user_id": 4
+            },
+            {
+              "id": 232,
+              "content": "I love the energy in this shot.",
+              "user_id": 6
+            },
+            {
+              "id": 233,
+              "content": "Black and white really adds to the mood.",
+              "user_id": 8
+            },
+            {
+              "id": 234,
+              "content": "Do you ask for permission when taking street photos?",
+              "user_id": 10
+            },
+            {
+              "id": 235,
+              "content": "The expression you caught is priceless!",
+              "user_id": 1
+            },
+            {
+              "id": 236,
+              "content": "This reminds me of classic street photographers. Well done!",
+              "user_id": 3
+            }
+          ]
+        },
+        {
+          "id": 41,
+          "title": "Night Sky Wonders",
+          "content": "Stayed up late to catch the Milky Way. Long exposure photography is challenging but so rewarding!",
+          "image": "shutterbugged_post5.jpg",
+          "likes": [5, 7, 9, 1, 3, 6],
+          "comments": [{
+              "id": 237,
+              "content": "This is absolutely stunning!",
+              "user_id": 5
+            },
+            {
+              "id": 238,
+              "content": "How long was the exposure?",
+              "user_id": 7
+            },
+            {
+              "id": 239,
+              "content": "The stars look so crisp!",
+              "user_id": 9
+            },
+            {
+              "id": 240,
+              "content": "I need to try astrophotography someday.",
+              "user_id": 2
+            },
+            {
+              "id": 241,
+              "content": "The colors in the sky are magical.",
+              "user_id": 4
+            },
+            {
+              "id": 242,
+              "content": "Did you use any special filters?",
+              "user_id": 6
+            },
+            {
+              "id": 243,
+              "content": "This makes me feel so small in the universe.",
+              "user_id": 8
+            }
+          ]
+        },
+        {
+          "id": 42,
+          "title": "Rainy Day Reflections",
+          "content": "Don't let bad weather stop you from shooting. Rainy days can create some amazing reflections!",
+          "image": "shutterbugged_post6.jpg",
+          "likes": [6, 8, 10, 2, 4, 1, 3, 5],
+          "comments": [{
+              "id": 244,
+              "content": "I love how the colors pop against the gray!",
+              "user_id": 10
+            },
+            {
+              "id": 245,
+              "content": "The reflection is so clear, it's like a mirror!",
+              "user_id": 1
+            },
+            {
+              "id": 246,
+              "content": "This makes me appreciate rainy days more.",
+              "user_id": 3
+            },
+            {
+              "id": 247,
+              "content": "How do you protect your camera in the rain?",
+              "user_id": 5
+            },
+            {
+              "id": 248,
+              "content": "The mood in this photo is perfect.",
+              "user_id": 7
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "username": "yoga_zen",
+          "name": "Mia Johnson",
+          "content": "Finding balance through yoga and meditation",
+          "image": "profilepictures/yoga_zen.jpg"
+        },
+        {
+          "id": 9,
+          "username": "history_buff",
+          "name": "Thomas Anderson",
+          "content": "Passionate about uncovering the past",
+          "image": "profilepictures/history_buff.jpg"
+        },
+        {
+          "id": 10,
+          "username": "eco_warrior",
+          "name": "Sophia Lee",
+          "content": "Advocating for a sustainable future",
+          "image": "profilepictures/eco_warrior.jpg"
+        }
+      ]
+    }
+  ]
 }
