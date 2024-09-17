@@ -37,9 +37,9 @@ class Command(BaseCommand):
                 for post_data in profile_data['posts']:
                     post, _ = Post.objects.get_or_create(
                         owner=user,
-                        title=post_data['title'],
+                        title=post_data.get('title', 'Untitled Post'), 
                         defaults={
-                            'content': post_data['content'],
+                            'content': post_data.get('content', ''),  
                             'image': post_data.get('image', '')
                         }
                     )
@@ -50,7 +50,7 @@ class Command(BaseCommand):
                         Comment.objects.get_or_create(
                             owner=comment_user,
                             post=post,
-                            content=comment_data['content']
+                            content=comment_data.get('content', '')
                         )
 
                     for like_id in post_data.get('likes', []):
