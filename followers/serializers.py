@@ -1,13 +1,8 @@
-from django.db import IntegrityError
 from rest_framework import serializers
 from .models import Follower
-
+from django.contrib.auth.models import User
 
 class FollowerSerializer(serializers.ModelSerializer):
-    """
-    Serializer for the Follower model
-    Create method handles the unique constraint on 'owner' and 'followed'
-    """
     owner = serializers.ReadOnlyField(source='owner.username')
     followed_name = serializers.ReadOnlyField(source='followed.username')
 
@@ -16,6 +11,22 @@ class FollowerSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'owner', 'created_at', 'followed', 'followed_name'
         ]
+
+    def validate_followed(self, value):
+        request = self.context['request']
+
+        if value == request.user:
+            raise serializers.ValidationError("You can't follow yourself.")
+
+        if Follower.objects.filter(owner=request.user, followed=value).exists():
+            raise serializers.ValidationError("You are already following this user.")
+
+        return value
+
+    def validate(self, data):
+        if not User.objects.filter(pk=data['followed'].pk).exists():
+            raise serializers.ValidationError({"followed": "The user you are trying to follow does not exist."})
+        return data
 
     def create(self, validated_data):
         try:
