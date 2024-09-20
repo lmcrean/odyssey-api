@@ -11,7 +11,6 @@ export const useSetProfileData = () => useContext(SetProfileDataContext);
 
 export const ProfileDataProvider = ({ children }) => {
   const [profileData, setProfileData] = useState({
-    // we will use the pageProfile later!
     pageProfile: { results: [] },
     popularProfiles: { results: [] },
   });
@@ -20,8 +19,42 @@ export const ProfileDataProvider = ({ children }) => {
 
   const handleFollow = async (clickedProfile) => {
     try {
+      // First, retrieve the profile data to get the owner username
+      const { data: profileData } = await axiosReq.get(`/profiles/${clickedProfile.id}/`);
+      const ownerUsername = profileData.owner;
+
+      if (!ownerUsername) {
+        return {
+          success: false,
+          error: "Unable to retrieve owner username",
+          statusCode: 400
+        };
+      }
+  
+      // Now, fetch the user data using the username
+      const { data: userData } = await axiosReq.get(`/users/?username=${ownerUsername}`);
+
+      if (!userData || !userData.results || userData.results.length === 0) {
+        return {
+          success: false,
+          error: "Unable to retrieve user data",
+          statusCode: 400
+        };
+      }
+
+      const userId = userData.results.find(user => user.username === ownerUsername)?.id;
+
+      if (!userId) {
+        return {
+          success: false,
+          error: "Unable to retrieve user ID",
+          statusCode: 400
+        };
+      }
+  
+      // Now use the userId to make the follow request
       const { data } = await axiosRes.post("/followers/", {
-        followed: clickedProfile.id,
+        followed: userId,
       });
 
       setProfileData((prevState) => ({
@@ -38,14 +71,51 @@ export const ProfileDataProvider = ({ children }) => {
           ),
         },
       }));
+      return { success: true };
     } catch (err) {
-      
+      return { 
+        success: false, 
+        error: err.response?.data?.detail || JSON.stringify(err.response?.data) || "An error occurred while following.",
+        statusCode: err.response?.status
+      };
     }
   };
 
   const handleUnfollow = async (clickedProfile) => {
     try {
-      await axiosRes.delete(`/followers/${clickedProfile.following_id}/`);
+      // Similar logic to handleFollow
+      const { data: profileData } = await axiosReq.get(`/profiles/${clickedProfile.id}/`);
+      const ownerUsername = profileData.owner;
+
+      if (!ownerUsername) {
+        return {
+          success: false,
+          error: "Unable to retrieve owner username for unfollow",
+          statusCode: 400
+        };
+      }
+
+      const { data: userData } = await axiosReq.get(`/users/?username=${ownerUsername}`);
+
+      if (!userData || !userData.results || userData.results.length === 0) {
+        return {
+          success: false,
+          error: "Unable to retrieve user data for unfollow",
+          statusCode: 400
+        };
+      }
+
+      const userId = userData.results.find(user => user.username === ownerUsername)?.id;
+
+      if (!userId) {
+        return {
+          success: false,
+          error: "Unable to retrieve user ID for unfollow",
+          statusCode: 400
+        };
+      }
+
+      await axiosRes.delete(`/followers/${userId}/`);
 
       setProfileData((prevState) => ({
         ...prevState,
@@ -61,8 +131,13 @@ export const ProfileDataProvider = ({ children }) => {
           ),
         },
       }));
+      return { success: true };
     } catch (err) {
-      
+      return { 
+        success: false, 
+        error: err.response?.data?.detail || JSON.stringify(err.response?.data) || "An error occurred while unfollowing.",
+        statusCode: err.response?.status
+      };
     }
   };
 
@@ -78,7 +153,7 @@ export const ProfileDataProvider = ({ children }) => {
           popularProfiles: data,
         }));
       } catch (err) {
-        
+        console.error("Error fetching popular profiles:", err);
       }
     };
   
