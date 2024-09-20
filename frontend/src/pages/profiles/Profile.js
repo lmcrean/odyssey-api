@@ -1,6 +1,6 @@
 // src/pages/profiles/Profile.js
 
-import React from "react";
+import React, { useState } from "react";
 import styles from "../../styles/modules/Profile.module.css";
 import btnStyles from "../../styles/modules/Button.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
@@ -12,7 +12,6 @@ import { useSetProfileData } from "../../contexts/ProfileDataContext";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
-
 const Profile = (props) => {
   const { profile, mobile, imageSize = 55 } = props;
   const { id, following_id, image, owner } = profile;
@@ -22,15 +21,35 @@ const Profile = (props) => {
   const history = useHistory();
 
   const { handleFollow, handleUnfollow } = useSetProfileData();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleFollowClick = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const result = following_id
+        ? await handleUnfollow(profile)
+        : await handleFollow(profile);
+      
+      if (!result.success) {
+        setError(result.error);
+        console.error("Follow/Unfollow error:", result.error);
+      }
+    } catch (err) {
+      console.error("Error toggling follow:", err);
+      setError("An unexpected error occurred.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const checkIfChatExists = async () => {
     try {
       const { data } = await axiosReq.get(`/messages/${id}/`);
       if (data.results.length > 0) {
-        // If chat exists, redirect to the existing chat
         history.push(`/messages/${id}`);
       } else {
-        // If no chat exists, redirect to start a new chat
         history.push(`/messages/create/${id}`);
       }
     } catch (err) {
@@ -57,43 +76,47 @@ const Profile = (props) => {
             <>
               {following_id ? (
                 <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip>{"Unfollow"}</Tooltip>}
-              >
-                <Button
-                  className={`${btnStyles.Button} ${btnStyles.UndoButton}`}
-                  onClick={() => handleUnfollow(profile)}
-                  variant="secondary"
+                  placement="top"
+                  overlay={<Tooltip>{"Unfollow"}</Tooltip>}
                 >
-                  <i className="fas fa-user-minus"></i> {/* Unfollow Icon */}
-                </Button>
+                  <Button
+                    className={`${btnStyles.Button} ${btnStyles.UndoButton}`}
+                    onClick={handleFollowClick}
+                    variant="secondary"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Loading...' : <i className="fas fa-user-minus"></i>}
+                  </Button>
                 </OverlayTrigger>
               ) : (
                 <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip>{"Follow"}</Tooltip>}
-              >
-                <Button
-                  className={`${btnStyles.Button} ${btnStyles.SocialButton}`}
-                  onClick={() => handleFollow(profile)}
+                  placement="top"
+                  overlay={<Tooltip>{"Follow"}</Tooltip>}
                 >
-                  <i className="fas fa-user-plus"></i> {/* Follow Icon */}
-                </Button>
+                  <Button
+                    className={`${btnStyles.Button} ${btnStyles.SocialButton}`}
+                    onClick={handleFollowClick}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Loading...' : <i className="fas fa-user-plus"></i>}
+                  </Button>
                 </OverlayTrigger>
               )}
               <OverlayTrigger
                 placement="top"
-                overlay={<Tooltip>{"Message"}</Tooltip>}>
-              <Button
-                className={`${btnStyles.Button} ${btnStyles.SocialButton} ${btnStyles.BlackOutline}`}
-                onClick={checkIfChatExists}
+                overlay={<Tooltip>{"Message"}</Tooltip>}
               >
-                <i className="fas fa-envelope"></i> {/* Message Icon */}
-              </Button>
+                <Button
+                  className={`${btnStyles.Button} ${btnStyles.SocialButton} ${btnStyles.BlackOutline}`}
+                  onClick={checkIfChatExists}
+                >
+                  <i className="fas fa-envelope"></i>
+                </Button>
               </OverlayTrigger>
             </>
           )}
       </div>
+      {error && <div className="text-danger mt-2">{error}</div>}
     </div>
   );
 };

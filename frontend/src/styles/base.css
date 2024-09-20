@@ -49,7 +49,7 @@ body {
   /* Buttons */
   button, .btn-primary {
     background-color: var(--color-button-primary) !important;
-    color: var(--color-primary-text);
+    color: var(--color-primary-text) !important;
     font-family: var(--font-primary);
     border: 0px !important;
   }
