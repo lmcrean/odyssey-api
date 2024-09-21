@@ -83,7 +83,7 @@ export const ProfileDataProvider = ({ children }) => {
 
   const handleUnfollow = async (clickedProfile) => {
     try {
-      // Similar logic to handleFollow
+      // Retrieve the profile data to get the owner username
       const { data: profileData } = await axiosReq.get(`/profiles/${clickedProfile.id}/`);
       const ownerUsername = profileData.owner;
 
@@ -95,6 +95,7 @@ export const ProfileDataProvider = ({ children }) => {
         };
       }
 
+      // Fetch the user data using the username
       const { data: userData } = await axiosReq.get(`/users/?username=${ownerUsername}`);
 
       if (!userData || !userData.results || userData.results.length === 0) {
@@ -115,7 +116,22 @@ export const ProfileDataProvider = ({ children }) => {
         };
       }
 
-      await axiosRes.delete(`/followers/${userId}/`);
+      // Find the follower relationship ID
+      const { data: followersData } = await axiosReq.get(`/followers/?followed=${userId}`);
+      const followerRelationship = followersData.results.find(
+        (follower) => follower.owner === currentUser.username
+      );
+
+      if (!followerRelationship) {
+        return {
+          success: false,
+          error: "Follower relationship not found",
+          statusCode: 404
+        };
+      }
+
+      // Delete the follower relationship
+      await axiosRes.delete(`/followers/${followerRelationship.id}/`);
 
       setProfileData((prevState) => ({
         ...prevState,
