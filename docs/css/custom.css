@@ -57,3 +57,8 @@
   opacity: 0.9 !important;
   transition: all 0.3s !important;
 }
+
+.markdown-section pre > code, strong {
+  color: #d1d1d1 !important;
+}
+
