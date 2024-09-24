@@ -1,5 +1,3 @@
-// src/pages/profiles/ProfilePage.js
-
 import React, { useEffect, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -23,6 +21,7 @@ import Post from "../posts/Post";
 import { fetchMoreData } from "../../utils/utils";
 import NoResults from "../../assets/no-results.png";
 import { ProfileEditDropdown } from "../../components/MoreDropdown";
+import Profile from "./Profile";
 import ProfileSkeleton from "../../components/ProfileSkeleton";
 
 function ProfilePage() {
@@ -33,11 +32,13 @@ function ProfilePage() {
   const { id } = useParams();
   const history = useHistory();
 
-  const { setProfileData, handleFollow, handleUnfollow } = useSetProfileData();
+  const { setProfileData } = useSetProfileData();
   const { pageProfile } = useProfileData();
 
   const [profile] = pageProfile.results;
   const is_owner = currentUser?.username === profile?.owner;
+
+  const [error] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,14 +61,13 @@ function ProfilePage() {
     fetchData();
   }, [id, setProfileData]);
 
+
   const checkIfChatExists = async () => {
     try {
       const { data } = await axiosReq.get(`/messages/${id}/`);
       if (data.results.length > 0) {
-        // If chat exists, redirect to the existing chat
         history.push(`/messages/${id}`);
       } else {
-        // If no chat exists, redirect to start a new chat
         history.push(`/messages/create/${id}`);
       }
     } catch (err) {
@@ -107,21 +107,7 @@ function ProfilePage() {
           {currentUser &&
             !is_owner && (
               <>
-                {profile?.following_id ? (
-                  <Button
-                    className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
-                    onClick={() => handleUnfollow(profile)}
-                  >
-                    unfollow
-                  </Button>
-                ) : (
-                  <Button
-                    className={`${btnStyles.Button} ${btnStyles.Black}`}
-                    onClick={() => handleFollow(profile)}
-                  >
-                    follow
-                  </Button>
-                )}
+                <Profile profile={profile} hideOwner hideAvatar />
                 <Button
                   className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
                   onClick={checkIfChatExists}
@@ -133,6 +119,7 @@ function ProfilePage() {
         </Col>
         {profile?.content && <Col className="p-3">{profile.content}</Col>}
       </Row>
+      {error && <div className="text-danger mt-2">{error}</div>}
     </>
   );
 
@@ -162,7 +149,7 @@ function ProfilePage() {
 
   return (
     <Row>
-        <Col className="py-2 p-0 p-lg-2" lg={7} xl={8}>
+      <Col className="py-2 p-0 p-lg-2" lg={7} xl={8}>
         <PopularProfiles mobile />
         <Container className={appStyles.Content}>
           {hasLoaded ? (
