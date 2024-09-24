@@ -1,3 +1,5 @@
+// src/pages/profiles/ProfilePage.js
+
 import React, { useEffect, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -5,24 +7,22 @@ import Container from "react-bootstrap/Container";
 import Asset from "../../components/Asset";
 import styles from "../../styles/modules/ProfilePage.module.css";
 import appStyles from "../../App.module.css";
-import btnStyles from "../../styles/modules/Button.module.css";
 import PopularProfiles from "./PopularProfiles";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import {
   useProfileData,
   useSetProfileData,
 } from "../../contexts/ProfileDataContext";
-import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Post from "../posts/Post";
 import { fetchMoreData } from "../../utils/utils";
 import NoResults from "../../assets/no-results.png";
 import { ProfileEditDropdown } from "../../components/MoreDropdown";
-import Profile from "./Profile";
 import ProfileSkeleton from "../../components/ProfileSkeleton";
+import Profile from "./Profile";
 
 function ProfilePage() {
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -30,15 +30,12 @@ function ProfilePage() {
 
   const currentUser = useCurrentUser();
   const { id } = useParams();
-  const history = useHistory();
 
   const { setProfileData } = useSetProfileData();
   const { pageProfile } = useProfileData();
 
   const [profile] = pageProfile.results;
   const is_owner = currentUser?.username === profile?.owner;
-
-  const [error] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,20 +57,6 @@ function ProfilePage() {
     };
     fetchData();
   }, [id, setProfileData]);
-
-
-  const checkIfChatExists = async () => {
-    try {
-      const { data } = await axiosReq.get(`/messages/${id}/`);
-      if (data.results.length > 0) {
-        history.push(`/messages/${id}`);
-      } else {
-        history.push(`/messages/create/${id}`);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const mainProfile = (
     <>
@@ -104,22 +87,20 @@ function ProfilePage() {
           </Row>
         </Col>
         <Col lg={3} className="text-lg-right">
-          {currentUser &&
-            !is_owner && (
-              <>
-                <Profile profile={profile} hideOwner hideAvatar />
-                <Button
-                  className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
-                  onClick={checkIfChatExists}
-                >
-                  Message
-                </Button>
-              </>
-            )}
+          {currentUser && !is_owner && (
+            <Profile 
+              profile={profile} 
+              hideOwner 
+              hideAvatar 
+              followLabel="Follow"
+              unfollowLabel="Unfollow"
+              messageLabel="Message"
+              showLabels={true}
+            />
+          )}
         </Col>
         {profile?.content && <Col className="p-3">{profile.content}</Col>}
       </Row>
-      {error && <div className="text-danger mt-2">{error}</div>}
     </>
   );
 

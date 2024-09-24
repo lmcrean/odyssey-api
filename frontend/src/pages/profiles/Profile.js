@@ -13,7 +13,18 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
 const Profile = (props) => {
-  const { profile, mobile, imageSize = 55, hideOwner = false, hideAvatar = false } = props;
+  const { 
+    profile, 
+    mobile, 
+    imageSize = 55, 
+    hideOwner = false, 
+    hideAvatar = false,
+    hideMessage = false,
+    followLabel = "Follow",
+    unfollowLabel = "Unfollow",
+    messageLabel = "Message",
+    showLabels = false
+  } = props;
   const { id, following_id, image, owner } = profile;
 
   const currentUser = useCurrentUser();
@@ -73,49 +84,57 @@ const Profile = (props) => {
           <strong>{owner}</strong>
         </div>
       )}
-      <div className={`d-flex text-right ${!mobile && "ml-auto"}`}>
+      <div className={`d-flex flex-column text-center ${!mobile && "ml-auto"}`}>
         {currentUser && !is_owner && (
           <>
-            {following_id ? (
-              <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip>{"Unfollow"}</Tooltip>}
-              >
-                <Button
-                  className={`${btnStyles.Button} ${btnStyles.UndoButton}`}
-                  onClick={handleFollowClick}
-                  variant="secondary"
-                  disabled={isLoading}
+            <div className="d-flex justify-content-center">
+              {following_id ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<Tooltip>{unfollowLabel}</Tooltip>}
                 >
-                  {isLoading ? 'Loading...' : <i className="fas fa-user-minus"></i>}
-                </Button>
-              </OverlayTrigger>
-            ) : (
-              <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip>{"Follow"}</Tooltip>}
-              >
-                <Button
-                  className={`${btnStyles.Button} ${btnStyles.SocialButton}`}
-                  onClick={handleFollowClick}
-                  disabled={isLoading}
+                  <Button
+                    className={`${btnStyles.Button} ${btnStyles.UndoButton}`}
+                    onClick={handleFollowClick}
+                    variant="secondary"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Loading...' : <i className="fas fa-user-minus"></i>}
+                  </Button>
+                </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<Tooltip>{followLabel}</Tooltip>}
                 >
-                  {isLoading ? 'Loading...' : <i className="fas fa-user-plus"></i>}
-                </Button>
-              </OverlayTrigger>
-            )}
-            {!hideAvatar && (
-              <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip>{"Message"}</Tooltip>}
-              >
-                <Button
-                  className={`${btnStyles.Button} ${btnStyles.SocialButton} ${btnStyles.BlackOutline}`}
-                  onClick={checkIfChatExists}
+                  <Button
+                    className={`${btnStyles.Button} ${btnStyles.SocialButton}`}
+                    onClick={handleFollowClick}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Loading...' : <i className="fas fa-user-plus"></i>}
+                  </Button>
+                </OverlayTrigger>
+              )}
+              {!hideMessage && (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<Tooltip>{messageLabel}</Tooltip>}
                 >
-                  <i className="fas fa-envelope"></i>
-                </Button>
-              </OverlayTrigger>
+                  <Button
+                    className={`${btnStyles.Button} ${btnStyles.SocialButton} ${btnStyles.BlackOutline} ml-2`}
+                    onClick={checkIfChatExists}
+                  >
+                    <i className="fas fa-envelope"></i>
+                  </Button>
+                </OverlayTrigger>
+              )}
+            </div>
+            {showLabels && (
+              <div className="mt-2 d-flex justify-content-center">
+                <div className="m-auto">{following_id ? unfollowLabel : followLabel}</div>
+                {!hideMessage && <div className="m-auto">{messageLabel}</div>}
+              </div>
             )}
           </>
         )}
