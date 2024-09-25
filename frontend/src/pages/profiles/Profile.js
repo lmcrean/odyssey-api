@@ -7,7 +7,6 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Link, useHistory } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 import Button from "react-bootstrap/Button";
-import { axiosReq } from "../../api/axiosDefaults";
 import { useSetProfileData } from "../../contexts/ProfileDataContext";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
@@ -55,17 +54,9 @@ const Profile = (props) => {
     }
   };
 
-  const checkIfChatExists = async () => {
-    try {
-      const { data } = await axiosReq.get(`/messages/${id}/`);
-      if (data.results.length > 0) {
-        history.push(`/messages/${id}`);
-      } else {
-        history.push(`/messages/create/${id}`);
-      }
-    } catch (err) {
-      console.error("Error checking for existing chat:", err);
-    }
+  const handleMessageClick = () => {
+    console.log("Navigating to messages with user ID:", id);
+    history.push(`/messages/${id}`);
   };
 
   return (
@@ -123,7 +114,7 @@ const Profile = (props) => {
                 >
                   <Button
                     className={`${btnStyles.Button} ${btnStyles.SocialButton} ${btnStyles.BlackOutline} ml-2`}
-                    onClick={checkIfChatExists}
+                    onClick={handleMessageClick}
                   >
                     <i className="fas fa-envelope"></i>
                   </Button>

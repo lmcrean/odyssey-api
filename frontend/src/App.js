@@ -24,7 +24,6 @@ import ProfileEditForm from "./pages/profiles/ProfileEditForm";
 import NotFound from "./components/NotFound";
 import MessageList from "./pages/messaging/MessageList"; 
 import MessageDetail from "./pages/messaging/MessageDetail";
-import MessageListStartNewForm from "./pages/messaging/MessageListStartNewForm";
 import 'tailwindcss/tailwind.css';
 import NavBarMobile from "./components/NavBarMobile"; 
 import NavBarDesktop from "./components/NavBarDesktop";
@@ -65,7 +64,6 @@ function App() {
         <Route exact path="/profiles/:id/edit" render={() => <ProfileEditForm />} />
         <Route exact path="/messages" render={() => <MessageList />} />
         <Route exact path="/messages/:id" render={() => <MessageDetail/>} />
-        <Route exact path="/messages/create/:id" render={() => <MessageListStartNewForm/>} />
         <Route render={() => <NotFound />} />
       </Switch>
       </Container>
