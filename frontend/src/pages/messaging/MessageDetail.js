@@ -10,7 +10,6 @@ import Modal from "react-bootstrap/Modal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
 import Message from "./Message";
-import NoResults from "../../assets/no-results.png";
 import MessageDetailSendForm from "./MessageDetailSendForm";
 import MessageDetailHeader from "./MessageDetailHeader";
 import styles from "../../styles/modules/MessageDetail.module.css";
@@ -31,27 +30,43 @@ function MessageDetail() {
   const size = useWindowSize();
 
   useEffect(() => {
-    const fetchMessages = async () => {
+    const fetchOrCreateChat = async () => {
       try {
+        console.log("Fetching messages for user ID:", id);
         const { data } = await axiosReq.get(`/messages/${id}/`);
+        console.log("Fetched messages:", data);
         setMessages({ results: data.results });
         setHasLoaded(true);
         scrollToBottom();
       } catch (err) {
-        console.error("Failed to fetch messages:", err);
+        if (err.response && err.response.status === 404) {
+          console.log("No chat exists for this user, creating a new chat in the API...");
+          try {
+            const { data } = await axiosReq.post(`/messages/${id}/start/`, { content: "Chat started" });
+            console.log("New chat created:", data);
+            setMessages({ results: [data] });
+          } catch (createErr) {
+            console.error("Failed to create new chat:", createErr);
+          }
+        } else {
+          console.error("Failed to fetch messages:", err);
+        }
         setHasLoaded(true);
       }
     };
 
-    fetchMessages();
+    fetchOrCreateChat();
   }, [id]);
 
   useEffect(() => {
     const fetchRecipientUsername = async () => {
       try {
-        const { data } = await axiosReq.get(`/users/${id}/`);
-        setRecipientUsername(data.username);
+        console.log("Fetching username for user ID:", id);
+        const { data } = await axiosReq.get(`/profiles/${id}/`);
+        console.log("Fetched profile data:", data);
+        setRecipientUsername(data.owner);
       } catch (err) {
+        console.error("Failed to fetch recipient username:", err);
         setRecipientUsername("Unknown user");
       }
     };
@@ -118,44 +133,44 @@ function MessageDetail() {
             <>
               {messages.results.length ? (
                 <InfiniteScroll
-                children={Object.entries(groupedMessages).map(([date, msgs]) => {
-                  return (
-                    <div key={date}>
-                      <div className={`${styles.DateSeparator} d-flex align-items-center justify-content-center`}>
-                        <span className={styles.DateBubble}>{date}</span>
+                  children={Object.entries(groupedMessages).map(([date, msgs]) => {
+                    return (
+                      <div key={date}>
+                        <div className={`${styles.DateSeparator} d-flex align-items-center justify-content-center`}>
+                          <span className={styles.DateBubble}>{date}</span>
+                        </div>
+                        {msgs.map((message, index) => {
+                          // Determine whether to show the avatar or MessageTriangle based on consecutive messages from the same sender
+                          const isPreviousFromSameSender = index > 0 && messages.results[index - 1].sender === message.sender;
+                          const isBegin = !isPreviousFromSameSender;
+                          return (
+                            <div key={message.id} className={`${styles.MessageWrapper} ${message.is_sender ? styles.SenderWrapper : styles.RecipientWrapper}`}>
+                              <Message
+                                key={message.id}
+                                {...message}
+                                sender={message.sender} 
+                                sender_profile_id={message.sender}
+                                recipient={message.recipient}
+                                recipientUsername={recipientUsername}
+                                showAvatar={!isPreviousFromSameSender}
+                                isPreviousFromSameSender={isPreviousFromSameSender}
+                                setMessages={setMessages}
+                              />
+                              <div className={`${styles.MessageTriangle} ${message.is_sender ? styles.SenderMessage : styles.RecipientMessage}`} style={{ display: isBegin ? 'block' : 'none' }}></div>
+                            </div>
+                          );
+                        })}
                       </div>
-                      {msgs.map((message, index) => {
-                        // Determine whether to show the avatar based on consecutive messages
-                        const isPreviousFromSameSender = index > 0 && messages.results[index - 1].sender === message.sender;
-                        const isBegin = !isPreviousFromSameSender;
-                        return (
-                          <div key={message.id} className={`${styles.MessageWrapper} ${message.is_sender ? styles.SenderWrapper : styles.RecipientWrapper}`}>
-                            <Message
-                              key={message.id}
-                              {...message}
-                              sender={message.sender} 
-                              sender_profile_id={message.sender}
-                              recipient={message.recipient}
-                              recipientUsername={recipientUsername}
-                              showAvatar={!isPreviousFromSameSender}
-                              isPreviousFromSameSender={isPreviousFromSameSender}
-                              setMessages={setMessages}
-                            />
-                            <div className={`${styles.MessageTriangle} ${message.is_sender ? styles.SenderMessage : styles.RecipientMessage}`} style={{ display: isBegin ? 'block' : 'none' }}></div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  );
-                })}
-                dataLength={messages.results.length}
-                loader={<Asset spinner />}
-                hasMore={!!messages.next}
-                next={() => fetchMoreData(messages, setMessages)}
+                    );
+                  })}
+                  dataLength={messages.results.length}
+                  loader={<Asset spinner />}
+                  hasMore={!!messages.next}
+                  next={() => fetchMoreData(messages, setMessages)}
                 />
               ) : (
                 <Container className={styles.Content}>
-                  <Asset src={NoResults} message="No messages found." />
+                  <Asset message={`Start a conversation with ${recipientUsername}`} />
                 </Container>
               )}
             </>
@@ -166,7 +181,7 @@ function MessageDetail() {
         </Col>
       </Row>
       <Container className={styles.FormContainer}>
-        <MessageDetailSendForm setMessages={setMessages} />
+        <MessageDetailSendForm messages={messages}  setMessages={setMessages} recipientUsername={recipientUsername} />
       </Container>
 
       <Modal show={showModal} onHide={handleCloseModal}>
