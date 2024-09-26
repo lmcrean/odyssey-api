@@ -19,7 +19,7 @@ import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import useWindowSize from "../../hooks/useWindowSize";
 
 function MessageDetail() {
-  const { id } = useParams();
+  const { id: user_id } = useParams();
   const history = useHistory();
   const [recipientUsername, setRecipientUsername] = useState("");
   const [messages, setMessages] = useState({ results: [] });
@@ -32,8 +32,8 @@ function MessageDetail() {
   useEffect(() => {
     const fetchOrCreateChat = async () => {
       try {
-        console.log("Fetching messages for user ID:", id);
-        const { data } = await axiosReq.get(`/messages/${id}/`);
+        console.log("Fetching messages for user ID:", user_id);
+        const { data } = await axiosReq.get(`/messages/${user_id}/`);
         console.log("Fetched messages:", data);
         setMessages({ results: data.results });
         setHasLoaded(true);
@@ -42,7 +42,7 @@ function MessageDetail() {
         if (err.response && err.response.status === 404) {
           console.log("No chat exists for this user, creating a new chat in the API...");
           try {
-            const { data } = await axiosReq.post(`/messages/${id}/start/`, { content: "Chat started" });
+            const { data } = await axiosReq.post(`/messages/${user_id}/start/`, { content: "Chat started" });
             console.log("New chat created:", data);
             setMessages({ results: [data] });
           } catch (createErr) {
@@ -56,15 +56,15 @@ function MessageDetail() {
     };
 
     fetchOrCreateChat();
-  }, [id]);
+  }, [user_id]);
 
   useEffect(() => {
     const fetchRecipientUsername = async () => {
       try {
-        console.log("Fetching username for user ID:", id);
-        const { data } = await axiosReq.get(`/profiles/${id}/`);
-        console.log("Fetched profile data:", data);
-        setRecipientUsername(data.owner);
+        console.log("Fetching username for user ID:", user_id);
+        const { data } = await axiosReq.get(`/users/${user_id}/`);
+        console.log("Fetched user data:", data);
+        setRecipientUsername(data.username);
       } catch (err) {
         console.error("Failed to fetch recipient username:", err);
         setRecipientUsername("Unknown user");
@@ -72,7 +72,7 @@ function MessageDetail() {
     };
   
     fetchRecipientUsername();
-  }, [id]);
+  }, [user_id]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -93,7 +93,7 @@ function MessageDetail() {
 
   const handleDeleteChat = async () => {
     try {
-      await axiosRes.delete(`/chats/${id}/delete/`);
+      await axiosRes.delete(`/chats/${user_id}/delete/`);
       history.push('/messages');
     } catch (err) {
       console.error("Failed to delete chat:", err);
@@ -181,7 +181,7 @@ function MessageDetail() {
         </Col>
       </Row>
       <Container className={styles.FormContainer}>
-        <MessageDetailSendForm messages={messages}  setMessages={setMessages} recipientUsername={recipientUsername} />
+        <MessageDetailSendForm messages={messages} setMessages={setMessages} recipientUsername={recipientUsername} user_id={user_id} />
       </Container>
 
       <Modal show={showModal} onHide={handleCloseModal}>
