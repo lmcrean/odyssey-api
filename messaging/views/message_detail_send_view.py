@@ -1,13 +1,8 @@
-# drf-api/messaging/views/message_detail_send_view.py
-
-# the user is able to send a message
-# that will append to MessageDetailView
-# just like in a Whatsapp chat or any classic chat interface
-
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from django.contrib.auth.models import User
-from rest_framework.exceptions import ValidationError
+from django.db.models import Q
 from messaging.models import Message
 from messaging.serializers import MessageSerializer
 
@@ -17,10 +12,33 @@ class MessageDetailSendView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         recipient_id = self.kwargs['user_id']
+        print(f"Recipient ID: {recipient_id}")
+
         try:
             recipient = User.objects.get(id=recipient_id)
+            print(f"Recipient found: {recipient.username}, ID: {recipient.id}")
         except User.DoesNotExist:
-            raise ValidationError('Recipient does not exist')
+            print(f"No user found with ID: {recipient_id}")
+            return Response({'detail': 'Recipient does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
-        # Pass recipient_id to the serializer
+        if recipient == self.request.user:
+            return Response({'detail': 'Cannot send a message to yourself'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if a chat already exists
+        existing_chat = Message.objects.filter(
+            Q(sender=self.request.user, recipient=recipient) |
+            Q(sender=recipient, recipient=self.request.user)
+        ).exists()
+
+        if not existing_chat:
+            print(f"Creating new chat between {self.request.user.username} and {recipient.username}")
+        else:
+            print(f"Appending to existing chat between {self.request.user.username} and {recipient.username}")
+
         serializer.save(sender=self.request.user, recipient=recipient)
+
+    def create(self, request, *args, **kwargs):
+        print(f"Received data: {request.data}")
+        response = super().create(request, *args, **kwargs)
+        print(f"Message created: {response.data}")
+        return response
