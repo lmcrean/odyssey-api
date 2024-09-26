@@ -43,7 +43,7 @@ class MessageSerializer(serializers.ModelSerializer):
 
     def get_is_sender(self, obj):
         request = self.context.get('request')
-        return obj.sender == request.user
+        return obj.sender == request.user if request else False
 
     def get_last_message(self, obj):
         last_message_obj = Message.objects.filter(
@@ -82,7 +82,7 @@ class MessageSerializer(serializers.ModelSerializer):
         # Then check if the file is a valid image by trying to open it with PIL
         try:
             img = Image.open(image)
-            img.verify()  # Verifies the image without loading the full content
+            img.verify()
         except (IOError, Image.DecompressionBombError):
             raise serializers.ValidationError("Invalid image file")
         
@@ -91,5 +91,5 @@ class MessageSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         if instance.image:
-            representation['image'] = instance.image.url  # Ensure you're returning the full URL
+            representation['image'] = instance.image.url
         return representation
