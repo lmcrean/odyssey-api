@@ -24,7 +24,7 @@ const Profile = (props) => {
     messageLabel = "Message",
     showLabels = false
   } = props;
-  const { id, following_id, image, owner } = profile;
+  const { id, following_id, image, owner, user_id } = profile;
 
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
@@ -55,8 +55,8 @@ const Profile = (props) => {
   };
 
   const handleMessageClick = () => {
-    console.log("Navigating to messages with user ID:", id);
-    history.push(`/messages/${id}`);
+    console.log("Navigating to messages with user ID:", user_id);
+    history.push(`/messages/${user_id}`);
   };
 
   return (
