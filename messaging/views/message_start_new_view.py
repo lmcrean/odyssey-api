@@ -20,7 +20,9 @@ class MessageListStartNewView(generics.CreateAPIView):
 
         try:
             recipient = User.objects.get(id=recipient_id)
+
         except User.DoesNotExist:
+
             raise ValidationError('Recipient does not exist.')
 
         if recipient == self.request.user:

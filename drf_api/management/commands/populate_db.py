@@ -58,7 +58,7 @@ class Command(BaseCommand):
                         like_user = user_list[like_user_index]
                         Like.objects.get_or_create(owner=like_user, post=post)
             else:
-                print(f"User {user.username} has no posts.")
+
                 continue
 
         self.stdout.write(self.style.SUCCESS('Successfully populated the database'))

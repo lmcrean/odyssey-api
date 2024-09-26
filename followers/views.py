@@ -24,7 +24,7 @@ class FollowerList(generics.ListCreateAPIView):
         except User.DoesNotExist:
             raise serializers.ValidationError({'detail': 'The user you are trying to follow does not exist.'})
         except Exception as e:
-            print(f"Error creating follower: {str(e)}")
+
             raise
 
     def create(self, request, *args, **kwargs):

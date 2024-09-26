@@ -75,15 +75,13 @@ class MessageSerializer(serializers.ModelSerializer):
         return None
 
     def validate_image(self, image):
-        # First check the file size to ensure it meets the size restrictions
         if image.size > 5 * 1024 * 1024:  # 5MB limit
             raise serializers.ValidationError("Image file too large (max 5MB)")
 
-        # Then check if the file is a valid image by trying to open it with PIL
         try:
             img = Image.open(image)
-            img.verify()
-        except (IOError, Image.DecompressionBombError):
+            img.verify()  # Verifies the image without loading the full content
+        except:
             raise serializers.ValidationError("Invalid image file")
         
         return image

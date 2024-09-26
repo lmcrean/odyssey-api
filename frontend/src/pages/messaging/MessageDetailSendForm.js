@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faImage, faTimes } from '@fortawesome/free-solid-svg-icons';
 import styles from "../../styles/modules/MessageDetailSendForm.module.css";
 
-function MessageDetailSendForm({ setMessages }) {
+function MessageDetailSendForm({ setMessages, messages }) {
   const { id } = useParams();
   const [formData, setFormData] = useState({
     content: "",
@@ -52,6 +52,7 @@ function MessageDetailSendForm({ setMessages }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setErrors({});
   
     const formDataToSend = new FormData();
     formDataToSend.append("content", content);
@@ -60,14 +61,18 @@ function MessageDetailSendForm({ setMessages }) {
     }
     
     try {
-      const { data } = await axiosReq.post(`/messages/${id}/send/`, formDataToSend, {
+      console.log("Sending message to user ID:", id);
+      console.log("Form data:", Object.fromEntries(formDataToSend));
+  
+      const endpoint = `/messages/${id}/send/`;
+  
+      const { data } = await axiosReq.post(endpoint, formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
+      console.log("Message sent, response:", data);
       
-      
-  
       setMessages(prevMessages => ({
         ...prevMessages,
         results: [...prevMessages.results, data],
@@ -80,7 +85,20 @@ function MessageDetailSendForm({ setMessages }) {
       }
     } catch (err) {
       console.error("Error sending message:", err);
-      setErrors(err.response?.data || {});
+      if (err.response) {
+        console.error("Error response:", err.response);
+        if (err.response.status === 500) {
+          setErrors({ general: ["An unexpected error occurred. Please try again later."] });
+        } else {
+          setErrors(err.response.data);
+        }
+      } else if (err.request) {
+        console.error("No response received:", err.request);
+        setErrors({ general: ["No response received from the server. Please check your internet connection."] });
+      } else {
+        console.error("Error setting up request:", err.message);
+        setErrors({ general: ["An error occurred while sending your message. Please try again."] });
+      }
     }
   };
 
@@ -133,6 +151,11 @@ function MessageDetailSendForm({ setMessages }) {
           </Button>
         </div>
 
+        {errors?.general?.map((message, idx) => (
+          <Alert variant="danger" key={idx}>
+            {message}
+          </Alert>
+        ))}
         {errors?.content?.map((message, idx) => (
           <Alert variant="warning" key={idx}>
             {message}
