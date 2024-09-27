@@ -9,11 +9,50 @@ const devices = [
   { name: 'desktop', width: 1920, height: 1080 }
 ];
 
-test.describe('Sign-in Process', () => {
-  test('multi-device view', async ({ page }) => {
-    // Navigate to the sign-in page
+test.describe('Multi-page and Multi-device Test', () => {
+  test('capture screenshots across pages and devices', async ({ page }) => {
+    // Function to capture screenshot for each device
+    async function captureScreenshot(pageName) {
+      for (const device of devices) {
+        console.log(`Testing ${pageName} on ${device.name} view`);
+        await page.setViewportSize({ width: device.width, height: device.height });
+        await page.waitForLoadState('networkidle');
+        await page.screenshot({
+          path: `screenshots/${device.name}-${pageName}.png`,
+          fullPage: false
+        });
+        console.log(`Screenshot captured for ${device.name} ${pageName}`);
+      }
+    }
+
+    async function scrollToFourthPost(page) {
+      try {
+        const fourthPostExists = await page.evaluate(() => {
+          const posts = document.querySelectorAll('[data-testid="post-item"]');
+          if (posts.length >= 4) {
+            posts[3].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return true;
+          }
+          console.log(`Only ${posts.length} posts found.`);
+          return false;
+        });
+    
+        if (fourthPostExists) {
+          console.log('Scrolled to 4th post');
+          await page.waitForTimeout(2000); // Wait for scroll to complete and any animations to finish
+          await captureScreenshot('scrolled-to-4th-post');
+        } else {
+          console.log('Could not scroll to 4th post, capturing current view');
+          await captureScreenshot('current-posts-view');
+        }
+      } catch (error) {
+        console.error('Error while trying to scroll to 4th post:', error);
+        await captureScreenshot('error-state-view');
+      }
+    }
+
+    // Navigate to signin page and capture screenshots
     await page.goto(`${BASE_URL}/signin`);
-    console.log(`Navigated to ${page.url()}`);
 
     // Fill in the login form
     await page.fill('input[name="username"]', 'testuser');
@@ -33,42 +72,14 @@ test.describe('Sign-in Process', () => {
 
     // Check localStorage for access token
     const accessToken = await page.evaluate(() => localStorage.getItem('accessToken'));
-    if (accessToken) {
-      console.log('Access token found in localStorage');
-    } else {
-      console.warn('Warning: No access token found in localStorage');
-    }
+    console.log(accessToken ? 'Access token found in localStorage' : 'Warning: No access token found in localStorage');
 
-    // Log localStorage contents
-    const localStorageData = await page.evaluate(() => {
-      const data = {};
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        data[key] = localStorage.getItem(key);
-      }
-      return data;
-    });
-    console.log('localStorage contents:', localStorageData);
+    // Capture screenshots of homepage after login
+    await captureScreenshot('home-page-after-login');
 
-    // Iterate through device sizes
-    for (const device of devices) {
-      console.log(`Testing ${device.name} view`);
-      
-      // Set viewport to device size
-      await page.setViewportSize({ width: device.width, height: device.height });
+    // Scroll to the 4th post and capture screenshots
+    await scrollToFourthPost(page);
 
-      // wait for idle network
-      await page.waitForLoadState('networkidle');
-
-      // Take a screenshot
-      await page.screenshot({
-        path: `screenshots/${device.name}-home-page-after-login.png`,
-        fullPage: false
-      });
-
-      console.log(`Screenshot captured for ${device.name} view`);
-    }
-
-    console.log('Test completed for all device views');
+    console.log('Test completed for all pages and device views');
   });
 });
