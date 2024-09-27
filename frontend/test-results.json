@@ -44,7 +44,7 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 300000
+        "timeout": 30000
       }
     ],
     "shard": null,
@@ -60,105 +60,108 @@
   },
   "suites": [
     {
-      "title": "screenshot-tests/signed-in-landing-page.spec.js",
-      "file": "screenshot-tests/signed-in-landing-page.spec.js",
+      "title": "screenshot-tests/profiles.spec.js",
+      "file": "screenshot-tests/profiles.spec.js",
       "column": 0,
       "line": 0,
-      "specs": [],
-      "suites": [
+      "specs": [
         {
-          "title": "Multi-page and Multi-device Test",
-          "file": "screenshot-tests/signed-in-landing-page.spec.js",
-          "line": 13,
-          "column": 6,
-          "specs": [
+          "title": "Capture screenshot of profile page",
+          "ok": true,
+          "tags": [],
+          "tests": [
             {
-              "title": "capture screenshots across pages and devices",
-              "ok": true,
-              "tags": [],
-              "tests": [
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
                 {
-                  "timeout": 300000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 4310,
+                  "errors": [],
+                  "stdout": [
                     {
-                      "workerIndex": 0,
-                      "status": "passed",
-                      "duration": 10147,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "Login attempted\n"
-                        },
-                        {
-                          "text": "Redirected to home page\n"
-                        },
-                        {
-                          "text": "Access token found in localStorage\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of home-page-after-login\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for tablet view of home-page-after-login\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for laptop view of home-page-after-login\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for desktop view of home-page-after-login\n"
-                        },
-                        {
-                          "text": "Scrolled to 4th post\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of scrolled-to-4th-post\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for tablet view of scrolled-to-4th-post\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for laptop view of scrolled-to-4th-post\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for desktop view of scrolled-to-4th-post\n"
-                        },
-                        {
-                          "text": "Test completed for all pages and device views\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2024-09-27T16:34:57.807Z",
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/screenshot-tests-signed-in-cfe19-ts-across-pages-and-devices-chromium/test-finished-1.png"
-                        }
-                      ]
+                      "text": "Logging in...\n"
+                    },
+                    {
+                      "text": "Navigated to signin page\n"
+                    },
+                    {
+                      "text": "Filling in login form...\n"
+                    },
+                    {
+                      "text": "Filled in username\n"
+                    },
+                    {
+                      "text": "Filled in password\n"
+                    },
+                    {
+                      "text": "Clicking sign-in button\n"
+                    },
+                    {
+                      "text": "Clicked sign-in button\n"
+                    },
+                    {
+                      "text": "Login attempted\n"
+                    },
+                    {
+                      "text": "Redirected to home page\n"
+                    },
+                    {
+                      "text": "Access token found in localStorage\n"
+                    },
+                    {
+                      "text": "Navigating to profile page\n"
+                    },
+                    {
+                      "text": "Navigated to profile page\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for mobile view of profile-141-page\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for tablet view of profile-141-page\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for laptop view of profile-141-page\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for desktop view of profile-141-page\n"
+                    },
+                    {
+                      "text": "Test completed for profile page\n"
                     }
                   ],
-                  "status": "expected"
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2024-09-27T16:45:33.807Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/screenshot-tests-profiles-Capture-screenshot-of-profile-page-chromium/test-finished-1.png"
+                    }
+                  ]
                 }
               ],
-              "id": "686a132dff4c61f5123a-e2ef9302180a0c9605e2",
-              "file": "screenshot-tests/signed-in-landing-page.spec.js",
-              "line": 14,
-              "column": 7
+              "status": "expected"
             }
-          ]
+          ],
+          "id": "ed967e8566ad43ace6e0-86cc157f215fb50a0878",
+          "file": "screenshot-tests/profiles.spec.js",
+          "line": 6,
+          "column": 5
         }
       ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2024-09-27T16:34:57.192Z",
-    "duration": 10868.179,
+    "startTime": "2024-09-27T16:45:33.132Z",
+    "duration": 5147.368,
     "expected": 1,
     "skipped": 0,
     "unexpected": 0,

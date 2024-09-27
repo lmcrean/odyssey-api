@@ -38,6 +38,8 @@
     "eject": "react-scripts eject",
     "test:e2e": "cypress run",
     "test:feed": "npx playwright test screenshot-tests/signed-in-landing-page.spec.js --timeout=300000",
+    "test:msg": "npx playwright test screenshot-tests/messages.spec.js",
+    "test:profile": "npx playwright test screenshot-tests/profiles.spec.js",
     "test:post": "npx playwright test screenshot-tests/post.spec.js"
   },
   "eslintConfig": {
