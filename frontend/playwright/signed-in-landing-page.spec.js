@@ -2,20 +2,18 @@ import { test, expect } from '@playwright/test';
 
 const BASE_URL = 'http://localhost:8080';
 
-test.describe('Sign-in Process', () => {
-  test('desktop view', async ({ page }) => {
-    // Set viewport to desktop size
-    await page.setViewportSize({ width: 1920, height: 1080 });
+const devices = [
+  { name: 'mobile', width: 375, height: 667 },
+  { name: 'tablet', width: 768, height: 1024 },
+  { name: 'laptop', width: 1366, height: 768 },
+  { name: 'desktop', width: 1920, height: 1080 }
+];
 
+test.describe('Sign-in Process', () => {
+  test('multi-device view', async ({ page }) => {
     // Navigate to the sign-in page
     await page.goto(`${BASE_URL}/signin`);
     console.log(`Navigated to ${page.url()}`);
-
-    // Take a screenshot before signing in
-    await page.screenshot({
-      path: 'screenshots/signin-page-before-login.png',
-      fullPage: false
-    });
 
     // Fill in the login form
     await page.fill('input[name="username"]', 'testuser');
@@ -52,15 +50,25 @@ test.describe('Sign-in Process', () => {
     });
     console.log('localStorage contents:', localStorageData);
 
-    // wait for idle network
-    await page.waitForLoadState('networkidle');
+    // Iterate through device sizes
+    for (const device of devices) {
+      console.log(`Testing ${device.name} view`);
+      
+      // Set viewport to device size
+      await page.setViewportSize({ width: device.width, height: device.height });
 
-    // Take a screenshot after signing in
-    await page.screenshot({
-      path: 'screenshots/home-page-after-login.png',
-      fullPage: false
-    });
+      // wait for idle network
+      await page.waitForLoadState('networkidle');
 
-    console.log('Test completed for desktop view');
+      // Take a screenshot
+      await page.screenshot({
+        path: `screenshots/${device.name}-home-page-after-login.png`,
+        fullPage: false
+      });
+
+      console.log(`Screenshot captured for ${device.name} view`);
+    }
+
+    console.log('Test completed for all device views');
   });
 });
