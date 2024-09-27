@@ -26,7 +26,6 @@ export async function login(page) {
   ]);
 
   console.log('Login attempted');
-
   console.log('Redirected to home page');
 
   // Check localStorage for access token
@@ -42,7 +41,6 @@ export async function captureScreenshot(page, testName, pageName) {
     { name: 'desktop', width: 1920, height: 1080 }
   ];
 
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
   const screenshotDir = path.join('screenshots', testName);
 
   // Ensure the directory exists
@@ -55,7 +53,7 @@ export async function captureScreenshot(page, testName, pageName) {
     await page.setViewportSize({ width: device.width, height: device.height });
     await page.waitForLoadState('networkidle');
     
-    const fileName = `${device.name}-${pageName}-${timestamp}.png`;
+    const fileName = `${device.name}-${pageName}.png`;
     await page.screenshot({
       path: path.join(screenshotDir, fileName),
       fullPage: false

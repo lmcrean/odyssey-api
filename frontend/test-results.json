@@ -44,13 +44,13 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 30000
+        "timeout": 300000
       }
     ],
     "shard": null,
     "updateSnapshots": "missing",
     "version": "1.47.0",
-    "workers": 16,
+    "workers": 1,
     "webServer": {
       "command": "python3 manage.py runserver",
       "url": "http://localhost:8080",
@@ -59,6 +59,202 @@
     }
   },
   "suites": [
+    {
+      "title": "screenshot-tests/messages.spec.js",
+      "file": "screenshot-tests/messages.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Capture screenshot of messages page",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 3401,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "Logging in...\n"
+                    },
+                    {
+                      "text": "Navigated to signin page\n"
+                    },
+                    {
+                      "text": "Filling in login form...\n"
+                    },
+                    {
+                      "text": "Filled in username\n"
+                    },
+                    {
+                      "text": "Filled in password\n"
+                    },
+                    {
+                      "text": "Clicking sign-in button\n"
+                    },
+                    {
+                      "text": "Clicked sign-in button\n"
+                    },
+                    {
+                      "text": "Login attempted\n"
+                    },
+                    {
+                      "text": "Redirected to home page\n"
+                    },
+                    {
+                      "text": "Access token found in localStorage\n"
+                    },
+                    {
+                      "text": "Navigating to messages page\n"
+                    },
+                    {
+                      "text": "Navigated to messages page\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for mobile view of messages-page\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for tablet view of messages-page\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for laptop view of messages-page\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for desktop view of messages-page\n"
+                    },
+                    {
+                      "text": "Test completed for messages page\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2024-09-27T16:54:05.909Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/screenshot-tests-messages--2ec53-screenshot-of-messages-page-chromium/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "87e1705edf2428ae5de1-0ede1373347a37115612",
+          "file": "screenshot-tests/messages.spec.js",
+          "line": 6,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "screenshot-tests/post.spec.js",
+      "file": "screenshot-tests/post.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Create and view a post",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 2542,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "Logging in...\n"
+                    },
+                    {
+                      "text": "Navigated to signin page\n"
+                    },
+                    {
+                      "text": "Filling in login form...\n"
+                    },
+                    {
+                      "text": "Filled in username\n"
+                    },
+                    {
+                      "text": "Filled in password\n"
+                    },
+                    {
+                      "text": "Clicking sign-in button\n"
+                    },
+                    {
+                      "text": "Clicked sign-in button\n"
+                    },
+                    {
+                      "text": "Login attempted\n"
+                    },
+                    {
+                      "text": "Redirected to home page\n"
+                    },
+                    {
+                      "text": "Access token found in localStorage\n"
+                    },
+                    {
+                      "text": "Navigating to create post page\n"
+                    },
+                    {
+                      "text": "Navigated to create post page\n"
+                    },
+                    {
+                      "text": "Filling in post details\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for mobile view of create-post-page\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for tablet view of create-post-page\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for laptop view of create-post-page\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for desktop view of create-post-page\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2024-09-27T16:54:09.395Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/screenshot-tests-post-Create-and-view-a-post-chromium/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9d3ee097d537ba3f84a8-3fc948056a0a815c0d04",
+          "file": "screenshot-tests/post.spec.js",
+          "line": 6,
+          "column": 5
+        }
+      ]
+    },
     {
       "title": "screenshot-tests/profiles.spec.js",
       "file": "screenshot-tests/profiles.spec.js",
@@ -71,7 +267,7 @@
           "tags": [],
           "tests": [
             {
-              "timeout": 30000,
+              "timeout": 300000,
               "annotations": [],
               "expectedStatus": "passed",
               "projectId": "chromium",
@@ -80,7 +276,7 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 4310,
+                  "duration": 4125,
                   "errors": [],
                   "stdout": [
                     {
@@ -137,7 +333,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2024-09-27T16:45:33.807Z",
+                  "startTime": "2024-09-27T16:54:11.943Z",
                   "attachments": [
                     {
                       "name": "screenshot",
@@ -156,13 +352,108 @@
           "column": 5
         }
       ]
+    },
+    {
+      "title": "screenshot-tests/signed-in-landing-page.spec.js",
+      "file": "screenshot-tests/signed-in-landing-page.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Multi-page and Multi-device Test",
+          "file": "screenshot-tests/signed-in-landing-page.spec.js",
+          "line": 13,
+          "column": 6,
+          "specs": [
+            {
+              "title": "capture screenshots across pages and devices",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 10100,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Login attempted\n"
+                        },
+                        {
+                          "text": "Redirected to home page\n"
+                        },
+                        {
+                          "text": "Access token found in localStorage\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of home-page-after-login\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for tablet view of home-page-after-login\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for laptop view of home-page-after-login\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for desktop view of home-page-after-login\n"
+                        },
+                        {
+                          "text": "Scrolled to 4th post\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of scrolled-to-4th-post\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for tablet view of scrolled-to-4th-post\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for laptop view of scrolled-to-4th-post\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for desktop view of scrolled-to-4th-post\n"
+                        },
+                        {
+                          "text": "Test completed for all pages and device views\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-09-27T16:54:16.075Z",
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/screenshot-tests-signed-in-cfe19-ts-across-pages-and-devices-chromium/test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "686a132dff4c61f5123a-e2ef9302180a0c9605e2",
+              "file": "screenshot-tests/signed-in-landing-page.spec.js",
+              "line": 14,
+              "column": 7
+            }
+          ]
+        }
+      ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2024-09-27T16:45:33.132Z",
-    "duration": 5147.368,
-    "expected": 1,
+    "startTime": "2024-09-27T16:54:05.214Z",
+    "duration": 20996.153000000002,
+    "expected": 4,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
