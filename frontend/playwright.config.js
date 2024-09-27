@@ -10,21 +10,23 @@ module.exports = defineConfig({
   reporter: [['list'], ['json', { outputFile: 'test-results.json' }]],
   outputDir: 'screenshots',
   use: {
-    command: 'python3 manage.py runserver',
-    baseURL: 'http://localhost:8000',
+    baseURL: 'http://localhost:8080',
     trace: 'on-first-retry',
     screenshot: 'on',
+    headless: true,
   },
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+      },
     },
   ],
   webServer: {
     command: 'python3 manage.py runserver',
-    url: 'http://localhost:8000',
+    url: 'http://localhost:8080',
     reuseExistingServer: !process.env.CI,
+    timeout: 120 * 1000
   },
 });
-
