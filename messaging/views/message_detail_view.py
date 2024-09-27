@@ -1,9 +1,5 @@
 # messaging/views/message_detail_view.py
 
-# passed testing - this was working perfectly as a simple view to read a thread of messages. 
-
-# MessageDetailSend view is now being developed to append messages on to the end
-
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q

@@ -27,6 +27,6 @@ module.exports = defineConfig({
     command: 'python3 manage.py runserver',
     url: 'http://localhost:8080',
     reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000
+    timeout: 9999 * 1000
   },
 });

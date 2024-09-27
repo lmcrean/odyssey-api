@@ -61,8 +61,6 @@ function MessageDetailSendForm({ setMessages, messages }) {
     }
     
     try {
-      console.log("Sending message to user ID:", id);
-      console.log("Form data:", Object.fromEntries(formDataToSend));
   
       const endpoint = `/messages/${id}/send/`;
   
@@ -71,7 +69,6 @@ function MessageDetailSendForm({ setMessages, messages }) {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("Message sent, response:", data);
       
       setMessages(prevMessages => ({
         ...prevMessages,
