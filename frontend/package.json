@@ -36,7 +36,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "test:e2e": "cypress run"
+    "test:e2e": "cypress run",
+    "test:screenshot:feed": "npx playwright test screenshot-tests/signed-in-landing-page.spec.js --timeout=300000",
+    "test:screenshot:post": "npx playwright test screenshot-tests/post.spec.js"
   },
   "eslintConfig": {
     "extends": [

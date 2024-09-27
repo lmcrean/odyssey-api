@@ -55,137 +55,132 @@
       "command": "python3 manage.py runserver",
       "url": "http://localhost:8080",
       "reuseExistingServer": true,
-      "timeout": 9999000
+      "timeout": 120000
     }
   },
   "suites": [
     {
-      "title": "signed-in-landing-page.spec.js",
-      "file": "signed-in-landing-page.spec.js",
+      "title": "screenshot-tests/post.spec.js",
+      "file": "screenshot-tests/post.spec.js",
       "column": 0,
       "line": 0,
-      "specs": [],
-      "suites": [
+      "specs": [
         {
-          "title": "Multi-page and Multi-device Test",
-          "file": "signed-in-landing-page.spec.js",
-          "line": 12,
-          "column": 6,
-          "specs": [
+          "title": "Create and view a post",
+          "ok": false,
+          "tags": [],
+          "tests": [
             {
-              "title": "capture screenshots across pages and devices",
-              "ok": true,
-              "tags": [],
-              "tests": [
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
                 {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
+                  "workerIndex": 0,
+                  "status": "timedOut",
+                  "duration": 30110,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
                     {
-                      "workerIndex": 0,
-                      "status": "passed",
-                      "duration": 9937,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "Login attempted\n"
-                        },
-                        {
-                          "text": "Redirected to home page\n"
-                        },
-                        {
-                          "text": "Access token found in localStorage\n"
-                        },
-                        {
-                          "text": "Testing home-page-after-login on mobile view\n"
-                        },
-                        {
-                          "text": "Screenshot captured for mobile home-page-after-login\n"
-                        },
-                        {
-                          "text": "Testing home-page-after-login on tablet view\n"
-                        },
-                        {
-                          "text": "Screenshot captured for tablet home-page-after-login\n"
-                        },
-                        {
-                          "text": "Testing home-page-after-login on laptop view\n"
-                        },
-                        {
-                          "text": "Screenshot captured for laptop home-page-after-login\n"
-                        },
-                        {
-                          "text": "Testing home-page-after-login on desktop view\n"
-                        },
-                        {
-                          "text": "Screenshot captured for desktop home-page-after-login\n"
-                        },
-                        {
-                          "text": "Scrolled to 4th post\n"
-                        },
-                        {
-                          "text": "Testing scrolled-to-4th-post on mobile view\n"
-                        },
-                        {
-                          "text": "Screenshot captured for mobile scrolled-to-4th-post\n"
-                        },
-                        {
-                          "text": "Testing scrolled-to-4th-post on tablet view\n"
-                        },
-                        {
-                          "text": "Screenshot captured for tablet scrolled-to-4th-post\n"
-                        },
-                        {
-                          "text": "Testing scrolled-to-4th-post on laptop view\n"
-                        },
-                        {
-                          "text": "Screenshot captured for laptop scrolled-to-4th-post\n"
-                        },
-                        {
-                          "text": "Testing scrolled-to-4th-post on desktop view\n"
-                        },
-                        {
-                          "text": "Screenshot captured for desktop scrolled-to-4th-post\n"
-                        },
-                        {
-                          "text": "Test completed for all pages and device views\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2024-09-27T13:16:27.728Z",
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/workspace/moments-drf-api-clone-3/frontend/screenshots/signed-in-landing-page-Mul-35ba9-ts-across-pages-and-devices-chromium/test-finished-1.png"
-                        }
-                      ]
+                      "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/workspace/moments-drf-api-clone-3/frontend/playwright/screenshot-tests/post.spec.js",
+                        "column": 14,
+                        "line": 20
+                      },
+                      "message": "Error: page.fill: Test timeout of 30000ms exceeded.\nCall log:\n  \u001b[2m- waiting for locator('input[name=\"title\"]')\u001b[22m\n\u001b[2m  -   locator resolved to 2 elements. Proceeding with the first one: <input value=\"\" type=\"text\" name=\"title\" class=\"form-control\"/>\u001b[22m\n\u001b[2m  -   fill(\"Test Post Title\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #1\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #2\u001b[22m\n\u001b[2m  -   waiting 20ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #3\u001b[22m\n\u001b[2m  -   waiting 100ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #4\u001b[22m\n\u001b[2m  -   waiting 100ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #5\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #6\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #7\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #8\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #9\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #10\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #11\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #12\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #13\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #14\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #15\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #16\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #17\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #18\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #19\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #20\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #21\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #22\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #23\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #24\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #25\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #26\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #27\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #28\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #29\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #30\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #31\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #32\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #33\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #34\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #35\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #36\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #37\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #38\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #39\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #40\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #41\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #42\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #43\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #44\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #45\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #46\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #47\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #48\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #49\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #50\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #51\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #52\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #53\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #54\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #55\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #56\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #57\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #58\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\u001b[2m  -   waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m  -   element is not visible\u001b[22m\n\u001b[2m  - retrying fill action, attempt #59\u001b[22m\n\u001b[2m  -   waiting 500ms\u001b[22m\n\n\n\u001b[0m \u001b[90m 18 |\u001b[39m   \u001b[36mawait\u001b[39m captureScreenshot(page\u001b[33m,\u001b[39m \u001b[32m'create-post-page'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 19 |\u001b[39m   \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 20 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'input[name=\"title\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'Test Post Title'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 21 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'textarea[name=\"content\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'This is a test post content.'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 22 |\u001b[39m   console\u001b[33m.\u001b[39mlog(\u001b[32m'Post details filled'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 23 |\u001b[39m\u001b[0m\n\n\u001b[2m    at /workspace/moments-drf-api-clone-3/frontend/playwright/screenshot-tests/post.spec.js:20:14\u001b[22m"
                     }
                   ],
-                  "status": "expected"
+                  "stdout": [
+                    {
+                      "text": "Logging in...\n"
+                    },
+                    {
+                      "text": "Navigated to signin page\n"
+                    },
+                    {
+                      "text": "Filling in login form...\n"
+                    },
+                    {
+                      "text": "Filled in username\n"
+                    },
+                    {
+                      "text": "Filled in password\n"
+                    },
+                    {
+                      "text": "Clicking sign-in button\n"
+                    },
+                    {
+                      "text": "Clicked sign-in button\n"
+                    },
+                    {
+                      "text": "Login attempted\n"
+                    },
+                    {
+                      "text": "Redirected to home page\n"
+                    },
+                    {
+                      "text": "Access token found in localStorage\n"
+                    },
+                    {
+                      "text": "Navigating to create post page\n"
+                    },
+                    {
+                      "text": "Navigated to create post page\n"
+                    },
+                    {
+                      "text": "Filling in post details\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for mobile view of create-post-page\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for tablet view of create-post-page\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for laptop view of create-post-page\n"
+                    },
+                    {
+                      "text": "Capturing screenshot for desktop view of create-post-page\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2024-09-27T16:05:32.772Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/workspace/moments-drf-api-clone-3/frontend/screenshots/screenshot-tests-post-Create-and-view-a-post-chromium/test-failed-1.png"
+                    }
+                  ]
                 }
               ],
-              "id": "0bdad65ff1667e4d0ad5-ab4636c0e12870b9126d",
-              "file": "signed-in-landing-page.spec.js",
-              "line": 13,
-              "column": 7
+              "status": "unexpected"
             }
-          ]
+          ],
+          "id": "9d3ee097d537ba3f84a8-3fc948056a0a815c0d04",
+          "file": "screenshot-tests/post.spec.js",
+          "line": 6,
+          "column": 5
         }
       ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2024-09-27T13:16:27.053Z",
-    "duration": 10718.083,
-    "expected": 1,
+    "startTime": "2024-09-27T16:05:32.099Z",
+    "duration": 30905.740999999998,
+    "expected": 0,
     "skipped": 0,
-    "unexpected": 0,
+    "unexpected": 1,
     "flaky": 0
   }
 }
