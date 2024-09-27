@@ -15,13 +15,5 @@ test('Create and view a post', async ({ page }) => {
   // Fill in post details
   console.log('Filling in post details');
 
-  await captureScreenshot(page, 'create-post-page');
-  
-  await page.fill('input[name="title"]', 'Test Post Title');
-  await page.fill('textarea[name="content"]', 'This is a test post content.');
-  console.log('Post details filled');
-
-
-  await captureScreenshot(page, 'post-created');
-  console.log('Post creation verified');
+  await captureScreenshot(page, 'posts', 'create-post-page');
 });

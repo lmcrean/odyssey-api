@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { login, captureScreenshot } from './testUtils';
 
 const BASE_URL = 'http://localhost:8080';
 
@@ -11,20 +12,6 @@ const devices = [
 
 test.describe('Multi-page and Multi-device Test', () => {
   test('capture screenshots across pages and devices', async ({ page }) => {
-    // Function to capture screenshot for each device
-    async function captureScreenshot(pageName) {
-      for (const device of devices) {
-        console.log(`Testing ${pageName} on ${device.name} view`);
-        await page.setViewportSize({ width: device.width, height: device.height });
-        await page.waitForLoadState('networkidle');
-        await page.screenshot({
-          path: `screenshots/${device.name}-${pageName}.png`,
-          fullPage: false
-        });
-        console.log(`Screenshot captured for ${device.name} ${pageName}`);
-      }
-    }
-
     async function scrollToFourthPost(page) {
       try {
         const fourthPostExists = await page.evaluate(() => {
@@ -40,14 +27,14 @@ test.describe('Multi-page and Multi-device Test', () => {
         if (fourthPostExists) {
           console.log('Scrolled to 4th post');
           await page.waitForTimeout(2000); // Wait for scroll to complete and any animations to finish
-          await captureScreenshot('scrolled-to-4th-post');
+          await captureScreenshot(page, 'landing-page', 'scrolled-to-4th-post');
         } else {
           console.log('Could not scroll to 4th post, capturing current view');
-          await captureScreenshot('current-posts-view');
+          await captureScreenshot(page, 'current-posts-view');
         }
       } catch (error) {
         console.error('Error while trying to scroll to 4th post:', error);
-        await captureScreenshot('error-state-view');
+        await captureScreenshot(page, 'landing-page', 'error-state-view');
       }
     }
 
@@ -75,7 +62,7 @@ test.describe('Multi-page and Multi-device Test', () => {
     console.log(accessToken ? 'Access token found in localStorage' : 'Warning: No access token found in localStorage');
 
     // Capture screenshots of homepage after login
-    await captureScreenshot('home-page-after-login');
+    await captureScreenshot(page,'landing-page', 'home-page-after-login');
 
     // Scroll to the 4th post and capture screenshots
     await scrollToFourthPost(page);

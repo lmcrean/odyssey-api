@@ -8,7 +8,7 @@ module.exports = defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined, 
   reporter: [['list'], ['json', { outputFile: 'test-results.json' }]],
-  outputDir: 'screenshots',
+  outputDir: 'test-results',  // Changed from 'screenshots' to 'test-results'
   use: {
     baseURL: 'http://localhost:8080',
     trace: 'on-first-retry',
@@ -29,4 +29,5 @@ module.exports = defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000
   },
+  preserveOutput: 'always',
 });

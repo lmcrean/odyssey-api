@@ -18,13 +18,13 @@ combined_repo.md
 
 # ignore screenshot folders in cypress and /workspace/moments-drf-api-clone-3/frontend/screenshots
 
-cypress/screenshots/
-frontend/screenshots/
-/workspace/moments-drf-api-clone-3/frontend/screenshots/**/*
+# cypress/screenshots/
+# frontend/screenshots/
+# /workspace/moments-drf-api-clone-3/frontend/screenshots/**/*
 
 # ignore all .png files
 
 # ignore frontend/test-results.json and frontend/screenshots/.last-run.json
 
-frontend/test-results.json
-frontend/screenshots/.last-run.json
+# frontend/test-results.json
+# frontend/screenshots/.last-run.json
