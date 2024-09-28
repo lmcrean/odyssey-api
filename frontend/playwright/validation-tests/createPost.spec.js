@@ -8,7 +8,6 @@ const IMAGE_URL = 'https://res.cloudinary.com/dh5lpihx1/image/upload/v1725533889
 
 test.describe('Create Post Process', () => {
   test('Validate create post form and capture alerts', async ({ page }) => {
-    // Login before the test
     await login(page);
 
     console.log(`Navigating to ${BASE_URL}/posts/create`);
@@ -16,7 +15,6 @@ test.describe('Create Post Process', () => {
 
     console.log('Starting create post validation tests');
 
-    // Wait for the form to be visible
     await page.waitForSelector('form', { state: 'visible' });
 
     // Test: Empty submission
@@ -36,7 +34,7 @@ test.describe('Create Post Process', () => {
     expect(error).toBeTruthy();
     console.log('Verified error message presence for empty submission');
 
-    // Test: Fill in title and content
+    // Fill in title and content
     console.log('Filling in title and content');
     await page.fill('input[name="title"]', 'Test Post Title');
     await page.fill('textarea[name="content"]', 'This is a test post content.');
@@ -65,15 +63,48 @@ test.describe('Create Post Process', () => {
 
     // Use a real image file
     const imagePath = path.join(__dirname, './test-assets/test-image.jpg');
+    console.log('Image path:', imagePath);
+    
+    // Check if file exists
+    if (fs.existsSync(imagePath)) {
+      console.log('Image file exists');
+    } else {
+      console.error('Image file does not exist');
+      throw new Error('Image file not found');
+    }
+
     await fileInput.setInputFiles(imagePath);
+
+    // Trigger change event
+    await page.evaluate(() => {
+      const input = document.querySelector('input[type="file"]#image-upload');
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
 
     // Verify image upload
     console.log('Verifying image upload');
     try {
-      await page.waitForSelector(`img:not([src=""])`, { state: 'visible', timeout: 5000 });
-      console.log('Image preview found');
+      // Wait for the "Change the image" button to appear
+      await page.waitForSelector('label:has-text("Change the image")', { state: 'visible', timeout: 5000 });
+      console.log('Change image button found');
+
+      // Check if the image preview is visible
+      const imagePreview = await page.$('img.Image');
+      if (imagePreview) {
+        const isVisible = await imagePreview.isVisible();
+        console.log('Image preview visible:', isVisible);
+        
+        if (isVisible) {
+          const src = await imagePreview.getAttribute('src');
+          console.log('Image preview src:', src);
+        }
+      } else {
+        console.log('Image preview element not found');
+      }
+
+      await captureScreenshot(page, 'create-post', 'image-uploaded');
     } catch (error) {
-      console.error('Image preview not found:', error);
+      console.error('Image upload verification failed:', error);
       await captureScreenshot(page, 'create-post', 'image-upload-failed');
       throw error;
     }
