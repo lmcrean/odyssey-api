@@ -29,5 +29,5 @@ module.exports = defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000
   },
-  preserveOutput: 'always',
+  preserveOutput: 'never',
 });
