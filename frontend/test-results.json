@@ -13,7 +13,7 @@
     "metadata": {
       "actualWorkers": 1
     },
-    "preserveOutput": "always",
+    "preserveOutput": "never",
     "reporter": [
       [
         "list",
@@ -44,13 +44,13 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 300000
+        "timeout": 30000
       }
     ],
     "shard": null,
     "updateSnapshots": "missing",
     "version": "1.47.0",
-    "workers": 1,
+    "workers": 16,
     "webServer": {
       "command": "python3 manage.py runserver",
       "url": "http://localhost:8080",
@@ -60,319 +60,25 @@
   },
   "suites": [
     {
-      "title": "screenshot-tests/messages.spec.js",
-      "file": "screenshot-tests/messages.spec.js",
-      "column": 0,
-      "line": 0,
-      "specs": [
-        {
-          "title": "Capture screenshot of messages page",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 300000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "status": "passed",
-                  "duration": 3401,
-                  "errors": [],
-                  "stdout": [
-                    {
-                      "text": "Logging in...\n"
-                    },
-                    {
-                      "text": "Navigated to signin page\n"
-                    },
-                    {
-                      "text": "Filling in login form...\n"
-                    },
-                    {
-                      "text": "Filled in username\n"
-                    },
-                    {
-                      "text": "Filled in password\n"
-                    },
-                    {
-                      "text": "Clicking sign-in button\n"
-                    },
-                    {
-                      "text": "Clicked sign-in button\n"
-                    },
-                    {
-                      "text": "Login attempted\n"
-                    },
-                    {
-                      "text": "Redirected to home page\n"
-                    },
-                    {
-                      "text": "Access token found in localStorage\n"
-                    },
-                    {
-                      "text": "Navigating to messages page\n"
-                    },
-                    {
-                      "text": "Navigated to messages page\n"
-                    },
-                    {
-                      "text": "Capturing screenshot for mobile view of messages-page\n"
-                    },
-                    {
-                      "text": "Capturing screenshot for tablet view of messages-page\n"
-                    },
-                    {
-                      "text": "Capturing screenshot for laptop view of messages-page\n"
-                    },
-                    {
-                      "text": "Capturing screenshot for desktop view of messages-page\n"
-                    },
-                    {
-                      "text": "Test completed for messages page\n"
-                    }
-                  ],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2024-09-27T16:54:05.909Z",
-                  "attachments": [
-                    {
-                      "name": "screenshot",
-                      "contentType": "image/png",
-                      "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/screenshot-tests-messages--2ec53-screenshot-of-messages-page-chromium/test-finished-1.png"
-                    }
-                  ]
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "87e1705edf2428ae5de1-0ede1373347a37115612",
-          "file": "screenshot-tests/messages.spec.js",
-          "line": 6,
-          "column": 5
-        }
-      ]
-    },
-    {
-      "title": "screenshot-tests/post.spec.js",
-      "file": "screenshot-tests/post.spec.js",
-      "column": 0,
-      "line": 0,
-      "specs": [
-        {
-          "title": "Create and view a post",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 300000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "status": "passed",
-                  "duration": 2542,
-                  "errors": [],
-                  "stdout": [
-                    {
-                      "text": "Logging in...\n"
-                    },
-                    {
-                      "text": "Navigated to signin page\n"
-                    },
-                    {
-                      "text": "Filling in login form...\n"
-                    },
-                    {
-                      "text": "Filled in username\n"
-                    },
-                    {
-                      "text": "Filled in password\n"
-                    },
-                    {
-                      "text": "Clicking sign-in button\n"
-                    },
-                    {
-                      "text": "Clicked sign-in button\n"
-                    },
-                    {
-                      "text": "Login attempted\n"
-                    },
-                    {
-                      "text": "Redirected to home page\n"
-                    },
-                    {
-                      "text": "Access token found in localStorage\n"
-                    },
-                    {
-                      "text": "Navigating to create post page\n"
-                    },
-                    {
-                      "text": "Navigated to create post page\n"
-                    },
-                    {
-                      "text": "Filling in post details\n"
-                    },
-                    {
-                      "text": "Capturing screenshot for mobile view of create-post-page\n"
-                    },
-                    {
-                      "text": "Capturing screenshot for tablet view of create-post-page\n"
-                    },
-                    {
-                      "text": "Capturing screenshot for laptop view of create-post-page\n"
-                    },
-                    {
-                      "text": "Capturing screenshot for desktop view of create-post-page\n"
-                    }
-                  ],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2024-09-27T16:54:09.395Z",
-                  "attachments": [
-                    {
-                      "name": "screenshot",
-                      "contentType": "image/png",
-                      "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/screenshot-tests-post-Create-and-view-a-post-chromium/test-finished-1.png"
-                    }
-                  ]
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "9d3ee097d537ba3f84a8-3fc948056a0a815c0d04",
-          "file": "screenshot-tests/post.spec.js",
-          "line": 6,
-          "column": 5
-        }
-      ]
-    },
-    {
-      "title": "screenshot-tests/profiles.spec.js",
-      "file": "screenshot-tests/profiles.spec.js",
-      "column": 0,
-      "line": 0,
-      "specs": [
-        {
-          "title": "Capture screenshot of profile page",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 300000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "status": "passed",
-                  "duration": 4125,
-                  "errors": [],
-                  "stdout": [
-                    {
-                      "text": "Logging in...\n"
-                    },
-                    {
-                      "text": "Navigated to signin page\n"
-                    },
-                    {
-                      "text": "Filling in login form...\n"
-                    },
-                    {
-                      "text": "Filled in username\n"
-                    },
-                    {
-                      "text": "Filled in password\n"
-                    },
-                    {
-                      "text": "Clicking sign-in button\n"
-                    },
-                    {
-                      "text": "Clicked sign-in button\n"
-                    },
-                    {
-                      "text": "Login attempted\n"
-                    },
-                    {
-                      "text": "Redirected to home page\n"
-                    },
-                    {
-                      "text": "Access token found in localStorage\n"
-                    },
-                    {
-                      "text": "Navigating to profile page\n"
-                    },
-                    {
-                      "text": "Navigated to profile page\n"
-                    },
-                    {
-                      "text": "Capturing screenshot for mobile view of profile-141-page\n"
-                    },
-                    {
-                      "text": "Capturing screenshot for tablet view of profile-141-page\n"
-                    },
-                    {
-                      "text": "Capturing screenshot for laptop view of profile-141-page\n"
-                    },
-                    {
-                      "text": "Capturing screenshot for desktop view of profile-141-page\n"
-                    },
-                    {
-                      "text": "Test completed for profile page\n"
-                    }
-                  ],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2024-09-27T16:54:11.943Z",
-                  "attachments": [
-                    {
-                      "name": "screenshot",
-                      "contentType": "image/png",
-                      "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/screenshot-tests-profiles-Capture-screenshot-of-profile-page-chromium/test-finished-1.png"
-                    }
-                  ]
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "ed967e8566ad43ace6e0-86cc157f215fb50a0878",
-          "file": "screenshot-tests/profiles.spec.js",
-          "line": 6,
-          "column": 5
-        }
-      ]
-    },
-    {
-      "title": "screenshot-tests/signed-in-landing-page.spec.js",
-      "file": "screenshot-tests/signed-in-landing-page.spec.js",
+      "title": "validation-tests/signUp.spec.js",
+      "file": "validation-tests/signUp.spec.js",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Multi-page and Multi-device Test",
-          "file": "screenshot-tests/signed-in-landing-page.spec.js",
-          "line": 13,
+          "title": "Sign Up Process",
+          "file": "validation-tests/signUp.spec.js",
+          "line": 12,
           "column": 6,
           "specs": [
             {
-              "title": "capture screenshots across pages and devices",
+              "title": "Validate sign-up form and capture alerts",
               "ok": true,
               "tags": [],
               "tests": [
                 {
-                  "timeout": 300000,
+                  "timeout": 30000,
                   "annotations": [],
                   "expectedStatus": "passed",
                   "projectId": "chromium",
@@ -381,57 +87,177 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 10100,
+                      "duration": 3004,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "Login attempted\n"
+                          "text": "Navigating to localhost:8080/signup\n"
                         },
                         {
-                          "text": "Redirected to home page\n"
+                          "text": "Starting sign-up validation tests\n"
                         },
                         {
-                          "text": "Access token found in localStorage\n"
+                          "text": "Testing empty form submission\n"
                         },
                         {
-                          "text": "Capturing screenshot for mobile view of home-page-after-login\n"
+                          "text": "Clicked sign-up button for empty form\n"
                         },
                         {
-                          "text": "Capturing screenshot for tablet view of home-page-after-login\n"
+                          "text": "Waiting for alert to appear\n"
                         },
                         {
-                          "text": "Capturing screenshot for laptop view of home-page-after-login\n"
+                          "text": "Capturing screenshot for mobile view of empty-form-alert\n"
                         },
                         {
-                          "text": "Capturing screenshot for desktop view of home-page-after-login\n"
+                          "text": "Captured screenshot for empty form alert\n"
                         },
                         {
-                          "text": "Scrolled to 4th post\n"
+                          "text": "Testing username with spaces\n"
                         },
                         {
-                          "text": "Capturing screenshot for mobile view of scrolled-to-4th-post\n"
+                          "text": "Filled in username with spaces\n"
                         },
                         {
-                          "text": "Capturing screenshot for tablet view of scrolled-to-4th-post\n"
+                          "text": "Filled in password1\n"
                         },
                         {
-                          "text": "Capturing screenshot for laptop view of scrolled-to-4th-post\n"
+                          "text": "Filled in password2\n"
                         },
                         {
-                          "text": "Capturing screenshot for desktop view of scrolled-to-4th-post\n"
+                          "text": "Clicked sign-up button for username with spaces test\n"
                         },
                         {
-                          "text": "Test completed for all pages and device views\n"
+                          "text": "Waiting for alert to appear\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of username-with-spaces-alert\n"
+                        },
+                        {
+                          "text": "Captured screenshot for username with spaces alert\n"
+                        },
+                        {
+                          "text": "Testing password too short\n"
+                        },
+                        {
+                          "text": "Filled in valid username\n"
+                        },
+                        {
+                          "text": "Filled in short password1\n"
+                        },
+                        {
+                          "text": "Filled in short password2\n"
+                        },
+                        {
+                          "text": "Clicked sign-up button for password too short test\n"
+                        },
+                        {
+                          "text": "Waiting for alert to appear\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of password-too-short-alert\n"
+                        },
+                        {
+                          "text": "Captured screenshot for password too short alert\n"
+                        },
+                        {
+                          "text": "Testing entirely numeric password\n"
+                        },
+                        {
+                          "text": "Filled in numeric password1\n"
+                        },
+                        {
+                          "text": "Filled in numeric password2\n"
+                        },
+                        {
+                          "text": "Clicked sign-up button for numeric password test\n"
+                        },
+                        {
+                          "text": "Waiting for alert to appear\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of numeric-password-alert\n"
+                        },
+                        {
+                          "text": "Captured screenshot for numeric password alert\n"
+                        },
+                        {
+                          "text": "Testing passwords that don't match\n"
+                        },
+                        {
+                          "text": "Filled in password1\n"
+                        },
+                        {
+                          "text": "Filled in different password2\n"
+                        },
+                        {
+                          "text": "Clicked sign-up button for passwords don't match test\n"
+                        },
+                        {
+                          "text": "Waiting for alert to appear\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of passwords-dont-match-alert\n"
+                        },
+                        {
+                          "text": "Captured screenshot for passwords don't match alert\n"
+                        },
+                        {
+                          "text": "Testing username too short\n"
+                        },
+                        {
+                          "text": "Clicked sign-up button for username too short test\n"
+                        },
+                        {
+                          "text": "Waiting for alert to appear\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of username-too-short-alert\n"
+                        },
+                        {
+                          "text": "Captured screenshot for username too short alert\n"
+                        },
+                        {
+                          "text": "Testing username too long\n"
+                        },
+                        {
+                          "text": "Clicked sign-up button for username too long test\n"
+                        },
+                        {
+                          "text": "Waiting for alert to appear\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of username-too-long-alert\n"
+                        },
+                        {
+                          "text": "Captured screenshot for username too long alert\n"
+                        },
+                        {
+                          "text": "Testing common password\n"
+                        },
+                        {
+                          "text": "Clicked sign-up button for common password test\n"
+                        },
+                        {
+                          "text": "Waiting for alert to appear\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of common-password-alert\n"
+                        },
+                        {
+                          "text": "Captured screenshot for common password alert\n"
+                        },
+                        {
+                          "text": "Sign-up validation tests completed\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-09-27T16:54:16.075Z",
+                      "startTime": "2024-09-28T17:33:37.601Z",
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/screenshot-tests-signed-in-cfe19-ts-across-pages-and-devices-chromium/test-finished-1.png"
+                          "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/validation-tests-signUp-Si-7748a--up-form-and-capture-alerts-chromium/test-finished-1.png"
                         }
                       ]
                     }
@@ -439,9 +265,9 @@
                   "status": "expected"
                 }
               ],
-              "id": "686a132dff4c61f5123a-e2ef9302180a0c9605e2",
-              "file": "screenshot-tests/signed-in-landing-page.spec.js",
-              "line": 14,
+              "id": "5ec53c1ec244d036db5e-43557d63761a3c24f039",
+              "file": "validation-tests/signUp.spec.js",
+              "line": 13,
               "column": 7
             }
           ]
@@ -451,9 +277,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2024-09-27T16:54:05.214Z",
-    "duration": 20996.153000000002,
-    "expected": 4,
+    "startTime": "2024-09-28T17:33:36.981Z",
+    "duration": 3748.522,
+    "expected": 1,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
