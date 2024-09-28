@@ -37,14 +37,15 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "playwright": "npx playwright install --with-deps",
-    "test:e2e": "cypress run",
+    "test:cypress": "cypress run",
     "test:userjourney": "npx playwright test screenshot-tests/ --timeout=300000 --workers=1",
     "test:feed": "npx playwright test screenshot-tests/signed-in-landing-page.spec.js --timeout=300000",
     "test:msg": "npx playwright test screenshot-tests/messages.spec.js",
     "test:profile": "npx playwright test screenshot-tests/profiles.spec.js",
     "test:post": "npx playwright test screenshot-tests/post.spec.js",
     "test:signup": "npx playwright test signUp.spec.js",
-    "test:signin": "npx playwright test signIn.spec.js"
+    "test:signin": "npx playwright test signIn.spec.js",
+    "test:pc": "npx playwright test createPost.spec.js"
   },
   "eslintConfig": {
     "extends": [
@@ -69,7 +70,8 @@
     "@playwright/test": "^1.47.0",
     "@types/node": "^22.5.4",
     "cypress": "^13.14.2",
-    "msw": "^0.35.0"
+    "msw": "^0.35.0",
+    "playwright": "^1.47.2"
   },
   "proxy": "http://localhost:8000/"
 }

@@ -49,7 +49,7 @@
     ],
     "shard": null,
     "updateSnapshots": "missing",
-    "version": "1.47.0",
+    "version": "1.47.2",
     "workers": 16,
     "webServer": {
       "command": "python3 manage.py runserver",
@@ -60,20 +60,20 @@
   },
   "suites": [
     {
-      "title": "validation-tests/signIn.spec.js",
-      "file": "validation-tests/signIn.spec.js",
+      "title": "validation-tests/createPost.spec.js",
+      "file": "validation-tests/createPost.spec.js",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Sign In Process",
-          "file": "validation-tests/signIn.spec.js",
+          "title": "Create Post Process",
+          "file": "validation-tests/createPost.spec.js",
           "line": 6,
           "column": 6,
           "specs": [
             {
-              "title": "Validate sign-in form and capture alerts",
+              "title": "Validate create post form and capture alerts",
               "ok": true,
               "tags": [],
               "tests": [
@@ -87,63 +87,9 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 6641,
+                      "duration": 3237,
                       "errors": [],
                       "stdout": [
-                        {
-                          "text": "Navigating to localhost:8080/signin\n"
-                        },
-                        {
-                          "text": "Starting sign-in validation tests\n"
-                        },
-                        {
-                          "text": "Testing empty form submission\n"
-                        },
-                        {
-                          "text": "Clicked sign-in button for empty form\n"
-                        },
-                        {
-                          "text": "Waiting for alert to appear\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of empty-form-alert\n"
-                        },
-                        {
-                          "text": "Captured screenshot for empty form alert\n"
-                        },
-                        {
-                          "text": "Testing invalid username\n"
-                        },
-                        {
-                          "text": "Clicked sign-in button for invalid username test\n"
-                        },
-                        {
-                          "text": "Waiting for alert to appear\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of invalid-username-alert\n"
-                        },
-                        {
-                          "text": "Captured screenshot for invalid username alert\n"
-                        },
-                        {
-                          "text": "Testing invalid password\n"
-                        },
-                        {
-                          "text": "Clicked sign-in button for invalid password test\n"
-                        },
-                        {
-                          "text": "Waiting for alert to appear\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of invalid-password-alert\n"
-                        },
-                        {
-                          "text": "Captured screenshot for invalid password alert\n"
-                        },
-                        {
-                          "text": "Testing successful signin\n"
-                        },
                         {
                           "text": "Logging in...\n"
                         },
@@ -160,29 +106,56 @@
                           "text": "Access token found in localStorage\n"
                         },
                         {
-                          "text": "Waiting for network idle after signin\n"
+                          "text": "Navigating to localhost:8080/posts/create\n"
                         },
                         {
-                          "text": "Capturing screenshot for mobile view of successful-signin\n"
+                          "text": "Starting create post validation tests\n"
                         },
                         {
-                          "text": "Captured screenshot for successful signin\n"
+                          "text": "Testing empty submission\n"
                         },
                         {
-                          "text": "Verified access token in localStorage\n"
+                          "text": "Clicked submit button for empty submission\n"
                         },
                         {
-                          "text": "Sign-in validation tests completed\n"
+                          "text": "Waiting for alert to appear\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of empty-submission\n"
+                        },
+                        {
+                          "text": "Captured screenshot for empty submission alert\n"
+                        },
+                        {
+                          "text": "Verified error message presence for empty submission\n"
+                        },
+                        {
+                          "text": "Filling in title and content\n"
+                        },
+                        {
+                          "text": "Testing submission without image\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of no-image\n"
+                        },
+                        {
+                          "text": "Captured screenshot for no image alert\n"
+                        },
+                        {
+                          "text": "Verified error message presence for missing image\n"
+                        },
+                        {
+                          "text": "Create post validation tests completed\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-09-28T18:02:08.253Z",
+                      "startTime": "2024-09-28T20:25:30.563Z",
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/validation-tests-signIn-Si-eb670--in-form-and-capture-alerts-chromium/test-finished-1.png"
+                          "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/validation-tests-createPos-0ebb6-ost-form-and-capture-alerts-chromium/test-finished-1.png"
                         }
                       ]
                     }
@@ -190,8 +163,8 @@
                   "status": "expected"
                 }
               ],
-              "id": "b27704c65ccf9639f4d0-73ba70ba5999255693cc",
-              "file": "validation-tests/signIn.spec.js",
+              "id": "a38d7e811a3b26736bb6-9960280fa8ece739dcdf",
+              "file": "validation-tests/createPost.spec.js",
               "line": 7,
               "column": 7
             }
@@ -202,8 +175,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2024-09-28T18:02:07.640Z",
-    "duration": 7363.866,
+    "startTime": "2024-09-28T20:25:29.874Z",
+    "duration": 4076.9429999999998,
     "expected": 1,
     "skipped": 0,
     "unexpected": 0,
