@@ -43,7 +43,8 @@
     "test:msg": "npx playwright test screenshot-tests/messages.spec.js",
     "test:profile": "npx playwright test screenshot-tests/profiles.spec.js",
     "test:post": "npx playwright test screenshot-tests/post.spec.js",
-    "test:signup": "npx playwright test signUp.spec.js"
+    "test:signup": "npx playwright test signUp.spec.js",
+    "test:signin": "npx playwright test signIn.spec.js"
   },
   "eslintConfig": {
     "extends": [

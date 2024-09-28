@@ -6,7 +6,7 @@ export const baseURL = 'localhost:8080';
 
 export async function login(page) {
   console.log('Logging in...');
-  await page.goto(`${BASE_URL}/signin`);
+  await page.goto(`${baseURL}/signin`);
   console.log('Navigated to signin page');
 
   console.log('Filling in login form...');

@@ -25,14 +25,36 @@ function SignInForm() {
     password: "",
   });
   const { username, password } = signInData;
-
   const [errors, setErrors] = useState({});
+
+  const handleChange = (event) => {
+    setSignInData({
+      ...signInData,
+      [event.target.name]: event.target.value,
+    });
+    // Clear the specific error when user starts typing
+    if (errors[event.target.name]) {
+      setErrors({
+        ...errors,
+        [event.target.name]: null,
+      });
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+    const newErrors = {};
+
+    // Check for empty fields
+    if (!username.trim()) newErrors.username = "Username may not be blank.";
+    if (!password) newErrors.password = "Password may not be blank.";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     try {
-      
       const { data } = await axios.post("/dj-rest-auth/login/", signInData);
       
       localStorage.setItem("accessToken", data.access_token);
@@ -47,16 +69,20 @@ function SignInForm() {
       
       history.push("/");
     } catch (err) {
-      
-      setErrors(err.response?.data || {});
+      if (err.response?.status === 400) {
+        // Check the error message to determine if it's an invalid username or password
+        const errorMessage = err.response?.data?.non_field_errors?.[0] || "";
+        if (errorMessage.toLowerCase().includes("username")) {
+          setErrors({ username: "Invalid username." });
+        } else if (errorMessage.toLowerCase().includes("password")) {
+          setErrors({ password: "Invalid password." });
+        } else {
+          setErrors({ non_field_errors: ["Unable to log in with provided credentials."] });
+        }
+      } else {
+        setErrors({ non_field_errors: ["An error occurred. Please try again."] });
+      }
     }
-  };
-
-  const handleChange = (event) => {
-    setSignInData({
-      ...signInData,
-      [event.target.name]: event.target.value,
-    });
   };
 
   return (
@@ -77,12 +103,12 @@ function SignInForm() {
                 autoComplete="username"
               />
             </Form.Group>
-            {errors.username?.map((message, idx) => (
-              <Alert key={idx} variant="warning">
-                {message}
+            {errors.username && (
+              <Alert variant="warning">
+                {errors.username}
               </Alert>
-            ))}
-
+            )}
+  
             <Form.Group controlId="password">
               <Form.Label className="d-none">Password</Form.Label>
               <Form.Control
@@ -95,22 +121,24 @@ function SignInForm() {
                 autoComplete="current-password"
               />
             </Form.Group>
-            {errors.password?.map((message, idx) => (
-              <Alert key={idx} variant="warning">
-                {message}
+            {errors.password && (
+              <Alert variant="warning">
+                {errors.password}
               </Alert>
-            ))}
+            )}
+            
             <Button
               className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Bright}`}
               type="submit"
             >
               Sign in
             </Button>
-            {errors.non_field_errors?.map((message, idx) => (
-              <Alert key={idx} variant="warning" className="mt-3">
-                {message}
+            
+            {errors.non_field_errors && (
+              <Alert variant="warning" className="mt-3">
+                {errors.non_field_errors}
               </Alert>
-            ))}
+            )}
           </Form>
         </Container>
         <Container className={`mt-3 ${appStyles.Content}`}>

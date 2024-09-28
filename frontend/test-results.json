@@ -60,20 +60,20 @@
   },
   "suites": [
     {
-      "title": "validation-tests/signUp.spec.js",
-      "file": "validation-tests/signUp.spec.js",
+      "title": "validation-tests/signIn.spec.js",
+      "file": "validation-tests/signIn.spec.js",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Sign Up Process",
-          "file": "validation-tests/signUp.spec.js",
-          "line": 12,
+          "title": "Sign In Process",
+          "file": "validation-tests/signIn.spec.js",
+          "line": 6,
           "column": 6,
           "specs": [
             {
-              "title": "Validate sign-up form and capture alerts",
+              "title": "Validate sign-in form and capture alerts",
               "ok": true,
               "tags": [],
               "tests": [
@@ -87,20 +87,20 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 3004,
+                      "duration": 6641,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "Navigating to localhost:8080/signup\n"
+                          "text": "Navigating to localhost:8080/signin\n"
                         },
                         {
-                          "text": "Starting sign-up validation tests\n"
+                          "text": "Starting sign-in validation tests\n"
                         },
                         {
                           "text": "Testing empty form submission\n"
                         },
                         {
-                          "text": "Clicked sign-up button for empty form\n"
+                          "text": "Clicked sign-in button for empty form\n"
                         },
                         {
                           "text": "Waiting for alert to appear\n"
@@ -112,152 +112,77 @@
                           "text": "Captured screenshot for empty form alert\n"
                         },
                         {
-                          "text": "Testing username with spaces\n"
+                          "text": "Testing invalid username\n"
                         },
                         {
-                          "text": "Filled in username with spaces\n"
-                        },
-                        {
-                          "text": "Filled in password1\n"
-                        },
-                        {
-                          "text": "Filled in password2\n"
-                        },
-                        {
-                          "text": "Clicked sign-up button for username with spaces test\n"
+                          "text": "Clicked sign-in button for invalid username test\n"
                         },
                         {
                           "text": "Waiting for alert to appear\n"
                         },
                         {
-                          "text": "Capturing screenshot for mobile view of username-with-spaces-alert\n"
+                          "text": "Capturing screenshot for mobile view of invalid-username-alert\n"
                         },
                         {
-                          "text": "Captured screenshot for username with spaces alert\n"
+                          "text": "Captured screenshot for invalid username alert\n"
                         },
                         {
-                          "text": "Testing password too short\n"
+                          "text": "Testing invalid password\n"
                         },
                         {
-                          "text": "Filled in valid username\n"
-                        },
-                        {
-                          "text": "Filled in short password1\n"
-                        },
-                        {
-                          "text": "Filled in short password2\n"
-                        },
-                        {
-                          "text": "Clicked sign-up button for password too short test\n"
+                          "text": "Clicked sign-in button for invalid password test\n"
                         },
                         {
                           "text": "Waiting for alert to appear\n"
                         },
                         {
-                          "text": "Capturing screenshot for mobile view of password-too-short-alert\n"
+                          "text": "Capturing screenshot for mobile view of invalid-password-alert\n"
                         },
                         {
-                          "text": "Captured screenshot for password too short alert\n"
+                          "text": "Captured screenshot for invalid password alert\n"
                         },
                         {
-                          "text": "Testing entirely numeric password\n"
+                          "text": "Testing successful signin\n"
                         },
                         {
-                          "text": "Filled in numeric password1\n"
+                          "text": "Logging in...\n"
                         },
                         {
-                          "text": "Filled in numeric password2\n"
+                          "text": "Navigated to signin page\n"
                         },
                         {
-                          "text": "Clicked sign-up button for numeric password test\n"
+                          "text": "Filling in login form...\n"
                         },
                         {
-                          "text": "Waiting for alert to appear\n"
+                          "text": "Login attempted\n"
                         },
                         {
-                          "text": "Capturing screenshot for mobile view of numeric-password-alert\n"
+                          "text": "Access token found in localStorage\n"
                         },
                         {
-                          "text": "Captured screenshot for numeric password alert\n"
+                          "text": "Waiting for network idle after signin\n"
                         },
                         {
-                          "text": "Testing passwords that don't match\n"
+                          "text": "Capturing screenshot for mobile view of successful-signin\n"
                         },
                         {
-                          "text": "Filled in password1\n"
+                          "text": "Captured screenshot for successful signin\n"
                         },
                         {
-                          "text": "Filled in different password2\n"
+                          "text": "Verified access token in localStorage\n"
                         },
                         {
-                          "text": "Clicked sign-up button for passwords don't match test\n"
-                        },
-                        {
-                          "text": "Waiting for alert to appear\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of passwords-dont-match-alert\n"
-                        },
-                        {
-                          "text": "Captured screenshot for passwords don't match alert\n"
-                        },
-                        {
-                          "text": "Testing username too short\n"
-                        },
-                        {
-                          "text": "Clicked sign-up button for username too short test\n"
-                        },
-                        {
-                          "text": "Waiting for alert to appear\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of username-too-short-alert\n"
-                        },
-                        {
-                          "text": "Captured screenshot for username too short alert\n"
-                        },
-                        {
-                          "text": "Testing username too long\n"
-                        },
-                        {
-                          "text": "Clicked sign-up button for username too long test\n"
-                        },
-                        {
-                          "text": "Waiting for alert to appear\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of username-too-long-alert\n"
-                        },
-                        {
-                          "text": "Captured screenshot for username too long alert\n"
-                        },
-                        {
-                          "text": "Testing common password\n"
-                        },
-                        {
-                          "text": "Clicked sign-up button for common password test\n"
-                        },
-                        {
-                          "text": "Waiting for alert to appear\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of common-password-alert\n"
-                        },
-                        {
-                          "text": "Captured screenshot for common password alert\n"
-                        },
-                        {
-                          "text": "Sign-up validation tests completed\n"
+                          "text": "Sign-in validation tests completed\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-09-28T17:33:37.601Z",
+                      "startTime": "2024-09-28T18:02:08.253Z",
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/validation-tests-signUp-Si-7748a--up-form-and-capture-alerts-chromium/test-finished-1.png"
+                          "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/validation-tests-signIn-Si-eb670--in-form-and-capture-alerts-chromium/test-finished-1.png"
                         }
                       ]
                     }
@@ -265,9 +190,9 @@
                   "status": "expected"
                 }
               ],
-              "id": "5ec53c1ec244d036db5e-43557d63761a3c24f039",
-              "file": "validation-tests/signUp.spec.js",
-              "line": 13,
+              "id": "b27704c65ccf9639f4d0-73ba70ba5999255693cc",
+              "file": "validation-tests/signIn.spec.js",
+              "line": 7,
               "column": 7
             }
           ]
@@ -277,8 +202,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2024-09-28T17:33:36.981Z",
-    "duration": 3748.522,
+    "startTime": "2024-09-28T18:02:07.640Z",
+    "duration": 7363.866,
     "expected": 1,
     "skipped": 0,
     "unexpected": 0,

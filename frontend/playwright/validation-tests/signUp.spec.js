@@ -18,7 +18,18 @@ test.describe('Sign Up Process', () => {
 
     console.log('Starting sign-up validation tests');
 
-    // Test: Empty form submission. Pass
+    console.log('Testing sign up with existing username');
+    await page.fill('input[name="username"]', 'testuser');
+    await page.fill('input[name="password1"]', 'newpassword123');
+    await page.fill('input[name="password2"]', 'newpassword123');
+    await page.click('button[type="submit"]');
+    console.log('Clicked sign-up button for existing username test');
+    console.log('Waiting for alert to appear');
+    await page.waitForSelector('.alert');
+    await captureScreenshot(page, 'signup', 'existing-username-alert');
+    console.log('Captured screenshot for existing username alert');
+
+    // Test: Empty form submission.
     console.log('Testing empty form submission');
     await page.click('button[type="submit"]');
     console.log('Clicked sign-up button for empty form');
