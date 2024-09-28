@@ -1,7 +1,10 @@
 import { test, expect } from '@playwright/test';
 import { captureScreenshot, baseURL, login } from './testUtils';
+import path from 'path';
+import fs from 'fs';
 
 const BASE_URL = baseURL;
+const IMAGE_URL = 'https://res.cloudinary.com/dh5lpihx1/image/upload/v1725533889/media/placeholder_5.jpg';
 
 test.describe('Create Post Process', () => {
   test('Validate create post form and capture alerts', async ({ page }) => {
@@ -53,5 +56,26 @@ test.describe('Create Post Process', () => {
     console.log('Verified error message presence for missing image');
 
     console.log('Create post validation tests completed');
+
+    // Image upload test
+    console.log('Starting image upload test');
+
+    const fileInput = await page.$('input[type="file"]#image-upload');
+    expect(fileInput).toBeTruthy();
+
+    // Use a real image file
+    const imagePath = path.join(__dirname, './test-assets/test-image.jpg');
+    await fileInput.setInputFiles(imagePath);
+
+    // Verify image upload
+    console.log('Verifying image upload');
+    try {
+      await page.waitForSelector(`img:not([src=""])`, { state: 'visible', timeout: 5000 });
+      console.log('Image preview found');
+    } catch (error) {
+      console.error('Image preview not found:', error);
+      await captureScreenshot(page, 'create-post', 'image-upload-failed');
+      throw error;
+    }
   });
 });
