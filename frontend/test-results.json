@@ -60,20 +60,20 @@
   },
   "suites": [
     {
-      "title": "validation-tests/createPost.spec.js",
-      "file": "validation-tests/createPost.spec.js",
+      "title": "validation-tests/createComment.spec.js",
+      "file": "validation-tests/createComment.spec.js",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Create Post Process",
-          "file": "validation-tests/createPost.spec.js",
-          "line": 8,
+          "title": "Create Comment Process",
+          "file": "validation-tests/createComment.spec.js",
+          "line": 6,
           "column": 6,
           "specs": [
             {
-              "title": "Validate create post form and capture alerts",
+              "title": "Validate comment form and capture alerts",
               "ok": true,
               "tags": [],
               "tests": [
@@ -87,7 +87,7 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 8040,
+                      "duration": 6721,
                       "errors": [],
                       "stdout": [
                         {
@@ -106,149 +106,50 @@
                           "text": "Access token found in localStorage\n"
                         },
                         {
-                          "text": "Navigating to localhost:8080/posts/create\n"
+                          "text": "Navigating to localhost:8080/posts/42\n"
                         },
                         {
-                          "text": "Starting create post validation tests\n"
+                          "text": "Starting comment validation tests\n"
                         },
                         {
                           "text": "Testing empty submission\n"
                         },
                         {
-                          "text": "Clicked submit button for empty submission\n"
+                          "text": "Capturing screenshot for full page of empty-submission\n"
                         },
                         {
-                          "text": "Waiting for alert to appear\n"
+                          "text": "Captured screenshot for empty submission\n"
                         },
                         {
-                          "text": "Capturing screenshot for mobile view of empty-submission\n"
+                          "text": "Testing comment with only spaces\n"
                         },
                         {
-                          "text": "Captured screenshot for empty submission alert\n"
+                          "text": "Capturing screenshot for full page of spaces-only\n"
                         },
                         {
-                          "text": "Verified error message presence for empty submission\n"
+                          "text": "Captured screenshot for spaces-only comment\n"
                         },
                         {
-                          "text": "Testing title with only spaces\n"
+                          "text": "Testing long comment\n"
                         },
                         {
-                          "text": "Capturing screenshot for mobile view of title-only-spaces\n"
+                          "text": "Capturing screenshot for full page of long-comment\n"
                         },
                         {
-                          "text": "Testing title too short\n"
+                          "text": "Captured screenshot for long comment\n"
                         },
                         {
-                          "text": "Capturing screenshot for mobile view of title-too-short\n"
-                        },
-                        {
-                          "text": "Testing title too long\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of title-too-long\n"
-                        },
-                        {
-                          "text": "Testing valid title\n"
-                        },
-                        {
-                          "text": "Testing content with only spaces\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for full page of content-only-spaces\n"
-                        },
-                        {
-                          "text": "Testing content too long\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for full page of content-too-long\n"
-                        },
-                        {
-                          "text": "Filling in title and content\n"
-                        },
-                        {
-                          "text": "Testing submission without image\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of no-image\n"
-                        },
-                        {
-                          "text": "Captured screenshot for no image alert\n"
-                        },
-                        {
-                          "text": "Verified error message presence for missing image\n"
-                        },
-                        {
-                          "text": "Create post validation tests completed\n"
-                        },
-                        {
-                          "text": "Starting image upload test\n"
-                        },
-                        {
-                          "text": "Image path: /workspace/moments-drf-api-clone-3/frontend/playwright/validation-tests/test-assets/test-image.jpg\n"
-                        },
-                        {
-                          "text": "Image file exists\n"
-                        },
-                        {
-                          "text": "Verifying image upload\n"
-                        },
-                        {
-                          "text": "Change image button found\n"
-                        },
-                        {
-                          "text": "Image preview element not found\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of image-uploaded\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of image-no-title\n"
-                        },
-                        {
-                          "text": "Captured screenshot for image uploaded but no title alert\n"
-                        },
-                        {
-                          "text": "Verified error message presence for missing title\n"
-                        },
-                        {
-                          "text": "Create post validation tests completed\n"
-                        },
-                        {
-                          "text": "Testing upload of non-image file\n"
-                        },
-                        {
-                          "text": "Navigating to localhost:8080/posts/create\n"
-                        },
-                        {
-                          "text": "Text file path: /workspace/moments-drf-api-clone-3/frontend/playwright/validation-tests/test-assets/test-file.txt\n"
-                        },
-                        {
-                          "text": "Text file exists\n"
-                        },
-                        {
-                          "text": "Verifying error message for non-image file\n"
-                        },
-                        {
-                          "text": "Error message for non-image file verified\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of non-image-file-error\n"
-                        },
-                        {
-                          "text": "Confirmed no image preview for non-image file\n"
-                        },
-                        {
-                          "text": "Create post validation tests completed\n"
+                          "text": "Comment validation tests completed\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-09-29T11:46:38.430Z",
+                      "startTime": "2024-09-29T12:41:49.853Z",
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/validation-tests-createPos-0ebb6-ost-form-and-capture-alerts-chromium/test-finished-1.png"
+                          "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/validation-tests-createCom-e8f86-ent-form-and-capture-alerts-chromium/test-finished-1.png"
                         }
                       ]
                     }
@@ -256,9 +157,9 @@
                   "status": "expected"
                 }
               ],
-              "id": "a38d7e811a3b26736bb6-9960280fa8ece739dcdf",
-              "file": "validation-tests/createPost.spec.js",
-              "line": 9,
+              "id": "7acd1b8de192324349a0-a77c65d24e18720df13c",
+              "file": "validation-tests/createComment.spec.js",
+              "line": 7,
               "column": 7
             }
           ]
@@ -268,8 +169,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2024-09-29T11:46:37.800Z",
-    "duration": 8792.841,
+    "startTime": "2024-09-29T12:41:49.243Z",
+    "duration": 7454.421,
     "expected": 1,
     "skipped": 0,
     "unexpected": 0,
