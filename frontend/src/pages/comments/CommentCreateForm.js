@@ -1,12 +1,8 @@
-// src/pages/comments/CommentCreateForm.js
-
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-
+import Alert from "react-bootstrap/Alert";
 import styles from "../../styles/modules/CommentCreateEditForm.module.css";
 import Avatar from "../../components/Avatar";
 import { axiosRes } from "../../api/axiosDefaults";
@@ -14,6 +10,8 @@ import { axiosRes } from "../../api/axiosDefaults";
 function CommentCreateForm(props) {
   const { post, setPost, setComments, profileImage, profile_id } = props;
   const [content, setContent] = useState("");
+  const [errors, setErrors] = useState({});
+
 
   const handleChange = (event) => {
     setContent(event.target.value);
@@ -21,9 +19,29 @@ function CommentCreateForm(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+  
+    // Trim the content and run validation
+    const trimmedContent = content.trim();
+    if (trimmedContent.length === 0) {
+      setErrors({ content: ["Comment must not be empty."] });
+      return;
+    } else if (trimmedContent.length < 3) {
+      setErrors({ content: ["Comment must be at least 3 characters long."] });
+      return;
+    } else if (trimmedContent.length > 1000) {
+      setErrors({ content: ["Comment must not exceed 1000 characters."] });
+      return;
+    } else if (trimmedContent.includes("  ")) {
+      setErrors({ content: ["Comment must not contain consecutive spaces."] });
+      return;
+    }
+  
+    // Clear errors before submission
+    setErrors({});
+  
     try {
       const { data } = await axiosRes.post("/comments/", {
-        content,
+        content: trimmedContent,
         post,
       });
       setComments((prevComments) => ({
@@ -40,9 +58,10 @@ function CommentCreateForm(props) {
       }));
       setContent("");
     } catch (err) {
-      
+      setErrors(err.response?.data);
     }
   };
+  
 
   return (
     <Form className="mt-2" onSubmit={handleSubmit}>
@@ -58,13 +77,20 @@ function CommentCreateForm(props) {
             value={content}
             onChange={handleChange}
             rows={2}
+            aria-label="Comment content"
           />
         </InputGroup>
       </Form.Group>
+      {errors?.content?.map((message, idx) => (
+        <Alert variant="warning" key={idx}>
+          {message}
+        </Alert>
+      ))}
       <button
         className={`${styles.Button} btn d-block ml-auto`}
-        disabled={!content.trim()}
+        // Disable button if content is empty
         type="submit"
+        aria-label="Post comment"
       >
         post
       </button>
