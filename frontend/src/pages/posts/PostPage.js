@@ -3,7 +3,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import appStyles from "../../App.module.css";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import Post from "./Post";
 import Comment from "../comments/Comment";
@@ -19,6 +19,7 @@ import CommentSkeleton from "../../components/CommentSkeleton";
 
 function PostPage() {
   const { id } = useParams();
+  const location = useLocation();
   const { cachedPosts, cachePost } = usePostCache();
   const [post, setPost] = useState(() => {
     return cachedPosts[id] ? { results: [cachedPosts[id]] } : null;
@@ -41,29 +42,34 @@ function PostPage() {
         cachePost(fetchedPost);
         setCommentsLoading(false);
       } catch (err) {
-        
+        console.log(err);
         setCommentsLoading(false);
       }
     };
 
-    if (!post) {
+    if (!post || location.state?.fromEdit) {
       fetchPostData();
     } else {
-      // If we have cached post data, just fetch comments
+      // If we have cached post data and not coming from edit, just fetch comments
       const fetchComments = async () => {
         try {
           const { data: commentsData } = await axiosReq.get(`/comments/?post=${id}`);
           setComments(commentsData);
           setCommentsLoading(false);
         } catch (err) {
-          
+          console.log(err);
           setCommentsLoading(false);
         }
       };
       fetchComments();
     }
+    // Clear the fromEdit state after using it
+    if (location.state?.fromEdit) {
+      window.history.replaceState({}, document.title)
+    }
   }, [id, post, cachePost]);
 
+  
   return (
     <Row className="h-100">
       <Col className="py-2 p-0 p-lg-2" lg={8}>

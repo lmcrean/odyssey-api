@@ -69,7 +69,7 @@
         {
           "title": "Create Post Process",
           "file": "validation-tests/createPost.spec.js",
-          "line": 9,
+          "line": 8,
           "column": 6,
           "specs": [
             {
@@ -87,7 +87,7 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 7884,
+                      "duration": 8040,
                       "errors": [],
                       "stdout": [
                         {
@@ -154,13 +154,13 @@
                           "text": "Testing content with only spaces\n"
                         },
                         {
-                          "text": "Capturing screenshot for mobile view of content-only-spaces\n"
+                          "text": "Capturing screenshot for full page of content-only-spaces\n"
                         },
                         {
                           "text": "Testing content too long\n"
                         },
                         {
-                          "text": "Capturing screenshot for mobile view of content-too-long\n"
+                          "text": "Capturing screenshot for full page of content-too-long\n"
                         },
                         {
                           "text": "Filling in title and content\n"
@@ -243,7 +243,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-09-29T09:14:32.263Z",
+                      "startTime": "2024-09-29T11:46:38.430Z",
                       "attachments": [
                         {
                           "name": "screenshot",
@@ -258,7 +258,7 @@
               ],
               "id": "a38d7e811a3b26736bb6-9960280fa8ece739dcdf",
               "file": "validation-tests/createPost.spec.js",
-              "line": 10,
+              "line": 9,
               "column": 7
             }
           ]
@@ -268,8 +268,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2024-09-29T09:14:31.645Z",
-    "duration": 8601.585000000001,
+    "startTime": "2024-09-29T11:46:37.800Z",
+    "duration": 8792.841,
     "expected": 1,
     "skipped": 0,
     "unexpected": 0,
