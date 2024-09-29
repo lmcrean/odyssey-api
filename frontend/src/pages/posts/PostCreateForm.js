@@ -57,17 +57,27 @@ function PostCreateForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-
-    formData.append("title", title);
-    formData.append("content", content);
-
+    const newErrors = {};
+  
+    if (!title.trim()) {
+      newErrors.title = ['Title is required.'];
+    }
+    if (!content.trim()) {
+      newErrors.content = ['Content is required.'];
+    }
     if (imageInput.current.files.length === 0) {
-      setErrors({ image: ['An image is required.'] });
+      newErrors.image = ['An image is required.'];
+    }
+  
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
-
+  
+    formData.append("title", title);
+    formData.append("content", content);
     formData.append("image", imageInput.current.files[0]);
-
+  
     try {
       const { data } = await axiosReq.post("/posts/", formData);
       history.push(`/posts/${data.id}`);

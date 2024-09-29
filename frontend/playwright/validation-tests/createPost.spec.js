@@ -108,5 +108,73 @@ test.describe('Create Post Process', () => {
       await captureScreenshot(page, 'create-post', 'image-upload-failed');
       throw error;
     }
+
+    // Test: Submit with image but no title
+
+    await page.fill('input[name="title"]', ''); // Clear the title
+    await page.evaluate(() => {
+      const submitButton = document.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.click();
+    });
+    await page.waitForSelector('.alert-warning', { state: 'visible' });
+    await captureScreenshot(page, 'create-post', 'image-no-title');
+    console.log('Captured screenshot for image uploaded but no title alert');
+
+    const titleError = await page.textContent('.alert-warning');
+    expect(titleError).toBeTruthy();
+    console.log('Verified error message presence for missing title');
+
+    console.log('Create post validation tests completed');
+
+
+    // Upload a non-image file (.txt)
+    console.log('Testing upload of non-image file');
+    console.log(`Navigating to ${BASE_URL}/posts/create`);
+    await page.goto(`${BASE_URL}/posts/create`);
+    const badFileInput = await page.$('input[type="file"]#image-upload');
+    expect(badFileInput).toBeTruthy();
+
+    const txtFilePath = path.join(__dirname, './test-assets/test-file.txt');
+    console.log('Text file path:', txtFilePath);
+
+    await page.fill('input[name="title"]', 'uploaded a text file');
+    
+    // Check if file exists
+    if (fs.existsSync(txtFilePath)) {
+      console.log('Text file exists');
+    } else {
+      console.error('Text file does not exist');
+      throw new Error('Text file not found');
+    }
+
+    await badFileInput.setInputFiles(txtFilePath);
+
+    // Trigger change event
+    await page.evaluate(() => {
+      const input = document.querySelector('input[type="file"]#image-upload');
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+
+    // Verify that an error message is displayed for non-image file
+    console.log('Verifying error message for non-image file');
+    try {
+      await page.waitForSelector('.alert-warning', { state: 'visible', timeout: 5000 });
+      const errorMessage = await page.textContent('.alert-warning');
+      expect(errorMessage).toContain('Please upload an image file');
+      console.log('Error message for non-image file verified');
+
+      await captureScreenshot(page, 'create-post', 'non-image-file-error');
+    } catch (error) {
+      console.error('Non-image file error verification failed:', error);
+      await captureScreenshot(page, 'create-post', 'non-image-file-error-failed');
+      throw error;
+    }
+
+    // Verify that the image preview is not visible
+    const imagePreview = await page.$('img.Image');
+    expect(imagePreview).toBeNull();
+    console.log('Confirmed no image preview for non-image file');
+
+    console.log('Create post validation tests completed');
   });
 });
