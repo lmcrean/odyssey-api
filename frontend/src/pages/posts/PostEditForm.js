@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
@@ -7,23 +6,21 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import Image from "react-bootstrap/Image";
-
 import styles from "../../styles/modules/PostCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/modules/Button.module.css";
-
 import { useHistory, useParams } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 
 function PostEditForm() {
   const [errors, setErrors] = useState({});
-
   const [postData, setPostData] = useState({
     title: "",
     content: "",
     image: "",
   });
   const { title, content, image } = postData;
+  const [imageFile, setImageFile] = useState(null);
 
   const imageInput = useRef(null);
   const history = useHistory();
@@ -35,9 +32,16 @@ function PostEditForm() {
         const { data } = await axiosReq.get(`/posts/${id}/`);
         const { title, content, image, is_owner } = data;
 
-        is_owner ? setPostData({ title, content, image }) : history.push("/");
+        is_owner 
+          ? setPostData({ 
+              title, 
+              content, 
+              image: image + "?t=" + new Date().getTime() 
+            }) 
+          : history.push("/");
       } catch (err) {
-        
+        console.log(err);
+        history.push("/");
       }
     };
 
@@ -54,6 +58,7 @@ function PostEditForm() {
   const handleChangeImage = (event) => {
     if (event.target.files.length) {
       URL.revokeObjectURL(image);
+      setImageFile(event.target.files[0]);
       setPostData({
         ...postData,
         image: URL.createObjectURL(event.target.files[0]),
@@ -64,19 +69,49 @@ function PostEditForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-
-    formData.append("title", title);
-    formData.append("content", content);
-
-    if (imageInput?.current?.files[0]) {
+    const newErrors = {};
+  
+    // Title validation
+    const trimmedTitle = title.trim();
+    if (!trimmedTitle) {
+      newErrors.title = ['Title is required and cannot be empty.'];
+    } else if (trimmedTitle.length < 3) {
+      newErrors.title = ['Title must be at least 3 characters long.'];
+    } else if (trimmedTitle.length > 100) {
+      newErrors.title = ['Title must not exceed 100 characters.'];
+    }
+  
+    // Content validation
+    const trimmedContent = content.trim();
+    if (trimmedContent.length === 0) {
+      newErrors.content = ['Content is required and cannot be empty.'];
+    } else if (trimmedContent.length < 10) {
+      newErrors.content = ['Content must be at least 10 characters long.'];
+    } else if (trimmedContent.length > 1000) {
+      newErrors.content = ['Content must not exceed 1000 characters.'];
+    }
+  
+    // Image validation - only if a new file is selected
+    if (imageInput.current.files.length > 0) {
       formData.append("image", imageInput.current.files[0]);
     }
-
+  
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+  
+    formData.append("title", trimmedTitle);
+    formData.append("content", trimmedContent);
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+  
     try {
       await axiosReq.put(`/posts/${id}/`, formData);
-      history.push(`/posts/${id}`);
+      history.push(`/posts/${id}`, { fromEdit: true });
     } catch (err) {
-      
+      console.log(err);
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
       }
