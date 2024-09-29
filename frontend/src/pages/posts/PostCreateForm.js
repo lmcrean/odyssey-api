@@ -69,10 +69,11 @@ function PostCreateForm() {
       newErrors.title = ['Title must not exceed 100 characters.'];
     }
   
-    // Content validation
     const trimmedContent = content.trim();
-    if (trimmedContent.length > 0 && trimmedContent.length < 10) {
-      newErrors.content = ['Content, if provided, must be at least 10 characters long.'];
+    if (trimmedContent.length === 0) {
+      newErrors.content = ['Content is required and cannot be empty.'];
+    } else if (trimmedContent.length < 10) {
+      newErrors.content = ['Content must be at least 10 characters long.'];
     } else if (trimmedContent.length > 1000) {
       newErrors.content = ['Content must not exceed 1000 characters.'];
     }
