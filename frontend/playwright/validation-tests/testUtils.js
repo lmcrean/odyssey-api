@@ -23,20 +23,33 @@ export async function login(page) {
   console.log(accessToken ? 'Access token found in localStorage' : 'Warning: No access token found in localStorage');
 }
 
-export async function captureScreenshot(page, testName, pageName) {
-  const screenshotDir = path.join('screenshots', testName);
+export async function captureScreenshot(page, testName, pageName, fullPage = false) {
+  const screenshotDir = path.join('playwright', 'screenshots', testName);
 
   if (!fs.existsSync(screenshotDir)) {
     fs.mkdirSync(screenshotDir, { recursive: true });
   }
 
-  console.log(`Capturing screenshot for mobile view of ${pageName}`);
-  await page.setViewportSize({ width: 375, height: 667 });
+  console.log(`Capturing screenshot for ${fullPage ? 'full page' : 'mobile view'} of ${pageName}`);
+  
+  if (fullPage) {
+    // For full page, use a larger viewport
+    await page.setViewportSize({ width: 1280, height: 800 });
+  } else {
+    // For mobile view, use the original mobile viewport size
+    await page.setViewportSize({ width: 375, height: 667 });
+  }
+  
   await page.waitForLoadState('networkidle');
   
-  const fileName = `mobile-${pageName}.png`;
+  const fileName = `${fullPage ? 'full-' : 'mobile-'}${pageName}.png`;
   await page.screenshot({
     path: path.join(screenshotDir, fileName),
-    fullPage: false
+    fullPage: fullPage
   });
+
+  // Reset to mobile view after capturing full page screenshot
+  if (fullPage) {
+    await page.setViewportSize({ width: 375, height: 667 });
+  }
 }
