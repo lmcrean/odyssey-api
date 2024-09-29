@@ -13,7 +13,7 @@ import Upload from "../../assets/upload.png";
 import styles from "../../styles/modules/PostCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/modules/Button.module.css";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useRedirect } from "../../hooks/useRedirect";
 
