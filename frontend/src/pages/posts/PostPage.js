@@ -67,7 +67,7 @@ function PostPage() {
     if (location.state?.fromEdit) {
       window.history.replaceState({}, document.title)
     }
-  }, [id, post, cachePost]);
+  }, [id, post, cachePost, location.state?.fromEdit]);
 
   
   return (
