@@ -4,7 +4,6 @@ import path from 'path';
 import fs from 'fs';
 
 const BASE_URL = baseURL;
-const IMAGE_URL = 'https://res.cloudinary.com/dh5lpihx1/image/upload/v1725533889/media/placeholder_5.jpg';
 
 test.describe('Create Post Process', () => {
   test('Validate create post form and capture alerts', async ({ page }) => {
@@ -34,6 +33,69 @@ test.describe('Create Post Process', () => {
     expect(error).toBeTruthy();
     console.log('Verified error message presence for empty submission');
 
+    // Test: Title with only spaces
+    console.log('Testing title with only spaces');
+    await page.fill('input[name="title"]', '   ');
+    await page.evaluate(() => {
+      const submitButton = document.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.click();
+    });
+    await page.waitForSelector('.alert-warning', { state: 'visible' });
+    await captureScreenshot(page, 'create-post', 'title-only-spaces');
+
+    // Test: Title too short
+    console.log('Testing title too short');
+    await page.fill('input[name="title"]', 'ab');
+    await page.evaluate(() => {
+      const submitButton = document.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.click();
+    });
+    await page.waitForSelector('.alert-warning', { state: 'visible' });
+    await captureScreenshot(page, 'create-post', 'title-too-short');
+
+    // Test: Title too long
+    console.log('Testing title too long');
+    await page.fill('input[name="title"]', 'a'.repeat(101));
+    await page.evaluate(() => {
+      const submitButton = document.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.click();
+    });
+    await page.waitForSelector('.alert-warning', { state: 'visible' });
+    await captureScreenshot(page, 'create-post', 'title-too-long');
+
+    // Test: Valid title
+    console.log('Testing valid title');
+    await page.fill('input[name="title"]', 'Valid Title');
+    await page.fill('textarea[name="content"]', 'This is valid content');
+
+    // Helper function to submit form, scroll to bottom, and capture screenshot
+    async function submitScrollAndCapture(name) {
+      await page.evaluate(() => {
+        const submitButton = document.querySelector('button[type="submit"]');
+        if (submitButton) submitButton.click();
+      });
+      await page.waitForSelector('.alert-warning', { state: 'visible' });
+      
+      // Scroll to the bottom of the page
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      
+      // Wait for any animations to complete
+      await page.waitForTimeout(1000);
+      
+      await captureScreenshot(page, 'create-post', name);
+    }
+
+    // Test: Content with only spaces
+    console.log('Testing content with only spaces');
+    await page.fill('input[name="title"]', 'Valid Title');
+    await page.fill('textarea[name="content"]', '   ');
+    await submitScrollAndCapture('content-only-spaces');
+
+    // Test: Content too long
+    console.log('Testing content too long');
+    await page.fill('textarea[name="content"]', 'a'.repeat(1001));
+    await submitScrollAndCapture('content-too-long');
+    
     // Fill in title and content
     console.log('Filling in title and content');
     await page.fill('input[name="title"]', 'Test Post Title');

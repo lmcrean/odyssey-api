@@ -87,7 +87,7 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 5598,
+                      "duration": 7884,
                       "errors": [],
                       "stdout": [
                         {
@@ -128,6 +128,39 @@
                         },
                         {
                           "text": "Verified error message presence for empty submission\n"
+                        },
+                        {
+                          "text": "Testing title with only spaces\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of title-only-spaces\n"
+                        },
+                        {
+                          "text": "Testing title too short\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of title-too-short\n"
+                        },
+                        {
+                          "text": "Testing title too long\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of title-too-long\n"
+                        },
+                        {
+                          "text": "Testing valid title\n"
+                        },
+                        {
+                          "text": "Testing content with only spaces\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of content-only-spaces\n"
+                        },
+                        {
+                          "text": "Testing content too long\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of content-too-long\n"
                         },
                         {
                           "text": "Filling in title and content\n"
@@ -210,7 +243,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-09-29T08:43:56.888Z",
+                      "startTime": "2024-09-29T09:14:32.263Z",
                       "attachments": [
                         {
                           "name": "screenshot",
@@ -235,8 +268,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2024-09-29T08:43:56.160Z",
-    "duration": 6447.744,
+    "startTime": "2024-09-29T09:14:31.645Z",
+    "duration": 8601.585000000001,
     "expected": 1,
     "skipped": 0,
     "unexpected": 0,

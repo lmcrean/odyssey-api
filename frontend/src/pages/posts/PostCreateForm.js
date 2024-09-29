@@ -59,12 +59,25 @@ function PostCreateForm() {
     const formData = new FormData();
     const newErrors = {};
   
-    if (!title.trim()) {
-      newErrors.title = ['Title is required.'];
+    // Title validation
+    const trimmedTitle = title.trim();
+    if (!trimmedTitle) {
+      newErrors.title = ['Title is required and cannot be empty.'];
+    } else if (trimmedTitle.length < 3) {
+      newErrors.title = ['Title must be at least 3 characters long.'];
+    } else if (trimmedTitle.length > 100) {
+      newErrors.title = ['Title must not exceed 100 characters.'];
     }
-    if (!content.trim()) {
-      newErrors.content = ['Content is required.'];
+  
+    // Content validation
+    const trimmedContent = content.trim();
+    if (trimmedContent.length > 0 && trimmedContent.length < 10) {
+      newErrors.content = ['Content, if provided, must be at least 10 characters long.'];
+    } else if (trimmedContent.length > 1000) {
+      newErrors.content = ['Content must not exceed 1000 characters.'];
     }
+  
+    // Image validation
     if (imageInput.current.files.length === 0) {
       newErrors.image = ['An image is required.'];
     }
@@ -74,8 +87,8 @@ function PostCreateForm() {
       return;
     }
   
-    formData.append("title", title);
-    formData.append("content", content);
+    formData.append("title", trimmedTitle);
+    formData.append("content", content.trim());
     formData.append("image", imageInput.current.files[0]);
   
     try {
