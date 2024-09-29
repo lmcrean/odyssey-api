@@ -69,7 +69,7 @@ test.describe('Create Post Process', () => {
     await page.fill('textarea[name="content"]', 'This is valid content');
 
     // Helper function to submit form, scroll to bottom, and capture screenshot
-    async function submitScrollAndCapture(name) {
+    async function submitScrollAndCapture(name, fullPage = true) {
       await page.evaluate(() => {
         const submitButton = document.querySelector('button[type="submit"]');
         if (submitButton) submitButton.click();
@@ -82,19 +82,19 @@ test.describe('Create Post Process', () => {
       // Wait for any animations to complete
       await page.waitForTimeout(1000);
       
-      await captureScreenshot(page, 'create-post', name);
+      await captureScreenshot(page, 'create-post', name, fullPage);
     }
 
     // Test: Content with only spaces
     console.log('Testing content with only spaces');
     await page.fill('input[name="title"]', 'Valid Title');
     await page.fill('textarea[name="content"]', '   ');
-    await submitScrollAndCapture('content-only-spaces');
+    await submitScrollAndCapture('content-only-spaces', true);
 
     // Test: Content too long
     console.log('Testing content too long');
     await page.fill('textarea[name="content"]', 'a'.repeat(1001));
-    await submitScrollAndCapture('content-too-long');
+    await submitScrollAndCapture('content-too-long', true);
     
     // Fill in title and content
     console.log('Filling in title and content');
