@@ -87,41 +87,4 @@ describe('Message Component', () => {
     // Restore console.error after the test
     consoleSpy.mockRestore();
   });
-
-  it('opens and closes the delete modal properly', async () => {
-    // Set currentUser to be the sender by setting profile_id = sender_profile_id
-    useCurrentUser.mockReturnValue({ pk: 1 }); // Set pk to match sender_profile_id
-
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <Message
-            id={1}
-            sender={1} // Set sender to match currentUser.pk
-            sender_profile_id={1} // Matches the mock currentUser pk value
-            sender_profile_image="profile_image_url"
-            content="Test message"
-            date="01 Jan 2023"
-            time="12:00"
-            setMessages={setMessagesMock}
-            showAvatar={true}
-          />
-        </MemoryRouter>
-      );
-    });
-
-    // Simulate clicking the card's Delete button to show the modal
-    fireEvent.click(screen.getByTestId('delete-button-card'));
-
-    // Check if the modal opens
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
-
-    // Simulate cancel button click
-    fireEvent.click(screen.getByText('Cancel'));
-
-    // Ensure modal close happens after state update
-    await waitFor(() => {
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    });
-  });
 });

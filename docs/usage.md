@@ -69,35 +69,66 @@ You will need to re-run this command any time you want to deploy changes to the 
 
 # Automated Testing Instructions
 
+The project uses Jest, Playwright and Cypress for testing. The backend uses Django's built-in testing framework.
+
+## Jest Testing
+
+Tests are located in the `/__tests__` folder, interspersed throughout the js files in `/frontend` directory. To run the tests, use the following command:
+
 First, ensure the frontend is opened with:
 
 ```bash
 cd frontend
 ```
 
-## Jest Testing
-
-Tests are located in the `/__tests__` folder, interspersed throughout the js files in `/frontend` directory. To run the tests, use the following command:
-
+then run the tests with:
 ```bash
 npm run test
 ```
+
+## Playwright Testing
+
+
+Tests are located in the `playwright` folder. To run the tests, use the following commands to **split 3 terminals**:
+
+1. API
+2. Frontend
+3. Playwright
+
+
+See the following diagram.
+
+!["assets/media/playwright.png"](assets/media/playwright.png)
+
+
+## Running Tests in terminal 3
+
+To run all tests:
+
+```bash
+npx playwright test
+```
+
+To run a specific test, for example `frontend/playwright/auth.test.js`, you can use:
+
+```bash
+npx playwright test playwright/auth.spec.js
+```
+
+## shorthand commands
+
+- Check `package.json` for more tests that have been shorthanded.
 
 ## Cypress Testing
 
 Tests are located in the `cypress/integration` folder. To run the tests, use the following command:
 
-1. Open a split terminal, run the following command to start the server:
+1. Open 3 split terminals and run terminal one and two **exactly the same way as Playwright instructions**,
+
+2. In terminal 3, run the following command to set up cypress:
 
 ```bash
-nvm install 16
-npm run build
-npm run start
-```
-
-2. In the other terminal, run the following command to set up cypress:
-
-```bash
+cd frontend
 sudo apt-get update
 sudo apt-get install -y xvfb libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
 npx cypress install
@@ -117,21 +148,6 @@ npx cypress run --spec "cypress/e2e/auth.cy.js"
 npx cypress run --spec "cypress/e2e/user_journey.cy.js" --headed
 ```
 
-
-## Playwright Testing
-
-Tests are located in the `playwright` folder. To run the tests, use the following commands:
-
-```bash
-npx playwright install --with-deps
-npx playwright test
-```
-
-if you want to run a specific test, for example `frontend/playwright/auth.test.js` you can write something like this:
-
-```bash
-npx playwright test playwright/auth.spec.js
-```
 
 # Automated Testing in Backend with python
 

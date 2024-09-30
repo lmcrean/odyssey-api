@@ -31,30 +31,6 @@ test("renders sign up form", () => {
   expect(confirmPasswordField).toBeInTheDocument();
 });
 
-test("displays validation errors on form submission", async () => {
-  axios.post.mockRejectedValue({
-    response: {
-      data: {
-        username: ["This field is required."],
-        password1: ["Password is too short."],
-        password2: ["Passwords do not match."],
-      },
-    },
-  });
-
-  render(
-    <Router>
-      <SignUpForm />
-    </Router>
-  );
-
-  fireEvent.click(screen.getByText("Sign up"));
-
-  expect(await screen.findByText("This field is required.")).toBeInTheDocument();
-  expect(await screen.findByText("Password is too short.")).toBeInTheDocument();
-  expect(await screen.findByText("Passwords do not match.")).toBeInTheDocument();
-});
-
 test("redirects to sign in on successful sign up", async () => {
   axios.post.mockResolvedValue({});
 

@@ -60,20 +60,20 @@
   },
   "suites": [
     {
-      "title": "validation-tests/createComment.spec.js",
-      "file": "validation-tests/createComment.spec.js",
+      "title": "validation-tests/createMessage.spec.js",
+      "file": "validation-tests/createMessage.spec.js",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Create Comment Process",
-          "file": "validation-tests/createComment.spec.js",
-          "line": 6,
+          "title": "Message Detail Send Form Validation",
+          "file": "validation-tests/createMessage.spec.js",
+          "line": 7,
           "column": 6,
           "specs": [
             {
-              "title": "Validate comment form and capture alerts",
+              "title": "Validate message send form and capture screenshots",
               "ok": true,
               "tags": [],
               "tests": [
@@ -87,7 +87,7 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 6721,
+                      "duration": 7869,
                       "errors": [],
                       "stdout": [
                         {
@@ -106,50 +106,86 @@
                           "text": "Access token found in localStorage\n"
                         },
                         {
-                          "text": "Navigating to localhost:8080/posts/42\n"
+                          "text": "Navigating to localhost:8080/messages/1\n"
                         },
                         {
-                          "text": "Starting comment validation tests\n"
+                          "text": "Starting message send form validation tests\n"
                         },
                         {
                           "text": "Testing empty submission\n"
                         },
                         {
-                          "text": "Capturing screenshot for full page of empty-submission\n"
+                          "text": "Capturing screenshot for mobile view of 1-empty-submission\n"
                         },
                         {
                           "text": "Captured screenshot for empty submission\n"
                         },
                         {
-                          "text": "Testing comment with only spaces\n"
+                          "text": "Testing message too long\n"
                         },
                         {
-                          "text": "Capturing screenshot for full page of spaces-only\n"
+                          "text": "Capturing screenshot for mobile view of 2-message-too-long\n"
                         },
                         {
-                          "text": "Captured screenshot for spaces-only comment\n"
+                          "text": "Captured screenshot for message too long\n"
                         },
                         {
-                          "text": "Testing long comment\n"
+                          "text": "Testing message with only spaces\n"
                         },
                         {
-                          "text": "Capturing screenshot for full page of long-comment\n"
+                          "text": "Capturing screenshot for mobile view of 3-spaces-only\n"
                         },
                         {
-                          "text": "Captured screenshot for long comment\n"
+                          "text": "Captured screenshot for spaces-only message\n"
                         },
                         {
-                          "text": "Comment validation tests completed\n"
+                          "text": "Testing image file too large\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of 4-image-too-large\n"
+                        },
+                        {
+                          "text": "Captured screenshot for image too large\n"
+                        },
+                        {
+                          "text": "Testing invalid image type\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of 5-invalid-image-type\n"
+                        },
+                        {
+                          "text": "Captured screenshot for invalid image type\n"
+                        },
+                        {
+                          "text": "Message send form validation tests completed\n"
+                        },
+                        {
+                          "text": "Testing valid image with no message\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of 6.1-valid-image-no-message-preview\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of 6-valid-image-no-message\n"
+                        },
+                        {
+                          "text": "Captured screenshot for valid image with no message\n"
+                        },
+                        {
+                          "text": "Testing valid message with no image\n"
+                        },
+                        {
+                          "text": "Capturing screenshot for mobile view of 7-valid-message-no-image\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-09-29T12:41:49.853Z",
+                      "startTime": "2024-09-30T15:53:11.116Z",
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/validation-tests-createCom-e8f86-ent-form-and-capture-alerts-chromium/test-finished-1.png"
+                          "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/validation-tests-createMes-668c3-orm-and-capture-screenshots-chromium/test-finished-1.png"
                         }
                       ]
                     }
@@ -157,9 +193,9 @@
                   "status": "expected"
                 }
               ],
-              "id": "7acd1b8de192324349a0-a77c65d24e18720df13c",
-              "file": "validation-tests/createComment.spec.js",
-              "line": 7,
+              "id": "923c3ef08c64e33fe528-f27ee6cfc7315d4271dd",
+              "file": "validation-tests/createMessage.spec.js",
+              "line": 8,
               "column": 7
             }
           ]
@@ -169,8 +205,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2024-09-29T12:41:49.243Z",
-    "duration": 7454.421,
+    "startTime": "2024-09-30T15:53:10.426Z",
+    "duration": 8683.669,
     "expected": 1,
     "skipped": 0,
     "unexpected": 0,
