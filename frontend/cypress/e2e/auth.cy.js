@@ -1,6 +1,6 @@
 // auth.cy.js
 describe('User Authentication', () => {
-  const BASE_URL = 'http://localhost:8000';
+  const BASE_URL = 'http://localhost:8080';
 
   it('User can sign in with dj-rest-auth', () => {
     // 1. Attempt to sign in
