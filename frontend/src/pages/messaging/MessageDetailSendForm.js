@@ -26,16 +26,43 @@ function MessageDetailSendForm({ setMessages, messages }) {
       ...formData,
       [event.target.name]: event.target.value,
     });
+    setErrors({});
   };
 
   const handleImageChange = (event) => {
     if (event.target.files.length) {
       const selectedFile = event.target.files[0];
+      if (selectedFile.size > 5 * 1024 * 1024) {
+        setErrors({ image: ["Image file size should not exceed 5MB."] });
+        setFormData({
+          ...formData,
+          image: null,
+        });
+        setImagePreview(null);
+        if (imageInput?.current) {
+          imageInput.current.value = "";
+        }
+        return;
+      }
+      const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+      if (!validTypes.includes(selectedFile.type)) {
+        setErrors({ image: ["Only JPEG, PNG, and GIF images are allowed."] });
+        setFormData({
+          ...formData,
+          image: null,
+        });
+        setImagePreview(null);
+        if (imageInput?.current) {
+          imageInput.current.value = "";
+        }
+        return;
+      }
       setFormData({
         ...formData,
         image: selectedFile,
       });
       setImagePreview(URL.createObjectURL(selectedFile));
+      setErrors({});
     }
   };
 
@@ -48,22 +75,36 @@ function MessageDetailSendForm({ setMessages, messages }) {
     if (imageInput?.current) {
       imageInput.current.value = "";
     }
+    setErrors({});
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setErrors({});
-  
+    
+    if (errors.image) {
+      return;  // Prevent submission if there's an image error
+    }
+
+    if (!content.trim() && !image) {
+      setErrors({ general: ["Please enter a message or upload an image."] });
+      return;
+    }
+
+    if (content.trim().length > 1000) {
+      setErrors({ content: ["Message should not exceed 1000 characters."] });
+      return;
+    }
+
     const formDataToSend = new FormData();
-    formDataToSend.append("content", content);
+    if (content.trim()) {
+      formDataToSend.append("content", content.trim());
+    }
     if (image) {
       formDataToSend.append("image", image);
     }
     
     try {
-  
       const endpoint = `/messages/${id}/send/`;
-  
       const { data } = await axiosReq.post(endpoint, formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -74,12 +115,13 @@ function MessageDetailSendForm({ setMessages, messages }) {
         ...prevMessages,
         results: [...prevMessages.results, data],
       }));
-  
+
       setFormData({ content: "", image: null });
       setImagePreview(null);
       if (imageInput?.current) {
         imageInput.current.value = "";
       }
+      setErrors({});
     } catch (err) {
       console.error("Error sending message:", err);
       if (err.response) {
@@ -138,30 +180,26 @@ function MessageDetailSendForm({ setMessages, messages }) {
           </Button>
           <Form.File
             id="image-upload"
-            accept="image/*"
+            accept="image/jpeg,image/png,image/gif"
             onChange={handleImageChange}
             ref={imageInput}
             className={styles.HiddenFileInput}
           />
-          <Button variant="primary" type="submit" className={styles.SendButton}>
+          <Button 
+            variant="primary" 
+            type="submit" 
+            className={styles.SendButton}
+          >
             <FontAwesomeIcon icon={faPaperPlane} /> Send
           </Button>
         </div>
 
-        {errors?.general?.map((message, idx) => (
-          <Alert variant="danger" key={idx}>
-            {message}
-          </Alert>
-        ))}
-        {errors?.content?.map((message, idx) => (
-          <Alert variant="warning" key={idx}>
-            {message}
-          </Alert>
-        ))}
-        {errors?.image?.map((message, idx) => (
-          <Alert variant="warning" key={idx}>
-            {message}
-          </Alert>
+        {Object.keys(errors).map((key) => (
+          errors[key].map((message, idx) => (
+            <Alert variant="warning" key={`${key}-${idx}`}>
+              {message}
+            </Alert>
+          ))
         ))}
       </Form>
     </Container>
