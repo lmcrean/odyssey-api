@@ -10,9 +10,7 @@
     "grep": {},
     "grepInvert": null,
     "maxFailures": 0,
-    "metadata": {
-      "actualWorkers": 1
-    },
+    "metadata": {},
     "preserveOutput": "never",
     "reporter": [
       [
@@ -60,6 +58,611 @@
   },
   "suites": [
     {
+      "title": "auth-pages.spec.js",
+      "file": "auth-pages.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Auth Pages - mobile",
+          "file": "auth-pages.spec.js",
+          "line": 13,
+          "column": 8,
+          "specs": [
+            {
+              "title": "Navigate to Sign In page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "92e3b575078577a0d28f-b48af302696e1bd92a61",
+              "file": "auth-pages.spec.js",
+              "line": 18,
+              "column": 9
+            },
+            {
+              "title": "Navigate to Sign Up page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "92e3b575078577a0d28f-73ddba3fb89fb518368e",
+              "file": "auth-pages.spec.js",
+              "line": 32,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "Auth Pages - tablet",
+          "file": "auth-pages.spec.js",
+          "line": 13,
+          "column": 8,
+          "specs": [
+            {
+              "title": "Navigate to Sign In page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "92e3b575078577a0d28f-eda443ca9a3fe96e2070",
+              "file": "auth-pages.spec.js",
+              "line": 18,
+              "column": 9
+            },
+            {
+              "title": "Navigate to Sign Up page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "92e3b575078577a0d28f-02de4c9a0e1b093ca77d",
+              "file": "auth-pages.spec.js",
+              "line": 32,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "Auth Pages - laptop",
+          "file": "auth-pages.spec.js",
+          "line": 13,
+          "column": 8,
+          "specs": [
+            {
+              "title": "Navigate to Sign In page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "92e3b575078577a0d28f-0c2e3f0a200be3e6dc71",
+              "file": "auth-pages.spec.js",
+              "line": 18,
+              "column": 9
+            },
+            {
+              "title": "Navigate to Sign Up page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "92e3b575078577a0d28f-2bffe9da198f049495f8",
+              "file": "auth-pages.spec.js",
+              "line": 32,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "Auth Pages - desktop",
+          "file": "auth-pages.spec.js",
+          "line": 13,
+          "column": 8,
+          "specs": [
+            {
+              "title": "Navigate to Sign In page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "92e3b575078577a0d28f-b30492946ae7fa6d2428",
+              "file": "auth-pages.spec.js",
+              "line": 18,
+              "column": 9
+            },
+            {
+              "title": "Navigate to Sign Up page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "92e3b575078577a0d28f-b60c895365ce27875874",
+              "file": "auth-pages.spec.js",
+              "line": 32,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "auth.spec.js",
+      "file": "auth.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "User Authentication",
+          "file": "auth.spec.js",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "User can sign in with dj-rest-auth",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d5ed79a6b333c2ba7209-9380ce221e28beaddf58",
+              "file": "auth.spec.js",
+              "line": 6,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "debug-signin-process.spec.js",
+      "file": "debug-signin-process.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Debug Sign-in Process",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "f5366561cf0c63ce6bc1-a0e57fdc8f33e8daa7d0",
+          "file": "debug-signin-process.spec.js",
+          "line": 62,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "message-page.spec.js",
+      "file": "message-page.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Authorized User Test",
+          "file": "message-page.spec.js",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Authorized user can visit /messages",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "64c2326b02528b84e2c4-bc00c5a18028201c6491",
+              "file": "message-page.spec.js",
+              "line": 6,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "screenshot-tests/messages.spec.js",
+      "file": "screenshot-tests/messages.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Capture screenshot of messages page",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "87e1705edf2428ae5de1-0ede1373347a37115612",
+          "file": "screenshot-tests/messages.spec.js",
+          "line": 6,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "screenshot-tests/post.spec.js",
+      "file": "screenshot-tests/post.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Create and view a post",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "9d3ee097d537ba3f84a8-3fc948056a0a815c0d04",
+          "file": "screenshot-tests/post.spec.js",
+          "line": 6,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "screenshot-tests/profiles.spec.js",
+      "file": "screenshot-tests/profiles.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Capture screenshot of profile page",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "ed967e8566ad43ace6e0-86cc157f215fb50a0878",
+          "file": "screenshot-tests/profiles.spec.js",
+          "line": 6,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "screenshot-tests/signed-in-landing-page.spec.js",
+      "file": "screenshot-tests/signed-in-landing-page.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Multi-page and Multi-device Test",
+          "file": "screenshot-tests/signed-in-landing-page.spec.js",
+          "line": 13,
+          "column": 6,
+          "specs": [
+            {
+              "title": "capture screenshots across pages and devices",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "686a132dff4c61f5123a-e2ef9302180a0c9605e2",
+              "file": "screenshot-tests/signed-in-landing-page.spec.js",
+              "line": 14,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "screenshot.spec.js",
+      "file": "screenshot.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Capture Desktop Landing Page Screenshot",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "b6aa675bc40ab83f8367-9beda9014c3f065c6032",
+          "file": "screenshot.spec.js",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "setup_confirm.spec.js",
+      "file": "setup_confirm.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "has title",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "a38d0c22f8fe658bb9a6-eb602786aa07cd45b93e",
+          "file": "setup_confirm.spec.js",
+          "line": 3,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "user-journey-landing-page.spec.js",
+      "file": "user-journey-landing-page.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "User Journey - Landing Page - mobile",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "a83c21fa414e9c4268b1-a537a21faee644c5f772",
+          "file": "user-journey-landing-page.spec.js",
+          "line": 11,
+          "column": 7
+        },
+        {
+          "title": "User Journey - Landing Page - tablet",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "a83c21fa414e9c4268b1-56774de0d4e0f3363c73",
+          "file": "user-journey-landing-page.spec.js",
+          "line": 11,
+          "column": 7
+        },
+        {
+          "title": "User Journey - Landing Page - laptop",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "a83c21fa414e9c4268b1-ce55a7d8d31c8c733634",
+          "file": "user-journey-landing-page.spec.js",
+          "line": 11,
+          "column": 7
+        },
+        {
+          "title": "User Journey - Landing Page - desktop",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "a83c21fa414e9c4268b1-13772f4138bd291401e8",
+          "file": "user-journey-landing-page.spec.js",
+          "line": 11,
+          "column": 7
+        }
+      ]
+    },
+    {
+      "title": "validation-tests/createComment.spec.js",
+      "file": "validation-tests/createComment.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Create Comment Process",
+          "file": "validation-tests/createComment.spec.js",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Validate comment form and capture alerts",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7acd1b8de192324349a0-a77c65d24e18720df13c",
+              "file": "validation-tests/createComment.spec.js",
+              "line": 7,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
       "title": "validation-tests/createMessage.spec.js",
       "file": "validation-tests/createMessage.spec.js",
       "column": 0,
@@ -83,134 +686,8 @@
                   "expectedStatus": "passed",
                   "projectId": "chromium",
                   "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "status": "passed",
-                      "duration": 9158,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "Logging in...\n"
-                        },
-                        {
-                          "text": "Navigated to signin page\n"
-                        },
-                        {
-                          "text": "Filling in login form...\n"
-                        },
-                        {
-                          "text": "Login attempted\n"
-                        },
-                        {
-                          "text": "Access token found in localStorage\n"
-                        },
-                        {
-                          "text": "Navigating to localhost:8080/messages/1\n"
-                        },
-                        {
-                          "text": "Starting message send form validation tests\n"
-                        },
-                        {
-                          "text": "Testing empty submission\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of 1-empty-submission\n"
-                        },
-                        {
-                          "text": "Captured screenshot for empty submission\n"
-                        },
-                        {
-                          "text": "Testing message too long\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of 2-message-too-long\n"
-                        },
-                        {
-                          "text": "Captured screenshot for message too long\n"
-                        },
-                        {
-                          "text": "Testing message with only spaces\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of 3-spaces-only\n"
-                        },
-                        {
-                          "text": "Captured screenshot for spaces-only message\n"
-                        },
-                        {
-                          "text": "Testing image file too large\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of 4-image-too-large\n"
-                        },
-                        {
-                          "text": "Captured screenshot for image too large\n"
-                        },
-                        {
-                          "text": "Testing invalid image type\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of 5-invalid-image-type\n"
-                        },
-                        {
-                          "text": "Captured screenshot for invalid image type\n"
-                        },
-                        {
-                          "text": "Message send form validation tests completed\n"
-                        },
-                        {
-                          "text": "Testing valid image with no message\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of 6.1-valid-image-no-message-preview\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of 6-valid-image-no-message\n"
-                        },
-                        {
-                          "text": "Captured screenshot for valid image with no message\n"
-                        },
-                        {
-                          "text": "Testing valid message with no image\n"
-                        },
-                        {
-                          "text": "Capturing screenshot for mobile view of 7-valid-message-no-image\n"
-                        },
-                        {
-                          "text": "Handling test video...\n"
-                        },
-                        {
-                          "text": "Test status: passed\n"
-                        },
-                        {
-                          "text": "Video attachment found: undefined\n"
-                        },
-                        {
-                          "text": "Video attachment: undefined\n"
-                        },
-                        {
-                          "text": "No video attachment found for this test.\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2024-09-30T16:39:32.342Z",
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/validation-tests-createMes-668c3-orm-and-capture-screenshots-chromium/test-finished-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/validation-tests-createMes-668c3-orm-and-capture-screenshots-chromium/video.webm"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "923c3ef08c64e33fe528-f27ee6cfc7315d4271dd",
@@ -221,14 +698,125 @@
           ]
         }
       ]
+    },
+    {
+      "title": "validation-tests/createPost.spec.js",
+      "file": "validation-tests/createPost.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Create Post Process",
+          "file": "validation-tests/createPost.spec.js",
+          "line": 8,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Validate create post form and capture alerts",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a38d7e811a3b26736bb6-9960280fa8ece739dcdf",
+              "file": "validation-tests/createPost.spec.js",
+              "line": 9,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "validation-tests/signIn.spec.js",
+      "file": "validation-tests/signIn.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Sign In Process",
+          "file": "validation-tests/signIn.spec.js",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Validate sign-in form and capture alerts",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b27704c65ccf9639f4d0-73ba70ba5999255693cc",
+              "file": "validation-tests/signIn.spec.js",
+              "line": 7,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "validation-tests/signUp.spec.js",
+      "file": "validation-tests/signUp.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Sign Up Process",
+          "file": "validation-tests/signUp.spec.js",
+          "line": 12,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Validate sign-up form and capture alerts",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "5ec53c1ec244d036db5e-43557d63761a3c24f039",
+              "file": "validation-tests/signUp.spec.js",
+              "line": 13,
+              "column": 7
+            }
+          ]
+        }
+      ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2024-09-30T16:39:31.655Z",
-    "duration": 9962.217,
-    "expected": 1,
-    "skipped": 0,
+    "startTime": "2024-09-30T16:58:26.240Z",
+    "duration": 250.37,
+    "expected": 0,
+    "skipped": 26,
     "unexpected": 0,
     "flaky": 0
   }
