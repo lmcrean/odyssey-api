@@ -140,7 +140,6 @@ function MessageDetail() {
                           <span className={styles.DateBubble}>{date}</span>
                         </div>
                         {msgs.map((message, index) => {
-                          // Determine whether to show the avatar or MessageTriangle based on consecutive messages from the same sender
                           const isPreviousFromSameSender = index > 0 && messages.results[index - 1].sender === message.sender;
                           const isBegin = !isPreviousFromSameSender;
                           return (
@@ -181,7 +180,14 @@ function MessageDetail() {
         </Col>
       </Row>
       <Container className={styles.FormContainer}>
-        <MessageDetailSendForm messages={messages} setMessages={setMessages} recipientUsername={recipientUsername} user_id={user_id} />
+        <MessageDetailSendForm 
+          messages={messages} 
+          setMessages={setMessages} 
+          recipientUsername={recipientUsername} 
+          user_id={user_id}
+          onMessageSubmit={(data) => {/* Handle message submit if needed */}}
+          onMessageSent={scrollToBottom}
+        />
       </Container>
 
       <Modal show={showModal} onHide={handleCloseModal}>

@@ -53,3 +53,44 @@ export async function captureScreenshot(page, testName, pageName, fullPage = fal
     await page.setViewportSize({ width: 375, height: 667 });
   }
 }
+
+export async function handleTestVideo(testInfo) {
+  console.log('Handling test video...');
+  console.log('Test status:', testInfo.status);
+  
+  // Wait for the video to be ready
+  await testInfo.attachments.find(attachment => attachment.name === 'video');
+  console.log('Video attachment found:', testInfo.attachments.find(attachment => attachment.name === 'video'));
+
+  const videoAttachment = testInfo.attachments.find(attachment => attachment.name === 'video');
+  console.log('Video attachment:', videoAttachment);
+  if (videoAttachment) {
+    const videoPath = videoAttachment.path;
+    console.log('Video path:', videoPath);
+    
+    if (videoPath) {
+      const videoDir = path.join('playwright', 'videos', testInfo.title);
+      const newPath = path.join(videoDir, `${testInfo.title}.webm`);
+      
+      // Ensure the directory exists
+      fs.mkdirSync(videoDir, { recursive: true });
+
+      // Wait for the video file to be fully written
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Move the video file
+      fs.renameSync(videoPath, newPath);
+      console.log(`Video saved to: ${newPath}`);
+    } else {
+      console.log('Video path is undefined.');
+    }
+  } else {
+    console.log('No video attachment found for this test.');
+  }
+}
+
+export async function handleFailedTestVideo(testInfo) {
+  if (testInfo.status !== testInfo.expectedStatus) {
+    await handleTestVideo(testInfo);
+  }
+}

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { captureScreenshot, baseURL, login } from './testUtils';
+import { login, captureScreenshot, handleTestVideo, baseURL, handleFailedTestVideo } from './testUtils';
 import path from 'path';
 
 const BASE_URL = baseURL;
@@ -111,4 +111,8 @@ test.describe('Message Detail Send Form Validation', () => {
     await page.waitForTimeout(2000);
     await captureScreenshot(page, 'message-send', '7-valid-message-no-image');
   });
+});
+
+test.afterEach(async ({ }, testInfo) => {
+  await handleTestVideo(testInfo);
 });

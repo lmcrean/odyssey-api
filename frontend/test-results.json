@@ -87,7 +87,7 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 7869,
+                      "duration": 9158,
                       "errors": [],
                       "stdout": [
                         {
@@ -176,16 +176,36 @@
                         },
                         {
                           "text": "Capturing screenshot for mobile view of 7-valid-message-no-image\n"
+                        },
+                        {
+                          "text": "Handling test video...\n"
+                        },
+                        {
+                          "text": "Test status: passed\n"
+                        },
+                        {
+                          "text": "Video attachment found: undefined\n"
+                        },
+                        {
+                          "text": "Video attachment: undefined\n"
+                        },
+                        {
+                          "text": "No video attachment found for this test.\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-09-30T15:53:11.116Z",
+                      "startTime": "2024-09-30T16:39:32.342Z",
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
                           "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/validation-tests-createMes-668c3-orm-and-capture-screenshots-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/workspace/moments-drf-api-clone-3/frontend/test-results/validation-tests-createMes-668c3-orm-and-capture-screenshots-chromium/video.webm"
                         }
                       ]
                     }
@@ -205,8 +225,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2024-09-30T15:53:10.426Z",
-    "duration": 8683.669,
+    "startTime": "2024-09-30T16:39:31.655Z",
+    "duration": 9962.217,
     "expected": 1,
     "skipped": 0,
     "unexpected": 0,

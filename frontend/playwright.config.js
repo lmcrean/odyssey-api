@@ -1,18 +1,24 @@
 // @ts-check
-const { defineConfig, devices } = require('@playwright/test');
+import { defineConfig, devices } from '@playwright/test';
 
-module.exports = defineConfig({
+
+
+export default defineConfig({
   testDir: './playwright',
   fullyParallel: true,
-  forbidOnly: !!process.env.CI, 
+  forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined, 
+  workers: process.env.CI ? 1 : undefined,
   reporter: [['list'], ['json', { outputFile: 'test-results.json' }]],
-  outputDir: 'test-results',  // Changed from 'screenshots' to 'test-results'
+  outputDir: 'test-results',
   use: {
     baseURL: 'http://localhost:8080',
     trace: 'on-first-retry',
     screenshot: 'on',
+    video: {
+      mode: 'on',
+      size: { width: 640, height: 480 }
+    },
     headless: true,
   },
   projects: [

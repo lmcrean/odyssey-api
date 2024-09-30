@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faImage, faTimes } from '@fortawesome/free-solid-svg-icons';
 import styles from "../../styles/modules/MessageDetailSendForm.module.css";
 
-function MessageDetailSendForm({ setMessages, messages }) {
+function MessageDetailSendForm({ setMessages, messages, onMessageSubmit, onMessageSent }) {
   const { id } = useParams();
   const [formData, setFormData] = useState({
     content: "",
@@ -115,6 +115,12 @@ function MessageDetailSendForm({ setMessages, messages }) {
         ...prevMessages,
         results: [...prevMessages.results, data],
       }));
+
+      // Call the onMessageSubmit prop function
+      onMessageSubmit(data);
+
+      // Call the new onMessageSent prop function
+      onMessageSent();
 
       setFormData({ content: "", image: null });
       setImagePreview(null);
