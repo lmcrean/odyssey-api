@@ -1,73 +1,27 @@
-# Moments - API
-## Project description
-Moments is a social media platform. It has been designed for its users to share their life's moments. The application consists of the React app and an API. Welcome to the Django Rest Framework API project section.
+<center>
 
-## User stories
-| Category  | as | I want to           | so that I can                                                                                    | mapping API feature                          |
-| --------- | -------- | ------------------------------ | ------------------------------------------------------------------------------------------------ | -------------------------------------------- |
-| auth      | user     | register for an account        | have a personal profile with a picture                                                           | dj-rest-auth<br>Create profile (signals)     |
-| auth      | user     | register for an account        | create, like and comment on posts                                                                | Create post<br>Create comment<br>Create like |
-| auth      | user     | register for an account        | follow users                                                                                     | Create follower                              |
-| posts     | visitor  | view a list of posts           | browse the most recent uploads                                                                   | List/ Filter posts                           |
-| posts     | visitor  | view an individual post        | see user feedback, i.e. likes and read comments                                                  | Retrieve post                                |
-| posts     | visitor  | search a list of posts         | find a post by a specific artist or a title                                                      | List/ Filter posts                           |
-| posts     | visitor  | scroll through a list of posts | browse the site more comfortably                                                                 | List/ Filter posts                           |
-| posts     | user     | edit and delete my post        | correct or hide any mistakes                                                                     | Update property<br>Destroy property          |
-| posts     | user     | create a post                  | share my moments with others                                                                     | Create post                                  |
-| posts     | user     | view liked posts               | go back often to my favourite posts                                                              | List/ Filter posts                           |
-| posts     | user     | view followed users' posts     | keep up with my favourite users' moments                                                         | List/ Filter posts                           |
-| likes     | user     | like a post                    | express my interest in someone's shared moment                                                   | Create like                                  |
-| likes     | user     | unlike a post                  | express that my interest in someone's shared moment has faded away                               | Destroy like                                 |
-| comments  | user     | create a comment               | share my thoughts on other people's content                                                      | Create comment                               |
-| comments  | user     | edit and delete my comment     | correct or hide any mistakes                                                                     | Update comment<br>Destroy comment            |
-| profiles  | user     | view a profile                 | see a user's recent posts + post, followers, following count data                                | Retrieve profile<br>List/ filter posts       |
-| profiles  | user     | edit a profile                 | update my profile information                                                                    | Update profile                               |
-| followers | user     | follow a profile               | express my interest in someone's content                                                         | Create follower                              |
-| followers | user     | unfollow a profile             | express that my interest in someone's content has faded away and remove their posts from my feed | Destroy follower                             |
+<img src="docs/assets/media/2024-09-16-16-04-41.png" alt="Logo" width="300px"></img>
 
-## Entity Relationship Diagram
-![ERD](https://res.cloudinary.com/dgjrrvdbl/image/upload/v1649155000/moments-api-erd_aw81vx.png)
+Odyssey is a social media application that was build on a unified repository with React and Django.
 
-## Models and CRUD breakdown
-| model     | endpoints                    | create        | retrieve | update | delete | filter                   | text search |
-| --------- | ---------------------------- | ------------- | -------- | ------ | ------ | ------------------------ | ----------- |
-| users     | users/<br>users/:id/         | yes           | yes      | yes    | no     | no                       | no          |
-| profiles  | profiles/<br>profiles/:id/   | yes (signals) | yes      | yes    | no     | following<br>followed    | name        |
-| likes     | likes/<br>likes/:id/         | yes           | yes      | no     | yes    | no                       | no          |
-| comments  | comments/<br>comments/:id/   | yes           | yes      | yes    | yes    | post                     | no          |
-| followers | followers/<br>followers/:id/ | yes           | yes      | no     | yes    | no                       | no          |
-| posts     | posts/<br>posts/:id/         | yes           | yes      | yes    | yes    | profile<br>liked<br>feed | title       |
+<!-- GitHub shields for React, CSS, JavaScript, Cloudinary, Django Rest Framework -->
 
-## Tests
-- Posts app:
-    - logged out users can list posts
-    - logged in users can create a post
-    - logged out users can't create a post
-    - logged out users can retrieve a post with a valid id
-    - logged out users can't retrieve a post with an invalid id
-    - logged in users can update a post they own
-    - logged in users can't update a post they don't own
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white) ![Bootstrap](https://img.shields.io/badge/React_Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white) ![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white) ![Django Rest Framework](https://img.shields.io/badge/Django%20Rest%20Framework-092E20?style=for-the-badge&logo=django&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 
-## Deployment steps
-- set the following environment variables:
-    - CLIENT_ORIGIN
-    - CLOUDINARY_URL
-    - DATABASE_URL
-    - DISABLE_COLLECTSTATIC
-    - SECRET_KEY
-- installed the following libraries to handle database connection:
-    - psycopg2
-	- dj-database-url
-- configured dj-rest-auth library for JWTs
-- set allowed hosts
-- configured CORS:
-	- set allowed_origins
-- set default renderer to JSON
-- added Procfile with release and web commands
-- gitignored the env&#46;py file
-- generated requirements.txt
-- deployed to Heroku
+
+![Playwright](https://img.shields.io/badge/playwright-5%20passed%2C%200%20failed-brightgreen?logo=playwright) ![Jest](https://img.shields.io/badge/jest-11%20passed%2C%200%20failed-brightgreen?logo=jest) ![Cypress](https://img.shields.io/badge/cypress-4%20passed%2C%200%20failed-brightgreen?logo=cypress)  ![Python](https://img.shields.io/badge/python-38%20passed%2C%200%20failed-brightgreen?logo=python)
 
 ---
+<h1>
+<font color="green">
 
-Happy coding!
+
+<b>The documentation is best navigated in Docsify using the Sidebar feature - click here to visit <a href="https://odyssey-docs.lauriecrean.dev">https://odyssey-docs.lauriecrean.dev</a>
+
+</font> </h1>
+
+</b>
+
+If you are viewing in Github, the sidebar will not be visible and you will need to manually browse through the .md files in the `docs/` repository.
+
+---
