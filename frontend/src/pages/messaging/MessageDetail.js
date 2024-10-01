@@ -37,7 +37,6 @@ function MessageDetail() {
         console.log("Fetched messages:", data);
         setMessages({ results: data.results });
         setHasLoaded(true);
-        scrollToBottom();
       } catch (err) {
         if (err.response && err.response.status === 404) {
           console.log("No chat exists for this user, creating a new chat in the API...");
@@ -90,6 +89,12 @@ function MessageDetail() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (hasLoaded && messages.results.length > 0) {
+      scrollToBottom();
+    }
+  }, [hasLoaded, messages.results]);
 
   const handleDeleteChat = async () => {
     try {
@@ -210,6 +215,11 @@ function MessageDetail() {
           className={`${styles.ScrollToBottomButton} ${size.width <= 768 ? styles.MobileButton : styles.DesktopButton}`}
           onClick={scrollToBottom}
           variant="secondary"
+          ref={(button) => {
+            if (button && hasLoaded && !showScrollButton) {
+              button.click();
+            }
+          }}
         >
           <FontAwesomeIcon icon={faArrowDown} />
         </Button>

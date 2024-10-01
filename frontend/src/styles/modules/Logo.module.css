@@ -1,5 +1,7 @@
 .logoContainer {
     display: flex;
+    max-width: 200px;
+    margin: auto;
   }
   
   .logoContainer svg {

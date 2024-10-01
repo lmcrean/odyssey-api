@@ -29,7 +29,7 @@ h5 {
 }
 
 .Date {
-  color: var(--color-secondary-text);
+  color: var(--color-secondary-text) !important;
   font-style: italic !important;
 }
 
