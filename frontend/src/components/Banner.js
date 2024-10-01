@@ -1,6 +1,7 @@
 import React from "react";
-import { Container, Row, Col, Image } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import styles from "../styles/modules/Banner.module.css";
+import Logo from "./Logo";
 
 const Banner = () => {
   return (
@@ -10,18 +11,13 @@ const Banner = () => {
         style={{ borderRadius: '20px' }}
         >
       <Row className="align-items-center text-center text-lg-left">
-        <Col xs={12} lg={6} className="mb-3 mb-lg-0">
-          <Image
-            src="https://res.cloudinary.com/dh5lpihx1/image/upload/v1724521404/media/images/logo_mainpage.png"
-            alt="Website Logo"
-            fluid
-            className="w-100 green-filter"
-          />
+        <Col xs={12} lg={4} className="mb-3 mb-lg-0">
+          <Logo />
         </Col>
-        <Col xs={12} lg={6}>
-          <h1 className="bold">Discover the power of shared goals</h1>
-          <p className="text-muted">
-            Explore posts, follow popular profiles, and stay connected with the
+        <Col xs={8} lg={8} className="m-auto">
+          <h1 className={`bold ${styles.Title}`}>ODYSSEY</h1>
+          <p className={`muted ${styles.SubTitle}`}>
+            Discover the power of shared goals. Explore posts, follow popular profiles, and stay connected with the
             community through our messaging feature.
           </p>
         </Col>

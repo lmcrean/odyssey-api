@@ -58,13 +58,21 @@
   color: var(--color-primary-text) !important;
 }
 
-.Logo {
-  width: 50px;
-  height: auto;
-  margin-bottom: 20px;
+.LogoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;  
+  height: 50px;  
+  margin-bottom: 15px;
 }
 
-.ProfileNavItem { /*special styling for the profile nav item */
+.LogoContainer svg {
+  width: 100%;
+  height: 100%;
+}
+
+.ProfileNavItem { /*special styling for the profile nav item at the bottom */
   position: absolute;
   bottom: 15px;
   left: 0;

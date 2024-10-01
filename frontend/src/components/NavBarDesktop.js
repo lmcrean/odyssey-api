@@ -6,12 +6,12 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompass, faPlus, faEnvelope, faUser, faSignInAlt, faUserPlus, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import NavBarMore from "./NavBarMore";
+import Logo from "./Logo";
 
 const NavBarDesktop = () => {
   const currentUser = useCurrentUser();
   const { lightMode, setLightMode } = useContext(ThemeContext);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
-  const logoURL = "https://res.cloudinary.com/dh5lpihx1/image/upload/v1724410546/media/images/logo_buvyq3.png";
 
   const toggleMore = () => setIsMoreOpen(!isMoreOpen);
 
@@ -81,7 +81,9 @@ const NavBarDesktop = () => {
 
   return (
     <nav className={styles.NavBarDesktop}>
-      <img src={logoURL} alt="Logo" className={`${styles.Logo} green-filter`} />
+      <div className={styles.LogoContainer}>
+        <Logo />
+      </div>
       <div className={styles.NavLinks}>
         {currentUser ? loggedInIcons : loggedOutIcons}
       </div>

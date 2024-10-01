@@ -125,15 +125,16 @@ Tests are located in the `cypress/integration` folder. To run the tests, use the
 
 1. Open 3 split terminals and run terminal one and two **exactly the same way as Playwright instructions**,
 
-2. In terminal 3, run the following command to set up cypress:
+2. In terminal 3, run the following commands to set up cypress (shortened version of the commands for readability, see package.json):
 
 ```bash
 cd frontend
-sudo apt-get update
-sudo apt-get install -y xvfb libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-npx cypress install
-npx cypress verify
+npm run cypress 1
+npm run cypress 2
+npm run cypress 3
 ```
+
+these commands will install prerequisites before finally installing cypress.
 
 3. In the same terminal, run the following command to run the tests:
 
