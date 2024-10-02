@@ -45,7 +45,7 @@ const NavBarDesktop = () => {
         <div className={styles.NavLink}>
           <FontAwesomeIcon icon={faUser} />
         </div>
-        <span className={styles.NavText}>Profile</span>
+        <span className={styles.NavText} data-id="my-profile">Profile</span>
       </div>
     </>
   );

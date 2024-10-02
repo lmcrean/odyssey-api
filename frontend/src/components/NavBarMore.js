@@ -68,7 +68,7 @@ const NavBarMore = ({ onClose, isDesktop }) => {
 
   return (
     <div className={`${styles.NavBarMore} ${isDesktop ? styles.NavBarMoreDesktop : ''}`} ref={moreRef} >
-      <NavItem icon={faUser} text="My Profile" onClick={handleProfileClick} itemKey="profile" />
+      <NavItem data-id="go-to-profile" icon={faUser} text="My Profile" onClick={handleProfileClick} itemKey="profile" />
       <NavItem icon={lightMode ? faMoon : faSun} text="Color Theme" onClick={toggleTheme} itemKey="theme" />
       <NavItem icon={faSignOutAlt} text="Sign Out" onClick={handleSignOut} itemKey="signout" />
     </div>

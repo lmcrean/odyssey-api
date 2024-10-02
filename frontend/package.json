@@ -52,7 +52,11 @@
     "test:signin": "npx playwright test signIn.spec.js",
     "test:pc": "npx playwright test createPost.spec.js",
     "test:c": "npx playwright test createComment.spec.js",
-    "test:m": "npx playwright test createMessage.spec.js"
+    "test:m": "npx playwright test createMessage.spec.js",
+    "test:u": "npx playwright test updateUsername.spec.js --trace on",
+    "test:p": "npx playwright test updatePassword.spec.js",
+    "test:b": "npx playwright test updateBio.spec.js",
+    "tr": "npx playwright show-report test-results/html-report"
   },
   "eslintConfig": {
     "extends": [

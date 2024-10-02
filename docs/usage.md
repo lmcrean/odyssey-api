@@ -26,7 +26,7 @@ To get the frontend app up and running locally, follow these steps:
    ```
 
 4. **Install correct node version**:
-   Run the following command to start the React app locally:
+   Run the following command to check Node Version Manager (nvm) has installed the correct version of Node.js:
 
    ```bash
    nvm install 16
@@ -58,13 +58,13 @@ To get the frontend app up and running locally, follow these steps:
 ## Committing to Production - Note on compiling static files
 
 
-This command will delete the old `build` and replace it with the new one: 
+This command will delete the old `build` and replace it with the new one with `npm run build && rm -rf ../staticfiles/build && mv build ../staticfiles/. `
 
 ```bash
-npm run build && rm -rf ../staticfiles/build && mv build ../staticfiles/.
+npm run deploy
 ```
 
-You will need to re-run this command any time you want to deploy changes to the static files in your project, including the React code. To do this, you need to delete the existing `build` folder and rebuild it.
+You will need to re-run this command any time you want to deploy changes to the static files in your project, including the React code.
 
 
 # Automated Testing Instructions
