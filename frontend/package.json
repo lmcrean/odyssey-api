@@ -55,7 +55,7 @@
     "test:m": "npx playwright test createMessage.spec.js",
     "test:u": "npx playwright test updateUsername.spec.js --trace on",
     "test:p": "npx playwright test updatePassword.spec.js --trace on",
-    "test:b": "npx playwright test updateBio.spec.js",
+    "test:b": "npx playwright test updateProfile.spec.js --trace on",
     "tr": "npx playwright show-report test-results/html-report"
   },
   "eslintConfig": {
