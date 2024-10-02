@@ -9,7 +9,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 
-import { axiosReq } from "../../api/axiosDefaults";
+import { axiosReq, axiosRes } from "../../api/axiosDefaults";
 import {
   useCurrentUser,
   useSetCurrentUser,
@@ -32,54 +32,130 @@ const ProfileEditForm = () => {
   });
   const { name, content, image } = profileData;
 
-  const [errors, setErrors] = useState({});
+  const [error, setError] = useState("");
+  const [customError, setCustomError] = useState("");
+  const [isAuthorized, setIsAuthorized] = useState(true);
 
   useEffect(() => {
-    const handleMount = async () => {
-      if (currentUser?.profile_id?.toString() === id) {
-        try {
-          const { data } = await axiosReq.get(`/profiles/${id}/`);
-          const { name, content, image } = data;
-          setProfileData({ name, content, image });
-        } catch (err) {
-          
-          history.push("/");
+    const fetchProfileData = async () => {
+      try {
+        const { data } = await axiosReq.get(`/profiles/${id}/`);
+        console.log('Fetched profile data:', data);
+        console.log('Current user ID:', currentUser?.pk);
+        console.log('Profile user ID:', data.id);
+        if (data.id === currentUser?.profile_id) {
+          setIsAuthorized(true);
+          setProfileData({ name: data.name, content: data.content, image: data.image });
+        } else {
+          setIsAuthorized(false);
+          setCustomError("You are not authorized to edit this profile.");
         }
-      } else {
-        history.push("/");
+      } catch (err) {
+        console.error("Error fetching profile data:", err);
+        setIsAuthorized(false);
+        setCustomError("An error occurred while verifying your authorization. Please check you are logged in as the correct user.");
       }
     };
-
-    handleMount();
-  }, [currentUser, history, id]);
+  
+    if (currentUser && id) {
+      fetchProfileData();
+    }
+  }, [currentUser, id]);
 
   const handleChange = (event) => {
+    const { name, value } = event.target;
     setProfileData({
       ...profileData,
-      [event.target.name]: event.target.value,
+      [name]: value,
     });
+  
+    setError("");
+    setCustomError("");
+  
+    // Validate bio content
+    if (name === 'content') {
+      if (value.length > 1000) {
+        setError("Bio content cannot exceed 1000 characters.");
+      } else if (value.trim() === "") {
+        setError("Bio content cannot be empty or contain only spaces.");
+      } else if (value.startsWith("    ")) {
+        setError("Bio content cannot start with more than three spaces.");
+      }
+    }
+  };
+  
+  const handleImageChange = (event) => {
+    if (event.target.files.length) {
+      const file = event.target.files[0];
+      
+      // Validate image file
+      if (!file.type.startsWith('image/')) {
+        setError("Invalid file type. Please upload a valid image.");
+      } else if (file.size > 2 * 1024 * 1024) { // 2MB limit
+        setError("The image file is too large. Maximum size is 2MB.");
+      } else {
+        setProfileData({
+          ...profileData,
+          image: URL.createObjectURL(file),
+        });
+        setError("");
+      }
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setError("");
+    setCustomError("");
+  
+    // Client-side validation for bio length
+    if (content.length > 1000) {
+      setError("Bio content cannot exceed 1000 characters.");
+      return;  // Prevent form submission
+    }
+
+    if (content.trim() === "") {
+      setError("Bio content cannot be empty.");
+      return;  // Prevent form submission
+    }
+
+    if (content.includes("   ")) {
+      setError("Bio content cannot contain more than 2 spaces in a row.");
+      return;  // Prevent form submission
+    }
+  
     const formData = new FormData();
     formData.append("name", name);
     formData.append("content", content);
-
+  
     if (imageFile?.current?.files[0]) {
       formData.append("image", imageFile?.current?.files[0]);
     }
-
+  
     try {
-      const { data } = await axiosReq.put(`/profiles/${id}/`, formData);
-      setCurrentUser((currentUser) => ({
-        ...currentUser,
+      const { data } = await axiosRes.put(`/profiles/${id}/`, formData);
+      setCurrentUser((prevUser) => ({
+        ...prevUser,
         profile_image: data.image,
       }));
       history.goBack();
     } catch (err) {
-      
-      setErrors(err.response?.data);
+      console.error("Error updating profile:", err);
+      if (err.response?.status === 400) {
+        // Handle specific validation errors
+        const errorData = err.response.data;
+        if (errorData.content) {
+          setError(errorData.content[0]);
+        } else if (errorData.image) {
+          setError(errorData.image[0]);
+        } else {
+          setError("Validation error. Please check your inputs.");
+        }
+      } else if (err.response?.status === 401 || err.response?.status === 403) {
+        setCustomError("You don't have permission to perform this action.");
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
     }
   };
 
@@ -96,11 +172,8 @@ const ProfileEditForm = () => {
         />
       </Form.Group>
 
-      {errors?.content?.map((message, idx) => (
-        <Alert variant="warning" key={idx}>
-          {message}
-        </Alert>
-      ))}
+      {error && <Alert variant="warning">{error}</Alert>}
+      {customError && <Alert variant="warning">{customError}</Alert>}
       <Button
         className={`${btnStyles.Button} btn-secondary`}
         onClick={() => history.goBack()}
@@ -118,40 +191,36 @@ const ProfileEditForm = () => {
       <Row>
         <Col className="py-2 p-0 p-md-2 text-center" md={7} lg={6}>
           <Container className={appStyles.Content}>
-            <Form.Group>
-              {image && (
-                <figure>
-                  <Image src={image} fluid />
-                </figure>
-              )}
-              {errors?.image?.map((message, idx) => (
-                <Alert variant="warning" key={idx}>
-                  {message}
-                </Alert>
-              ))}
-              <div>
-                <Form.Label
-                  className={`${btnStyles.Button} ${btnStyles.Blue} btn my-auto`}
-                  htmlFor="image-upload"
-                >
-                  Change the image
-                </Form.Label>
-              </div>
-              <Form.File
-                id="image-upload"
-                ref={imageFile}
-                accept="image/*"
-                onChange={(e) => {
-                  if (e.target.files.length) {
-                    setProfileData({
-                      ...profileData,
-                      image: URL.createObjectURL(e.target.files[0]),
-                    });
-                  }
-                }}
-              />
-            </Form.Group>
-            <div className="d-md-none">{textFields}</div>
+            {!isAuthorized ? (
+              <Alert variant="warning">
+                {customError}
+              </Alert>
+            ) : (
+              <>
+                <Form.Group>
+                  {image && (
+                    <figure>
+                      <Image src={image} fluid />
+                    </figure>
+                  )}
+                  <div>
+                    <Form.Label
+                      className={`${btnStyles.Button} ${btnStyles.Blue} btn my-auto`}
+                      htmlFor="image-upload"
+                    >
+                      Change the image
+                    </Form.Label>
+                  </div>
+                  <Form.File
+                    id="image-upload"
+                    ref={imageFile}
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
+                </Form.Group>
+                <div className="d-md-none">{textFields}</div>
+              </>
+            )}
           </Container>
         </Col>
         <Col md={5} lg={6} className="d-none d-md-block p-0 p-md-2 text-center">
