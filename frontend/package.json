@@ -54,7 +54,7 @@
     "test:c": "npx playwright test createComment.spec.js",
     "test:m": "npx playwright test createMessage.spec.js",
     "test:u": "npx playwright test updateUsername.spec.js --trace on",
-    "test:p": "npx playwright test updatePassword.spec.js",
+    "test:p": "npx playwright test updatePassword.spec.js --trace on",
     "test:b": "npx playwright test updateBio.spec.js",
     "tr": "npx playwright show-report test-results/html-report"
   },
