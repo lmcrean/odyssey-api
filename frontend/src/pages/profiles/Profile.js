@@ -19,6 +19,7 @@ const Profile = (props) => {
     hideOwner = false, 
     hideAvatar = false,
     hideMessage = false,
+    hideFollow = false,
     followLabel = "Follow",
     unfollowLabel = "Unfollow",
     messageLabel = "Message",
@@ -76,10 +77,10 @@ const Profile = (props) => {
         </div>
       )}
       <div className={`d-flex flex-column text-center ${!mobile && "ml-auto"}`}>
-        {currentUser && !is_owner && (
+        {currentUser && !is_owner && !hideFollow && !hideMessage && (
           <>
             <div className="d-flex justify-content-center">
-              {following_id ? (
+              {!hideFollow && (following_id ? (
                 <OverlayTrigger
                   placement="top"
                   overlay={<Tooltip>{unfollowLabel}</Tooltip>}
@@ -106,7 +107,7 @@ const Profile = (props) => {
                     {isLoading ? 'Loading...' : <i className="fas fa-user-plus"></i>}
                   </Button>
                 </OverlayTrigger>
-              )}
+              ))}
               {!hideMessage && (
                 <OverlayTrigger
                   placement="top"
@@ -123,7 +124,7 @@ const Profile = (props) => {
             </div>
             {showLabels && (
               <div className="mt-2 d-flex justify-content-center">
-                <div className="m-auto">{following_id ? unfollowLabel : followLabel}</div>
+                {!hideFollow && <div className="m-auto">{following_id ? unfollowLabel : followLabel}</div>}
                 {!hideMessage && <div className="m-auto">{messageLabel}</div>}
               </div>
             )}

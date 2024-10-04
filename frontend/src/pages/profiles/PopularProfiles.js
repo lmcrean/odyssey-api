@@ -1,5 +1,3 @@
-// src/pages/profiles/PopularProfiles.js
-
 import React from "react";
 import Container from "react-bootstrap/Container";
 import appStyles from "../../App.module.css";
@@ -25,13 +23,15 @@ const PopularProfiles = ({ mobile }) => {
           {mobile ? (
             <div className="d-flex justify-content-around">
               {popularProfiles.results
-                .filter((profile) => profile.id !== currentUser?.profile_id) // Filter out the current user
+                .filter((profile) => profile.id !== currentUser?.profile_id)
                 .slice(0, 4)
                 .map((profile) => (
                   <Profile
                     key={profile.id}
                     profile={profile}
                     mobile
+                    hideMessage={true}
+                    hideFollow={true}
                     className={styles.ProfileItem}
                   />
                 ))}
