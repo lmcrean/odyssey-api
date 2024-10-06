@@ -6,7 +6,8 @@ const BASE_URL = 'http://localhost:8080';
 
 export async function login(page) {
   console.log('Logging in...');
-  // Navigate to signin page and capture screenshots
+
+  // Navigate to signin page
   await page.goto(`${BASE_URL}/signin`);
   console.log('Navigated to signin page');
 
@@ -41,7 +42,7 @@ export async function captureScreenshot(page, testName, pageName) {
     { name: 'desktop', width: 1920, height: 1080 }
   ];
 
-  const screenshotDir = path.join('screenshots', testName);
+  const screenshotDir = path.join('playwright', 'screenshots', 'get-requests', testName);
 
   // Ensure the directory exists
   if (!fs.existsSync(screenshotDir)) {

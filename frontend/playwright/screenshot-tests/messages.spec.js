@@ -16,5 +16,12 @@ test('Capture screenshot of messages page', async ({ page }) => {
   // Capture screenshot of messages page
   await captureScreenshot(page, 'messages', 'messages-page');
 
+  await page.goto(`${BASE_URL}/messages/4`);
+  await page.waitForLoadState('networkidle');
+  console.log('Navigated to messages page');
+
+  // Capture screenshot of messages page
+  await captureScreenshot(page, 'messages', 'message-detail');
+
   console.log('Test completed for messages page');
 });

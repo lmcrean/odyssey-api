@@ -24,7 +24,7 @@ export async function login(page) {
 }
 
 export async function captureScreenshot(page, testName, pageName, fullPage = false) {
-  const screenshotDir = path.join('playwright', 'screenshots', testName);
+  const screenshotDir = path.join('playwright', 'screenshots', 'alerts', testName);
 
   if (!fs.existsSync(screenshotDir)) {
     fs.mkdirSync(screenshotDir, { recursive: true });
