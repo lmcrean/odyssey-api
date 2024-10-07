@@ -29,6 +29,15 @@ test 3:
 
 ![image](/frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png)
 
+test 4:
+
+![image](https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png)
+
+
+test 5:
+
+<img src="https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png" alt="Mobile Messages Page" width="300">
+
 
 - **Real-Time Messaging**: Engage in instant messaging with individuals or groups.
 
