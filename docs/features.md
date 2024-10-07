@@ -27,28 +27,22 @@ The features enable users to interact with the app in a variety of ways. The app
 
 <img src="https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/get-requests/landing-page/desktop-scrolled-to-4th-post.png" alt="Mobile Messages Page" width="800">
 
-- Users can create posts and share them with their followers.
-- They can share images and text in their posts.
-- Users can follow other users and like their posts.
+- **Create Posts**: Users can create posts and share them with their followers.
+- **Share Images**: They can share images and text in their posts.
+- **Follow and Like**: Users can follow other users and like their posts.
 
 ## User Authentication
 
  <img src="https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/alerts/success-alerts/mobile-02-signup-success-disappeared.png" alt="Mobile Messages Page" width="300"> <img src="https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/alerts/success-alerts/mobile-03-signin-success.png" alt="Mobile Messages Page" width="300">
 
+- **Sign Up** Users can sign up for the app to create an account.
+- **Sign In** Users can log into the app to access their personalized dashboard.
 
-- Users can sign up and log into the app to access their personalized dashboard.
-
-## Follow your favourite Profiles
+## Discover your favourite Profiles
 
 ![profile-page.png](https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/get-requests/profiles/laptop-profile-141-page.png)
-![profile-page.png](https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/get-requests/profiles/mobile-profile-141-page.png)
 
-- Users can follow other users and view their posts on their dashboard.
-- Users can view detailed profiles of other users, which lists their posts
-- Users can customise their own profiles with a profile picture and bio.
-- The profile picture appears on posts and in the message section.
-
-
-## Automated Testing with Playwright
-
-Playwright is used to automate testing of the app - all of the screenshots above were taken using Playwright.
+- **Follow** Users can follow other users and view their posts on their dashboard.
+- **View Profiles** Users can view detailed profiles of other users, which lists their posts
+- **Update your information** Users can customise their own profiles with a profile picture and bio.
+- **Unique Avatars** The profile picture appears on posts and in the message section. All users are assigned a default avatar.
