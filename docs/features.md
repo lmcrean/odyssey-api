@@ -11,6 +11,16 @@ The features enable users to interact with the app in a variety of ways. The app
 ![frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png](../frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png) ![frontend/screenshots/messages/mobile-message-detail.png](../frontend/playwright/screenshots/get-requests/messages/mobile-message-detail.png)
 
 
+<img src="/frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png" alt="mobile-messages-page">
+
+![frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png](../frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png)
+
+![mobile-messages-page](/frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png)
+
+with alias test:
+![Playwright screenshot](/screenshots/get-requests/messages/mobile-messages-page.png)
+
+
 - **Real-Time Messaging**: Engage in instant messaging with individuals or groups.
 
 - **Message List**: View and scroll through a list of your active conversations.

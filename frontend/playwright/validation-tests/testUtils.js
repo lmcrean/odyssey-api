@@ -10,8 +10,8 @@ export async function login(page) {
   console.log('Navigated to signin page');
 
   console.log('Filling in login form...');
-  await page.fill('input[name="username"]', 'testuser');
-  await page.fill('input[name="password"]', 'qwerqwer*');
+  await page.fill('input[name="username"]', 'newuser8941');
+  await page.fill('input[name="password"]', 'strongpassword123');
 
   await Promise.all([
     page.click('button[type="submit"]'),
