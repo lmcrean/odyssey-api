@@ -62,3 +62,31 @@
   color: #d1d1d1 !important;
 }
 
+.sidebar-nav li {
+  position: relative;
+}
+
+.sidebar-nav li::before {
+  content: '▶';
+  position: absolute;
+  left: -15px;
+  top: 0px;
+  font-size: 10px;
+  transition: transform 0.2s;
+}
+
+.sidebar-nav li.open::before {
+  transform: rotate(90deg);
+}
+
+.sidebar-nav ul:not(.app-sub-sidebar) > li:not(.file)::before {
+  content: '▼';
+}
+
+.sidebar-nav ul:not(.app-sub-sidebar) > li:not(.file).collapse::before {
+  transform: rotate(-90deg);
+}
+
+.sidebar-nav li.collapse .app-sub-sidebar {
+  display: none;
+}

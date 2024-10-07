@@ -99,5 +99,29 @@
     </script>
     <script src="//unpkg.com/docsify-mermaid@2.0.0/dist/docsify-mermaid.js"></script>
     <script src="//unpkg.com/docsify-mermaid-zoom/dist/docsify-mermaid-zoom.js"></script>
+    <script>
+      window.addEventListener('DOMContentLoaded', (event) => {
+        // Add click event to sidebar items
+        document.querySelectorAll('.sidebar-nav li').forEach(item => {
+          item.addEventListener('click', function(e) {
+            if (e.target.tagName.toLowerCase() === 'a') return;
+            e.preventDefault();
+            this.classList.toggle('collapse');
+          });
+        });
+    
+        // Expand current page in sidebar
+        let activeLink = document.querySelector('.sidebar-nav li.active');
+        if (activeLink) {
+          let parent = activeLink.parentElement;
+          while (parent && !parent.classList.contains('sidebar-nav')) {
+            if (parent.tagName.toLowerCase() === 'li') {
+              parent.classList.remove('collapse');
+            }
+            parent = parent.parentElement;
+          }
+        }
+      });
+    </script>
   </body>
 </html>
