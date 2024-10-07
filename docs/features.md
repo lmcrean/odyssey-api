@@ -8,7 +8,7 @@ The features enable users to interact with the app in a variety of ways. The app
 
 ## Messaging
 
-![frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png](/frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png) ![frontend/screenshots/messages/mobile-message-detail.png](/frontend/playwright/screenshots/get-requests/messages/mobile-message-detail.png)
+![frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png](../frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png) ![frontend/screenshots/messages/mobile-message-detail.png](../frontend/playwright/screenshots/get-requests/messages/mobile-message-detail.png)
 
 
 - **Real-Time Messaging**: Engage in instant messaging with individuals or groups.
@@ -20,9 +20,9 @@ The features enable users to interact with the app in a variety of ways. The app
 
 ## Post, Comment and Like 
 
-![frontend/screenshots/posts/mobile-posts-page.png](/frontend/playwright/screenshots/alerts/create-post/mobile-image-uploaded.png)
+![frontend/screenshots/posts/mobile-posts-page.png](../frontend/playwright/screenshots/alerts/create-post/mobile-image-uploaded.png)
 
-![frontend/screenshots/posts/mobile-post-detail.png](/frontend/playwright/screenshots/get-requests/landing-page/desktop-scrolled-to-4th-post.png)
+![frontend/screenshots/posts/mobile-post-detail.png](../frontend/playwright/screenshots/get-requests/landing-page/desktop-scrolled-to-4th-post.png)
 
 - Users can create posts and share them with their followers.
 - They can share images and text in their posts.
@@ -34,8 +34,8 @@ The features enable users to interact with the app in a variety of ways. The app
 
 ## Follow your favourite Profiles
 
-![frontend/playwright/screenshots/get-requests/profiles/mobile-profile-page.png](/frontend/playwright/screenshots/get-requests/profiles/laptop-profile-141-page.png)
-![frontend/playwright/screenshots/get-requests/profiles/mobile-profile-page.png](/frontend/playwright/screenshots/get-requests/profiles/mobile-profile-141-page.png)
+![frontend/playwright/screenshots/get-requests/profiles/mobile-profile-page.png](../frontend/playwright/screenshots/get-requests/profiles/laptop-profile-141-page.png)
+![frontend/playwright/screenshots/get-requests/profiles/mobile-profile-page.png](../frontend/playwright/screenshots/get-requests/profiles/mobile-profile-141-page.png)
 
 - Users can follow other users and view their posts on their dashboard.
 - Users can view detailed profiles of other users, which lists their posts

@@ -369,3 +369,187 @@ Defined in `profiles/urls.py`:
 | `profiles/` | GET | List all profiles |
 | `profiles/<int:pk>/` | GET, PUT | Retrieve or update a specific profile |
 
+# Cloudinary Integration for image storage
+
+This project integrates Cloudinary for efficient media management and delivery. Cloudinary is used to store and serve images for posts, profiles, and messages.
+
+### Configuration
+
+The Cloudinary configuration is set up in `drf_api/settings.py`:
+
+```python
+CLOUDINARY_STORAGE = {
+    'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
+}
+MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+```
+
+The `CLOUDINARY_URL` is fetched from environment variables for security. This URL contains the necessary credentials for your Cloudinary account.
+
+Cloudinary is used in various models across the project:
+
+1. In `posts/models.py`, the `Post` model uses an `ImageField`:
+
+   ```python
+   image = models.ImageField(
+       upload_to='images/', default=get_default_post_image, blank=True
+   )
+   ```
+
+2. In `profiles/models.py`, the `Profile` model also uses an `ImageField`:
+
+   ```python
+   image = models.ImageField(
+       upload_to='images/', 
+       default=get_default_profile_image
+   )
+   ```
+
+3. In `messaging/models.py`, the `Message` model uses a `CloudinaryField`:
+
+   ```python
+   image = CloudinaryField('image', blank=True, null=True)
+   ```
+
+### Image Processing
+
+The `MessageSerializer` in `messaging/serializers.py` includes logic for validating and processing images before upload:
+
+```python
+def validate_image(self, image):
+    if image.size > 5 * 1024 * 1024:  # 5MB limit
+        raise serializers.ValidationError("Image file too large (max 5MB)")
+    
+    try:
+        img = Image.open(image)
+        img.verify()
+    except (IOError, Image.DecompressionBombError):
+        raise serializers.ValidationError("Invalid image file")
+    
+    return image
+```
+
+### Benefits of Cloudinary Integration
+
+1. **Efficient Storage**: Images are stored in the cloud, reducing server storage requirements.
+2. **Fast Delivery**: Cloudinary's CDN ensures quick image loading times for users worldwide.
+
+# Database Population and Mock Data
+
+## `populate_db` Management Command
+
+The project includes a custom Django management command `populate_db` to seed the database with initial data. This command is defined in `drf_api/management/commands/populate_db.py`.
+
+Key features:
+
+1. **Data Source**: Reads from `mock_data.json`.
+2. **User Creation**: Creates User and Profile objects.
+3. **Content Generation**: Creates Posts, Comments, and Likes.
+4. **Error Handling**: Manages potential integrity errors.
+
+The command performs the following steps:
+
+1. Creates User accounts and associated Profiles.
+2. Generates Posts for each user, with comments and likes.
+
+Usage:
+```bash
+python manage.py populate_db
+```
+
+## `mock_data.json`
+
+The `mock_data.json` file contains structured data used by the `populate_db` command. It includes:
+
+- User profiles with usernames and bio information.
+- Posts associated with each user, including titles, content, and image URLs.
+- Comments on posts.
+- Like relationships between users and posts.
+
+Structure of `mock_data.json`:
+```json
+{
+  "profiles": [{
+      "id": 1,
+      "username": "adventure_seeker",
+      "name": "Alex Thompson",
+      "content": "Exploring the world one adventure at a time",
+      "image": "profilepictures/adventure_seeker.jpg",
+      "posts": [{
+          "id": 1,
+          "title": "Scaling Mount Everest",
+          "content": "Just reached base camp! The view is breathtaking.",
+          "image": "placeholder_1.jpg", 
+          // image field was manually placed on Cloudinary with the corresponding URL 
+          // e.g. https://res.cloudinary.com/dh5lpihx1/image/upload/v1725533889/media/placeholder_1.jpg
+          "likes": [2, 4, 5, 7, 9],
+          "comments": [{
+              "id": 1,
+              "content": "Wow, what an incredible journey!",
+              "user_id": 2
+            },
+            {
+              "id": 2,
+              "content": "Stay safe up there!",
+              "user_id": 3
+            },
+            {
+              "id": 3,
+              "content": "The mountains look majestic!",
+              "user_id": 4
+            },
+            {
+              "id": 4,
+              "content": "How's the altitude treating you?",
+              "user_id": 5
+            },
+            {
+              "id": 5,
+              "content": "Living the dream, Alex!",
+              "user_id": 6
+            },
+            {
+              "id": 6,
+              "content": "Can't wait to see more photos!",
+              "user_id": 7
+            }
+          ]
+        },
+        // Additional posts...
+}
+```
+
+## Benefits of the Populated Database
+
+The populated database accelerates development by providing a consistent testing environment with meaningful data, enabling rapid feature development and effective demonstration of the application's capabilities.
+
+
+# Environment Variables
+
+This project uses environment variables to manage configuration settings securely. Here's an overview of the key variables:
+
+```python
+import os
+
+os.environ['SECRET_KEY'] = '********'  # Django secret key
+os.environ['CLOUDINARY_URL'] = 'cloudinary://************************'  # Cloudinary configuration URL
+os.environ['DATABASE_URL'] = 'postgres://**************************'  # Database URL for PostgreSQL
+os.environ['CLIENT_ORIGIN'] = 'https://*****************.herokuapp.com'  # Frontend application URL
+os.environ['ALLOWED_HOST'] = '*****************.herokuapp.com'  # Allowed host for the API
+os.environ['DEBUG'] = '1'  # Set to '1' for debug mode, '0' for production
+# os.environ['DEV'] = '1'  # Uncomment to enable development mode
+
+```
+
+These environment variables are crucial for the application's security and configuration:
+
+- `SECRET_KEY`: Used by Django for cryptographic signing.
+- `CLOUDINARY_URL`: Configuration for Cloudinary media storage.
+- `DATABASE_URL`: Connection string for the PostgreSQL database.
+- `CLIENT_ORIGIN`: URL of the frontend application for CORS settings.
+- `ALLOWED_HOST`: The domain name of the API for Django's security checks.
+- `DEBUG`: Enables Django's debug mode when set to '1'.
+- `DEV`: When uncommented and set to '1', enables development-specific settings.
+
+In a production environment, these variables should be set securely and not hard-coded in the source code. For local development, you might use a `.env` file or environment-specific configuration.

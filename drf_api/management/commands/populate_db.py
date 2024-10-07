@@ -30,7 +30,7 @@ class Command(BaseCommand):
             profile.content = profile_data.get('content', '')
             profile.save()
 
-        # Then, create posts, comments, and likes
+        # Then, create posts with comments, and likes
         for profile_data in data['profiles']:
             user = user_list[profile_data['id'] - 1]  
             if 'posts' in profile_data:
@@ -58,7 +58,6 @@ class Command(BaseCommand):
                         like_user = user_list[like_user_index]
                         Like.objects.get_or_create(owner=like_user, post=post)
             else:
-
                 continue
 
         self.stdout.write(self.style.SUCCESS('Successfully populated the database'))
