@@ -17,8 +17,11 @@ The features enable users to interact with the app in a variety of ways. The app
 
 ![mobile-messages-page](/frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png)
 
-with alias test:
+with alias test 2:
 ![Playwright screenshot](/screenshots/get-requests/messages/mobile-messages-page.png)
+
+<img src="../frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png" alt="Mobile Messages Page" width="300">
+<img src="../frontend/playwright/screenshots/get-requests/messages/mobile-message-detail.png" alt="Mobile Message Detail" width="300">
 
 
 - **Real-Time Messaging**: Engage in instant messaging with individuals or groups.

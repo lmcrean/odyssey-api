@@ -48,13 +48,6 @@
             },
           },
         },
-        plugins: [
-          function (hook) {
-            hook.doneEach(function () {
-              mermaid.init(undefined, ".mermaid");
-            });
-          },
-        ],
         search: {
           maxAge: 86400000,
           paths: "auto",
@@ -69,10 +62,29 @@
         mermaidConfig: {
           querySelector: ".mermaid",
         },
-        // alias: {
-        //   '/assets/(.*)': '/docs/assets/$1',
-        //   '/screenshots/(.*)': '/frontend/playwright/screenshots/$1'
-        // }
+        plugins: [
+          function (hook) {
+            hook.doneEach(function () {
+              mermaid.init(undefined, ".mermaid");
+            });
+          },
+          function(hook) {
+            hook.doneEach(function() {
+              // Function to resolve image paths
+              function resolveImagePath(src) {
+                if (src.startsWith('http')) return src; // External URLs
+                return window.location.pathname.includes('/docs/')
+                  ? src.replace(/^\.\.\//, '/') // Deployed (assumes '/docs/' in URL)
+                  : src; // Development
+              }
+
+              // Select all img tags and update their src
+              document.querySelectorAll('img').forEach(img => {
+                img.src = resolveImagePath(img.getAttribute('src'));
+              });
+            });
+          }
+        ]
       };
     </script>
 
