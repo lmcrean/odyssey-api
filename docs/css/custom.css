@@ -62,31 +62,78 @@
   color: #d1d1d1 !important;
 }
 
-.sidebar-nav li {
+/* Remove default styling for all list items */
+.sidebar-nav li::before {
+  content: none;
+}
+
+/* Style for top-level items */
+.sidebar-nav > ul > li {
   position: relative;
 }
 
-.sidebar-nav li::before {
+.sidebar-nav > ul > li:not(:has(> .sidebar-button))::before {
   content: '▶';
   position: absolute;
-  left: -15px;
+  left: -7px;
   top: 0px;
   font-size: 10px;
   transition: transform 0.2s;
 }
 
-.sidebar-nav li.open::before {
+/* Rotate arrow when item is open */
+li.active ::before {
   transform: rotate(90deg);
 }
 
-.sidebar-nav ul:not(.app-sub-sidebar) > li:not(.file)::before {
-  content: '▼';
-}
-
-.sidebar-nav ul:not(.app-sub-sidebar) > li:not(.file).collapse::before {
-  transform: rotate(-90deg);
-}
-
-.sidebar-nav li.collapse .app-sub-sidebar {
+/* Hide sub-items when collapsed */
+.sidebar-nav > ul > li.collapse > ul {
   display: none;
+}
+
+/* Remove arrows from all sub-items */
+.sidebar-nav ul ul li::before {
+  content: none;
+}
+
+/* Style for sidebar buttons */
+.sidebar-button {
+  display: inline-block;
+  padding: 10px 15px;
+  margin: 5px;
+  margin-left: 25px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  width: 80%;
+}
+
+.sidebar-button:hover {
+  background-color: #45a049;
+}
+
+.sidebar-button:active {
+  background-color: #3e8e41;
+}
+
+
+.sidebar ul li.active > a {
+  color: lightgreen !important;
+  font-weight: 600;
+  background-color: var(--background-color);
+  border-width: thick;
+
+}
+
+.sidebar ul li > a {
+  padding-left: 10px;
+  margin-left: 5px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }

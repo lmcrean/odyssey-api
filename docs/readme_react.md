@@ -1,6 +1,6 @@
 # **Frontend Readme** <!-- omit from toc -->
 
-this readme is loosely structured according to the 5 User Experience Planes.
+This readme chapter explains the frontend of the Odyssey app. The frontend is built with React, using a variety of libraries and tools to create a dynamic and responsive user interface.
 
 ## Epics and User Stories (Strategy and Scope Plane)
 The user stories are covered in the Agile Methodology.

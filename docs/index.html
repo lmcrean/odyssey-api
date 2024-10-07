@@ -101,13 +101,16 @@
     <script src="//unpkg.com/docsify-mermaid-zoom/dist/docsify-mermaid-zoom.js"></script>
     <script>
       window.addEventListener('DOMContentLoaded', (event) => {
-        // Add click event to sidebar items
-        document.querySelectorAll('.sidebar-nav li').forEach(item => {
-          item.addEventListener('click', function(e) {
-            if (e.target.tagName.toLowerCase() === 'a') return;
-            e.preventDefault();
-            this.classList.toggle('collapse');
-          });
+        // Add click event to first-level sidebar items (excluding buttons)
+        document.querySelectorAll('.sidebar-nav > ul > li:not(:has(> .sidebar-button))').forEach((item) => {
+          if (item.querySelector('ul')) {  // Only add click event if the item has children
+            item.addEventListener('click', function(e) {
+              if (e.target.tagName.toLowerCase() === 'a') return;
+              e.preventDefault();
+              this.classList.toggle('collapse');
+              this.classList.toggle('open');
+            });
+          }
         });
     
         // Expand current page in sidebar
@@ -117,6 +120,7 @@
           while (parent && !parent.classList.contains('sidebar-nav')) {
             if (parent.tagName.toLowerCase() === 'li') {
               parent.classList.remove('collapse');
+              parent.classList.add('open');
             }
             parent = parent.parentElement;
           }

@@ -4,9 +4,9 @@ This Readme focuses on the API for the social media platform. The API is built u
 
 Anything already mentioned in the documentation of Frontend Repository, such as Agile Methodology, is omitted here for brevity.
 
-# Models Structure 
+# Models Structure Diagram
 
-API Model Diagram:
+The API Model Diagram demonstrates the social media platform has the following models: User, Post, Comment, Follower, Like, Profile, and Message. Users can own posts, write comments, like posts, follow other users, have profiles, and send messages.
 
 
 ```mermaid
@@ -87,7 +87,11 @@ Below summarises the API endpoints for the social media platform.
 | PUT         | /posts/{id}/                   | Update a post (title, content, image, or all) | Detail                       | {<br>"title": "My Test Post (Postman API)"<br>"content": "This is a test post content"<br>"image": "test_image.png"<br>} | {<br>"id": 48,<br>"owner": "postmanuser",<br>"is_owner": true,<br>"profile_id": 24,<br>"profile_image": "https://res.cloudinary.com/dh5lpihx1/image/upload/v1/media/images/default_profile_dqcubz.jpg",<br>"created_at": "27 Aug 2024",<br>"updated_at": "28 Aug 2024",<br>"title": "My Test Post (Postman API)",<br>"content": "This is a test post content",<br>"image": "https://res.cloudinary.com/dh5lpihx1/image/upload/v1/media/images/test_image_z1iqf3",<br>"image_filter": "normal",<br>"like_id": null,<br>"likes_count": 0,<br>"comments_count": 0<br>}                                                            |
 | DELETE      | /posts/{id}/                   | Delete a specific post                        |                              |      |
 
-## Models App Overview
+# Apps
+
+This section provides an overview of the core components of our social media application, excluding the messaging functionality. The apps all use the Django-Rest-Framework.
+
+## Messaging App
 
 This Django-based messaging app provides a robust backend for a real-time chat application. It includes features such as sending messages, managing conversations, and handling user profiles.
 
@@ -168,10 +172,6 @@ The app includes comprehensive test coverage:
 - Message operations (send, edit, delete)
 - Comprehensive test coverage
 - Cloudinary integration for image storage
-
-# Apps Overview
-
-This section provides an overview of the core components of our social media application, excluding the messaging functionality.
 
 ## Posts app
 
@@ -527,29 +527,4 @@ The populated database accelerates development by providing a consistent testing
 
 # Environment Variables
 
-This project uses environment variables to manage configuration settings securely. Here's an overview of the key variables:
-
-```python
-import os
-
-os.environ['SECRET_KEY'] = '********'  # Django secret key
-os.environ['CLOUDINARY_URL'] = 'cloudinary://************************'  # Cloudinary configuration URL
-os.environ['DATABASE_URL'] = 'postgres://**************************'  # Database URL for PostgreSQL
-os.environ['CLIENT_ORIGIN'] = 'https://*****************.herokuapp.com'  # Frontend application URL
-os.environ['ALLOWED_HOST'] = '*****************.herokuapp.com'  # Allowed host for the API
-os.environ['DEBUG'] = '1'  # Set to '1' for debug mode, '0' for production
-# os.environ['DEV'] = '1'  # Uncomment to enable development mode
-
-```
-
-These environment variables are crucial for the application's security and configuration:
-
-- `SECRET_KEY`: Used by Django for cryptographic signing.
-- `CLOUDINARY_URL`: Configuration for Cloudinary media storage.
-- `DATABASE_URL`: Connection string for the PostgreSQL database.
-- `CLIENT_ORIGIN`: URL of the frontend application for CORS settings.
-- `ALLOWED_HOST`: The domain name of the API for Django's security checks.
-- `DEBUG`: Enables Django's debug mode when set to '1'.
-- `DEV`: When uncommented and set to '1', enables development-specific settings.
-
-In a production environment, these variables should be set securely and not hard-coded in the source code. For local development, you might use a `.env` file or environment-specific configuration.
+These are covered in the `Usage and Deployment` section of the Readme.

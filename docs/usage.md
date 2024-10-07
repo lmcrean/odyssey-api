@@ -1,8 +1,7 @@
-# Usage
+# Usage instructions & Deployment
 
 
-
-# Installation
+# Installation with Gitpod IDE/ VSCode
 
 It would be advisable to use the [Gitpod IDE](http://gitpod.io) for the installation process, as it is pre-configured with the necessary tools and dependencies, especially around `nvm` and linking to the API.
 
@@ -66,6 +65,84 @@ npm run deploy
 
 You will need to re-run this command any time you want to deploy changes to the static files in your project, including the React code.
 
+# Deployment to Heroku
+
+The project is deployed to Heroku, and the following steps are required to deploy the project to Heroku:
+
+1. **Create a Heroku account**:
+   If you don't already have a Heroku account, you can create one [here](https://signup.heroku.com/).
+
+2. **Install the Heroku CLI**: 
+   You can install the Heroku CLI by following the instructions [here](https://devcenter.heroku.com/articles/heroku-cli).
+
+3. **Login to Heroku**: 
+   Run the following command to login to Heroku:
+   ```bash
+   heroku login -i
+   ```
+   This will open a browser window where you can log in to your Heroku account. Gitpod users must use `-i` to login via the terminal. 
+
+4. **Create a new Heroku app**:
+
+   Run the following command to create a new Heroku app:
+   ```bash
+   heroku create
+   ```
+
+5. **Set up the Heroku remote**:
+   Run the following command to set up the Heroku remote:
+   ```bash
+   heroku git:remote -a <your-app-name>
+   ```
+   Replace `<your-app-name>` with the name of your Heroku app.
+
+6. **Deploy the app**:
+   Run the following command to deploy the app to Heroku:
+   ```bash
+   git push heroku main
+   ```
+
+7. **Configure the variables**:
+   Set the environment variables in the Heroku dashboard. You can do this by navigating to the `Settings` tab in your Heroku app and clicking on the `Reveal Config Vars` button.
+
+   - `ALLOWED_HOST`: Set this to the domain name of your Heroku app.
+   - `CLIENT ORIGIN`: Set this to the domain name of your frontend app.
+   - `CLIENT_ORIGIN_DEV`: Set this to the domain name of your frontend app in development.
+   - `CLOUDINARY_URL`: Set this to the Cloudinary URL.
+   - `DATABASE_URL`: Set this to the URL of your Heroku Postgres database.
+   - `SECRET_KEY`: Set this to a random string of characters.
+
+   ![alt text](assets/media/herokuconfig.png)
+
+8. **env.py file**:
+   Ensure the `env.py` file is set up correctly for the Heroku deployment.
+
+   This project uses environment variables to manage configuration settings securely. Here's an overview of the key variables:
+
+```python
+import os
+
+os.environ['SECRET_KEY'] = '********'  # Django secret key
+os.environ['CLOUDINARY_URL'] = 'cloudinary://************************'  # Cloudinary configuration URL
+os.environ['DATABASE_URL'] = 'postgres://**************************'  # Database URL for PostgreSQL
+os.environ['CLIENT_ORIGIN'] = 'https://*****************.herokuapp.com'  # Frontend application URL
+os.environ['ALLOWED_HOST'] = '*****************.herokuapp.com'  # Allowed host for the API
+os.environ['DEBUG'] = '0'  # Set to '1' for debug mode, '0' for production
+# os.environ['DEV'] = '1'  # Uncomment to enable development mode
+
+```
+
+These environment variables are crucial for the application's security and configuration:
+
+- `SECRET_KEY`: Used by Django for cryptographic signing.
+- `CLOUDINARY_URL`: Configuration for Cloudinary media storage.
+- `DATABASE_URL`: Connection string for the PostgreSQL database.
+- `CLIENT_ORIGIN`: URL of the frontend application for CORS settings.
+- `ALLOWED_HOST`: The domain name of the API for Django's security checks.
+- `DEBUG`: Enables Django's debug mode when set to '1'.
+- `DEV`: When uncommented and set to '1', enables development-specific settings.
+
+In a production environment, these variables should be set securely and not hard-coded in the source code. For local development, you might use a `.env` file or environment-specific configuration.
 
 # Automated Testing Instructions
 
