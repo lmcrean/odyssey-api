@@ -1,9 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 import styles from "../styles/modules/Banner.module.css";
 import Logo from "./Logo";
+import SuccessAlert from "./SuccessAlert";
 
 const Banner = () => {
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const location = useLocation();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const success = searchParams.get('success');
+    console.log('Current URL:', location.pathname + location.search);
+    console.log('Success parameter:', success);
+    
+    if  (success === 'signin') {
+      console.log('Setting signin success message');
+      setSuccessMessage("Sign in successful! Welcome back to Odyssey!");
+      setShowSuccessAlert(true);
+
+      // Set a timeout to hide the alert after 5 seconds
+      const timer = setTimeout(() => {
+        setShowSuccessAlert(false);
+      }, 5000);
+
+      // Clean up the timer
+      return () => clearTimeout(timer);
+    }
+  }, [location]);
+
   return (
     <Container
         fluid
@@ -11,6 +38,12 @@ const Banner = () => {
         style={{ borderRadius: '20px' }}
         >
       <Row className="align-items-center text-center text-lg-left">
+        {showSuccessAlert && (
+          <SuccessAlert
+            message={successMessage}
+            onClose={() => setShowSuccessAlert(false)}
+          />
+        )}
         <Col xs={12} lg={4} className="mb-3 mb-lg-0">
           <Logo />
         </Col>
