@@ -72,10 +72,8 @@
             hook.doneEach(function() {
               // Function to resolve image paths
               function resolveImagePath(src) {
-                if (src.startsWith('http')) return src; // External URLs
-                return window.location.pathname.includes('/docs/')
-                  ? src.replace(/^\.\.\//, '/') // Deployed (assumes '/docs/' in URL)
-                  : src; // Development
+                if (src.startsWith('http') || src.startsWith('/')) return src;
+                return 'https://raw.githubusercontent.com/lmcrean/odyssey-api/main' + src;
               }
 
               // Select all img tags and update their src
