@@ -1,12 +1,10 @@
 <center>
 
-<img src="docs/assets/media/2024-09-16-16-04-41.png" alt="Logo" width="300px"></img>
+<h1> Odyssey Readme Overview </h1>
 
-Odyssey is a social media application that was build on a unified repository with React and Django Rest Framework, with a database hosted on PostgreSQL.
+<img src="docs/assets/media/amiresponsive.png" alt="Logo" height="300px"></img>
 
-Users are able to discover other users with shared goals, follow and message them, and share their own progress and achievements on their journey.
-
-The application allows users to create an account, post images, like and comment on posts, and follow other users, search and message other users.
+Odyssey is a social media application that was build on a unified repository with React and Django Rest Framework, with a database hosted on PostgreSQL. Users are able to discover other users with shared goals, follow and message them, and share their own progress and achievements on their journey.
 
 <!-- GitHub shields for React, CSS, JavaScript, Cloudinary, Django Rest Framework -->
 
@@ -16,16 +14,36 @@ The application allows users to create an account, post images, like and comment
 ![Playwright](https://img.shields.io/badge/playwright-26%20passed%2C%200%20failed-brightgreen?logo=playwright) ![Jest](https://img.shields.io/badge/jest-11%20passed%2C%200%20failed-brightgreen?logo=jest) ![Cypress](https://img.shields.io/badge/cypress-4%20passed%2C%200%20failed-brightgreen?logo=cypress)  ![Python](https://img.shields.io/badge/python-38%20passed%2C%200%20failed-brightgreen?logo=python)
 
 ---
-<h1>
-<font color="green">
 
+<b>
+<font color="red"> Important: </font> <br>
 
-<b>The documentation is best navigated on a Readme website using the Sidebar feature - click here to visit <a href="https://odyssey-docs.lauriecrean.dev">https://odyssey-docs.lauriecrean.dev</a>
+ The documentation is best read on a deployed website <br><h1><a href="https://odyssey-docs.lauriecrean.dev"> click here to visit <br> https://odyssey-docs.lauriecrean.dev
 
 </font> </h1>
 
-</b>
+---
+
+</center>
+
+<b>
 
 If you are viewing in Github, the sidebar will not be visible and you will need to manually browse through the .md files in the `docs/` repository.
 
----
+Please use the Readme Directory below:
+
+* [Live Project](http://odyssey.lauriecrean.dev)
+* [Source Code Repository](http://github.com/lmcrean/odyssey-api)
+
+
+* [Features](docs/features.md)
+* [Usage Instructions](docs/usage.md)
+* [File Structure](docs/file_structure.md)
+* [Frontend Readme](docs/readme_react.md) 
+* [API Readme](docs/readme_api.md) 
+* [Testing Readme](docs/testing.md)
+* [Agile Methodology](docs//agile_method.md)
+* [Credits & Project Dependencies](docs/credits.md)
+
+
+</b>

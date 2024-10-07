@@ -1,4 +1,6 @@
 
+# Welcome to Odyssey
+
 Odyssey is a social media app that allows users to find like-minded individuals working on similar goals.
 
 
@@ -8,35 +10,8 @@ The features enable users to interact with the app in a variety of ways. The app
 
 ## Messaging
 
-![frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png](../frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png) ![frontend/screenshots/messages/mobile-message-detail.png](../frontend/playwright/screenshots/get-requests/messages/mobile-message-detail.png)
-
-
-<img src="/frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png" alt="mobile-messages-page">
-
-![image](../frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png)
-
-![mobile-messages-page](/frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png)
-
-with test 1:
-
-<img src="/frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png" alt="Mobile Messages Page" width="300">
-
-test 2:
-
-<img src="/frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png" alt="Mobile Messages Page" width="300">
-
-test 3:
-
-![image](/frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png)
-
-test 4:
-
-![image](https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png)
-
-
-test 5:
-
 <img src="https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/get-requests/messages/mobile-messages-page.png" alt="Mobile Messages Page" width="300">
+<img src="https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/get-requests/messages/mobile-message-detail.png" alt="Mobile Messages Page" width="300">
 
 
 - **Real-Time Messaging**: Engage in instant messaging with individuals or groups.
@@ -48,9 +23,9 @@ test 5:
 
 ## Post, Comment and Like 
 
-![frontend/screenshots/posts/mobile-posts-page.png](../frontend/playwright/screenshots/alerts/create-post/mobile-image-uploaded.png)
+<img src="https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/alerts/create-post/mobile-image-uploaded.png" alt="Mobile Messages Page" width="300">
 
-![frontend/screenshots/posts/mobile-post-detail.png](../frontend/playwright/screenshots/get-requests/landing-page/desktop-scrolled-to-4th-post.png)
+<img src="https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/get-requests/landing-page/desktop-scrolled-to-4th-post.png" alt="Mobile Messages Page" width="800">
 
 - Users can create posts and share them with their followers.
 - They can share images and text in their posts.
@@ -58,12 +33,15 @@ test 5:
 
 ## User Authentication
 
+ <img src="https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/alerts/success-alerts/mobile-02-signup-success-disappeared.png" alt="Mobile Messages Page" width="300"> <img src="https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/alerts/success-alerts/mobile-03-signin-success.png" alt="Mobile Messages Page" width="300">
+
+
 - Users can sign up and log into the app to access their personalized dashboard.
 
 ## Follow your favourite Profiles
 
-![frontend/playwright/screenshots/get-requests/profiles/mobile-profile-page.png](../frontend/playwright/screenshots/get-requests/profiles/laptop-profile-141-page.png)
-![frontend/playwright/screenshots/get-requests/profiles/mobile-profile-page.png](../frontend/playwright/screenshots/get-requests/profiles/mobile-profile-141-page.png)
+![profile-page.png](https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/get-requests/profiles/laptop-profile-141-page.png)
+![profile-page.png](https://raw.githubusercontent.com/lmcrean/odyssey-api/main/frontend/playwright/screenshots/get-requests/profiles/mobile-profile-141-page.png)
 
 - Users can follow other users and view their posts on their dashboard.
 - Users can view detailed profiles of other users, which lists their posts
@@ -71,8 +49,6 @@ test 5:
 - The profile picture appears on posts and in the message section.
 
 
+## Automated Testing with Playwright
 
-
-## Automated Testing
-
-  Playwright is used to automate testing of the app - all of the screenshots above were taken using Playwright.
+Playwright is used to automate testing of the app - all of the screenshots above were taken using Playwright.
