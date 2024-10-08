@@ -485,9 +485,13 @@ Figma was used to create a more detailed wireframe for the app, due to time cons
 
 ### Color Scheme and Typefaces with Root vars
 
-![](assets/media/2024-09-15-20-44-48.png)
+![](assets/media/colorscheme.png)
 
 these were used to create a consistent and visually appealing design for the app, as shown in the image the variables stylesheet was used to set the color scheme and typography for the app. This provided an efficient workflow.
+
+`Gabarito` was used as the primary typeface for the app, in combination with `Serifa` as the secondary typeface. 
+
+The color scheme was monochrome - to give the app a clean and modern look. The accent color was a vibrant green.
 
 ### Light and Dark Mode with ThemeContext
 

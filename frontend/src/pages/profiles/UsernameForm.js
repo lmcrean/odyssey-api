@@ -28,22 +28,15 @@ const UsernameForm = () => {
   const setCurrentUser = useSetCurrentUser();
 
   useEffect(() => {
-    console.log('Current user:', currentUser);
-    console.log('URL id:', id);
     
     const fetchProfileData = async () => {
       try {
         const { data } = await axiosReq.get(`/profiles/${id}/`);
-        console.log('Fetched profile data:', data);
-        console.log('Current user ID:', currentUser?.pk);
-        console.log('Profile user ID:', data.user_id);
         if (data.user_id === currentUser?.pk) {
           setIsAuthorized(true);
-          console.log('Authorization result:', isAuthorized);
           setUsername(currentUser?.username || "");
         } else {
           setIsAuthorized(false);
-          console.log('Authorization result:', isAuthorized);
           setCustomError("You are not authorized to change this username.");
         }
       } catch (err) {

@@ -13,11 +13,8 @@ const Banner = () => {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const success = searchParams.get('success');
-    console.log('Current URL:', location.pathname + location.search);
-    console.log('Success parameter:', success);
     
     if  (success === 'signin') {
-      console.log('Setting signin success message');
       setSuccessMessage("Sign in successful! Welcome back to Odyssey!");
       setShowSuccessAlert(true);
 

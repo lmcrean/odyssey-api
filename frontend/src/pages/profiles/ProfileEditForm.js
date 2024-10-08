@@ -40,9 +40,6 @@ const ProfileEditForm = () => {
     const fetchProfileData = async () => {
       try {
         const { data } = await axiosReq.get(`/profiles/${id}/`);
-        console.log('Fetched profile data:', data);
-        console.log('Current user ID:', currentUser?.pk);
-        console.log('Profile user ID:', data.id);
         if (data.id === currentUser?.profile_id) {
           setIsAuthorized(true);
           setProfileData({ name: data.name, content: data.content, image: data.image });

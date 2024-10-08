@@ -32,17 +32,13 @@ function MessageDetail() {
   useEffect(() => {
     const fetchOrCreateChat = async () => {
       try {
-        console.log("Fetching messages for user ID:", user_id);
         const { data } = await axiosReq.get(`/messages/${user_id}/`);
-        console.log("Fetched messages:", data);
         setMessages({ results: data.results });
         setHasLoaded(true);
       } catch (err) {
         if (err.response && err.response.status === 404) {
-          console.log("No chat exists for this user, creating a new chat in the API...");
           try {
             const { data } = await axiosReq.post(`/messages/${user_id}/start/`, { content: "Chat started" });
-            console.log("New chat created:", data);
             setMessages({ results: [data] });
           } catch (createErr) {
             console.error("Failed to create new chat:", createErr);
@@ -60,9 +56,7 @@ function MessageDetail() {
   useEffect(() => {
     const fetchRecipientUsername = async () => {
       try {
-        console.log("Fetching username for user ID:", user_id);
         const { data } = await axiosReq.get(`/users/${user_id}/`);
-        console.log("Fetched user data:", data);
         setRecipientUsername(data.username);
       } catch (err) {
         console.error("Failed to fetch recipient username:", err);

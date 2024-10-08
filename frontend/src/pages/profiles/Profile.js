@@ -56,7 +56,6 @@ const Profile = (props) => {
   };
 
   const handleMessageClick = () => {
-    console.log("Navigating to messages with user ID:", user_id);
     history.push(`/messages/${user_id}`);
   };
 
