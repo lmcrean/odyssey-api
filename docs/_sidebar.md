@@ -14,12 +14,14 @@
 </center>
 
 * [Features](/features.md)
+* [Credits & Project Dependencies](/credits.md)
 * [Usage Instructions & Deployment](/usage.md)
 * [Frontend Readme](/readme_react.md) 
 * [API Readme](/readme_api.md) 
+* [Test Outcomes](/testing.md)
+* [Agile Method](/agile_method.md)
 * [File Structure](/file_structure.md)
-* [Testing Readme](/testing.md)
-* [Agile Methodology](/agile_method.md)
-* [Credits & Project Dependencies](/credits.md)
+
+
 
 

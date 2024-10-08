@@ -87,13 +87,24 @@ Below summarises the API endpoints for the social media platform.
 | PUT         | /posts/{id}/                   | Update a post (title, content, image, or all) | Detail                       | {<br>"title": "My Test Post (Postman API)"<br>"content": "This is a test post content"<br>"image": "test_image.png"<br>} | {<br>"id": 48,<br>"owner": "postmanuser",<br>"is_owner": true,<br>"profile_id": 24,<br>"profile_image": "https://res.cloudinary.com/dh5lpihx1/image/upload/v1/media/images/default_profile_dqcubz.jpg",<br>"created_at": "27 Aug 2024",<br>"updated_at": "28 Aug 2024",<br>"title": "My Test Post (Postman API)",<br>"content": "This is a test post content",<br>"image": "https://res.cloudinary.com/dh5lpihx1/image/upload/v1/media/images/test_image_z1iqf3",<br>"image_filter": "normal",<br>"like_id": null,<br>"likes_count": 0,<br>"comments_count": 0<br>}                                                            |
 | DELETE      | /posts/{id}/                   | Delete a specific post                        |                              |      |
 
-# Apps
+# Django Apps
 
 This section provides an overview of the core components of our social media application, excluding the messaging functionality. The apps all use the Django-Rest-Framework.
 
 ## Messaging App
 
 This Django-based messaging app provides a robust backend for a real-time chat application. It includes features such as sending messages, managing conversations, and handling user profiles.
+
+Key Features:
+
+- Real-time messaging
+- Image support in messages
+- User profile integration
+- Conversation management (start, delete)
+- Message operations (send, edit, delete)
+- Comprehensive test coverage
+- Cloudinary integration for image storage
+
 
 ### Models
 
@@ -109,6 +120,65 @@ The core model of the application is `Message`, which includes the following fie
 | `read` | BooleanField | Indicates if the message has been read |
 
 ### Views
+
+The diagram below summarises how the views interact with the database and the user in the messaging app.
+
+```mermaid
+graph TD
+    A[User] -->|View Messages| B(MessageListView)
+    A -->|View Conversation| C(MessageDetailView)
+    A -->|Send Message| D(MessageDetailSendView)
+    A -->|Start New Chat| E(MessageListStartNewView)
+    A -->|Delete Message| F(MessageDeleteView)
+    A -->|Delete Chat| G(ChatDeleteView)
+    A -->|Update Message| H(MessageUpdateView)
+
+    subgraph Views
+        B --> B1[List all conversations<br>Get last message for each<br>Fetch profile images]
+        C --> C1[Retrieve messages between users<br>Order by timestamp]
+        D --> D1[Create new message<br>Associate with sender and recipient]
+        E --> E1[Start new conversation<br>Validate recipient<br>Prevent self-messaging]
+        F --> F1[Delete specific message<br>Check user permissions]
+        G --> G1[Delete entire conversation<br>Remove all messages between users]
+        H --> H1[Update existing message<br>Verify sender permission]
+    end
+
+    I[(Database)]
+
+    B1 -->|Get Conversations| I
+    C1 -->|Get Messages| I
+    D1 -->|Save New Message| I
+    E1 -->|Create New Chat| I
+    F1 -->|Remove Message| I
+    G1 -->|Remove All Messages| I
+    H1 -->|Modify Message| I
+
+    subgraph Legend
+        Z1[User Action]
+        Z2(View/API Endpoint)
+        Z3[(Database)]
+        Z4[View Description]
+        Z5[User] -->|Action| Z2
+        Z2 --> Z4
+        Z4 -->|Data Operation| Z3
+    end
+
+    classDef userAction fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef viewEndpoint fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef database fill:#bfb,stroke:#333,stroke-width:2px;
+    classDef viewDescription fill:#e6e6fa,stroke:#333,stroke-width:1px;
+
+    class A userAction;
+    class B,C,D,E,F,G,H viewEndpoint;
+    class I database;
+    class Z1 userAction;
+    class Z2 viewEndpoint;
+    class Z3 database;
+    class B1,C1,D1,E1,F1,G1,H1,Z4 viewDescription;
+    
+    style Legend fill:white,stroke:#333,stroke-width:2px
+
+```
 
 1. **MessageListView**: Displays a list of users the current user has had conversations with, along with the last message and timestamp.
 
@@ -163,15 +233,7 @@ The app includes comprehensive test coverage:
 10. **MessageUpdateTests**: Verifies message editing functionality.
 11. **MessageModelTests**: Ensures correct timestamp behavior for messages.
 
-### Key Features
 
-- Real-time messaging
-- Image support in messages
-- User profile integration
-- Conversation management (start, delete)
-- Message operations (send, edit, delete)
-- Comprehensive test coverage
-- Cloudinary integration for image storage
 
 ## Posts app
 

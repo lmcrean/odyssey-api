@@ -9,6 +9,7 @@
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+
 }
 
 /* Allow text selection for specific elements */
@@ -30,6 +31,10 @@ body {
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-primary);
     color: var(--color-primary-text);
+      /* below these are intended to fix rendering issues for special characters */
+    -webkit-font-smoothing: antialiased; 
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
   
   p, span, div {

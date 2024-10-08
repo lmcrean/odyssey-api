@@ -2,7 +2,7 @@
 
 <h1> Odyssey Readme Overview </h1>
 
-<img src="docs/assets/media/amiresponsive.png" alt="Logo" height="300px"></img>
+<img src="docs/assets/media/amiresponsive.png" alt="Logo" width="800px"></img>
 
 Odyssey is a social media application that was build on a unified repository with React and Django Rest Framework, with a database hosted on PostgreSQL. Users are able to discover other users with shared goals, follow and message them, and share their own progress and achievements on their journey.
 
@@ -18,8 +18,15 @@ Odyssey is a social media application that was build on a unified repository wit
 <b>
 <font color="red"> Important: </font> <br>
 
- The documentation is best read on a deployed website <br><h1><a href="https://odyssey-docs.lauriecrean.dev"> click here to visit <br> https://odyssey-docs.lauriecrean.dev
+ The documentation is best read on the deployed Docsify website with a `sidebar`<br>
 
+ <a href="https://odyssey-docs.lauriecrean.dev">
+ 
+ ![readmedocs](docs/assets/media/amiresponsivereadme.png)
+ 
+ <h1> click here to visit <br> https://odyssey-docs.lauriecrean.dev
+
+</a>
 </font> </h1>
 
 ---
@@ -28,7 +35,7 @@ Odyssey is a social media application that was build on a unified repository wit
 
 <b>
 
-If you are viewing in Github, the sidebar will not be visible and you will need to manually browse through the .md files in the `docs/` repository.
+If you are viewing in Github, the sidebar will not be visible and you will need to manually browse through the `.md` files in the `docs/` repository.
 
 Please use the Readme Directory below:
 
