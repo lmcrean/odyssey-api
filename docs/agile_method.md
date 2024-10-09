@@ -6,23 +6,55 @@ Epics, sprints and user stories are used to break down the project into manageab
 
 I will focus on the user stories that were completed in each sprint, along with their priority, as it is more relevant to the project's success and helping the reader understand the project's development process.
 
+# Use of Kanban Boards
+
+<img src="assets/media/todoist.png" width="500">
+
+`Todoist` was chosen intentionally as the software of choice for this project, for it's appropriate simplicity and speed of use relative to the relatively small scale of the project. 
+
+The Kanban board was used to track the progress of each sprint, and to ensure that all user stories were completed on time. The board was updated daily to reflect the progress of each user story, and to identify any potential roadblocks or issues that needed to be addressed.
+
+In the near-term future I intend to use `Todoist` for personal projects, and `Slack` for team projects. When the Project reaches a larger scale I will migrate to more time-intensive software such as `Github Projects`.
+
+# Use of MoSCoW Prioritisation
+
+![alt text](assets/media/agilekey.png)
+
+MoSCoW prioritisation was used to categorise each user story based on its importance to the project. This helped to ensure that the most critical user stories were completed first, and that any less important user stories were completed later in the project. This approach helped to ensure that the project remained on track and that the most important features were delivered on time.
+
+The MoSCoW categories used in this project were:
+
+- **Must have:** Critical features that must be completed for the project to be considered a success.
+- **Should have:** Important features that should be completed if possible, but are not critical to the project's success.
+- **Could have:** Nice-to-have features that could be completed if time allows, but are not essential to the project.
+- **Won't have:** Features that are not required for the project and will not be completed.
+
+
+The MoSCoW categories were color coded on the Kanban board to make it easy to identify the priority of each user story. 
+
+- Red: Must Have
+- Yellow: Should Have
+- Blue: Could Have
+- Grey: Won't Have
+
+
+
 # Project Overview
 
+![alt text](assets/media/agileoverview.png)
 
-
-| Epic                                         |                                                       | Sprint (links to Kanban)                                                                                                                                                     | Length     | Start      | Finish     |
-| -------------------------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ---------- | ---------- |
-|                                              |                                                       |                                                                                                                                                                              |            |            |            |
-|Deploy a functioning app|1|Functioning Backend API and Frontend App as per "Moments" Template|14 days|16/07/2024|30/07/2024|
-|1 new model, customised frontend, CI PASS|2|Implement Direct Messaging App (Send/Receive Messages)|8 days|31/07/2024|08/08/2024|
-| |3|Reach Mininum Viable Product, remove Moments branding|15 days|09/08/2024|24/08/2024|
+| Epic       |  sprint no.  | Sprint (links to Kanban)             | Length     | Start      | Finish     |
+| ---- | ---- | ---- | ---------- | --- | --- |
+|            |    |    |            |            |            |
+|Deploy a functioning app, follow "Moments" tutorial|1|Functioning Backend API and Frontend App as per "Moments" Template|14 days|16/07/2024|30/07/2024|
+|1 new custom model, mininum viable product |2|Implement Direct Messaging App (Send/Receive Messages)|8 days|31/07/2024|08/08/2024|
+| |3|Remove Moments branding|15 days|09/08/2024|24/08/2024|
 | |4|Customise Frontend Interactions|3 days|25/08/2024|28/08/2024|
-|Enhance UI, customise other models, CI Merit|5|Implement new Profiles Feed and animations|3 days|29/08/2024|01/09/2024|
-| |6|Update responsive design.|3 days|02/09/2024|05/09/2024|
-| |7|Jailbreak testing|3 days|06/09/2024|09/09/2024|
-|1 new model / CI Distinction|8|Notifications includes Messages, Likes and Follows|3 days|10/09/2024|13/09/2024|
-| |9|Refine Frontend|3 days|14/09/2024|17/09/2024|
-| |10|Readme|3 days|18/09/2024|21/09/2024|
+|Enhance User Experience with existing models|5|Import custom data|3 days|29/08/2024|01/09/2024|
+| |6|Import custom data |3 days|02/09/2024|05/09/2024|
+| |7|Unify Code Repository and animations|3 days|06/09/2024|09/09/2024|
+| Testing for scaled use|8| Complete automated and manual testing |7 days|10/09/2024|17/09/2024|
+| |9|Prepare for Project submission|7 days|18/09/2024|25/09/2024|
 
 
 # Sprint 1: Functioning Backend API and Frontend App as per "Moments" Template
@@ -30,13 +62,13 @@ I will focus on the user stories that were completed in each sprint, along with 
 | Start date: 16/07/2024 | End date: 30/07/2024 | Length: 14 days |
 |:----|:----|:----|
 
-<details><summary>
-Click here to view the Kanban board for Sprint 1
-</summary>
+
+Kanban board for Sprint 1
+
 
 ![](assets/media/2024-08-29-12-22-32.png)
 
-</details>
+
 
 ***
 
@@ -79,14 +111,14 @@ The user stories below are actually from the Moments template, but they are a go
 
 # Sprint 2: Implement Direct Messaging App (Send/Receive Messages)
 
-<details><summary>
-Click here to view the Kanban board for Sprint 2
 
-</summary>
+Kanban board for Sprint 2
+
+
 
 ![](assets/media/2024-08-29-12-27-57.png)
 
-</details>
+
 
 | Start date: 31/07/2024 | End date: 08/08/2024 | Length: 8 days |
 |:----|:----|:----|
@@ -106,13 +138,13 @@ In this sprint, we will be implementing a direct messaging app that allows users
 
 # Sprint 3: Reach Mininum Viable Product, remove Moments branding
 
-<details><summary>
-Click here to view the Kanban board for Sprint 3
-</summary>
+
+Kanban board for Sprint 3
+
 
 ![](assets/media/2024-08-29-12-27-03.png)
 
-</details>
+
 
 | Start date: 09/08/2024 | End date: 24/08/2024 | Length: 15 days |
 |:----|:----|:----|
@@ -133,13 +165,13 @@ In this sprint, we will be removing the branding from the Moments template and r
 
 # Sprint 4: Customise Frontend Interactions
 
-<details><summary> Click here to view the Kanban board for Sprint 4
+ Kanban board for Sprint 4
 
-</summary>
+
 
 ![](assets/media/2024-08-29-12-29-10.png)
 
-</details>
+
 
 | Start date: 25/08/2024 | End date: 28/08/2024 | Length: 3 days |
 |:----|:----|:----|
@@ -168,10 +200,3 @@ The following user stories were eventually not included in this sprint, but they
 |As a user, I'd like to be able to `pin` my most important messages|Won't Have|
 |As a user I want to be able to `bookmark` messages to come back to|Won't Have|
 |As a user I want to be able to search inside messages and for users|Won't Have|
-
-
-# Use of Kanban Boards
-
-Todoist was chosen as the software of choice for this project, for it's appropriate simplicity and ease of use. The Kanban board was used to track the progress of each sprint, and to ensure that all user stories were completed on time. The board was updated daily to reflect the progress of each user story, and to identify any potential roadblocks or issues that needed to be addressed.
-
-![](assets/media/2024-08-29-12-19-12.png)

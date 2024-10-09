@@ -139,6 +139,8 @@ Both frontend and backend implement validation to ensure data integrity and secu
 
 ## SuccessAlert Component
 
+<img src="assets/media/successalert.png" width="450">
+
 The Odyssey app includes a reusable SuccessAlert component to provide user feedback for successful operations. This component enhances the user experience by offering clear, dismissible notifications.
 
 Here's the implementation of the SuccessAlert component:
@@ -279,13 +281,13 @@ This approach to logo design and implementation showcases attention to detail, a
 
 
 
-## Responsive NavBar
+## Responsive NavBar - NavbarDesktop, NavbarMobile and NavBarMore
 
-![](assets/media/2024-09-15-20-42-57.png)
+| <img src="assets/media/navbardesktop.png" width="30"> | ![alt text](assets/media/navbarmobile.png) | ![alt text](assets/media/navbarmore.png) |
+|----|-----|----|
+|  *Navbar Desktop* | *Navbar Mobile* | *NavbarMore* |
 
-Concept design for the NavBar.
-
-The Odyssey app features a responsive navigation bar that adapts to different screen sizes, providing an optimal user experience across devices. This is achieved through two main components: `NavBarDesktop` for larger screens and `NavBarMobile` for smaller devices.
+The Odyssey app features a responsive navigation bar that adapts to different screen sizes, providing an optimal user experience across devices. This is achieved through two main components: `NavBarDesktop` for larger screens and `NavBarMobile` for smaller devices. `NavBarMore` is a dropdown menu that appears when additional navigation options are needed.
 
 The app determines which NavBar to display based on the screen width:
 
@@ -375,11 +377,62 @@ For additional navigation options, both components utilize a `NavBarMore` compon
 
 ```jsx
 const NavBarMore = ({ onClose, isDesktop }) => {
-  // ... other code ...
+  const currentUser = useCurrentUser();
+  const setCurrentUser = useSetCurrentUser();
+  const { lightMode, setLightMode } = useContext(ThemeContext);
+  const history = useHistory();
+  const moreRef = useRef(null);
+  const [hoveredItem, setHoveredItem] = useState(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (moreRef.current && !moreRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
+  const handleSignOut = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("dj-rest-auth/logout/");
+      setCurrentUser(null);
+      removeTokenTimestamp();
+      history.push('/');
+      onClose();
+    } catch (err) {
+      // Handle error
+    }
+  };
+
+  // ... Light/Dark Theme Logic ... //
+
+  const handleProfileClick = (e) => {
+    e.preventDefault();
+    history.push(`/profiles/${currentUser?.profile_id}`);
+    onClose();
+  };
+
+  const NavItem = ({ icon, text, onClick, itemKey }) => (
+    <div 
+      className={`${styles.NavItem} ${hoveredItem === itemKey ? styles.NavItemHovered : ''}`}
+      onClick={onClick}
+      onMouseEnter={() => setHoveredItem(itemKey)}
+      onMouseLeave={() => setHoveredItem(null)}
+    >
+      <FontAwesomeIcon icon={icon} />
+      <span className={styles.NavItemSpan}>{text}</span>
+    </div>
+  );
 
   return (
-    <div className={`${styles.NavBarMore} ${isDesktop ? styles.NavBarMoreDesktop : ''}`} ref={moreRef}>
-      <NavItem icon={faUser} text="My Profile" onClick={handleProfileClick} itemKey="profile" />
+    <div className={`${styles.NavBarMore} ${isDesktop ? styles.NavBarMoreDesktop : ''}`} ref={moreRef} >
+      <NavItem data-id="go-to-profile" icon={faUser} text="My Profile" onClick={handleProfileClick} itemKey="profile" />
       <NavItem icon={lightMode ? faMoon : faSun} text="Color Theme" onClick={toggleTheme} itemKey="theme" />
       <NavItem icon={faSignOutAlt} text="Sign Out" onClick={handleSignOut} itemKey="signout" />
     </div>
@@ -389,10 +442,194 @@ const NavBarMore = ({ onClose, isDesktop }) => {
 
 By implementing this responsive NavBar, the Odyssey app ensures a consistent and user-friendly navigation experience across all devices while maintaining a clean and modular code structure.
 
+## MoreDropdown Component
+
+| ![](assets/media/dropdownmessage.png) | ![](assets/media/dropdownprofile.png) | ![alt text](image.png) | ![](assets/media/dropdownpost.png) |
+|------------------|------------------|--------------|---------|
+| *MessageDetail Dropdown* | *ProfileEdit Dropdown* | *Comment Dropdown* | *MoreDropdown Post* |
+
+The Odyssey app features a versatile MoreDropdown component that provides contextual options for various elements throughout the application. This component enhances user interaction by offering a clean, consistent interface for additional actions.
+
+The MoreDropdown component is implemented with three variants:
+
+1. `MoreDropdown`: For Post editing options
+2. `MoreDropdownComment`: For comment editing options.
+3. `ProfileEditDropdown`: Specifically for profile editing options.
+4. `MessageDetailDropdown`: For message editing options.
+
+Here's a key sample of the implementation focusing on the Post variant:
+
+```jsx
+const ThreeDots = React.forwardRef(({ onClick }, ref) => (
+  <i
+    className="fas fa-ellipsis-v"
+    ref={ref}
+    onClick={(e) => {
+      e.preventDefault();
+      onClick(e);
+    }}
+  />
+));
+
+export const MoreDropdown = ({ handleEdit, handleDelete }) => {
+  return (
+    <Dropdown className="ml-auto" drop="left">
+      <Dropdown.Toggle as={ThreeDots} />
+      <Dropdown.Menu>
+        <Dropdown.Item
+          className={styles.DropdownItem}
+          onClick={handleEdit}
+          aria-label="edit"
+        >
+          <i className="fas fa-edit" /> Edit Post
+        </Dropdown.Item>
+        <Dropdown.Item
+          className={styles.DropdownItem}
+          onClick={handleDelete}
+          aria-label="delete"
+        >
+          <i className="fas fa-trash-alt" /> Delete Post
+        </Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+};
+```
+
+Key features of the MoreDropdown component are that it often accepts `handleEdit` and `handleDelete` props, allowing for customized behavior.
+
+Usage in the application:
+
+1. **Post Component**: The `MoreDropdown` is used in the Post component to provide edit and delete options for post owners.
+
+   ```jsx
+   import { MoreDropdown } from "../../components/MoreDropdown";
+
+   const Post = ({ id, owner, handleEdit, handleDelete }) => {
+     return (
+       <Card>
+         {is_owner && (
+           <MoreDropdown
+             handleEdit={handleEdit}
+             handleDelete={handleDelete}
+           />
+         )}
+         {/* Other post content */}
+       </Card>
+     );
+   };
+   ```
+
+2. **ProfilePage**: The `ProfileEditDropdown` is used in the ProfilePage component to offer profile editing options.
+
+   ```jsx
+   import { ProfileEditDropdown } from "../../components/MoreDropdown";
+
+   const ProfilePage = ({ id, isOwner }) => {
+     return (
+       <Row>
+         {isOwner && <ProfileEditDropdown id={id} />}
+         {/* Other profile content */}
+       </Row>
+     );
+   };
+   ```
+
+3. **MessageDetail**: The `MessageDetailDropdown` is used in the `MessageDetail` component for message-specific actions.
+
+   ```jsx
+   import { MessageDetailDropdown } from "../../components/MoreDropdown";
+
+   // handleEdit and handleDelete functions are declared here
+
+   const MessageDetail = ({ id, isOwner, handleEdit, handleDelete }) => {
+     return (
+       <div>
+         {isOwner && (
+           <MessageDetailDropdown
+             handleEdit={handleEdit}
+             handleDelete={handleDelete}
+           />
+         )}
+         {/* Message content */}
+       </div>
+     );
+   };
+   ```
+
+This MoreDropdown component demonstrates several important React development concepts:
+
+- **Component Composition**: It uses React Bootstrap's Dropdown component as a base, extending its functionality.
+- **Render Props**: The `ThreeDots` component uses the `forwardRef` API to work with React Bootstrap's Dropdown.
+- **Prop Drilling**: It passes down handler functions to manage actions in parent components.
+- **Conditional Rendering**: The dropdowns are only shown to content owners or in specific contexts.
+
+By implementing this versatile MoreDropdown component, the Odyssey app maintains a cleaner interface for additional actions across different parts of the application, enhancing user experience and demonstrating good practices in React component design.
+
+## Asset Component
+
+| ![alt text](assets/media/assetspinner.png) | ![alt text](assets/media/assetemptypost.png) | ![alt text](assets/media/assetemptychat.png) | 
+|------------------|------------------|--------------|
+| *Asset Spinner* | *Asset Message in Empty Post List (in this case Liked posts, also works for following and posts)* | *Asset Message in empty chat, prompts user to get the conversation started* | 
+
+The Odyssey app features a versatile Asset component that serves multiple purposes, primarily for displaying loading states, images, and messages. This reusable component enhances the user experience by providing consistent visual feedback across different parts of the application.
+
+Here's the implementation of the Asset component:
+
+```jsx
+import React from "react";
+import Spinner from "react-bootstrap/Spinner";
+import styles from "../styles/modules/Asset.module.css";
+
+const Asset = ({ spinner, src, message }) => {
+  return (
+    <div className={`${styles.Asset} p-4`}>
+      {spinner && <Spinner animation="border" className={styles.AssetSpinner} />}
+      {message && <p className={`mt-4 ${styles.AssetUpload}`}>{message}</p>}
+    </div>
+  );
+};
+
+export default Asset;
+```
+
+Key features of the Asset component:
+
+1. **Flexible Display**: Can show a spinner, an image (currently commented out), a message, or any combination of these based on the props passed.
+
+2. **Loading Indicator**: Utilizes React Bootstrap's Spinner component to display a loading animation when the `spinner` prop is true.
+
+3. **Custom Styling**: Uses CSS modules (`styles.Asset`, `styles.AssetSpinner`, `styles.AssetUpload`) for scoped styling, preventing conflicts with other components.
+
+4. **Conditional Rendering**: Only renders elements (spinner, image, message) if the corresponding props are provided.
+
+5. **Reusability**: Designed to be used in various contexts throughout the app, promoting consistent UI patterns.
+
+Usage examples:
+
+1. As a loading indicator in the `posts` feed:
+   ```jsx
+   <Asset spinner />
+   ```
+
+2. To display a message e.g. when no posts are available:
+   ```jsx
+   <Asset message="No results found" />
+   ```
+
+The Asset component can be used in various scenarios throughout the Odyssey app:
+
+1. During data fetching operations to indicate loading states.
+2. In list views to show when no items are available.
+
+By utilizing the Asset component, the Odyssey app maintains consistent loading states and messaging across different features. This enhances the overall user experience by providing clear guided feedback in edge cases or during asynchronous operations where content may not be immediately available.
 
 ## Skeleton Components for Loading States
 
-![alt text](assets/media/skeleton.png)
+
+| ![alt text](assets/media/skeletonpopularprofiles.png) | ![alt text](assets/media/skeletonprofile.png) | ![alt text](assets/media/skeletonmessage.png) |  ![alt text](assets/media/skeletonmessagedetail.png) | ![alt text](assets/media/skeletonpost.png) | ![alt text](assets/media/skeletoncomment.png) |
+|----|----|----|----|----|----|
+|*Popular Profiles Skeleton* | *Profile Skeleton* | *Message List Skeleton* | *Message Detail Skeleton* | *Post Skeleton* | *Comment Skeleton* | 
 
 Example above of a skeleton component for profiles and Popular Profiles.
 
@@ -449,13 +686,13 @@ The skeleton components also consider accessibility. By preserving the layout of
 These components contribute to the overall performance and user experience of the Odyssey app. They demonstrate practical implementation of React concepts including modular design, dynamic content generation, and accessibility considerations.
 
 
-## Responsive Design
+# Responsive Design
 
 To make the app, `react-bootstrap` was used for an efficient workflow.
 
 Where possible the app was designed with a mobile-first approach, ensuring that the app is responsive and accessible across devices.
 
-### UiZard Wireframe
+## UiZard Wireframe
 
 The following UiZard wireframe was used as a starting point for the app's design:
 
@@ -469,21 +706,21 @@ The wireframe shows the basic layout of the app, including the navbar, message l
 
 Due to time constraints, the structure of previewing a feed of profiles (rather than posts) was not implemented in the final app. However, the wireframe provided a solid foundation for the app's layout and design.
 
-### Responsive Navbar for Mobile and Desktop
+## Responsive Navbar for Mobile and Desktop
 
 for the Navbar a desktop and mobile component was created to ensure a seamless experience across devices. Then through a hook the Navbar would switch according to screenwidth.
 
-## Surface Rendering
+# Surface Rendering
 
 Global vars were used to efficently manage the color scheme and typography.
 
-### NavBar Design
+## NavBar Design
 
 Figma was used to create a more detailed wireframe for the app, due to time constraints certain components were focused on.
 
 ![](assets/media/2024-09-15-20-42-57.png)
 
-### Color Scheme and Typefaces with Root vars
+## Color Scheme and Typefaces with Root vars
 
 ![](assets/media/colorscheme.png)
 
@@ -493,7 +730,7 @@ these were used to create a consistent and visually appealing design for the app
 
 The color scheme was monochrome - to give the app a clean and modern look. The accent color was a vibrant green.
 
-### Light and Dark Mode with ThemeContext
+## Light and Dark Mode with ThemeContext
 
 Odyssey implements a dynamic theme switching feature using React Context. This system allows for seamless toggling between light and dark modes across the application. Let's dive into how this is implemented.
 
