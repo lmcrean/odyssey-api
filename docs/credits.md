@@ -97,10 +97,25 @@ Below is a table listing the key dependencies used in this project, along with b
 | **requests-oauthlib==1.3.0**                | [requests-oauthlib](https://pypi.org/project/requests-oauthlib/) provides OAuthlib authentication support for Python’s Requests library.                               |
 | **sqlparse==0.4.1**                         | [sqlparse](https://pypi.org/project/sqlparse/) is a non-validating SQL parser for Python, useful for formatting and parsing SQL statements.                            |
 
-## Personal Acknowledgements
 
-I would like to thank the following people for their support and guidance throughout the development of this project:
+# Docsify.js as a readme solution
+
+The documentation for this project was generated using [docsify.js](https://docsify.js.org/), a lightweight documentation generator that creates a simple and beautiful documentation website from markdown files.
+
+
+# Open Source Images
+
+All images used in this project were sourced from [Pexels](https://www.pexels.com/), a free stock photo and video website. The images were used for educational purposes only and are not intended for commercial use.
+
+An exception to this is `tech_guru`, `fitness_fanatic` and `adventure_seeker`'s posts - which were generated using [Dall E 3](https://openai.com/dall-e/) as a brief experiment in AI generated imagery as a solution to batch image generation.
+
+# Peer Acknowledgements
+
+I would like to thank the following peers for their support and guidance throughout the development of this project:
+
+- all the tutors at Code Institute for their help and support, including Thomas for helping me spot the need for a unified repository.
+- my mentor, Jubril Akolade, for his invaluable feedback and advice on the project.
 
 # License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE$$$$$$) file for details.
+This project is licensed under the MIT License.
