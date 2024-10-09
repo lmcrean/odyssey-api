@@ -23,17 +23,22 @@ Odyssey is a social media application that was build on a unified repository wit
  <a href="https://odyssey-docs.lauriecrean.dev">
  
  ![readmedocs](docs/assets/media/amiresponsivereadme.png)
- 
+ <img src="docs/assets/media/sidebar.png" width="400px">
+
  <h1> click here to visit <br> https://odyssey-docs.lauriecrean.dev
 
 </a>
-</font> </h1>
-
----
+</font> </h1></b>
 
 </center>
 
-<b>
+
+
+*Docsify enables easy navigation between sections and pages. It also enables *image zoom* on tables.*
+
+
+
+---
 
 If you are viewing in Github, the sidebar will not be visible and you will need to manually browse through the `.md` files in the `docs/` repository.
 
@@ -51,6 +56,3 @@ Please use the Readme Directory below:
 * [Testing Readme](docs/testing.md)
 * [Agile Methodology](docs//agile_method.md)
 * [Credits & Project Dependencies](docs/credits.md)
-
-
-</b>
