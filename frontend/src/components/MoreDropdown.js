@@ -33,14 +33,47 @@ export const MoreDropdown = ({ handleEdit, handleDelete }) => {
           onClick={handleEdit}
           aria-label="edit"
         >
-          <i className="fas fa-edit" /> Edit Post
+          <i className="fas fa-edit" /> Edit
         </Dropdown.Item>
         <Dropdown.Item
           className={styles.DropdownItem}
           onClick={handleDelete}
           aria-label="delete"
         >
-          <i className="fas fa-trash-alt" /> Delete Post
+          <i className="fas fa-trash-alt" /> Delete
+        </Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+};
+
+export const MoreDropdownComment = ({ handleEdit, handleDelete }) => {
+  return (
+    <Dropdown className="ml-auto" drop="left">
+      <Dropdown.Toggle as={ThreeDots} />
+
+      <Dropdown.Menu
+        className={`text-center ${styles.CustomDropdownMenu}`}
+        popperConfig={{ strategy: "fixed" }}
+        style={{
+          backgroundColor: "var(--color-secondary-background)",
+          color: "var(--color-primary-text)",
+          border: "1px solid var(--color-secondary-text)"
+        }}
+      >
+        <Dropdown.Item
+          className={styles.DropdownItem}
+          onClick={handleEdit}
+          aria-label="edit"
+        >
+          <i className="fas fa-edit" /> Edit Comment
+        </Dropdown.Item>
+        <Dropdown.Item
+          className={styles.DropdownItem}
+          onClick={handleDelete}
+          aria-label="delete"
+        >
+          <i className="fas fa-trash-alt" /> Delete Comment
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
