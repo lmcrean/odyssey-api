@@ -19,6 +19,8 @@ import CommentSkeleton from "../../components/CommentSkeleton";
 
 function PostPage() {
   const { id } = useParams();
+  // PostCacheContext and it's usage are working
+  // however temporarily commented out in order to clear console.log errors caused by excessive network requests.
   // const location = useLocation();
   // const { cachedPosts, cachePost } = usePostCache();
   // const [post, setPost] = useState(() => {
@@ -48,6 +50,7 @@ function PostPage() {
       }
     };
     fetchPostData()
+    // PostCacheContext commented out for now
     // if (!post || location.state?.fromEdit) {
     //   fetchPostData();
     // } else {

@@ -2,8 +2,9 @@
 
 This readme chapter explains the frontend of the Odyssey app. The frontend is built with React, using a variety of libraries and tools to create a dynamic and responsive user interface.
 
-## Epics and User Stories (Strategy and Scope Plane)
-The user stories are covered in the Agile Methodology.
+## Structure of the Application
+
+The user stories are covered more thoroughtly in the `Agile Methodology` section. Key User Stories to understand the structure of the application are:
 
 - **As a user**, I can sign up and log into the app to access my personalized messaging dashboard.
 - **As a user**, I can view a list of all my ongoing conversations and quickly access any of them.
@@ -11,7 +12,9 @@ The user stories are covered in the Agile Methodology.
 - **As a user**, I can send and receive messages in real-time within an ongoing conversation.
 - **As a user**, I can view detailed information about a conversation, including its history and any attached media.
 
-## Structure of the Application
+
+**Diagram of the Frontend Structure:**
+
 
 ```mermaid
 flowchart TD
@@ -207,7 +210,7 @@ This SuccessAlert component demonstrates several important aspects of React deve
 
 By implementing this SuccessAlert component, the Odyssey app provides a consistent and user-friendly way to communicate successful operations to users. This enhances the overall user experience and demonstrates attention to detail in user interface design and feedback mechanisms.
 
-## SVG Logo
+## Logo Component
 
 <img src="assets/media/logo.png" width="150">
 
@@ -281,7 +284,7 @@ This approach to logo design and implementation showcases attention to detail, a
 
 
 
-## Responsive NavBar - NavbarDesktop, NavbarMobile and NavBarMore
+## NavBar Component set - NavbarDesktop, NavbarMobile and NavBarMore
 
 | <img src="assets/media/navbardesktop.png" width="30"> | ![alt text](assets/media/navbarmobile.png) | ![alt text](assets/media/navbarmore.png) |
 |----|-----|----|
@@ -685,6 +688,257 @@ The skeleton components also consider accessibility. By preserving the layout of
 
 These components contribute to the overall performance and user experience of the Odyssey app. They demonstrate practical implementation of React concepts including modular design, dynamic content generation, and accessibility considerations.
 
+## NotFound Component
+
+![alt text](assets/media/notfound.png)
+
+
+The Odyssey app includes a NotFound component to handle cases where users attempt to access non-existent pages or resources. This component enhances user experience by providing clear feedback when navigation errors occur.
+
+Here's the implementation of the NotFound component:
+
+```jsx
+import React from "react";
+import NoResults from "../assets/no-results.png";
+import styles from "../styles/modules/NotFound.module.css";
+import Asset from "./Asset";
+
+const NotFound = () => {
+  return (
+    <div className={styles.NotFound}>
+      <Asset
+        src={NoResults}
+        message={`Sorry, the page you're looking for doesn't exist`}
+      />
+    </div>
+  );
+};
+
+export default NotFound;
+```
+
+It leverages the `Asset` component, demonstrating good component composition and reusability.
+
+Usage example in routing:
+
+```jsx
+import { Route, Switch } from "react-router-dom";
+import NotFound from "./components/NotFound";
+
+function App() {
+  return (
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route path="/profile" component={Profile} />
+      {/* Other routes */}
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
+```
+
+Implementing the NotFound component showcases attention to detail in error handling and user experience. It ensures that users receive clear feedback when they encounter navigation errors, maintaining a polished and professional feel throughout the application, even in edge cases.
+
+By implementing and strategically using the NotFound component, the Odyssey app demonstrates a commitment to comprehensive error handling and a smooth user experience, even when users encounter invalid routes or resources.
+
+## Banner Component
+
+![alt text](assets/media/banner.png)
+
+The Odyssey app features a dynamic Banner component that serves as the app's header, providing branding and user feedback. This component enhances the user experience by offering a consistent visual identity and contextual notifications.
+
+Here's the key part of the Banner component implementation:
+
+```jsx
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
+import styles from "../styles/modules/Banner.module.css";
+import Logo from "./Logo";
+import SuccessAlert from "./SuccessAlert";
+
+const Banner = () => {
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const location = useLocation();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const success = searchParams.get('success');
+    
+    if  (success === 'signin') {
+      setSuccessMessage("Sign in successful! Welcome back to Odyssey!");
+      setShowSuccessAlert(true);
+
+      const timer = setTimeout(() => {
+        setShowSuccessAlert(false);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [location]);
+
+  return (
+    <Container fluid className={`py-4 mb-3 ${styles.Background}`} style={{ borderRadius: '20px' }}>
+      <Row className="align-items-center text-center text-lg-left">
+        {showSuccessAlert && (
+          <SuccessAlert
+            message={successMessage}
+            onClose={() => setShowSuccessAlert(false)}
+          />
+        )}
+        <Col xs={12} lg={4} className="mb-3 mb-lg-0">
+          <Logo />
+        </Col>
+        <Col xs={8} lg={8} className="m-auto">
+          <h1 className={`bold ${styles.Title}`}>ODYSSEY</h1>
+          <p className={`muted ${styles.SubTitle}`}>
+            Discover the power of shared goals. Explore posts, follow popular profiles, and stay connected with the
+            community through our messaging feature.
+          </p>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
+```
+
+This Banner component demonstrates several important React and front-end development concepts:
+
+- **Component Composition**: Integrates smaller components like `Logo` and `SuccessAlert` to build a more complex UI.
+- **Hooks Usage**: Employs `useState` and `useEffect` hooks for state management and side effects.
+- **Responsive Web Design**: Adapts its layout for different screen sizes using Bootstrap's grid system.
+- **URL Parameter Handling**: Parses and responds to URL parameters to display contextual information.
+- **Timed Effects**: Implements auto-dismissing alerts using `setTimeout` and cleans up with `clearTimeout` to prevent memory leaks.
+
+The Banner is currently placed at the top of `PostsPage`.
+
+It plays a crucial role in the Odyssey app by:
+
+1. Providing a consistent header across different pages, reinforcing the app's brand identity.
+2. Summarizing the app's key features, helping new users understand the app's purpose.
+
+## Avatar Component
+
+![alt text](assets/media/avatar.png)
+
+The Odyssey app includes a reusable Avatar component that displays user profile images consistently throughout the application. This component enhances the user interface by providing a uniform way to represent users visually.
+
+Here's the implementation of the Avatar component:
+
+```jsx
+import React from "react";
+import styles from "../styles/modules/Avatar.module.css";
+
+const Avatar = ({ src, height = 45, text }) => {
+  return (
+    <span>
+      <img
+        className={styles.Avatar}
+        src={src}
+        height={height}
+        width={height}
+        alt="avatar"
+      />
+      {text}
+    </span>
+  );
+};
+
+export default Avatar;
+```
+
+Usage examples:
+
+1. Basic usage with default size:
+   ```jsx
+   <Avatar src={user.profileImage} />
+   ```
+
+2. Custom size with text:
+   ```jsx
+   <Avatar src={user.profileImage} height={60} text="Username" />
+   ```
+
+3. In a user list or comment section:
+   ```jsx
+   <div>
+     {users.map(user => (
+       <div key={user.id}>
+         <Avatar src={user.profileImage} text={user.username} />
+       </div>
+     ))}
+   </div>
+   ```
+
+The Avatar component plays a crucial role in the Odyssey app by:
+
+1. Providing visual identification for users across features like comments, user profiles, and message threads.
+2. Maintaining consistent user representation throughout the application.
+3. Enhancing the overall aesthetic and user experience of the app.
+
+The Avatar component is used in various parts of the application, such as:
+
+- User profile pages
+- Comment sections on posts
+- User lists (e.g., followers, following)
+- Message detail and MessageList components
+
+Its consistent usage across these features helps users quickly identify and recognize other users, enhancing the social aspects of the Odyssey platform.
+
+
+## AutoThemeTransition for dark mode theme switching
+
+
+
+| ![alt text](assets/media/lightmode.png) | ![alt text](assets/media/darkmode.png) |
+|------------------|------------------|
+| ![alt text](assets/media/lightmode2.png) | ![alt text](assets/media/darkmode2.png) |
+| *Light Mode* | *Dark Mode* |
+
+The AutoThemeTransition component in the Odyssey app facilitates smooth theme transitions across the application by adding transition props to child components.
+
+```jsx
+import React from 'react';
+import { useThemeTransition } from '../contexts/ThemeContext';
+
+export const AutoThemeTransition = ({ children }) => {
+  const themeProps = useThemeTransition();
+  
+  const addPropsToChildren = (children) => {
+    return React.Children.map(children, child => {
+      if (React.isValidElement(child)) {
+        return React.cloneElement(child, themeProps);
+      }
+      return child;
+    });
+  };
+
+  return <>{addPropsToChildren(children)}</>;
+};
+```
+
+Key features:
+1. Integrates with ThemeContext via `useThemeTransition` hook.
+2. Adds theme transition props to child React elements with `React.Children` API usage
+3. Wraps existing components without structural changes.
+
+Usage in `App.js`
+```jsx
+<AutoThemeTransition>
+  <div className="App">
+    {/* App components */}
+  </div>
+</AutoThemeTransition>
+```
+
+It enhances the Odyssey app by:
+1. Ensuring smooth visual transitions between light and dark themes.
+2. Providing a centralized theme transition management.
+3. Improving overall user experience with polished theme changes.
+
+Implement by wrapping it around the top-level component and ensuring proper setup of the `useThemeTransition` hook in ThemeContext. This approach demonstrates sophisticated theme management and the ability to create app-wide enhancements using advanced React patterns.
+
 
 # Responsive Design
 
@@ -714,21 +968,23 @@ for the Navbar a desktop and mobile component was created to ensure a seamless e
 
 Global vars were used to efficently manage the color scheme and typography.
 
-## NavBar Design
 
-Figma was used to create a more detailed wireframe for the app, due to time constraints certain components were focused on.
 
-![](assets/media/2024-09-15-20-42-57.png)
-
-## Color Scheme and Typefaces with Root vars
-
-![](assets/media/colorscheme.png)
+| ![](assets/media/colorscheme.png) |
+|----|
+| *---Color Scheme and Typefaces with Root vars* |
 
 these were used to create a consistent and visually appealing design for the app, as shown in the image the variables stylesheet was used to set the color scheme and typography for the app. This provided an efficient workflow.
 
 `Gabarito` was used as the primary typeface for the app, in combination with `Serifa` as the secondary typeface. 
 
 The color scheme was monochrome - to give the app a clean and modern look. The accent color was a vibrant green.
+
+## NavBar Design
+
+Figma was used to create a more detailed wireframe for the app, due to time constraints certain components were focused on.
+
+![](assets/media/2024-09-15-20-42-57.png)
 
 ## Light and Dark Mode with ThemeContext
 

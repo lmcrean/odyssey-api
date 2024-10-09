@@ -1,6 +1,8 @@
 
 # Welcome to Odyssey
 
+![amiresponive](assets/media/amiresponsive.png)
+
 Odyssey is a social media app that allows users to find like-minded individuals working on similar goals.
 
 
