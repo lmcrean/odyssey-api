@@ -17,8 +17,8 @@ export const ThemeProvider = ({ children }) => {
       root.style.setProperty('--color-primary-text', '#333333');
       root.style.setProperty('--color-secondary-text', '#666666');
     } else {
-      root.style.setProperty('--color-background', '#121212');
-      root.style.setProperty('--color-secondary-background', '#1F1F1F');
+      root.style.setProperty('--color-background', '#0A1025');
+      root.style.setProperty('--color-secondary-background', '#0E2846');
       root.style.setProperty('--color-primary-text', '#f0e7e7');
       root.style.setProperty('--color-secondary-text', '#B3B3B3');
     }

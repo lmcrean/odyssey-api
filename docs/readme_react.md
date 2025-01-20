@@ -1063,8 +1063,8 @@ The theme is applied using CSS custom properties defined in `frontend/src/styles
 }
 
 :root {
-  --color-background: #121212;
-  --color-secondary-background: #1F1F1F;
+  --color-background: #0A1025;
+  --color-secondary-background: #0E2846;
   --color-primary-text: #f0e7e7;
   --color-secondary-text: #B3B3B3;
 }
