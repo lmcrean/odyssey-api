@@ -3,10 +3,10 @@
   align-self: center;
   border-radius: 100px;
   border-color: var(--color-primary-text);
-  padding: 4px 10px;
-  margin-left: 2px;
-  margin-right: 2px;
-  min-width: 75px;
+  padding: 0px;
+  margin-left: 0;
+  margin-right: 0;
+  min-width: 39px;
   color: var(--color-primary-text);
 }
 
