@@ -129,8 +129,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
 ]
+
+# Add AccountMiddleware conditionally, based on its availability
+try:
+    import allauth.account.middleware
+    MIDDLEWARE.append('allauth.account.middleware.AccountMiddleware')
+except ImportError:
+    pass
 
 ROOT_URLCONF = 'drf_api.urls'
 
