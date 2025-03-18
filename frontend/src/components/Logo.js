@@ -4,24 +4,31 @@ import styles from '../styles/modules/Logo.module.css';  // Adjust the import pa
 const Logo = () => {
   return (
     <div className={styles.logoContainer}>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-        <circle cx="50" cy="50" r="50" className={styles.logoBg} />
-        <g transform="rotate(-56, 50, 50)" className={styles.logoContent}>
-          {/* Top-left quadrant */}
-          <path d="M50 50 L14.64 14.64 L50 25 Z" className={styles.logoPrimary} />
-          <path d="M50 50 L50 25 L85.36 14.64 Z" className={styles.logoSecondary} />
-          
-          {/* Top-right quadrant */}
-          <path d="M50 50 L85.36 14.64 L75 50 Z" className={styles.logoPrimary} />
-          <path d="M50 50 L75 50 L85.36 85.36 Z" className={styles.logoSecondary} />
-          
-          {/* Bottom-right quadrant */}
-          <path d="M50 50 L85.36 85.36 L50 75 Z" className={styles.logoPrimary} />
-          <path d="M50 50 L50 75 L14.64 85.36 Z" className={styles.logoSecondary} />
-          
-          {/* Bottom-left quadrant */}
-          <path d="M50 50 L14.64 85.36 L25 50 Z" className={styles.logoPrimary} />
-          <path d="M50 50 L25 50 L14.64 14.64 Z" className={styles.logoSecondary} />
+      <svg class="logo-container" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <path d="
+            M 20 0
+            H 80
+            Q 100 0 100 20
+            V 80
+            Q 100 100 80 100
+            H 20
+            Q 0 100 0 80
+            V 20
+            Q 0 0 20 0
+            Z" fill="#0A1025" />
+
+      <g transform="rotate(-16, 50, 50) scale(0.7) translate(10,5)">
+          <path d="M50 50 L14.64 14.64 L50 25 Z" fill="#2B303E" />
+          <path d="M50 50 L85.36 14.64 L75 50 Z" fill="#2B303E" />
+          <path d="M50 50 L85.36 85.36 L50 75 Z" fill="#2B303E" />
+          <path d="M50 50 L25 50 L14.64 85.36 Z" fill="#2B303E" />
+        </g>
+
+        <g transform="rotate(-16, 50, 50) scale(-0.7, 0.7) translate(-110,5)">
+          <path d="M50 50 L14.64 14.64 L50 25 Z" fill="#DFD3E9" />
+          <path d="M50 50 L85.36 14.64 L75 50 Z" fill="#DFD3E9" />
+          <path d="M50 50 L85.36 85.36 L50 75 Z" fill="#DFD3E9" />
+          <path d="M50 50 L25 50 L14.64 85.36 Z" fill="#DFD3E9" />
         </g>
       </svg>
     </div>
