@@ -1,0 +1,13 @@
+{
+  "buildCommand": "NODE_OPTIONS=--openssl-legacy-provider npm run build",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://odyssey-api-lmcreans-projects.vercel.app/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+} 
