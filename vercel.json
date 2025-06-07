@@ -11,8 +11,5 @@
       "src": "/(.*)",
       "dest": "drf_api/wsgi.py"
     }
-  ],
-  "env": {
-    "PYTHONPATH": "."
-  }
+  ]
 } 
