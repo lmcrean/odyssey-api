@@ -78,12 +78,22 @@ ALLOWED_HOSTS = [
     'odyssey-frontend-1fed9e7a199c.herokuapp.com',
     '127.0.0.1:8000',
     '127.0.0.1',
-    'odyssey.lauriecrean.dev'
+    'odyssey.lauriecrean.dev',
+    '.vercel.app',
+    'vercel.app',
+    'odyssey-k4df7wo66-lmcreans-projects.vercel.app',
+    os.environ.get('VERCEL_URL', ''),
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    os.environ.get('CLIENT_ORIGIN')
+    os.environ.get('CLIENT_ORIGIN'),
+    os.environ.get('CLIENT_ORIGIN_DEV'),
+    'http://localhost:3000',
+    'https://localhost:3000',
 ]
+
+# Remove empty values
+CORS_ALLOWED_ORIGINS = [origin for origin in CORS_ALLOWED_ORIGINS if origin]
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -172,6 +182,12 @@ DATABASES = {
     )
     )
 }
+
+# Vercel-specific database configuration
+if os.environ.get('VERCEL_ENV'):
+    DATABASES['default'] = dj_database_url.parse(
+        os.environ.get('DATABASE_URL')
+    )
 
 
 # Password validation
