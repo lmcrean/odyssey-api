@@ -1,8 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  testDir: './playwright/validation-tests',
-  testMatch: '**/productionRegistration*.spec.js',
+  testDir: './production-testing',
+  testMatch: '**/*.spec.js',
   fullyParallel: false, // Run production tests sequentially to avoid conflicts
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1, // Allow retries for production network issues
