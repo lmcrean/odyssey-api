@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from .views import logout_route, root_route
+from .views import logout_route, root_route, setup_database
 
 urlpatterns = [
     path('', root_route),
@@ -28,6 +28,7 @@ urlpatterns = [
     path(
         'dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')
     ),
+    path('setup-database/', setup_database, name='setup_database'),
     path('', include('users.urls')),
     path('', include('profiles.urls')),
     path('', include('posts.urls')),
