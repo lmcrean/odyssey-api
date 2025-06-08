@@ -32,7 +32,9 @@
   "scripts": {
     "heroku-prebuild": "npm install -g serve",
     "heroku-postbuild": "NODE_OPTIONS=--openssl-legacy-provider npm run build",
-    "deploy": "npm run build && rm -rf ./staticfiles/build && mv build ./staticfiles/.",
+    "deploy": "npm run build:prod && npm run copy:build",
+    "build:prod": "powershell -Command \"$env:NODE_OPTIONS='--openssl-legacy-provider'; npm run build\"",
+    "copy:build": "node -e \"const fs=require('fs'); const path=require('path'); if(fs.existsSync('staticfiles/build')) fs.rmSync('staticfiles/build', {recursive:true}); if(!fs.existsSync('staticfiles')) fs.mkdirSync('staticfiles'); fs.cpSync('build', 'staticfiles/build', {recursive:true}); console.log('✅ Build copied to staticfiles/build');\"",
     "start": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
