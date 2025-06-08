@@ -177,14 +177,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     } 
-    if 'DEV' in os.environ else dj_database_url.parse(
+    if 'DEV' in os.environ or not os.environ.get('DATABASE_URL') else dj_database_url.parse(
         os.environ.get('DATABASE_URL')
     )
     )
 }
 
 # Vercel-specific database configuration
-if os.environ.get('VERCEL_ENV'):
+if os.environ.get('VERCEL_ENV') and os.environ.get('DATABASE_URL'):
     DATABASES['default'] = dj_database_url.parse(
         os.environ.get('DATABASE_URL')
     )
