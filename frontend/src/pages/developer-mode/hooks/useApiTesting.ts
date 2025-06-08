@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import apiClient from '@/src/api/core/client';
+import apiClient from '../../../api/core/client';
 
 import { EndpointTest, TestResult } from '../types';
 
