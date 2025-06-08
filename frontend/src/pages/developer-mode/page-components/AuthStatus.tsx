@@ -12,22 +12,37 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showLoginForm, setShowLoginForm] = useState<boolean>(false);
 
-  // Check if token exists on mount
+  // Check if token exists on mount and listen for auth changes
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    const userString = localStorage.getItem('auth_user');
+    const checkAuthStatus = () => {
+      const token = localStorage.getItem('accessToken');
+      const userString = localStorage.getItem('auth_user');
 
-    if (token) {
-      setIsAuthenticated(true);
+      if (token) {
+        setIsAuthenticated(true);
 
-      if (userString) {
-        try {
-          setUser(JSON.parse(userString));
-        } catch (error) {
-          console.error('Error parsing user data:', error);
+        if (userString) {
+          try {
+            setUser(JSON.parse(userString));
+          } catch (error) {
+            console.error('Error parsing user data:', error);
+          }
         }
+      } else {
+        setIsAuthenticated(false);
+        setUser(null);
       }
-    }
+    };
+
+    // Check on mount
+    checkAuthStatus();
+
+    // Listen for auth changes
+    window.addEventListener('authToken_changed', checkAuthStatus);
+
+    return () => {
+      window.removeEventListener('authToken_changed', checkAuthStatus);
+    };
   }, []);
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {

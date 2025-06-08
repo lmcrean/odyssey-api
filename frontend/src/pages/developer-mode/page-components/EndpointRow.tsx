@@ -118,6 +118,9 @@ export default function EndpointRow({
               localStorage.removeItem('refreshToken');
               localStorage.removeItem('auth_user');
               setIsAuthenticated(false);
+              
+              // Trigger auth state change
+              window.dispatchEvent(new Event('authToken_changed'));
             } catch (error) {
               console.error('Logout error:', error);
               // Clear tokens even if logout fails
@@ -125,6 +128,9 @@ export default function EndpointRow({
               localStorage.removeItem('refreshToken');
               localStorage.removeItem('auth_user');
               setIsAuthenticated(false);
+              
+              // Trigger auth state change
+              window.dispatchEvent(new Event('authToken_changed'));
               result = { data: { message: 'Logged out locally' } };
             }
           } else {
@@ -133,9 +139,16 @@ export default function EndpointRow({
             // Handle login response
             if (endpoint === '/dj-rest-auth/login/' && result.data.access_token) {
               localStorage.setItem('accessToken', result.data.access_token);
-              localStorage.setItem('refreshToken', result.data.refresh_token);
-              localStorage.setItem('auth_user', JSON.stringify(result.data.user));
+              if (result.data.refresh_token) {
+                localStorage.setItem('refreshToken', result.data.refresh_token);
+              }
+              if (result.data.user) {
+                localStorage.setItem('auth_user', JSON.stringify(result.data.user));
+              }
               setIsAuthenticated(true);
+              
+              // Trigger auth state change in AuthStatus component
+              window.dispatchEvent(new Event('authToken_changed'));
             }
           }
           break;

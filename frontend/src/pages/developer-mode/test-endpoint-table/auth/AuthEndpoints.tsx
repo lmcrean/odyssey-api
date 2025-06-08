@@ -22,11 +22,11 @@ export default function AuthEndpoints() {
         requiresParams={true}
         inputFields={[
           {
-            name: 'email',
-            label: 'Email',
-            type: 'email',
+            name: 'username',
+            label: 'Username',
+            type: 'text',
             required: true,
-            placeholder: 'user@example.com'
+            placeholder: 'your_username'
           },
           {
             name: 'password',
