@@ -94,3 +94,56 @@ export async function handleFailedTestVideo(testInfo) {
     await handleTestVideo(testInfo);
   }
 }
+
+// Production testing utilities
+
+/**
+ * Runner: Generate unique test user for production testing
+ */
+export function generateProductionTestUser() {
+  const timestamp = Date.now();
+  const randomSuffix = Math.random().toString(36).substring(2, 8);
+  return {
+    username: `e2euser${timestamp}${randomSuffix}`,
+    password: `TestPass${randomSuffix}123!`
+  };
+}
+
+/**
+ * Operation: Wait for production deployment to be ready
+ */
+export async function waitForProductionReady(page, frontendUrl, maxRetries = 5) {
+  console.log('⏳ Waiting for production deployment to be ready...');
+  
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      await page.goto(frontendUrl, { timeout: 30000 });
+      await page.waitForLoadState('networkidle', { timeout: 15000 });
+      console.log('✅ Production deployment is ready');
+      return;
+    } catch (error) {
+      console.log(`⏳ Attempt ${i + 1}/${maxRetries} failed, retrying...`);
+      if (i === maxRetries - 1) {
+        throw new Error(`Production deployment not ready after ${maxRetries} attempts: ${error}`);
+      }
+      await new Promise(resolve => setTimeout(resolve, 5000));
+    }
+  }
+}
+
+/**
+ * Operation: Execute with retry logic for production network conditions
+ */
+export async function executeWithRetry(operation, maxRetries = 3, delay = 2000) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await operation();
+    } catch (error) {
+      if (i === maxRetries - 1) {
+        throw error;
+      }
+      console.log(`⏳ Retry ${i + 1}/${maxRetries} after ${delay}ms...`);
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+}
