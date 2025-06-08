@@ -5,7 +5,7 @@ import { Toaster } from './components/ui/sonner';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import AuthGuard from './components/layout/AuthGuard';
-import DeveloperMode from './pages/developer-mode';
+import DeveloperMode from './pages/developer-mode/page';
 
 function App() {
   return (

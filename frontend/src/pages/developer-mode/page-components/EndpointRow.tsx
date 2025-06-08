@@ -231,10 +231,11 @@ export default function EndpointRow({
             )}
             
             <EndpointButton
-              onClick={handleButtonClick}
-              isLoading={isLoading}
+              label={`${method} ${endpoint}`}
               method={method}
-              disabled={requiresAuth && !isAuthenticated}
+              onClick={handleButtonClick}
+              status={status}
+              isLoading={isLoading}
             />
           </div>
 
@@ -256,7 +257,7 @@ export default function EndpointRow({
             <InputForm
               fields={[...pathParamFields, ...inputFields]}
               onSubmit={handleFormSubmit}
-              onCancel={() => setShowInputForm(false)}
+              submitLabel="Send POST Request"
               isLoading={isLoading}
             />
           </div>
