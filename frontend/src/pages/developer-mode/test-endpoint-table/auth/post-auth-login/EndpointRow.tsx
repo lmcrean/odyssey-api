@@ -32,10 +32,10 @@ export default function EndpointRow() {
       setStoredCredentials(credentials);
       
       // Update the form fields
-      const emailInput = document.querySelector('input[name="username"]') as HTMLInputElement;
+      const usernameInput = document.querySelector('input[name="username"]') as HTMLInputElement;
       const passwordInput = document.querySelector('input[name="password"]') as HTMLInputElement;
       
-      if (emailInput) emailInput.value = credentials.email;
+      if (usernameInput) usernameInput.value = credentials.username || credentials.email;
       if (passwordInput) passwordInput.value = credentials.password;
     }
   };
@@ -62,7 +62,7 @@ export default function EndpointRow() {
             type: 'text',
             required: true,
             placeholder: 'your_username',
-            defaultValue: storedCredentials?.email || ''
+            defaultValue: storedCredentials?.username || storedCredentials?.email || ''
           },
           {
             name: 'password',
@@ -89,7 +89,7 @@ export default function EndpointRow() {
 
               <div className="ml-4 rounded bg-gray-800 p-2 text-xs">
                 <div>
-                  Email: <span className="text-green-400">{storedCredentials.email}</span>
+                  Username: <span className="text-green-400">{storedCredentials.username || storedCredentials.email}</span>
                 </div>
                 <div>
                   Password: <span className="text-green-400">{storedCredentials.password}</span>
