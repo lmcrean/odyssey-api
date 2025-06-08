@@ -1,52 +1,51 @@
-import { AuthStatus, EndpointCard, BackendInfo } from './components';
-import { useApiTesting } from './hooks/useApiTesting';
-import { odysseyEndpoints } from './utils/endpoints';
+'use client';
 
-export default function DeveloperMode() {
-  const { results, loading, authToken, testEndpoint, clearResults, clearAuth } =
-    useApiTesting();
+import {
+  PostsEndpoints,
+  AuthEndpoints,
+  ProfilesEndpoints,
+  MessagesEndpoints,
+  CommentsEndpoints
+} from './test-endpoint-table';
+import { AuthStatus } from './page-components';
+import { LoginInput } from './types';
+
+export default function TestPage() {
+  const environment = typeof window !== 'undefined' ? 'development' : 'development';
+
+  const handleLogin = async (credentials: LoginInput) => {
+    try {
+      // TODO: Implement actual login API call
+      console.log('Login attempt:', credentials);
+    } catch (error) {
+      console.error('Login failed:', error);
+      throw error;
+    }
+  };
+
+  const handleLogout = () => {
+    // TODO: Implement actual logout
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    console.log('Logged out');
+  };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-4">🚀 Odyssey API Developer Mode</h1>
-          <p className="text-muted-foreground mb-4">
-            Test and explore the Odyssey API endpoints. This page helps you understand
-            and debug your backend connections.
-          </p>
-        </div>
+    <div className="min-h-screen bg-gray-900 text-white">
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="mb-8 text-center text-3xl font-bold">
+          Now testing in {environment.toUpperCase()}
+        </h1>
 
-        {/* Auth Status */}
-        <AuthStatus
-          authToken={authToken}
-          onClearAuth={clearAuth}
-          onClearResults={clearResults}
-        />
+        {/* Authentication status and login */}
+        <AuthStatus onLogin={handleLogin} onLogout={handleLogout} />
 
-        {/* Endpoints Grid */}
-        <div className="grid gap-6 mb-8">
-          {odysseyEndpoints.map((test) => {
-            const key = `${test.method}-${test.endpoint}`;
-            const result = results[key];
-            const isLoading = loading[key];
-
-            return (
-              <EndpointCard
-                key={key}
-                test={test}
-                result={result}
-                isLoading={isLoading}
-                authToken={authToken}
-                onTest={testEndpoint}
-              />
-            );
-          })}
-        </div>
-
-        {/* Backend Info */}
-        <BackendInfo />
+        {/* Render all endpoint category components */}
+        <AuthEndpoints />
+        <PostsEndpoints />
+        <ProfilesEndpoints />
+        <MessagesEndpoints />
+        <CommentsEndpoints />
       </div>
     </div>
   );

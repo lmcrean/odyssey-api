@@ -16,4 +16,9 @@ export interface TestResult {
 export interface AuthState {
   token: string;
   isAuthenticated: boolean;
+}
+
+export interface LoginInput {
+  email: string;
+  password: string;
 } 
