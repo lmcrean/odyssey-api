@@ -90,10 +90,16 @@ CORS_ALLOWED_ORIGINS = [
     os.environ.get('CLIENT_ORIGIN_DEV'),
     'http://localhost:3000',
     'https://localhost:3000',
+    'https://odyssey-frontend-lmcreans-projects.vercel.app',
 ]
 
 # Remove empty values
 CORS_ALLOWED_ORIGINS = [origin for origin in CORS_ALLOWED_ORIGINS if origin]
+
+# Allow all frontend vercel deployments
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://odyssey-frontend-.*-lmcreans-projects\.vercel\.app$",
+]
 
 CORS_ALLOW_CREDENTIALS = True
 
