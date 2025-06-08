@@ -30,3 +30,5 @@ combined_repo.md
 # frontend/screenshots/.last-run.json
 
 .vercel
+
+frontend-ts-reference/**
