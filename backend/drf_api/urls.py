@@ -28,8 +28,6 @@ urlpatterns = [
     path(
         'dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')
     ),
-    # JWT token refresh endpoint
-    path('dj-rest-auth/', include('dj_rest_auth.jwt_auth')),
     path('setup-database/', setup_database, name='setup_database'),
     path('', include('users.urls')),
     path('', include('profiles.urls')),
