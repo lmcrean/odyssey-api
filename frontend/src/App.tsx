@@ -5,6 +5,7 @@ import { Toaster } from '@/src/components/ui/sonner';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import AuthGuard from './components/layout/AuthGuard';
+import DeveloperMode from './pages/DeveloperMode';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/developer-mode" element={<DeveloperMode />} />
             <Route
               path="/dashboard/*"
               element={
