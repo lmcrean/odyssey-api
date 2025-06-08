@@ -4,26 +4,25 @@ import time
 
 # Define base URLs from settings.py ALLOWED_HOSTS
 PROD_URLS = [
-    'https://odyssey-api-f3455553b29d.herokuapp.com',
-    'https://odyssey.lauriecrean.dev',
+    'https://odyssey-api-lmcreans-projects.vercel.app',
 ]
 
 # The following URL is not working (returns 404), so we'll remove it
 # 'https://moments-api-clone-1a930203bd9f.herokuapp.com',
 
-# Common endpoints to test
+# Common endpoints to test (removed /api prefix)
 ENDPOINTS = [
-    '/api/',
-    '/api/posts/',
-    '/api/profiles/',
-    '/api/comments/',
-    '/api/messages/',
+    '/',
+    '/posts/',
+    '/profiles/',
+    '/comments/',
+    '/messages/',
 ]
 
 @pytest.mark.parametrize('api_url', PROD_URLS)
 def test_api_root_endpoint(api_url):
     """Test that the API root endpoint returns a response."""
-    response = requests.get(f"{api_url}/api/")
+    response = requests.get(f"{api_url}/")
     
     # First verify we get a 200 response
     assert response.status_code == 200, f"API root endpoint failed for {api_url}"
@@ -44,7 +43,7 @@ def test_api_root_endpoint(api_url):
 @pytest.mark.parametrize('api_url', PROD_URLS)
 def test_posts_endpoint(api_url):
     """Test that the posts endpoint returns a valid response."""
-    response = requests.get(f"{api_url}/api/posts/")
+    response = requests.get(f"{api_url}/posts/")
     assert response.status_code == 200, f"Posts endpoint failed for {api_url}"
     
     try:
@@ -59,7 +58,7 @@ def test_posts_endpoint(api_url):
 @pytest.mark.parametrize('api_url', PROD_URLS)
 def test_profiles_endpoint(api_url):
     """Test that the profiles endpoint returns a valid response."""
-    response = requests.get(f"{api_url}/api/profiles/")
+    response = requests.get(f"{api_url}/profiles/")
     assert response.status_code == 200, f"Profiles endpoint failed for {api_url}"
     
     try:
@@ -77,8 +76,8 @@ def test_endpoint_availability(endpoint, api_url):
     """Test that all important endpoints are available."""
     response = requests.get(f"{api_url}{endpoint}")
     
-    # If the endpoint is /api/messages/, it might require authentication
-    if endpoint == '/api/messages/':
+    # If the endpoint is /messages/, it might require authentication
+    if endpoint == '/messages/':
         assert response.status_code in [200, 201, 401, 403], f"Endpoint {endpoint} failed for {api_url}"
     else:
         assert response.status_code in [200, 201], f"Endpoint {endpoint} failed for {api_url}"
@@ -91,7 +90,7 @@ def test_rate_limiting():
     
     for _ in range(total_requests):
         try:
-            response = requests.get(f"{api_url}/api/posts/")
+            response = requests.get(f"{api_url}/posts/")
             if response.status_code not in [200, 201, 429]:  # 429 is Too Many Requests
                 failures += 1
             # Small delay to prevent overwhelming the server
@@ -106,8 +105,8 @@ def test_authentication_endpoints():
     """Test that authentication endpoints are available."""
     api_url = PROD_URLS[0]  # Use the first URL for this test
     endpoints = [
-        '/api/dj-rest-auth/login/',
-        '/api/dj-rest-auth/registration/',
+        '/dj-rest-auth/login/',
+        '/dj-rest-auth/registration/',
     ]
     
     for endpoint in endpoints:
@@ -117,7 +116,7 @@ def test_authentication_endpoints():
 @pytest.mark.parametrize('api_url', PROD_URLS)
 def test_messaging_endpoint(api_url):
     """Test that the messaging endpoint returns a valid response."""
-    response = requests.get(f"{api_url}/api/messages/")
+    response = requests.get(f"{api_url}/messages/")
     assert response.status_code in [200, 401, 403], f"Messaging endpoint failed for {api_url}"
     
     # If we received a 200 response, check the structure

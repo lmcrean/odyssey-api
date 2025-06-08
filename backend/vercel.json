@@ -11,10 +11,5 @@
       "src": "/(.*)",
       "dest": "drf_api/wsgi.py"
     }
-  ],
-  "functions": {
-    "drf_api/wsgi.py": {
-      "maxDuration": 30
-    }
-  }
+  ]
 } 
