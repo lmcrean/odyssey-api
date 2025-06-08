@@ -1,5 +1,5 @@
 import React from 'react';
-import { EndpointTable } from '../../page-components';
+import { EndpointTable, EndpointRow } from '../../page-components';
 
 /**
  * Container component for posts endpoints
@@ -7,67 +7,70 @@ import { EndpointTable } from '../../page-components';
 export default function PostsEndpoints() {
   return (
     <EndpointTable title="Posts Endpoints">
-      <div className="space-y-4">
-        {/* Get Posts */}
-        <div className="rounded border border-gray-600 bg-gray-700 p-4">
-          <div className="mb-2 flex items-center space-x-2">
-            <span className="rounded bg-green-600 px-2 py-1 text-xs font-mono">GET</span>
-            <code className="text-yellow-300">/posts/</code>
-          </div>
-          <p className="text-gray-300 text-sm mb-3">Retrieve paginated list of posts</p>
-          <button className="rounded bg-green-600 px-3 py-1 text-sm text-white hover:bg-green-700">
-            Test Endpoint
-          </button>
-        </div>
+      <EndpointRow
+        method="GET"
+        endpoint="/posts/"
+        expectedOutput={{
+          count: 10,
+          next: 'https://odyssey-api-lmcreans-projects.vercel.app/posts/?page=2',
+          previous: null,
+          results: [
+            {
+              id: 1,
+              title: 'Sample Post',
+              content: 'This is a sample post content',
+              owner: 'testuser',
+              created_at: '2024-01-01T00:00:00Z',
+              updated_at: '2024-01-01T00:00:00Z'
+            }
+          ]
+        }}
+      />
 
-        {/* Create Post */}
-        <div className="rounded border border-gray-600 bg-gray-700 p-4">
-          <div className="mb-2 flex items-center space-x-2">
-            <span className="rounded bg-blue-600 px-2 py-1 text-xs font-mono">POST</span>
-            <code className="text-yellow-300">/posts/</code>
-          </div>
-          <p className="text-gray-300 text-sm mb-3">Create a new post (requires authentication)</p>
-          <button className="rounded bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700">
-            Test Endpoint
-          </button>
-        </div>
+      <EndpointRow
+        method="POST"
+        endpoint="/posts/"
+        expectedOutput={{
+          id: 1,
+          title: 'New Post',
+          content: 'This is new post content',
+          owner: 'testuser',
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        }}
+        requiresAuth={true}
+        requiresParams={true}
+        inputFields={[
+          {
+            name: 'title',
+            label: 'Title',
+            type: 'text',
+            required: true,
+            placeholder: 'Enter post title'
+          },
+          {
+            name: 'content',
+            label: 'Content',
+            type: 'textarea',
+            required: true,
+            placeholder: 'Enter post content'
+          }
+        ]}
+      />
 
-        {/* Get Post Details */}
-        <div className="rounded border border-gray-600 bg-gray-700 p-4">
-          <div className="mb-2 flex items-center space-x-2">
-            <span className="rounded bg-green-600 px-2 py-1 text-xs font-mono">GET</span>
-            <code className="text-yellow-300">/posts/:id/</code>
-          </div>
-          <p className="text-gray-300 text-sm mb-3">Retrieve specific post details</p>
-          <button className="rounded bg-green-600 px-3 py-1 text-sm text-white hover:bg-green-700">
-            Test Endpoint
-          </button>
-        </div>
-
-        {/* Update Post */}
-        <div className="rounded border border-gray-600 bg-gray-700 p-4">
-          <div className="mb-2 flex items-center space-x-2">
-            <span className="rounded bg-yellow-600 px-2 py-1 text-xs font-mono">PUT</span>
-            <code className="text-yellow-300">/posts/:id/</code>
-          </div>
-          <p className="text-gray-300 text-sm mb-3">Update post (requires ownership)</p>
-          <button className="rounded bg-yellow-600 px-3 py-1 text-sm text-white hover:bg-yellow-700">
-            Test Endpoint
-          </button>
-        </div>
-
-        {/* Delete Post */}
-        <div className="rounded border border-gray-600 bg-gray-700 p-4">
-          <div className="mb-2 flex items-center space-x-2">
-            <span className="rounded bg-red-600 px-2 py-1 text-xs font-mono">DELETE</span>
-            <code className="text-yellow-300">/posts/:id/</code>
-          </div>
-          <p className="text-gray-300 text-sm mb-3">Delete post (requires ownership)</p>
-          <button className="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700">
-            Test Endpoint
-          </button>
-        </div>
-      </div>
+      <EndpointRow
+        method="GET"
+        endpoint="/posts/:id/"
+        expectedOutput={{
+          id: 1,
+          title: 'Sample Post',
+          content: 'This is a sample post content',
+          owner: 'testuser',
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        }}
+        pathParams={['id']}
+      />
     </EndpointTable>
   );
 } 

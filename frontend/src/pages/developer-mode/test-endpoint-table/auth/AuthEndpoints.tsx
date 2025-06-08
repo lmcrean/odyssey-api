@@ -1,5 +1,5 @@
 import React from 'react';
-import { EndpointTable } from '../../page-components';
+import { EndpointTable, EndpointRow } from '../../page-components';
 
 /**
  * Container component for authentication endpoints
@@ -7,43 +7,90 @@ import { EndpointTable } from '../../page-components';
 export default function AuthEndpoints() {
   return (
     <EndpointTable title="Authentication Endpoints">
-      <div className="space-y-4">
-        {/* Login Endpoint */}
-        <div className="rounded border border-gray-600 bg-gray-700 p-4">
-          <div className="mb-2 flex items-center space-x-2">
-            <span className="rounded bg-blue-600 px-2 py-1 text-xs font-mono">POST</span>
-            <code className="text-yellow-300">/dj-rest-auth/login/</code>
-          </div>
-          <p className="text-gray-300 text-sm mb-3">User login with email/username and password</p>
-          <button className="rounded bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700">
-            Test Endpoint
-          </button>
-        </div>
+      <EndpointRow
+        method="POST"
+        endpoint="/dj-rest-auth/login/"
+        expectedOutput={{
+          access_token: 'jwt-access-token',
+          refresh_token: 'jwt-refresh-token',
+          user: {
+            id: 1,
+            username: 'testuser',
+            email: 'user@example.com'
+          }
+        }}
+        requiresParams={true}
+        inputFields={[
+          {
+            name: 'email',
+            label: 'Email',
+            type: 'email',
+            required: true,
+            placeholder: 'user@example.com'
+          },
+          {
+            name: 'password',
+            label: 'Password',
+            type: 'password',
+            required: true,
+            placeholder: 'Your password'
+          }
+        ]}
+      />
 
-        {/* Registration Endpoint */}
-        <div className="rounded border border-gray-600 bg-gray-700 p-4">
-          <div className="mb-2 flex items-center space-x-2">
-            <span className="rounded bg-blue-600 px-2 py-1 text-xs font-mono">POST</span>
-            <code className="text-yellow-300">/dj-rest-auth/registration/</code>
-          </div>
-          <p className="text-gray-300 text-sm mb-3">User registration with email, username and password</p>
-          <button className="rounded bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700">
-            Test Endpoint
-          </button>
-        </div>
+      <EndpointRow
+        method="POST"
+        endpoint="/dj-rest-auth/registration/"
+        expectedOutput={{
+          access_token: 'jwt-access-token',
+          refresh_token: 'jwt-refresh-token',
+          user: {
+            id: 1,
+            username: 'newuser',
+            email: 'newuser@example.com'
+          }
+        }}
+        requiresParams={true}
+        inputFields={[
+          {
+            name: 'username',
+            label: 'Username',
+            type: 'text',
+            required: true,
+            placeholder: 'Choose a username'
+          },
+          {
+            name: 'email',
+            label: 'Email',
+            type: 'email',
+            required: true,
+            placeholder: 'user@example.com'
+          },
+          {
+            name: 'password1',
+            label: 'Password',
+            type: 'password',
+            required: true,
+            placeholder: 'Create a password'
+          },
+          {
+            name: 'password2',
+            label: 'Confirm Password',
+            type: 'password',
+            required: true,
+            placeholder: 'Confirm your password'
+          }
+        ]}
+      />
 
-        {/* Logout Endpoint */}
-        <div className="rounded border border-gray-600 bg-gray-700 p-4">
-          <div className="mb-2 flex items-center space-x-2">
-            <span className="rounded bg-blue-600 px-2 py-1 text-xs font-mono">POST</span>
-            <code className="text-yellow-300">/dj-rest-auth/logout/</code>
-          </div>
-          <p className="text-gray-300 text-sm mb-3">User logout (requires authentication)</p>
-          <button className="rounded bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700">
-            Test Endpoint
-          </button>
-        </div>
-      </div>
+      <EndpointRow
+        method="POST"
+        endpoint="/dj-rest-auth/logout/"
+        expectedOutput={{
+          detail: 'Successfully logged out.'
+        }}
+        requiresAuth={true}
+      />
     </EndpointTable>
   );
 } 
