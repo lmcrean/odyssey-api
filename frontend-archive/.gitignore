@@ -1,3 +1,6 @@
 .vercel
 
 playwright/screenshots/* */
+
+build/*
+staticfiles/*
