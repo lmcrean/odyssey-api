@@ -19,6 +19,6 @@ export interface AuthState {
 }
 
 export interface LoginInput {
-  email: string;
+  username: string;
   password: string;
 } 

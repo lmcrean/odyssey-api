@@ -36,12 +36,12 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
     setIsLoading(true);
     try {
       const credentials = {
-        email: formData.email as string,
+        username: formData.username as string,
         password: formData.password as string
       };
       await onLogin(credentials);
       setIsAuthenticated(true);
-      setUser({ email: credentials.email });
+      setUser({ email: credentials.username });
       setShowLoginForm(false);
     } catch (_error) {
       console.error('Login error:', _error);
@@ -174,13 +174,13 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
                 const loginForms = document.querySelectorAll('form');
                 let sendLoginButton: HTMLButtonElement | null = null;
 
-                // Search through all forms for the one with email and password fields but no username
+                // Search through all forms for the one with username and password fields but no email
                 for (const form of Array.from(loginForms)) {
-                  const hasEmailField = form.querySelector('input[name="email"]');
-                  const hasPasswordField = form.querySelector('input[name="password"]');
                   const hasUsernameField = form.querySelector('input[name="username"]');
+                  const hasPasswordField = form.querySelector('input[name="password"]');
+                  const hasEmailField = form.querySelector('input[name="email"]');
 
-                  if (hasEmailField && hasPasswordField && !hasUsernameField) {
+                  if (hasUsernameField && hasPasswordField && !hasEmailField) {
                     // This is likely the login form
                     sendLoginButton = form.querySelector(
                       'button[type="submit"]'
@@ -328,11 +328,11 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
           <InputForm
             fields={[
               {
-                name: 'email',
-                label: 'Email',
-                type: 'email',
+                name: 'username',
+                label: 'Username',
+                type: 'text',
                 required: true,
-                placeholder: 'user@example.com'
+                placeholder: 'your_username'
               },
               {
                 name: 'password',
