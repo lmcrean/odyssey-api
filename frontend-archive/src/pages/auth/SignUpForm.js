@@ -13,6 +13,7 @@ import styles from "../../styles/modules/SignInUpForm.module.css";
 import btnStyles from "../../styles/modules/Button.module.css";
 import appStyles from "../../App.module.css";
 import { useRedirect } from "../../hooks/useRedirect";
+import TestToolSignUp from "../../components/TestToolSignUp";
 
 const SignUpForm = () => {
   useRedirect("loggedIn");
@@ -80,11 +81,19 @@ const SignUpForm = () => {
     setErrors({});
   }, [signUpData]);
 
+  // Function to handle test user generation
+  const handleGenerateTestUser = (testUserData) => {
+    setSignUpData(testUserData);
+    setErrors({}); // Clear any existing errors
+  };
+
   return (
     <Row className={styles.Row}>
       <Col className="m-auto py-2 p-md-2" md={6}>
         <Container className={`${appStyles.Content} p-4 `}>
           <h1 className={styles.Header}>sign up</h1>
+
+          <TestToolSignUp onGenerateTestUser={handleGenerateTestUser} />
 
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="username">

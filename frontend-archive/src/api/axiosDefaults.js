@@ -2,7 +2,10 @@
 
 import axios from "axios";
 
-axios.defaults.baseURL = "https://odyssey-api-lmcreans-projects.vercel.app";
+// Use environment variable for backend URL, with fallback for development
+const backendURL = process.env.REACT_APP_BACKEND_URL || "https://odyssey-api-lmcreans-projects.vercel.app";
+
+axios.defaults.baseURL = backendURL;
 axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
 axios.defaults.withCredentials = true;
 
