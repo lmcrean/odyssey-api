@@ -60,6 +60,7 @@
     "test:p": "npx playwright test updatePassword.spec.js --trace on",
     "test:b": "npx playwright test updateProfile.spec.js --trace on",
     "test:s": "npx playwright test successAlerts.spec.js --trace on",
+    "test:prod": "npx playwright test auth-complete-flow.spec.js --config=playwright-production.config.js",
     "tr": "npx playwright show-report test-results/html-report"
   },
   "eslintConfig": {
