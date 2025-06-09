@@ -31,7 +31,7 @@ REST_FRAMEWORK = {
         if 'DEV' in os.environ
         else [
             'rest_framework_simplejwt.authentication.JWTAuthentication',
-            # Removed JWTCookieAuthentication since we're using Bearer tokens only
+            'dj_rest_auth.jwt_auth.JWTCookieAuthentication',  # Keep this for dj-rest-auth compatibility
         ]
     ),
     'DEFAULT_PAGINATION_CLASS':
@@ -59,12 +59,13 @@ REST_USE_JWT = True
 # New-style REST_AUTH configuration - Updated for Bearer token approach
 REST_AUTH = {
     'USE_JWT': True,
-    'JWT_AUTH_COOKIE': None,  # Disable cookies, use Bearer tokens only
+    'JWT_AUTH_COOKIE': None,  # Disable cookies for Bearer token approach
     'JWT_AUTH_REFRESH_COOKIE': None,  # Disable refresh cookies
     'JWT_AUTH_HTTPONLY': False,  # Not needed for Bearer tokens
     'JWT_AUTH_SECURE': False,  # Not needed for Bearer tokens
     'JWT_AUTH_SAMESITE': None,  # Not needed for Bearer tokens
     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer',
+    'SESSION_LOGIN': False,  # Disable session-based login
 }
 
 # Remove legacy settings - these are no longer needed
