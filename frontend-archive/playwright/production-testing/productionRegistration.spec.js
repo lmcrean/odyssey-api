@@ -3,7 +3,7 @@ import {
   captureScreenshot, 
   handleTestVideo, 
   handleFailedTestVideo 
-} from './testUtils';
+} from '../validation-tests/testUtils';
 
 // Production URLs - using stable root format as per user rules
 const PROD_FRONTEND_URL = 'https://odyssey-frontend-lmcreans-projects.vercel.app';
