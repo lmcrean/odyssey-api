@@ -7,7 +7,7 @@ import time
 import requests
 
 # Add the utils directory to the path
-sys.path.append(str(Path(__file__).parent.parent / 'utils'))
+sys.path.append(str(Path(__file__).parent.parent / 'utils' / 'run-dev-server'))
 from run_dev_server import DevServerManager
 
 
