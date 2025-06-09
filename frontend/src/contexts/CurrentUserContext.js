@@ -48,7 +48,7 @@ export const CurrentUserProvider = ({ children }) => {
           try {
             const refreshToken = localStorage.getItem("refreshToken");
             
-            const { data } = await axios.post("/dj-rest-auth/token/refresh/", { refresh: refreshToken });
+            const { data } = await axiosReq.post("/dj-rest-auth/token/refresh/", { refresh: refreshToken });
             
             localStorage.setItem("accessToken", data.access);
             setTokenTimestamp(data);
@@ -78,12 +78,12 @@ export const CurrentUserProvider = ({ children }) => {
           try {
             const refreshToken = localStorage.getItem("refreshToken");
             
-            const { data } = await axios.post("/dj-rest-auth/token/refresh/", { refresh: refreshToken });
+            const { data } = await axiosReq.post("/dj-rest-auth/token/refresh/", { refresh: refreshToken });
             
             localStorage.setItem("accessToken", data.access);
             setTokenTimestamp(data);
             
-            return axios(err.config);
+            return axiosReq(err.config);
           } catch (refreshErr) {
             
             setCurrentUser(null);
