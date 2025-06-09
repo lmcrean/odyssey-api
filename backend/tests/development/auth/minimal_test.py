@@ -23,9 +23,11 @@ def test_authentication():
     
     client = Client()
     
-    # Create test user data
+    # Create test user data with unique username
+    import time
+    timestamp = str(int(time.time()))
     user_data = {
-        'username': 'testuser123',
+        'username': f'testuser{timestamp}',
         'password1': 'TestPassword123!',
         'password2': 'TestPassword123!'
     }
