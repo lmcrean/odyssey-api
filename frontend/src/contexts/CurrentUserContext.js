@@ -21,7 +21,9 @@ export const CurrentUserProvider = ({ children }) => {
     }
 
     try {
-      const { data } = await axiosRes.get("dj-rest-auth/user/");
+      const { data } = await axiosRes.get("dj-rest-auth/user/", {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      });
       
       setCurrentUser(data);
     } catch (err) {
@@ -61,12 +63,31 @@ export const CurrentUserProvider = ({ children }) => {
             localStorage.removeItem("refreshToken");
           }
         }
+        
+        // Always add the Authorization header if access token exists
+        const accessToken = localStorage.getItem("accessToken");
+        if (accessToken) {
+          config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+        
         return config;
       },
       (err) => {
         
         return Promise.reject(err);
       }
+    );
+
+    // Add request interceptor for axiosRes as well
+    const responseRequestInterceptor = axiosRes.interceptors.request.use(
+      (config) => {
+        const accessToken = localStorage.getItem("accessToken");
+        if (accessToken) {
+          config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+        return config;
+      },
+      (err) => Promise.reject(err)
     );
 
     const responseInterceptor = axiosRes.interceptors.response.use(
@@ -83,7 +104,9 @@ export const CurrentUserProvider = ({ children }) => {
             localStorage.setItem("accessToken", data.access);
             setTokenTimestamp(data);
             
-            return axiosReq(err.config);
+            // Retry the original request with the new token
+            err.config.headers.Authorization = `Bearer ${data.access}`;
+            return axiosRes(err.config);
           } catch (refreshErr) {
             
             setCurrentUser(null);
@@ -98,6 +121,7 @@ export const CurrentUserProvider = ({ children }) => {
 
     return () => {
       axiosReq.interceptors.request.eject(requestInterceptor);
+      axiosRes.interceptors.request.eject(responseRequestInterceptor);
       axiosRes.interceptors.response.eject(responseInterceptor);
     };
   }, []);

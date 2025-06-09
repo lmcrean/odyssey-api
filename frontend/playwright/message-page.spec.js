@@ -16,10 +16,10 @@ test.describe('Authorized User Test', () => {
     expect(signInResponse.ok()).toBeTruthy();
     const responseBody = await signInResponse.json();
 
-    // Ensure the tokens are received
-    expect(responseBody).toHaveProperty('access_token');
-    expect(responseBody).toHaveProperty('refresh_token');
-    const accessToken = responseBody.access_token;
+    // Verify response contains necessary tokens
+    expect(responseBody).toHaveProperty('access');
+    expect(responseBody).toHaveProperty('refresh');
+    const accessToken = responseBody.access;
 
     // Step 3: Use the signed-in user's token to visit the /messages page
     // Setting token in local storage to simulate authenticated state

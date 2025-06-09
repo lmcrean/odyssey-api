@@ -52,10 +52,10 @@ describe('SignInForm', () => {
 
     const mockResponse = {
       data: {
-        user: { username: 'testuser' },
-        access_token: 'fake-access-token',
-        refresh_token: 'fake-refresh-token',
-      },
+        access: 'fake-access-token',
+        refresh: 'fake-refresh-token',
+        user: { id: 1, username: 'testuser' }
+      }
     };
     axios.post.mockResolvedValue(mockResponse);
 

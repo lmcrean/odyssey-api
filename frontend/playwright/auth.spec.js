@@ -21,8 +21,8 @@ test.describe('User Authentication', () => {
       console.log('Sign-in response:', responseBody);
 
       // 3. Verify response contains necessary tokens
-      expect(responseBody).toHaveProperty('access_token');
-      expect(responseBody).toHaveProperty('refresh_token');
+      expect(responseBody).toHaveProperty('access');
+      expect(responseBody).toHaveProperty('refresh');
       
       // ... rest of the test ...
     } catch (error) {

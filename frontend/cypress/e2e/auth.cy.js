@@ -10,19 +10,19 @@ describe('User Authentication', () => {
     }).then((response) => {
       // 2. Check if sign-in was successful
       expect(response.status).to.eq(200);
-      const { access_token, refresh_token } = response.body;
+      const { access, refresh } = response.body;
 
       // 3. Set tokens in localStorage
       cy.visit(BASE_URL);
       cy.window().then((win) => {
-        win.localStorage.setItem('accessToken', access_token);
-        win.localStorage.setItem('refreshToken', refresh_token);
+        win.localStorage.setItem('accessToken', access);
+        win.localStorage.setItem('refreshToken', refresh);
       });
 
       // 4. Verify tokens are set correctly
       cy.window().then((win) => {
-        expect(win.localStorage.getItem('accessToken')).to.eq(access_token);
-        expect(win.localStorage.getItem('refreshToken')).to.eq(refresh_token);
+        expect(win.localStorage.getItem('accessToken')).to.eq(access);
+        expect(win.localStorage.getItem('refreshToken')).to.eq(refresh);
       });
 
       // 5. Use access token to make an authenticated request
@@ -30,7 +30,7 @@ describe('User Authentication', () => {
         method: 'GET',
         url: `${BASE_URL}/api/dj-rest-auth/user/`,
         headers: {
-          'Authorization': `Bearer ${access_token}`
+          'Authorization': `Bearer ${access}`
         }
       }).then((userResponse) => {
         // 6. Check if authenticated request was successful
