@@ -293,12 +293,16 @@ def test_auth_endpoints_available():
         '/dj-rest-auth/logout/',
         '/dj-rest-auth/registration/',
         '/dj-rest-auth/token/refresh/',
-        '/dj-rest-auth/user/',
     ]
     
+    # Test endpoints that don't require authentication
     for endpoint in endpoints:
         response = requests.options(f"{BASE_URL}{endpoint}")
         assert response.status_code in [200, 204, 405], f"Endpoint {endpoint} should be available"
+    
+    # Test user endpoint separately (requires authentication, so 401/403 is expected)
+    user_endpoint_response = requests.get(f"{BASE_URL}/dj-rest-auth/user/")
+    assert user_endpoint_response.status_code in [401, 403], f"User endpoint should require authentication"
 
 
 if __name__ == "__main__":
