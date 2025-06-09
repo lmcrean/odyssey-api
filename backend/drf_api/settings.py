@@ -66,6 +66,8 @@ REST_AUTH = {
     'JWT_AUTH_SAMESITE': None,  # Not needed for Bearer tokens
     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer',
     'SESSION_LOGIN': False,  # Disable session-based login
+    'TOKEN_MODEL': None,  # Disable token model since we're using JWT
+    'JWT_TOKEN_CLAIMS_SERIALIZER': 'rest_framework_simplejwt.serializers.TokenObtainPairSerializer',
 }
 
 # Remove legacy settings - these are no longer needed
