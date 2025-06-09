@@ -26,14 +26,11 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        ['rest_framework.authentication.SessionAuthentication']
-        if 'DEV' in os.environ
-        else [
-            'rest_framework_simplejwt.authentication.JWTAuthentication',
-            'dj_rest_auth.jwt_auth.JWTCookieAuthentication',  # Keep this for dj-rest-auth compatibility
-        ]
-    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',  # Keep this for dj-rest-auth compatibility
+        'rest_framework.authentication.SessionAuthentication',  # Keep session auth for admin/browsable API
+    ],
     'DEFAULT_PAGINATION_CLASS':
         'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 500,
@@ -85,7 +82,7 @@ REST_AUTH_SERIALIZERS = {
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-development-key-only-for-local-testing-123')
 
 # SIMPLE_JWT configuration for djangorestframework-simplejwt (after SECRET_KEY is defined)
 SIMPLE_JWT = {
@@ -103,8 +100,7 @@ SIMPLE_JWT = {
 }
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = 'DEBUG' in os.environ
-DEBUG = False
+DEBUG = 'DEBUG' in os.environ or not os.environ.get('VERCEL_ENV')
 
 ALLOWED_HOSTS = [
     os.environ.get('ALLOWED_HOST'),
@@ -218,22 +214,37 @@ WSGI_APPLICATION = 'drf_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': ({
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    } 
-    if 'DEV' in os.environ or not os.environ.get('DATABASE_URL') else dj_database_url.parse(
-        os.environ.get('DATABASE_URL')
-    )
-    )
-}
+# Use SQLite for local development when PostgreSQL is not available
+try:
+    if 'DEV' in os.environ or not os.environ.get('DATABASE_URL'):
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
+    else:
+        DATABASES = {
+            'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+        }
+except ImportError:
+    # Fallback to SQLite if PostgreSQL dependencies are not available
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Vercel-specific database configuration
 if os.environ.get('VERCEL_ENV') and os.environ.get('DATABASE_URL'):
-    DATABASES['default'] = dj_database_url.parse(
-        os.environ.get('DATABASE_URL')
-    )
+    try:
+        DATABASES['default'] = dj_database_url.parse(
+            os.environ.get('DATABASE_URL')
+        )
+    except ImportError:
+        # Keep SQLite if PostgreSQL is not available
+        pass
 
 
 # Password validation

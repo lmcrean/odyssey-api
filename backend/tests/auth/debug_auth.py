@@ -2,7 +2,7 @@ import requests
 import json
 import time
 
-BASE_URL = 'https://odyssey-api-lmcreans-projects.vercel.app'
+BASE_URL = 'http://127.0.0.1:8000'
 
 # Create a test user
 test_user = {
