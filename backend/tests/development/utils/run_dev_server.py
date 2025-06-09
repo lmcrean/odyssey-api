@@ -16,9 +16,10 @@ class DevServerManager:
         """Start the Django development server"""
         print(f"🚀 Starting Django development server on port {self.port}...")
         
-        # Set up environment
+        # Set up environment with test settings
         env = os.environ.copy()
         env['DEV'] = '1'  # Use SQLite for local testing
+        env['DJANGO_SETTINGS_MODULE'] = 'test_settings'  # Use test settings
         
         # Get the backend directory (where manage.py is located)
         # Go up from tests/development/utils to backend
@@ -32,6 +33,23 @@ class DevServerManager:
             return False
         
         try:
+            # First, setup the database with test settings
+            print("🔧 Setting up test database...")
+            migrate_cmd = [sys.executable, 'manage.py', 'migrate', '--run-syncdb']
+            migrate_process = subprocess.run(
+                migrate_cmd,
+                cwd=backend_dir,
+                env=env,
+                capture_output=True,
+                text=True
+            )
+            
+            if migrate_process.returncode != 0:
+                print(f"❌ Database setup failed: {migrate_process.stderr}")
+                return False
+            
+            print("✅ Test database setup complete")
+            
             # Start the server process (simplified approach based on working example)
             cmd = [sys.executable, 'manage.py', 'runserver', f'127.0.0.1:{self.port}', '--noreload']
             print(f"🔧 Running command: {' '.join(cmd)}")
@@ -48,7 +66,7 @@ class DevServerManager:
             
             # Wait for server to start (simple approach)
             print("⏳ Waiting for server to start...")
-            time.sleep(3)  # Give server time to start
+            time.sleep(4)  # Give server more time to start with test setup
             
             # Check if server is responding
             if self.is_running():
