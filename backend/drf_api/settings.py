@@ -64,20 +64,7 @@ REST_AUTH = {
     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer',
 }
 
-# SIMPLE_JWT configuration for djangorestframework-simplejwt
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'UPDATE_LAST_LOGIN': False,
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': None,  # Will use SECRET_KEY if None
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
-    'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
-}
+
 
 # Legacy settings for backward compatibility (can be removed later)
 JWT_AUTH_SECURE = True
@@ -94,6 +81,21 @@ REST_AUTH_SERIALIZERS = {
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
+
+# SIMPLE_JWT configuration for djangorestframework-simplejwt (after SECRET_KEY is defined)
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': False,  # Temporarily disable to avoid blacklist issues
+    'BLACKLIST_AFTER_ROTATION': False,  # Temporarily disable to avoid blacklist issues
+    'UPDATE_LAST_LOGIN': False,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,  # Use Django's SECRET_KEY explicitly
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+}
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = 'DEBUG' in os.environ
@@ -149,7 +151,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist',
+    # 'rest_framework_simplejwt.token_blacklist',  # Temporarily disabled due to migration issues
     'dj_rest_auth',
     'django.contrib.sites',
     'allauth',

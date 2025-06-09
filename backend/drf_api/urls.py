@@ -16,10 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from django.http import HttpResponse
 from .views import logout_route, root_route, setup_database
+
+def favicon_view(request):
+    """Simple favicon handler to prevent 404 errors"""
+    return HttpResponse(status=204)  # No Content
 
 urlpatterns = [
     path('', root_route),
+    path('favicon.ico', favicon_view),  # Handle favicon requests
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     # our logout route has to be above the default one to be matched first
@@ -38,4 +44,7 @@ urlpatterns = [
     path('', include('messaging.urls')),
 ]
 
-handler404 = TemplateView.as_view(template_name='index.html')
+# Simple 404 handler that returns JSON instead of looking for index.html
+def handler404(request, exception):
+    from django.http import JsonResponse
+    return JsonResponse({'error': 'Not found'}, status=404)

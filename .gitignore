@@ -31,4 +31,5 @@ combined_repo.md
 
 .vercel
 
-frontend-ts-reference/**
+.archive/frontend-ts-reference/**
+.archive/frontend-ts-new/**
