@@ -31,7 +31,7 @@ REST_FRAMEWORK = {
         if 'DEV' in os.environ
         else [
             'rest_framework_simplejwt.authentication.JWTAuthentication',
-            'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+            # Removed JWTCookieAuthentication since we're using Bearer tokens only
         ]
     ),
     'DEFAULT_PAGINATION_CLASS':
@@ -56,24 +56,23 @@ from datetime import timedelta
 # JWT Configuration for dj-rest-auth
 REST_USE_JWT = True
 
-# New-style REST_AUTH configuration
+# New-style REST_AUTH configuration - Updated for Bearer token approach
 REST_AUTH = {
     'USE_JWT': True,
-    'JWT_AUTH_COOKIE': 'my-app-auth',
-    'JWT_AUTH_REFRESH_COOKIE': 'my-refresh-token',
-    'JWT_AUTH_HTTPONLY': True,
-    'JWT_AUTH_SECURE': True,
-    'JWT_AUTH_SAMESITE': 'None',
+    'JWT_AUTH_COOKIE': None,  # Disable cookies, use Bearer tokens only
+    'JWT_AUTH_REFRESH_COOKIE': None,  # Disable refresh cookies
+    'JWT_AUTH_HTTPONLY': False,  # Not needed for Bearer tokens
+    'JWT_AUTH_SECURE': False,  # Not needed for Bearer tokens
+    'JWT_AUTH_SAMESITE': None,  # Not needed for Bearer tokens
     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer',
 }
 
-
-
+# Remove legacy settings - these are no longer needed
 # Legacy settings for backward compatibility (can be removed later)
-JWT_AUTH_SECURE = True
-JWT_AUTH_COOKIE = 'my-app-auth'
-JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
-JWT_AUTH_SAMESITE = 'None'
+# JWT_AUTH_SECURE = True
+# JWT_AUTH_COOKIE = 'my-app-auth'
+# JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+# JWT_AUTH_SAMESITE = 'None'
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
