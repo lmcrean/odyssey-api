@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 # Add the utils directory to the path
-sys.path.append(str(Path(__file__).parent / 'utils'))
+sys.path.append(str(Path(__file__).parent.parent / 'utils'))
 from run_dev_server import DevServerManager
 
 class TestAuthentication:
