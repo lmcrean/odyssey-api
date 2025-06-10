@@ -1,8 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import cookieParser from 'cookie-parser';
 
 // Import route modules (to be created later)
@@ -93,12 +91,8 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   res.status(statusCode).json({ error: message });
 });
 
-// Start the server if we're running directly
-const __filename = fileURLToPath(import.meta.url);
-const isMainModule = __filename === process.argv[1];
-
 // Only start server when run directly (not when imported for testing)
-if (isMainModule) {
+if (require.main === module) {
   // Start server
   app.listen(PORT, () => {
     console.log(

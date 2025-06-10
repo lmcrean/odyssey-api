@@ -2,12 +2,10 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "module": "CommonJS",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "allowImportingTsExtensions": true,
     "strict": true,
-    "noEmit": true,
     "declaration": true,
     "outDir": "./dist",
     "rootDir": "./src",
@@ -15,8 +13,6 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "verbatimModuleSyntax": true,
     "types": ["node", "vitest/globals"],
     "baseUrl": ".",
     "paths": {
@@ -32,9 +28,7 @@
     }
   },
   "include": [
-    "src/**/*",
-    "e2e/**/*",
-    "*.config.ts"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules",
