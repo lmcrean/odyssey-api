@@ -53,7 +53,7 @@ export class UserModel {
   /**
    * Get user's public profile (excluding sensitive data)
    */
-  static async getPublicProfile(id: string): Promise<Omit<User, 'email' | 'lastActiveAt'> | null> {
+  static async getPublicProfile(id: string): Promise<Omit<User, 'email'> | null> {
     // Implementation would return public profile fields only
     throw new Error('Database implementation required');
   }

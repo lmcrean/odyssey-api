@@ -11,7 +11,8 @@ export const searchUsersController = async (req: Request, res: Response) => {
       });
     }
 
-    if (query.trim().length < 2) {
+    const trimmedQuery = query.trim();
+    if (trimmedQuery.length < 2) {
       return res.status(400).json({ 
         error: 'Search query must be at least 2 characters long' 
       });
@@ -25,12 +26,12 @@ export const searchUsersController = async (req: Request, res: Response) => {
       });
     }
 
-    const searchResults = await UserService.searchUsers(query.trim(), searchLimit);
+    const searchResults = await UserService.searchUsers(trimmedQuery, searchLimit);
 
     res.status(200).json({
       success: true,
       data: {
-        query: query.trim(),
+        query: trimmedQuery,
         results: searchResults,
         count: searchResults.length
       }

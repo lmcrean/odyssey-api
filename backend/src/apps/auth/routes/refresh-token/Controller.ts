@@ -24,10 +24,11 @@ export class RefreshTokenController {
         data: tokens,
         message: 'Tokens refreshed successfully'
       });
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Refresh token error:', error);
       
-      if (error.message === 'Invalid refresh token') {
+      // Type guard for error handling
+      if (error instanceof Error && error.message === 'Invalid refresh token') {
         return res.status(401).json({
           success: false,
           error: 'Authentication failed',
@@ -37,8 +38,8 @@ export class RefreshTokenController {
 
       res.status(500).json({
         success: false,
-        error: 'Internal server error',
-        message: 'Failed to refresh tokens'
+        error: 'Authentication failed',
+        message: 'Token refresh failed'
       });
     }
   }

@@ -41,4 +41,13 @@ export interface TokenResponse {
     accessToken: string;
     refreshToken: string;
   };
+}
+
+// JWT payload interface for proper typing
+export interface JWTPayload {
+  userId: string;
+  email: string;
+  iat: number;
+  exp?: number;
+  nonce?: string;
 } 

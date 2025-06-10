@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../../../../server';
 import { AuthService } from '../../services/AuthService';
+import { JWTPayload } from '../../types';
 
 describe('Authentication Middleware', () => {
   let validAccessToken: string;
@@ -26,7 +27,9 @@ describe('Authentication Middleware', () => {
       expect(decoded).toBeTruthy();
       expect(decoded).toHaveProperty('userId');
       expect(decoded).toHaveProperty('email');
-      expect(decoded.email).toBe('test@example.com');
+      if (decoded) {
+        expect(decoded.email).toBe('test@example.com');
+      }
     });
 
     it('should validate refresh tokens correctly', () => {
@@ -35,7 +38,9 @@ describe('Authentication Middleware', () => {
       expect(decoded).toBeTruthy();
       expect(decoded).toHaveProperty('userId');
       expect(decoded).toHaveProperty('email');
-      expect(decoded.email).toBe('test@example.com');
+      if (decoded) {
+        expect(decoded.email).toBe('test@example.com');
+      }
     });
 
     it('should reject invalid access tokens', () => {
@@ -149,8 +154,10 @@ describe('Authentication Middleware', () => {
       const originalDecoded = AuthService.verifyAccessToken(validAccessToken);
       const newDecoded = AuthService.verifyAccessToken(newTokens.accessToken);
 
-      expect(originalDecoded.userId).toBe(newDecoded.userId);
-      expect(originalDecoded.email).toBe(newDecoded.email);
+      if (originalDecoded && newDecoded) {
+        expect(originalDecoded.userId).toBe(newDecoded.userId);
+        expect(originalDecoded.email).toBe(newDecoded.email);
+      }
     });
   });
 

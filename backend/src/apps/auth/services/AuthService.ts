@@ -1,6 +1,6 @@
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { AuthUser, LoginRequest, RegisterRequest } from '../types';
+import { AuthUser, LoginRequest, RegisterRequest, JWTPayload } from '../types';
 
 // Simple in-memory store for testing (replace with actual database)
 const userStore = new Map<string, { user: AuthUser; hashedPassword: string }>();
@@ -71,32 +71,25 @@ export class AuthService {
       nonce: Math.random().toString(36).substring(2)
     };
 
-    const accessToken = jwt.sign(
-      payload, 
-      this.JWT_SECRET,
-      { expiresIn: this.JWT_EXPIRES_IN }
-    );
-
-    const refreshToken = jwt.sign(
-      payload, 
-      this.JWT_REFRESH_SECRET,
-      { expiresIn: this.JWT_REFRESH_EXPIRES_IN }
-    );
+    const accessToken = (jwt.sign as any)(payload, this.JWT_SECRET, { expiresIn: this.JWT_EXPIRES_IN });
+    const refreshToken = (jwt.sign as any)(payload, this.JWT_REFRESH_SECRET, { expiresIn: this.JWT_REFRESH_EXPIRES_IN });
 
     return { accessToken, refreshToken };
   }
 
-  static verifyAccessToken(token: string) {
+  static verifyAccessToken(token: string): JWTPayload | null {
     try {
-      return jwt.verify(token, this.JWT_SECRET);
+      const decoded = jwt.verify(token, this.JWT_SECRET);
+      return decoded as JWTPayload;
     } catch (error) {
       return null;
     }
   }
 
-  static verifyRefreshToken(token: string) {
+  static verifyRefreshToken(token: string): JWTPayload | null {
     try {
-      return jwt.verify(token, this.JWT_REFRESH_SECRET);
+      const decoded = jwt.verify(token, this.JWT_REFRESH_SECRET);
+      return decoded as JWTPayload;
     } catch (error) {
       return null;
     }
@@ -105,7 +98,7 @@ export class AuthService {
   static async refreshTokens(refreshToken: string) {
     const payload = this.verifyRefreshToken(refreshToken);
     
-    if (!payload || typeof payload === 'string') {
+    if (!payload) {
       throw new Error('Invalid refresh token');
     }
 

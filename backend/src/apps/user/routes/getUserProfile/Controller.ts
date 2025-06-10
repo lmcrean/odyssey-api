@@ -1,7 +1,8 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { AuthenticatedRequest } from '../../../../shared/types';
 import { UserService } from '../../services/UserService';
 
-export const getUserProfileController = async (req: Request, res: Response) => {
+export const getUserProfileController = async (req: AuthenticatedRequest, res: Response) => {
   try {
     // Get user ID from authenticated request
     const userId = req.user?.id;
