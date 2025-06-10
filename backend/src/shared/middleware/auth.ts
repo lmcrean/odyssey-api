@@ -3,8 +3,9 @@ import { AuthService } from '../../apps/auth/services/AuthService';
 
 export interface AuthenticatedRequest extends Request {
   user?: {
-    userId: string;
+    id: string;
     email: string;
+    userId?: string; // For backward compatibility
   };
 }
 
@@ -31,8 +32,9 @@ export const authenticateToken = (req: AuthenticatedRequest, res: Response, next
   }
 
   req.user = {
-    userId: decoded.userId,
-    email: decoded.email
+    id: decoded.userId,
+    email: decoded.email,
+    userId: decoded.userId // For backward compatibility
   };
 
   next();
@@ -47,8 +49,9 @@ export const optionalAuth = (req: AuthenticatedRequest, res: Response, next: Nex
     
     if (decoded && typeof decoded !== 'string') {
       req.user = {
-        userId: decoded.userId,
-        email: decoded.email
+        id: decoded.userId,
+        email: decoded.email,
+        userId: decoded.userId // For backward compatibility
       };
     }
   }

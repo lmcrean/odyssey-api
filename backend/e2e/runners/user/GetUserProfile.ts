@@ -39,7 +39,7 @@ export class GetUserProfileRunner {
       }
     });
 
-    expect(response.status()).toBe(401);
+    expect(response.status()).toBe(403);
 
     const data = await response.json();
     expect(data).toHaveProperty('error');

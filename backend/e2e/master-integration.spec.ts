@@ -207,15 +207,10 @@ test.describe('API Integration Tests - No Auth User Parallel', () => {
 // === SERIAL TESTS (Authentication Required) ===
 test.describe.configure({ mode: 'serial' });
 test.describe('API Integration Tests - Auth User Serial', () => {
-  let serialAuthFlow: SerialAuthFlow;
-  let serialUserFlow: SerialUserFlow;
   let testUserCredentials: { email: string; password: string; username: string };
   let authTokens: { accessToken: string; refreshToken: string };
 
-  test.beforeAll(async ({ request }) => {
-    serialAuthFlow = new SerialAuthFlow(request);
-    serialUserFlow = new SerialUserFlow(request);
-    
+  test.beforeAll(async () => {
     // Generate unique test user for this serial test suite
     const timestamp = Date.now();
     testUserCredentials = {
@@ -226,7 +221,8 @@ test.describe('API Integration Tests - Auth User Serial', () => {
   });
 
   // === AUTH FLOW TESTS ===
-  test('should handle valid user registration and setup auth', async () => {
+  test('should handle valid user registration and setup auth', async ({ request }) => {
+    const serialAuthFlow = new SerialAuthFlow(request);
     const result = await serialAuthFlow.runValidRegistrationWithCredentials(testUserCredentials);
     expect(result.success).toBe(true);
     expect(result.data.success).toBe(true);
@@ -239,7 +235,8 @@ test.describe('API Integration Tests - Auth User Serial', () => {
     };
   });
 
-  test('should run complete auth flow integration', async () => {
+  test('should run complete auth flow integration', async ({ request }) => {
+    const serialAuthFlow = new SerialAuthFlow(request);
     const result = await serialAuthFlow.runCompleteAuthFlow();
     
     expect(result.register.success).toBe(true);
@@ -252,14 +249,16 @@ test.describe('API Integration Tests - Auth User Serial', () => {
   });
 
   // === USER FLOW TESTS ===
-  test('should get authenticated user profile', async () => {
+  test('should get authenticated user profile', async ({ request }) => {
+    const serialUserFlow = new SerialUserFlow(request);
     const result = await serialUserFlow.runGetUserProfileWithAuth(authTokens.accessToken);
     expect(result.success).toBe(true);
     expect(result.data.success).toBe(true);
     expect(result.data.data.email).toBe(testUserCredentials.email);
   });
 
-  test('should run authenticated user profile tests', async () => {
+  test('should run authenticated user profile tests', async ({ request }) => {
+    const serialUserFlow = new SerialUserFlow(request);
     const result = await serialUserFlow.runAuthenticatedUserProfileTests(authTokens.accessToken);
     expect(result.getProfile.success).toBe(true);
     expect(result.updateProfile.success).toBe(true);
@@ -267,7 +266,8 @@ test.describe('API Integration Tests - Auth User Serial', () => {
     expect(result.search.success).toBe(true);
   });
 
-  test('should run user state change tests', async () => {
+  test('should run user state change tests', async ({ request }) => {
+    const serialUserFlow = new SerialUserFlow(request);
     const result = await serialUserFlow.runUserStateChangeTests(authTokens.accessToken);
     expect(result.checkAvailable.success).toBe(true);
     expect(result.updateProfile.success).toBe(true);
@@ -275,7 +275,8 @@ test.describe('API Integration Tests - Auth User Serial', () => {
     expect(result.searchUser.success).toBe(true);
   });
 
-  test('should run complete user flow integration', async () => {
+  test('should run complete user flow integration', async ({ request }) => {
+    const serialUserFlow = new SerialUserFlow(request);
     const result = await serialUserFlow.runCompleteUserFlow(authTokens.accessToken);
     expect(result.originalProfile.success).toBe(true);
     expect(result.usernameCheck.success).toBe(true);
@@ -285,7 +286,8 @@ test.describe('API Integration Tests - Auth User Serial', () => {
     expect(result.searchResult.success).toBe(true);
   });
 
-  test('should handle user logout', async () => {
+  test('should handle user logout', async ({ request }) => {
+    const serialAuthFlow = new SerialAuthFlow(request);
     const result = await serialAuthFlow.runLogoutWithToken(authTokens.refreshToken);
     expect(result.success).toBe(true);
     expect(result.data.success).toBe(true);
