@@ -30,7 +30,6 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
       '@/apps': resolve(__dirname, './src/apps'),
       '@/shared': resolve(__dirname, './src/shared'),
-      '@/routes': resolve(__dirname, './src/routes'),
       '@/middleware': resolve(__dirname, './src/shared/middleware'),
       '@/db': resolve(__dirname, './src/shared/db'),
       '@/types': resolve(__dirname, './src/shared/types'),

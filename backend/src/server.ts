@@ -3,8 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 
-// Import route modules (to be created later)
-import routes from './routes/index';
+// Import app routes directly
+import appRoutes from './apps';
 
 // Load environment variables
 dotenv.config();
@@ -67,8 +67,8 @@ app.use(cors(corsOptions));
 // Enable pre-flight for all routes
 app.options('*', cors(corsOptions));
 
-// Routes
-app.use('/api', routes);
+// App routes - directly use the apps router
+app.use('/api', appRoutes);
 
 // Health check for Vercel
 app.get('/api/health', (req, res) => {
