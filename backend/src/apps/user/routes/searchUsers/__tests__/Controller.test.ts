@@ -60,7 +60,8 @@ describe('searchUsersController', () => {
     });
 
     it('should return 400 if query is not a string', async () => {
-      mockReq.query = { q: '123' }; // Convert to string as query params are always strings
+      // Simulate non-string query parameter (unusual case, but test for robustness)
+      mockReq.query = { q: 123 as any }; // Force non-string type
 
       await searchUsersController(mockReq as Request, mockRes as Response);
 
