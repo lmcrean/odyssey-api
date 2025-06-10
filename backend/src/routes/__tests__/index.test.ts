@@ -3,10 +3,10 @@ import request from 'supertest';
 import app from '../../server';
 
 describe('Routes', () => {
-  describe('GET /api/hello', () => {
+  describe('GET /api/health/hello', () => {
     it('should return hello message', async () => {
       const response = await request(app)
-        .get('/api/hello')
+        .get('/api/health/hello')
         .expect(200);
 
       expect(response.body).toHaveProperty('message', 'Hello from Odyssey Backend!');
@@ -28,10 +28,10 @@ describe('Routes', () => {
     });
   });
 
-  describe('GET /api/hello-db', () => {
+  describe('GET /api/health/hello-db', () => {
     it('should return hello message from database', async () => {
       const response = await request(app)
-        .get('/api/hello-db');
+        .get('/api/health/hello-db');
 
       // Should succeed with either 200 (found in DB) or 500 (DB error with fallback)
       expect([200, 500]).toContain(response.status);
@@ -47,10 +47,10 @@ describe('Routes', () => {
     });
   });
 
-  describe('GET /api/db-health', () => {
+  describe('GET /api/health/db-health', () => {
     it('should return database health status', async () => {
       const response = await request(app)
-        .get('/api/db-health');
+        .get('/api/health/db-health');
 
       // Should succeed with either 200 (healthy) or 500 (connection failed)
       expect([200, 500]).toContain(response.status);

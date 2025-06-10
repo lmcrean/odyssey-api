@@ -22,20 +22,19 @@ export default defineConfig({
       ]
     },
     testTimeout: 60000,
-    globalSetup: './src/test-utilities/setupDb.ts',
+    globalSetup: './src/shared/utilities/setupDb.ts',
     globals: true
   },
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
-      '@/models': resolve(__dirname, './src/models'),
+      '@/apps': resolve(__dirname, './src/apps'),
+      '@/shared': resolve(__dirname, './src/shared'),
       '@/routes': resolve(__dirname, './src/routes'),
-      '@/middleware': resolve(__dirname, './src/middleware'),
-      '@/services': resolve(__dirname, './src/services'),
-      '@/db': resolve(__dirname, './src/db'),
-      '@/utils': resolve(__dirname, './src/utils'),
-      '@/types': resolve(__dirname, './src/types'),
-      '@/test-utils': resolve(__dirname, './src/test-utilities')
+      '@/middleware': resolve(__dirname, './src/shared/middleware'),
+      '@/db': resolve(__dirname, './src/shared/db'),
+      '@/types': resolve(__dirname, './src/shared/types'),
+      '@/utilities': resolve(__dirname, './src/shared/utilities')
     }
   }
 }); 
