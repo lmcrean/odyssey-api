@@ -9,7 +9,7 @@ import {
   ProfilePictureUpload,
   DEFAULT_PROFILE_PICTURE,
   CLOUDINARY_CONFIG
-} from '../user';
+} from '../index';
 
 describe('User Types', () => {
   describe('User Interface', () => {
