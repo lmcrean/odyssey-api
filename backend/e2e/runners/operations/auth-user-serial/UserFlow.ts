@@ -60,34 +60,38 @@ export class UserFlowOperation {
     const newUsername = `updated_user_${Date.now()}`;
     const usernameCheck = await this.runCheckAvailableUsername(newUsername);
 
-    // Step 3: Update profile with new username
-    const updateData = {
-      username: newUsername,
-      firstName: 'Updated',
-      lastName: 'IntegrationTest'
-    };
-    const updateResult = await this.runValidProfileUpdate(authToken, updateData);
+    // Step 3: Update profile with actual profile fields (not just basic user fields)
+    const profileFieldsUpdate = await this.updateProfileRunner.runValidProfileFieldsUpdate(authToken);
 
-    // Step 4: Get updated profile
+    // Step 4: Update username separately
+    const usernameUpdateData = { username: newUsername };
+    const usernameUpdate = await this.runValidProfileUpdate(authToken, usernameUpdateData);
+
+    // Step 5: Get updated profile to verify all changes
     const updatedProfileResult = await this.runGetUserProfileWithAuth(authToken);
 
-    // Step 5: Get public profile to verify changes
+    // Step 6: Get public profile to verify changes are visible
     const publicProfileResult = await this.getPublicProfileRunner.runWithUsername(newUsername);
 
-    // Step 6: Search for the updated user
+    // Step 7: Search for the updated user
     const searchResult = await this.runValidUserSearch(newUsername);
+
+    // Step 8: Clear profile fields test
+    const clearFieldsResult = await this.updateProfileRunner.runClearProfileFields(authToken);
 
     return {
       originalProfile: profileResult,
       usernameCheck,
-      profileUpdate: updateResult,
+      profileFieldsUpdate: profileFieldsUpdate,
+      usernameUpdate: usernameUpdate,
       updatedProfile: updatedProfileResult,
       publicProfile: publicProfileResult,
       searchResult,
+      clearFields: clearFieldsResult,
       flow: {
         username: newUsername,
-        updateData,
-        originalUsername: originalProfile.username
+        originalUsername: originalProfile.username,
+        profileFieldsUsed: profileFieldsUpdate.updateData
       }
     };
   }
@@ -96,10 +100,12 @@ export class UserFlowOperation {
   async runAuthenticatedUserProfileTests(authToken: string) {
     const results = {
       getProfile: await this.runGetUserProfileWithAuth(authToken),
-      updateProfile: await this.runValidProfileUpdate(authToken, {
+      updateBasicFields: await this.runValidProfileUpdate(authToken, {
         firstName: 'Updated',
         lastName: 'TestUser'
       }),
+      updateProfileFields: await this.updateProfileRunner.runValidProfileFieldsUpdate(authToken),
+      clearProfileFields: await this.updateProfileRunner.runClearProfileFields(authToken),
       usernameAvailability: await this.runCheckAvailableUsername(`available_${Date.now()}`),
       search: await this.runValidUserSearch('test', 5)
     };

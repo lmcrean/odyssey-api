@@ -1,5 +1,5 @@
-import { User, CreateUserRequest, UpdateUserRequest, PublicUserProfile, UserSearchResult } from '../types';
-import { UserModel } from '../models/User';
+import { User, UpdateUserData, PublicProfile } from '../types';
+import { UserModel } from '../models/UserModel';
 
 export class UserService {
   /**
@@ -12,32 +12,38 @@ export class UserService {
   /**
    * Get public user profile (for viewing other users)
    */
-  static async getPublicUserProfile(userId: string): Promise<PublicUserProfile | null> {
-    const user = await UserModel.getPublicProfile(userId);
+  static async getPublicUserProfile(identifier: string): Promise<PublicProfile | null> {
+    let user: User | null = null;
+    
+    // Try to find by username first, then by ID
+    if (identifier.match(/^[a-zA-Z0-9_]{3,30}$/)) {
+      user = await UserModel.findByUsername(identifier);
+    } else {
+      user = await UserModel.findById(identifier);
+    }
+    
     if (!user) return null;
 
     return {
       id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
       username: user.username,
-      profileName: user.profileName,
-      profileBio: user.profileBio,
-      profilePicture: user.profilePicture,
-      profileLocation: user.profileLocation,
-      profileWebsite: user.profileWebsite,
-      postsCount: user.postsCount || 0,
-      followersCount: user.followersCount || 0,
-      followingCount: user.followingCount || 0,
-      createdAt: user.createdAt,
-      lastActiveAt: user.lastActiveAt
+      bio: user.bio,
+      location: user.location,
+      website: user.website,
+      avatarUrl: user.avatarUrl,
+      isPrivate: user.isPrivate || false,
+      createdAt: user.createdAt
     };
   }
 
   /**
    * Update user profile
    */
-  static async updateUserProfile(userId: string, updates: UpdateUserRequest): Promise<User | null> {
+  static async updateUserProfile(userId: string, updates: UpdateUserData): Promise<User | null> {
     // Validate profile data
-    if (updates.profileWebsite && !this.isValidUrl(updates.profileWebsite)) {
+    if (updates.website && !this.isValidUrl(updates.website)) {
       throw new Error('Invalid website URL');
     }
 
@@ -49,52 +55,41 @@ export class UserService {
     if (updates.username) {
       const currentUser = await UserModel.findById(userId);
       if (currentUser && currentUser.username !== updates.username) {
-        const isAvailable = await UserModel.isUsernameAvailable(updates.username);
-        if (!isAvailable) {
+        const usernameExists = await UserModel.checkUsernameExists(updates.username);
+        if (usernameExists) {
           throw new Error('Username is already taken');
         }
       }
     }
 
-    return await UserModel.updateUser(userId, updates);
+    return await UserModel.update(userId, updates);
   }
 
   /**
    * Search users
    */
-  static async searchUsers(query: string, limit: number = 20): Promise<UserSearchResult[]> {
-    const users = await UserModel.searchUsers(query, limit);
-    
-    return users.map(user => ({
-      id: user.id,
-      username: user.username,
-      profileName: user.profileName,
-      profilePicture: user.profilePicture,
-      profileBio: user.profileBio,
-      followersCount: user.followersCount || 0
-    }));
+  static async searchUsers(query: string, limit: number = 20): Promise<User[]> {
+    return await UserModel.searchUsers(query, limit);
   }
 
   /**
    * Get user by username (public profile)
    */
-  static async getUserByUsername(username: string): Promise<PublicUserProfile | null> {
+  static async getUserByUsername(username: string): Promise<PublicProfile | null> {
     const user = await UserModel.findByUsername(username);
     if (!user) return null;
 
     return {
       id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
       username: user.username,
-      profileName: user.profileName,
-      profileBio: user.profileBio,
-      profilePicture: user.profilePicture,
-      profileLocation: user.profileLocation,
-      profileWebsite: user.profileWebsite,
-      postsCount: user.postsCount || 0,
-      followersCount: user.followersCount || 0,
-      followingCount: user.followingCount || 0,
-      createdAt: user.createdAt,
-      lastActiveAt: user.lastActiveAt
+      bio: user.bio,
+      location: user.location,
+      website: user.website,
+      avatarUrl: user.avatarUrl,
+      isPrivate: user.isPrivate || false,
+      createdAt: user.createdAt
     };
   }
 
@@ -102,31 +97,8 @@ export class UserService {
    * Check if username is available
    */
   static async checkUsernameAvailability(username: string): Promise<boolean> {
-    return await UserModel.isUsernameAvailable(username);
-  }
-
-  /**
-   * Update user's last active timestamp
-   */
-  static async updateLastActive(userId: string): Promise<void> {
-    await UserModel.updateLastActive(userId);
-  }
-
-  /**
-   * Delete user account
-   */
-  static async deleteUserAccount(userId: string): Promise<boolean> {
-    return await UserModel.deleteUser(userId);
-  }
-
-  /**
-   * Update social counts (called by other services like posts, follows)
-   */
-  static async updateSocialCounts(
-    userId: string, 
-    counts: { postsCount?: number; followersCount?: number; followingCount?: number }
-  ): Promise<void> {
-    await UserModel.updateSocialCounts(userId, counts);
+    const exists = await UserModel.checkUsernameExists(username);
+    return !exists;
   }
 
   // Private helper methods

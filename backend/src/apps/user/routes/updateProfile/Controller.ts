@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { AuthenticatedRequest } from '../../../../shared/types';
 import { UserService } from '../../services/UserService';
-import { UpdateUserRequest } from '../../types';
+import { UpdateUserData } from '../../types';
 
 export const updateUserProfileController = async (req: AuthenticatedRequest, res: Response) => {
   try {
@@ -14,7 +14,7 @@ export const updateUserProfileController = async (req: AuthenticatedRequest, res
       });
     }
 
-    const updateData: UpdateUserRequest = req.body;
+    const updateData: UpdateUserData = req.body;
 
     // Validate required fields if provided
     if (updateData.username && updateData.username.trim().length === 0) {

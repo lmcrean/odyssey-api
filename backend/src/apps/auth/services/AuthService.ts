@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { AuthUser, LoginRequest, RegisterRequest, JWTPayload } from '../types';
-import { UserModel } from '../../user/models/User';
+import { UserModel } from '../../user/models/UserModel';
 import { User } from '../../user/types';
 
 // Database user interface that includes password field
@@ -33,8 +33,8 @@ export class AuthService {
       email: userData.email,
       password: hashedPassword,
       username: userData.email.split('@')[0] + Date.now(), // Generate username from email
-      firstName: userData.firstName,
-      lastName: userData.lastName
+      firstName: userData.firstName || '',
+      lastName: userData.lastName || ''
     });
 
     // Convert database user to AuthUser format
@@ -119,15 +119,21 @@ export class AuthService {
       throw new Error('Invalid refresh token');
     }
 
-    // In a real implementation, you would get user from database
+    // Get user from database instead of using mock data
+    const dbUser = await UserModel.findById(payload.userId);
+    if (!dbUser) {
+      throw new Error('User not found');
+    }
+
+    // Convert database user to AuthUser format
     const user: AuthUser = {
-      id: payload.userId,
-      email: payload.email,
-      firstName: 'Test',
-      lastName: 'User',
-      isEmailVerified: true,
-      createdAt: new Date('2024-01-01'),
-      updatedAt: new Date()
+      id: dbUser.id,
+      email: dbUser.email,
+      firstName: dbUser.firstName,
+      lastName: dbUser.lastName,
+      isEmailVerified: false,
+      createdAt: dbUser.createdAt,
+      updatedAt: dbUser.updatedAt
     };
 
     return this.generateTokens(user);

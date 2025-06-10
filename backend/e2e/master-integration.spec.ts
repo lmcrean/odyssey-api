@@ -261,7 +261,9 @@ test.describe('API Integration Tests - Auth User Serial', () => {
     const serialUserFlow = new SerialUserFlow(request);
     const result = await serialUserFlow.runAuthenticatedUserProfileTests(authTokens.accessToken);
     expect(result.getProfile.success).toBe(true);
-    expect(result.updateProfile.success).toBe(true);
+    expect(result.updateBasicFields.success).toBe(true);
+    expect(result.updateProfileFields.success).toBe(true);
+    expect(result.clearProfileFields.success).toBe(true);
     expect(result.usernameAvailability.success).toBe(true);
     expect(result.search.success).toBe(true);
   });
@@ -280,10 +282,12 @@ test.describe('API Integration Tests - Auth User Serial', () => {
     const result = await serialUserFlow.runCompleteUserFlow(authTokens.accessToken);
     expect(result.originalProfile.success).toBe(true);
     expect(result.usernameCheck.success).toBe(true);
-    expect(result.profileUpdate.success).toBe(true);
+    expect(result.profileFieldsUpdate.success).toBe(true);
+    expect(result.usernameUpdate.success).toBe(true);
     expect(result.updatedProfile.success).toBe(true);
     expect(result.publicProfile.success).toBe(true);
     expect(result.searchResult.success).toBe(true);
+    expect(result.clearFields.success).toBe(true);
   });
 
   test('should handle user logout', async ({ request }) => {
