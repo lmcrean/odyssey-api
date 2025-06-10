@@ -25,6 +25,11 @@ export interface User {
   lastActiveAt?: Date;
 }
 
+// Database user includes password for auth operations
+export interface DatabaseUser extends User {
+  password: string;
+}
+
 export interface CreateUserRequest {
   email: string;
   password: string;
@@ -52,15 +57,19 @@ export interface UpdateUserRequest {
 export interface PublicUserProfile {
   id: string;
   username: string;
+  firstName?: string;
+  lastName?: string;
   profileName?: string;
   profileBio?: string;
   profilePicture?: string; // Cloudinary URL
   profileLocation?: string;
   profileWebsite?: string;
+  profilePrivate?: boolean;
   postsCount?: number;
   followersCount?: number;
   followingCount?: number;
   createdAt: Date;
+  updatedAt: Date;
   lastActiveAt?: Date;
   // Sensitive fields excluded
 }
