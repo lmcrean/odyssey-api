@@ -7,7 +7,7 @@ const router = express.Router();
 
 // App routes
 router.use('/health', healthRoutes);
-router.use('/users', userRoutes);
+router.use('/user', userRoutes);
 router.use('/auth', authRoutes);
 
 // Future app routes will be added here:
