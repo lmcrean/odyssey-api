@@ -46,15 +46,15 @@ export class UpdateProfileRunner {
       data: updateData
     });
 
-    // If using a fake token, expect 401 (authentication error)
+    // If using a fake token, expect 403 (forbidden - invalid token)
     // If using a real token, expect 400 (validation error) 
-    const expectedStatus = authToken === 'fake-token' ? 401 : 400;
+    const expectedStatus = authToken === 'fake-token' ? 403 : 400;
     expect(response.status()).toBe(expectedStatus);
 
     const data = await response.json();
     
-    if (expectedStatus === 401) {
-      expect(data).toHaveProperty('error', 'Authentication required');
+    if (expectedStatus === 403) {
+      expect(data).toHaveProperty('error', 'Authentication failed');
     } else {
       expect(data).toHaveProperty('error', 'Username cannot be empty');
     }

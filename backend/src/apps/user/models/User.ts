@@ -9,20 +9,21 @@ export class UserModel {
     try {
       const now = new Date();
       const userId = this.generateId();
-      const [id] = await db('users')
-        .insert({
-          id: userId,
-          email: userData.email,
-          password: userData.password,
-          username: userData.username,
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          createdAt: now,
-          updatedAt: now
-        })
-        .returning('id');
+      
+      // Insert user into database
+      await db('users').insert({
+        id: userId,
+        email: userData.email,
+        password: userData.password,
+        username: userData.username,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        created_at: now,
+        updated_at: now
+      });
 
-      const newUser = await this.findById(id);
+      // Fetch the created user
+      const newUser = await this.findById(userId);
       if (!newUser) {
         throw new Error('User not found after creation');
       }
@@ -44,7 +45,14 @@ export class UserModel {
         .where('id', id)
         .first();
 
-      return user || null;
+      if (!user) return null;
+
+      // Convert snake_case to camelCase for TypeScript
+      return {
+        ...user,
+        createdAt: user.created_at,
+        updatedAt: user.updated_at
+      };
     } catch (error) {
       console.error('Error finding user by ID:', error);
       return null;
@@ -61,7 +69,14 @@ export class UserModel {
         .where('username', username)
         .first();
 
-      return user || null;
+      if (!user) return null;
+
+      // Convert snake_case to camelCase for TypeScript
+      return {
+        ...user,
+        createdAt: user.created_at,
+        updatedAt: user.updated_at
+      };
     } catch (error) {
       console.error('Error finding user by username:', error);
       return null;
@@ -78,7 +93,14 @@ export class UserModel {
         .where('email', email)
         .first();
 
-      return user || null;
+      if (!user) return null;
+
+      // Convert snake_case to camelCase for TypeScript
+      return {
+        ...user,
+        createdAt: user.created_at,
+        updatedAt: user.updated_at
+      };
     } catch (error) {
       console.error('Error finding user by email:', error);
       return null;
@@ -96,7 +118,7 @@ export class UserModel {
         .where('id', id)
         .update({
           ...updates,
-          updatedAt
+          updated_at: updatedAt
         });
 
       return await this.findById(id);
@@ -118,7 +140,12 @@ export class UserModel {
         .orWhere('lastName', 'like', `%${query}%`)
         .limit(limit);
 
-      return users;
+      // Convert snake_case to camelCase for TypeScript
+      return users.map(user => ({
+        ...user,
+        createdAt: user.created_at,
+        updatedAt: user.updated_at
+      }));
     } catch (error) {
       console.error('Error searching users:', error);
       return [];
@@ -131,11 +158,18 @@ export class UserModel {
   static async getPublicProfile(id: string): Promise<Omit<User, 'email'> | null> {
     try {
       const user = await db('users')
-        .select('id', 'username', 'firstName', 'lastName', 'avatar', 'createdAt', 'updatedAt')
+        .select('id', 'username', 'firstName', 'lastName', 'avatar', 'created_at', 'updated_at')
         .where('id', id)
         .first();
 
-      return user || null;
+      if (!user) return null;
+
+      // Convert snake_case to camelCase for TypeScript
+      return {
+        ...user,
+        createdAt: user.created_at,
+        updatedAt: user.updated_at
+      };
     } catch (error) {
       console.error('Error getting public profile:', error);
       return null;
@@ -149,7 +183,7 @@ export class UserModel {
     try {
       await db('users')
         .where('id', id)
-        .update({ updatedAt: new Date() });
+        .update({ updated_at: new Date() });
     } catch (error) {
       console.error('Error updating last active:', error);
     }

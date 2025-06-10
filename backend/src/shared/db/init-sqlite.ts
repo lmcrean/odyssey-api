@@ -33,9 +33,46 @@ async function createTables() {
       table.string('firstName');
       table.string('lastName');
       table.string('avatar');
+      
+      // Profile fields
+      table.text('bio');
+      table.string('location');
+      table.string('website');
+      table.string('profileName');
+      table.string('profilePicture');
+      table.date('profileBirthdate');
+      table.boolean('profilePrivate').defaultTo(false);
+      
+      // Social counts
+      table.integer('postsCount').defaultTo(0);
+      table.integer('followersCount').defaultTo(0);
+      table.integer('followingCount').defaultTo(0);
+      
       table.timestamps(true, true);
     });
     console.log('✅ Users table created');
+  }
+  
+  // Always check and add missing columns (for existing tables)
+  const hasProfileColumns = await db.schema.hasColumn('users', 'bio');
+  if (!hasProfileColumns) {
+    console.log('🔄 Adding missing profile columns to users table...');
+    await db.schema.alterTable('users', (table) => {
+      // Profile fields
+      table.text('bio');
+      table.string('location');
+      table.string('website');
+      table.string('profileName');
+      table.string('profilePicture');
+      table.date('profileBirthdate');
+      table.boolean('profilePrivate').defaultTo(false);
+      
+      // Social counts
+      table.integer('postsCount').defaultTo(0);
+      table.integer('followersCount').defaultTo(0);
+      table.integer('followingCount').defaultTo(0);
+    });
+    console.log('✅ Users table updated with profile fields');
   }
 
   // Messages table

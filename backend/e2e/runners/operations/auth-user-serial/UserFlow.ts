@@ -63,8 +63,8 @@ export class UserFlowOperation {
     // Step 3: Update profile with new username
     const updateData = {
       username: newUsername,
-      bio: 'Updated bio through integration test',
-      location: 'Test Location'
+      firstName: 'Updated',
+      lastName: 'IntegrationTest'
     };
     const updateResult = await this.runValidProfileUpdate(authToken, updateData);
 
@@ -97,8 +97,8 @@ export class UserFlowOperation {
     const results = {
       getProfile: await this.runGetUserProfileWithAuth(authToken),
       updateProfile: await this.runValidProfileUpdate(authToken, {
-        bio: 'Updated bio for testing',
-        location: 'Test Location'
+        firstName: 'Updated',
+        lastName: 'TestUser'
       }),
       usernameAvailability: await this.runCheckAvailableUsername(`available_${Date.now()}`),
       search: await this.runValidUserSearch('test', 5)
@@ -119,7 +119,7 @@ export class UserFlowOperation {
       // Update profile with new username
       updateProfile: await this.runValidProfileUpdate(authToken, {
         username: testUsername,
-        bio: `State change test ${timestamp}`
+        firstName: `StateTest${timestamp}`
       }),
       
       // Verify username is now taken

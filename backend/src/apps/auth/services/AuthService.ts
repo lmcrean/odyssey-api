@@ -1,6 +1,13 @@
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { AuthUser, LoginRequest, RegisterRequest, JWTPayload } from '../types';
+import { UserModel } from '../../user/models/User';
+import { User } from '../../user/types';
+
+// Database user interface that includes password field
+interface DatabaseUser extends User {
+  password: string;
+}
 
 // Simple in-memory store for testing (replace with actual database)
 const userStore = new Map<string, { user: AuthUser; hashedPassword: string }>();
@@ -12,55 +19,65 @@ export class AuthService {
   private static JWT_REFRESH_EXPIRES_IN = process.env.JWT_REFRESH_EXPIRES_IN || '7d';
 
   static async register(userData: RegisterRequest): Promise<AuthUser> {
-    // Check if user already exists
-    if (userStore.has(userData.email)) {
+    // Check if user already exists in database
+    const existingUser = await UserModel.findByEmail(userData.email);
+    if (existingUser) {
       throw new Error('User with this email already exists');
     }
     
     // Hash password
     const hashedPassword = await bcryptjs.hash(userData.password, 12);
     
-    const user: AuthUser = {
-      id: `user_${Date.now()}_${Math.random()}`,
+    // Create user in database
+    const dbUser = await UserModel.createUser({
       email: userData.email,
+      password: hashedPassword,
+      username: userData.email.split('@')[0] + Date.now(), // Generate username from email
       firstName: userData.firstName,
-      lastName: userData.lastName,
+      lastName: userData.lastName
+    });
+
+    // Convert database user to AuthUser format
+    const user: AuthUser = {
+      id: dbUser.id,
+      email: dbUser.email,
+      firstName: dbUser.firstName,
+      lastName: dbUser.lastName,
       isEmailVerified: false,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      createdAt: dbUser.createdAt,
+      updatedAt: dbUser.updatedAt
     };
 
-    // Store user in memory
-    userStore.set(userData.email, { user, hashedPassword });
-    console.log('User registered with hashed password:', hashedPassword);
+    console.log('User registered in database with ID:', user.id);
     
     return user;
   }
 
   static async login(credentials: LoginRequest): Promise<AuthUser | null> {
-    // Check in-memory store first
-    const storedData = userStore.get(credentials.email);
-    if (storedData) {
-      const isValidPassword = await bcryptjs.compare(credentials.password, storedData.hashedPassword);
-      if (isValidPassword) {
-        return storedData.user;
-      }
+    // Find user in database (cast to include password field)
+    const dbUser = await UserModel.findByEmail(credentials.email) as DatabaseUser | null;
+    if (!dbUser) {
+      return null;
     }
 
-    // Fallback to mock user for testing
-    if (credentials.email === 'test@example.com' && credentials.password === 'password') {
-      return {
-        id: 'user_123',
-        email: credentials.email,
-        firstName: 'Test',
-        lastName: 'User',
-        isEmailVerified: true,
-        createdAt: new Date('2024-01-01'),
-        updatedAt: new Date()
-      };
+    // Verify password
+    const isValidPassword = await bcryptjs.compare(credentials.password, dbUser.password);
+    if (!isValidPassword) {
+      return null;
     }
-    
-    return null;
+
+    // Convert database user to AuthUser format
+    const user: AuthUser = {
+      id: dbUser.id,
+      email: dbUser.email,
+      firstName: dbUser.firstName,
+      lastName: dbUser.lastName,
+      isEmailVerified: false,
+      createdAt: dbUser.createdAt,
+      updatedAt: dbUser.updatedAt
+    };
+
+    return user;
   }
 
   static generateTokens(user: AuthUser) {
