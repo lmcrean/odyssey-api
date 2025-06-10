@@ -16,7 +16,7 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   
-  testMatch: '**/*.api.pw.spec.ts',
+  testMatch: ['**/*.spec.ts', '**/*.api.pw.spec.ts'],
 
   webServer: {
     command: 'npm run dev',
@@ -29,7 +29,7 @@ export default defineConfig({
     {
       name: 'api-dev',
       use: {},
-      testMatch: '**/*.api.pw.spec.ts',
+      testMatch: ['**/*.spec.ts', '**/*.api.pw.spec.ts'],
     },
     {
       name: 'browser-dev',

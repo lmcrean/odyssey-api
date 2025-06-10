@@ -14,7 +14,7 @@ test.describe('API Integration Tests', () => {
   });
 
   test('should get hello message', async ({ request }) => {
-    const response = await request.get('/api/hello');
+    const response = await request.get('/api/health/hello');
     
     expect(response.status()).toBe(200);
     
@@ -25,7 +25,7 @@ test.describe('API Integration Tests', () => {
   });
 
   test('should handle CORS preflight', async ({ request }) => {
-    const response = await request.fetch('/api/hello', {
+    const response = await request.fetch('/api/health/hello', {
       method: 'OPTIONS',
       headers: {
         'Origin': 'http://localhost:3000',
@@ -38,7 +38,7 @@ test.describe('API Integration Tests', () => {
   });
 
   test('should get hello message from database', async ({ request }) => {
-    const response = await request.get('/api/hello-db');
+    const response = await request.get('/api/health/hello-db');
     
     // Should succeed with either 200 (DB success) or 500 (DB error with fallback)
     expect([200, 500]).toContain(response.status());
@@ -54,7 +54,7 @@ test.describe('API Integration Tests', () => {
   });
 
   test('should get database health status', async ({ request }) => {
-    const response = await request.get('/api/db-health');
+    const response = await request.get('/api/health/db-health');
     
     // Should succeed with either 200 (healthy) or 500 (connection failed)
     expect([200, 500]).toContain(response.status());
