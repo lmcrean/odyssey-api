@@ -40,5 +40,5 @@ export interface AuthenticatedRequest extends Request {
   };
 }
 
-export * from './user.js';
-export * from './message.js'; 
+export * from '../../apps/user/types';
+export * from '../../apps/chat/types'; 
