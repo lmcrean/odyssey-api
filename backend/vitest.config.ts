@@ -3,9 +3,8 @@ import { resolve } from 'path';
 
 export default defineConfig({
   test: {
-    include: ['**/*.{test}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    include: ['**/*.test.{js,ts,jsx,tsx}'],
     exclude: [
-      '**/*.spec.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
       '**/playwright/**',
       '**/node_modules/**',
       '**/dist/**'

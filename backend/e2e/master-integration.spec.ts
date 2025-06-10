@@ -1,14 +1,17 @@
 import { test, expect } from '@playwright/test';
 import { HealthCheckOperation } from './runners/operations/HealthCheck';
 import { AuthFlowOperation } from './runners/operations/AuthFlow';
+import { UserFlowOperation } from './runners/operations/UserFlow';
 
 test.describe('API Integration Tests', () => {
   let healthCheckOperation: HealthCheckOperation;
   let authFlowOperation: AuthFlowOperation;
+  let userFlowOperation: UserFlowOperation;
 
   test.beforeEach(async ({ request }) => {
     healthCheckOperation = new HealthCheckOperation(request);
     authFlowOperation = new AuthFlowOperation(request);
+    userFlowOperation = new UserFlowOperation(request);
   });
 
   test('should get health status', async () => {
@@ -132,5 +135,93 @@ test.describe('API Integration Tests', () => {
     expect(result.tokens.original.refreshToken).toBeDefined();
     expect(result.tokens.refreshed.accessToken).toBeDefined();
     expect(result.tokens.refreshed.refreshToken).toBeDefined();
+  });
+
+  // User endpoint tests
+  test('should handle get user profile without authentication', async () => {
+    const result = await userFlowOperation.runGetUserProfileWithoutAuth();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Authentication required');
+  });
+
+  test('should handle get user profile with invalid authentication', async () => {
+    const result = await userFlowOperation.runGetUserProfileWithInvalidAuth();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBeDefined();
+  });
+
+  test('should handle profile update without authentication', async () => {
+    const result = await userFlowOperation.runProfileUpdateWithoutAuth({ username: 'test' });
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Authentication required');
+  });
+
+  test('should handle profile update with empty username', async () => {
+    const result = await userFlowOperation.runProfileUpdateEmptyUsername('fake-token');
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Username cannot be empty');
+  });
+
+  test('should handle get public profile for nonexistent user', async () => {
+    const result = await userFlowOperation.runGetPublicProfileNonexistent();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('User not found');
+  });
+
+  test('should handle user search without query', async () => {
+    const result = await userFlowOperation.runUserSearchWithoutQuery();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Search query is required');
+  });
+
+  test('should handle user search with empty query', async () => {
+    const result = await userFlowOperation.runUserSearchEmptyQuery();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Search query is required');
+  });
+
+  test('should handle user search with short query', async () => {
+    const result = await userFlowOperation.runUserSearchShortQuery();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Search query must be at least 2 characters long');
+  });
+
+  test('should handle user search with excessive limit', async () => {
+    const result = await userFlowOperation.runUserSearchExcessiveLimit();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Search limit cannot exceed 50 results');
+  });
+
+  test('should handle user search with custom limit', async () => {
+    const result = await userFlowOperation.runUserSearchCustomLimit();
+    expect(result.success).toBe(true);
+    expect(result.data.success).toBe(true);
+    expect(result.data.data.results.length).toBeLessThanOrEqual(10);
+  });
+
+  test('should handle check username with short username', async () => {
+    const result = await userFlowOperation.runCheckShortUsername();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Username must be between 3 and 30 characters');
+  });
+
+  test('should handle check username with long username', async () => {
+    const result = await userFlowOperation.runCheckLongUsername();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Username must be between 3 and 30 characters');
+  });
+
+  test('should handle check username with invalid characters', async () => {
+    const result = await userFlowOperation.runCheckInvalidUsernameChars();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Username can only contain letters, numbers, and underscores');
+  });
+
+  test('should handle check username with valid format', async () => {
+    const result = await userFlowOperation.runCheckValidUsernameFormat();
+    expect(result.success).toBe(true);
+    expect(result.data.success).toBe(true);
+    expect(result.data.data.username).toBe('valid_user123');
+    expect(typeof result.data.data.available).toBe('boolean');
   });
 }); 
