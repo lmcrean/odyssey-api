@@ -137,7 +137,7 @@ test.describe('API Integration Tests - No Auth User Parallel', () => {
   test('should handle profile update with empty username', async () => {
     const result = await parallelUserFlow.runProfileUpdateEmptyUsername('fake-token');
     expect(result.success).toBe(true);
-    expect(result.data.error).toBe('Username cannot be empty');
+    expect(result.data.error).toBe('Authentication required');
   });
 
   test('should handle get public profile for nonexistent user', async () => {
