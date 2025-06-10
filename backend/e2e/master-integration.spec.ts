@@ -1,74 +1,50 @@
 import { test, expect } from '@playwright/test';
+import { HealthCheckOperation } from './runners/operations/HealthCheck';
 
 test.describe('API Integration Tests', () => {
-  test('should get health status', async ({ request }) => {
-    const response = await request.get('/api/health');
-    
-    expect(response.status()).toBe(200);
-    
-    const data = await response.json();
-    expect(data).toHaveProperty('status', 'ok');
-    expect(data).toHaveProperty('message', 'Odyssey Backend is running');
-    expect(data).toHaveProperty('environment');
-    expect(data).toHaveProperty('timestamp');
+  let healthCheckOperation: HealthCheckOperation;
+
+  test.beforeEach(async ({ request }) => {
+    healthCheckOperation = new HealthCheckOperation(request);
   });
 
-  test('should get hello message', async ({ request }) => {
-    const response = await request.get('/api/health/hello');
-    
-    expect(response.status()).toBe(200);
-    
-    const data = await response.json();
-    expect(data).toHaveProperty('message', 'Hello from Odyssey Backend!');
-    expect(data).toHaveProperty('timestamp');
-    expect(data).toHaveProperty('version', '1.0.0');
+  test('should get health status', async () => {
+    const result = await healthCheckOperation.runHealthStatus();
+    expect(result.success).toBe(true);
   });
 
-  test('should handle CORS preflight', async ({ request }) => {
-    const response = await request.fetch('/api/health/hello', {
-      method: 'OPTIONS',
-      headers: {
-        'Origin': 'http://localhost:3000',
-        'Access-Control-Request-Method': 'GET',
-        'Access-Control-Request-Headers': 'Content-Type'
-      }
-    });
-    
-    expect(response.status()).toBe(204);
+  test('should get hello message', async () => {
+    const result = await healthCheckOperation.runHelloMessage();
+    expect(result.success).toBe(true);
   });
 
-  test('should get hello message from database', async ({ request }) => {
-    const response = await request.get('/api/health/hello-db');
-    
-    // Should succeed with either 200 (DB success) or 500 (DB error with fallback)
-    expect([200, 500]).toContain(response.status());
-    
-    const data = await response.json();
-    if (response.status() === 200) {
-      expect(data).toHaveProperty('message');
-      expect(data).toHaveProperty('source');
-      expect(data).toHaveProperty('version', '1.0.0');
-    } else {
-      expect(data).toHaveProperty('fallback', 'Hello World from Neon DB! (error fallback)');
-    }
+  test('should handle CORS preflight', async () => {
+    const result = await healthCheckOperation.runCorsCheck();
+    expect(result.success).toBe(true);
+    expect(result.corsEnabled).toBe(true);
   });
 
-  test('should get database health status', async ({ request }) => {
-    const response = await request.get('/api/health/db-health');
+  test('should get hello message from database', async () => {
+    const result = await healthCheckOperation.runHelloFromDatabase();
+    expect(result.success).toBe(true);
+    // Test can handle both successful DB connection or fallback
+    expect([200, 500]).toContain(result.status);
+  });
+
+  test('should get database health status', async () => {
+    const result = await healthCheckOperation.runDatabaseHealth();
+    expect(result.success).toBe(true);
+    // Test can handle both healthy or unhealthy database
+    expect([200, 500]).toContain(result.status);
+  });
+
+  test('should run all health checks together', async () => {
+    const results = await healthCheckOperation.runAllHealthChecks();
     
-    // Should succeed with either 200 (healthy) or 500 (connection failed)
-    expect([200, 500]).toContain(response.status());
-    
-    const data = await response.json();
-    expect(data).toHaveProperty('database');
-    expect(data).toHaveProperty('timestamp');
-    
-    if (response.status() === 200) {
-      expect(data).toHaveProperty('status', 'ok');
-      expect(data).toHaveProperty('message', 'Database connection successful');
-    } else {
-      expect(data).toHaveProperty('status', 'error');
-      expect(data).toHaveProperty('message', 'Database connection failed');
-    }
+    expect(results.healthStatus.success).toBe(true);
+    expect(results.helloMessage.success).toBe(true);
+    expect(results.corsCheck.success).toBe(true);
+    expect(results.helloFromDatabase.success).toBe(true);
+    expect(results.databaseHealth.success).toBe(true);
   });
 }); 

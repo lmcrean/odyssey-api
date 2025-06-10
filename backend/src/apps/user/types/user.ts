@@ -7,7 +7,7 @@ export interface User {
   
   // Profile fields (merged from separate Profile model)
   profileBio?: string;
-  profilePicture?: string;
+  profilePicture?: string; // Cloudinary URL or path
   profileName?: string; // Display name different from username
   profileLocation?: string;
   profileWebsite?: string;
@@ -33,6 +33,7 @@ export interface CreateUserRequest {
   lastName?: string;
   profileName?: string;
   profileBio?: string;
+  profilePicture?: string; // Cloudinary URL
 }
 
 export interface UpdateUserRequest {
@@ -41,7 +42,7 @@ export interface UpdateUserRequest {
   lastName?: string;
   profileName?: string;
   profileBio?: string;
-  profilePicture?: string;
+  profilePicture?: string; // Cloudinary URL
   profileLocation?: string;
   profileWebsite?: string;
   profileBirthdate?: Date;
@@ -53,7 +54,7 @@ export interface PublicUserProfile {
   username: string;
   profileName?: string;
   profileBio?: string;
-  profilePicture?: string;
+  profilePicture?: string; // Cloudinary URL
   profileLocation?: string;
   profileWebsite?: string;
   postsCount?: number;
@@ -68,9 +69,37 @@ export interface UserSearchResult {
   id: string;
   username: string;
   profileName?: string;
-  profilePicture?: string;
+  profilePicture?: string; // Cloudinary URL
   profileBio?: string;
   followersCount?: number;
 }
 
-export interface UserWithoutPassword extends Omit<User, 'password'> {} 
+export interface UserWithoutPassword extends Omit<User, 'password'> {}
+
+// Cloudinary-specific types and validation
+export interface CloudinaryImageData {
+  publicId: string;
+  url: string;
+  secureUrl: string;
+  width: number;
+  height: number;
+  format: string;
+  bytes: number;
+}
+
+export interface ProfilePictureUpload {
+  file: File;
+  folder?: string; // Cloudinary folder (e.g., 'profile-pictures')
+  transformation?: string; // Cloudinary transformation (e.g., 'w_400,h_400,c_fill')
+}
+
+// Default profile picture (following Django pattern)
+export const DEFAULT_PROFILE_PICTURE = 'media/images/default_profile_dqcubz.jpg';
+
+// Cloudinary validation constants
+export const CLOUDINARY_CONFIG = {
+  MAX_FILE_SIZE: 5 * 1024 * 1024, // 5MB
+  ALLOWED_FORMATS: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+  PROFILE_FOLDER: 'profile-pictures',
+  DEFAULT_TRANSFORMATION: 'w_400,h_400,c_fill,q_auto,f_auto'
+} as const; 

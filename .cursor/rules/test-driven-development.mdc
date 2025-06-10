@@ -120,6 +120,68 @@ npm run test "LoginController.test.ts"
 - **Speed**: Slower but realistic
 - **Use**: Pre-deployment validation
 
+## E2E Integration Testing with Runners Pattern
+
+### Structure
+For end-to-end integration tests, we use a runners pattern that separates concerns:
+
+```
+backend/e2e/
+├── master-integration.spec.ts       # Main test file
+└── runners/
+    ├── operations/
+    │   └── HealthCheck.ts          # Orchestrates health-related tests
+    └── health/                     # Individual endpoint runners
+        ├── HealthStatus.ts         # /api/health endpoint
+        ├── HelloMessage.ts         # /api/health/hello endpoint
+        ├── HelloFromSQLite.ts      # /api/health/hello-db endpoint
+        ├── DatabaseHealth.ts       # /api/health/db-health endpoint
+        └── CorsCheck.ts           # CORS preflight testing
+```
+
+### Runners Pattern Benefits
+- **Modularity**: Each endpoint has its own runner class
+- **Reusability**: Runners can be used in different test contexts
+- **Orchestration**: Operations coordinate multiple runners
+- **Maintainability**: Easy to add new endpoints or modify existing ones
+- **Separation of Concerns**: Test logic separated from test execution
+
+### Usage Example
+```typescript
+// In master-integration.spec.ts
+import { HealthCheckOperation } from './runners/operations/HealthCheck';
+
+test('should get health status', async ({ request }) => {
+  const healthCheck = new HealthCheckOperation(request);
+  const result = await healthCheck.runHealthStatus();
+  expect(result.success).toBe(true);
+});
+```
+
+### Individual Runner Structure
+Each runner follows this pattern:
+```typescript
+export class EndpointRunner {
+  constructor(private request: APIRequestContext) {}
+  
+  async run() {
+    // Perform API call and assertions
+    // Return structured result with status and data
+    return { success: true, data, status };
+  }
+}
+```
+
+### Operation Orchestration
+Operations coordinate multiple runners:
+```typescript
+export class DomainOperation {
+  // Initialize all relevant runners
+  // Provide methods to run individual or all tests
+  // Return comprehensive results
+}
+```
+
 ## Integration with CI/CD
 
 The testing strategy supports different deployment stages:
@@ -133,5 +195,5 @@ The testing strategy supports different deployment stages:
 - **Local Validation**: Dev environment testing with SQLite
 - **Production Confidence**: Full environment testing before deployment
 - **Domain Isolation**: Test specific business domains independently
-
 - **Scalable Structure**: Tests are co-located with implementation code
+- **Modular E2E Testing**: Runners pattern enables reusable, maintainable integration tests
