@@ -18,11 +18,15 @@ export interface DatabaseConfig {
   client: string;
   connection: {
     filename?: string;
+    connectionString?: string;
     host?: string;
     port?: number;
     user?: string;
     password?: string;
     database?: string;
+    ssl?: {
+      rejectUnauthorized: boolean;
+    };
   };
   useNullAsDefault?: boolean;
 }
