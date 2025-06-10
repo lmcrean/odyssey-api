@@ -15,12 +15,17 @@ export class LogoutRunner {
     return { success: true, data };
   }
 
-  async runLogoutWithToken() {
+  async runLogoutWithToken(token?: string) {
     // Test logout with authorization header (if implemented)
+    const headers: Record<string, string> = {};
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    } else {
+      headers['Authorization'] = 'Bearer some-jwt-token';
+    }
+
     const response = await this.request.post('/api/auth/logout', {
-      headers: {
-        'Authorization': 'Bearer some-jwt-token'
-      }
+      headers
     });
 
     expect(response.status()).toBe(200);

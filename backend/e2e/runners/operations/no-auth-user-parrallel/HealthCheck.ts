@@ -1,9 +1,9 @@
 import { APIRequestContext } from '@playwright/test';
-import { HealthStatusRunner } from '../health/HealthStatus';
-import { HelloMessageRunner } from '../health/HelloMessage';
-import { HelloFromSQLiteRunner } from '../health/HelloFromSQLite';
-import { DatabaseHealthRunner } from '../health/DatabaseHealth';
-import { CorsCheckRunner } from '../health/CorsCheck';
+import { HealthStatusRunner } from '../../health/HealthStatus';
+import { HelloMessageRunner } from '../../health/HelloMessage';
+import { HelloFromSQLiteRunner } from '../../health/HelloFromSQLite';
+import { DatabaseHealthRunner } from '../../health/DatabaseHealth';
+import { CorsCheckRunner } from '../../health/CorsCheck';
 
 export class HealthCheckOperation {
   private healthStatusRunner: HealthStatusRunner;

@@ -1,27 +1,22 @@
 import { APIRequestContext } from '@playwright/test';
-import { LoginRunner } from '../auth/Login';
-import { RegisterRunner } from '../auth/Register';
-import { LogoutRunner } from '../auth/Logout';
-import { RefreshTokenRunner } from '../auth/RefreshToken';
+import { LoginRunner } from '../../auth/Login';
+import { RegisterRunner } from '../../auth/Register';
+import { RefreshTokenRunner } from '../../auth/RefreshToken';
 
 export class AuthFlowOperation {
   private loginRunner: LoginRunner;
   private registerRunner: RegisterRunner;
-  private logoutRunner: LogoutRunner;
   private refreshTokenRunner: RefreshTokenRunner;
 
   constructor(private request: APIRequestContext) {
     this.loginRunner = new LoginRunner(request);
     this.registerRunner = new RegisterRunner(request);
-    this.logoutRunner = new LogoutRunner(request);
     this.refreshTokenRunner = new RefreshTokenRunner(request);
   }
 
-  // Login tests
-  async runValidLogin() {
-    return await this.loginRunner.runValidLogin();
-  }
+  // === NON-AUTH VALIDATION TESTS (Testing Error Cases) ===
 
+  // Login tests - validation errors only
   async runInvalidLogin() {
     return await this.loginRunner.runInvalidLogin();
   }
@@ -30,11 +25,7 @@ export class AuthFlowOperation {
     return await this.loginRunner.runMissingCredentials();
   }
 
-  // Register tests
-  async runValidRegistration() {
-    return await this.registerRunner.runValidRegistration();
-  }
-
+  // Register tests - validation errors only
   async runRegistrationMissingFields() {
     return await this.registerRunner.runMissingRequiredFields();
   }
@@ -51,20 +42,7 @@ export class AuthFlowOperation {
     return await this.registerRunner.runWeakPassword();
   }
 
-  // Logout tests
-  async runLogout() {
-    return await this.logoutRunner.runLogout();
-  }
-
-  async runLogoutWithToken() {
-    return await this.logoutRunner.runLogoutWithToken();
-  }
-
-  // Refresh token tests
-  async runValidRefreshToken(refreshToken: string) {
-    return await this.refreshTokenRunner.runValidRefreshToken(refreshToken);
-  }
-
+  // Refresh token tests - error cases only
   async runInvalidRefreshToken() {
     return await this.refreshTokenRunner.runInvalidRefreshToken();
   }
@@ -73,48 +51,18 @@ export class AuthFlowOperation {
     return await this.refreshTokenRunner.runMissingRefreshToken();
   }
 
-  // Complete auth flow integration test
-  async runCompleteAuthFlow() {
-    // Step 1: Register a new user
-    const registerResult = await this.runValidRegistration();
-    const { accessToken, refreshToken } = registerResult.data.data;
-
-    // Step 2: Test refresh token functionality
-    const refreshResult = await this.runValidRefreshToken(refreshToken);
-    const newTokens = refreshResult.data.data;
-
-    // Step 3: Logout
-    const logoutResult = await this.runLogout();
-
-    return {
-      register: registerResult,
-      refresh: refreshResult,
-      logout: logoutResult,
-      tokens: {
-        original: { accessToken, refreshToken },
-        refreshed: newTokens
-      }
-    };
-  }
-
-  // Run all auth tests
-  async runAllAuthTests() {
+  // Run all auth validation tests (error cases only)
+  async runAllAuthValidationTests() {
     const results = {
       login: {
-        valid: await this.runValidLogin(),
         invalid: await this.runInvalidLogin(),
         missingCredentials: await this.runLoginMissingCredentials()
       },
       register: {
-        valid: await this.runValidRegistration(),
         missingFields: await this.runRegistrationMissingFields(),
         invalidEmail: await this.runRegistrationInvalidEmail(),
         passwordMismatch: await this.runRegistrationPasswordMismatch(),
         weakPassword: await this.runRegistrationWeakPassword()
-      },
-      logout: {
-        basic: await this.runLogout(),
-        withToken: await this.runLogoutWithToken()
       },
       refreshToken: {
         invalid: await this.runInvalidRefreshToken(),

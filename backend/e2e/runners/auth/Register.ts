@@ -29,6 +29,40 @@ export class RegisterRunner {
     return { success: true, data };
   }
 
+  async runValidRegistrationWithCredentials(credentials: { email: string; password: string; username: string }) {
+    const registerData = {
+      email: credentials.email,
+      password: credentials.password,
+      confirmPassword: credentials.password,
+      firstName: 'Test',
+      lastName: 'User',
+      username: credentials.username
+    };
+
+    const response = await this.request.post('/api/auth/register', {
+      data: registerData
+    });
+
+    expect(response.status()).toBe(201);
+
+    const data = await response.json();
+    expect(data).toHaveProperty('success', true);
+    expect(data).toHaveProperty('message', 'User registered successfully');
+    expect(data).toHaveProperty('data');
+    expect(data.data).toHaveProperty('user');
+    expect(data.data).toHaveProperty('accessToken');
+    expect(data.data).toHaveProperty('refreshToken');
+
+    return { 
+      success: true, 
+      data,
+      tokens: {
+        accessToken: data.data.accessToken,
+        refreshToken: data.data.refreshToken
+      }
+    };
+  }
+
   async runMissingRequiredFields() {
     const registerData = {
       email: 'test@example.com'

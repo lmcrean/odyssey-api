@@ -1,19 +1,23 @@
 import { test, expect } from '@playwright/test';
-import { HealthCheckOperation } from './runners/operations/HealthCheck';
-import { AuthFlowOperation } from './runners/operations/AuthFlow';
-import { UserFlowOperation } from './runners/operations/UserFlow';
+import { HealthCheckOperation } from './runners/operations/no-auth-user-parrallel/HealthCheck';
+import { AuthFlowOperation as ParallelAuthFlow } from './runners/operations/no-auth-user-parrallel/AuthFlow';
+import { UserFlowOperation as ParallelUserFlow } from './runners/operations/no-auth-user-parrallel/UserFlow';
+import { AuthFlowOperation as SerialAuthFlow } from './runners/operations/auth-user-serial/AuthFlow';
+import { UserFlowOperation as SerialUserFlow } from './runners/operations/auth-user-serial/UserFlow';
 
-test.describe('API Integration Tests', () => {
+// === PARALLEL TESTS (No Authentication Required) ===
+test.describe('API Integration Tests - No Auth User Parallel', () => {
   let healthCheckOperation: HealthCheckOperation;
-  let authFlowOperation: AuthFlowOperation;
-  let userFlowOperation: UserFlowOperation;
+  let parallelAuthFlow: ParallelAuthFlow;
+  let parallelUserFlow: ParallelUserFlow;
 
   test.beforeEach(async ({ request }) => {
     healthCheckOperation = new HealthCheckOperation(request);
-    authFlowOperation = new AuthFlowOperation(request);
-    userFlowOperation = new UserFlowOperation(request);
+    parallelAuthFlow = new ParallelAuthFlow(request);
+    parallelUserFlow = new ParallelUserFlow(request);
   });
 
+  // === HEALTH CHECKS ===
   test('should get health status', async () => {
     const result = await healthCheckOperation.runHealthStatus();
     expect(result.success).toBe(true);
@@ -54,79 +58,189 @@ test.describe('API Integration Tests', () => {
     expect(results.databaseHealth.success).toBe(true);
   });
 
-  // Auth endpoint tests
-  test('should handle valid user registration', async () => {
-    const result = await authFlowOperation.runValidRegistration();
-    expect(result.success).toBe(true);
-    expect(result.data.success).toBe(true);
-    expect(result.data.message).toBe('User registered successfully');
-  });
-
+  // === AUTH VALIDATION TESTS (Error Cases) ===
   test('should handle registration with missing fields', async () => {
-    const result = await authFlowOperation.runRegistrationMissingFields();
+    const result = await parallelAuthFlow.runRegistrationMissingFields();
     expect(result.success).toBe(true);
     expect(result.data.success).toBe(false);
     expect(result.data.error).toBe('Validation error');
   });
 
   test('should handle registration with invalid email', async () => {
-    const result = await authFlowOperation.runRegistrationInvalidEmail();
+    const result = await parallelAuthFlow.runRegistrationInvalidEmail();
     expect(result.success).toBe(true);
     expect(result.data.success).toBe(false);
     expect(result.data.message).toBe('Invalid email format');
   });
 
   test('should handle registration with password mismatch', async () => {
-    const result = await authFlowOperation.runRegistrationPasswordMismatch();
+    const result = await parallelAuthFlow.runRegistrationPasswordMismatch();
     expect(result.success).toBe(true);
     expect(result.data.success).toBe(false);
     expect(result.data.message).toBe('Passwords do not match');
   });
 
   test('should handle registration with weak password', async () => {
-    const result = await authFlowOperation.runRegistrationWeakPassword();
+    const result = await parallelAuthFlow.runRegistrationWeakPassword();
     expect(result.success).toBe(true);
     expect(result.data.success).toBe(false);
     expect(result.data.error).toBe('Validation error');
   });
 
   test('should handle invalid login credentials', async () => {
-    const result = await authFlowOperation.runInvalidLogin();
+    const result = await parallelAuthFlow.runInvalidLogin();
     expect(result.success).toBe(true);
     expect(result.data.success).toBe(false);
     expect(result.data.error).toBe('Authentication failed');
   });
 
   test('should handle login with missing credentials', async () => {
-    const result = await authFlowOperation.runLoginMissingCredentials();
+    const result = await parallelAuthFlow.runLoginMissingCredentials();
     expect(result.success).toBe(true);
     expect(result.data.success).toBe(false);
     expect(result.data.message).toBe('Email and password are required');
   });
 
-  test('should handle user logout', async () => {
-    const result = await authFlowOperation.runLogout();
-    expect(result.success).toBe(true);
-    expect(result.data.success).toBe(true);
-    expect(result.data.message).toBe('Logout successful');
-  });
-
   test('should handle invalid refresh token', async () => {
-    const result = await authFlowOperation.runInvalidRefreshToken();
+    const result = await parallelAuthFlow.runInvalidRefreshToken();
     expect(result.success).toBe(true);
     expect(result.data.success).toBe(false);
     expect(result.data.error).toBe('Authentication failed');
   });
 
   test('should handle missing refresh token', async () => {
-    const result = await authFlowOperation.runRefreshTokenMissingToken();
+    const result = await parallelAuthFlow.runRefreshTokenMissingToken();
     expect(result.success).toBe(true);
     expect(result.data.success).toBe(false);
     expect(result.data.message).toBe('Refresh token is required');
   });
 
+  // === USER VALIDATION TESTS (No Auth Required) ===
+  test('should handle get user profile without authentication', async () => {
+    const result = await parallelUserFlow.runGetUserProfileWithoutAuth();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Authentication required');
+  });
+
+  test('should handle get user profile with invalid authentication', async () => {
+    const result = await parallelUserFlow.runGetUserProfileWithInvalidAuth();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBeDefined();
+  });
+
+  test('should handle profile update without authentication', async () => {
+    const result = await parallelUserFlow.runProfileUpdateWithoutAuth({ username: 'test' });
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Authentication required');
+  });
+
+  test('should handle profile update with empty username', async () => {
+    const result = await parallelUserFlow.runProfileUpdateEmptyUsername('fake-token');
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Username cannot be empty');
+  });
+
+  test('should handle get public profile for nonexistent user', async () => {
+    const result = await parallelUserFlow.runGetPublicProfileNonexistent();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('User not found');
+  });
+
+  test('should handle user search without query', async () => {
+    const result = await parallelUserFlow.runUserSearchWithoutQuery();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Search query is required');
+  });
+
+  test('should handle user search with empty query', async () => {
+    const result = await parallelUserFlow.runUserSearchEmptyQuery();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Search query is required');
+  });
+
+  test('should handle user search with short query', async () => {
+    const result = await parallelUserFlow.runUserSearchShortQuery();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Search query must be at least 2 characters long');
+  });
+
+  test('should handle user search with excessive limit', async () => {
+    const result = await parallelUserFlow.runUserSearchExcessiveLimit();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Search limit cannot exceed 50 results');
+  });
+
+  test('should handle user search with custom limit', async () => {
+    const result = await parallelUserFlow.runUserSearchCustomLimit();
+    expect(result.success).toBe(true);
+    expect(result.data.success).toBe(true);
+    expect(result.data.data.results.length).toBeLessThanOrEqual(10);
+  });
+
+  test('should handle check username with short username', async () => {
+    const result = await parallelUserFlow.runCheckShortUsername();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Username must be between 3 and 30 characters');
+  });
+
+  test('should handle check username with long username', async () => {
+    const result = await parallelUserFlow.runCheckLongUsername();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Username must be between 3 and 30 characters');
+  });
+
+  test('should handle check username with invalid characters', async () => {
+    const result = await parallelUserFlow.runCheckInvalidUsernameChars();
+    expect(result.success).toBe(true);
+    expect(result.data.error).toBe('Username can only contain letters, numbers, and underscores');
+  });
+
+  test('should handle check username with valid format', async () => {
+    const result = await parallelUserFlow.runCheckValidUsernameFormat();
+    expect(result.success).toBe(true);
+    expect(result.data.success).toBe(true);
+    expect(result.data.data.username).toBe('valid_user123');
+    expect(typeof result.data.data.available).toBe('boolean');
+  });
+});
+
+// === SERIAL TESTS (Authentication Required) ===
+test.describe.configure({ mode: 'serial' });
+test.describe('API Integration Tests - Auth User Serial', () => {
+  let serialAuthFlow: SerialAuthFlow;
+  let serialUserFlow: SerialUserFlow;
+  let testUserCredentials: { email: string; password: string; username: string };
+  let authTokens: { accessToken: string; refreshToken: string };
+
+  test.beforeAll(async ({ request }) => {
+    serialAuthFlow = new SerialAuthFlow(request);
+    serialUserFlow = new SerialUserFlow(request);
+    
+    // Generate unique test user for this serial test suite
+    const timestamp = Date.now();
+    testUserCredentials = {
+      email: `testuser_${timestamp}@example.com`,
+      password: 'TestPassword123!',
+      username: `testuser_${timestamp}`
+    };
+  });
+
+  // === AUTH FLOW TESTS ===
+  test('should handle valid user registration and setup auth', async () => {
+    const result = await serialAuthFlow.runValidRegistrationWithCredentials(testUserCredentials);
+    expect(result.success).toBe(true);
+    expect(result.data.success).toBe(true);
+    expect(result.data.message).toBe('User registered successfully');
+    
+    // Store tokens for subsequent tests
+    authTokens = {
+      accessToken: result.tokens.accessToken,
+      refreshToken: result.tokens.refreshToken
+    };
+  });
+
   test('should run complete auth flow integration', async () => {
-    const result = await authFlowOperation.runCompleteAuthFlow();
+    const result = await serialAuthFlow.runCompleteAuthFlow();
     
     expect(result.register.success).toBe(true);
     expect(result.refresh.success).toBe(true);
@@ -137,91 +251,44 @@ test.describe('API Integration Tests', () => {
     expect(result.tokens.refreshed.refreshToken).toBeDefined();
   });
 
-  // User endpoint tests
-  test('should handle get user profile without authentication', async () => {
-    const result = await userFlowOperation.runGetUserProfileWithoutAuth();
-    expect(result.success).toBe(true);
-    expect(result.data.error).toBe('Authentication required');
-  });
-
-  test('should handle get user profile with invalid authentication', async () => {
-    const result = await userFlowOperation.runGetUserProfileWithInvalidAuth();
-    expect(result.success).toBe(true);
-    expect(result.data.error).toBeDefined();
-  });
-
-  test('should handle profile update without authentication', async () => {
-    const result = await userFlowOperation.runProfileUpdateWithoutAuth({ username: 'test' });
-    expect(result.success).toBe(true);
-    expect(result.data.error).toBe('Authentication required');
-  });
-
-  test('should handle profile update with empty username', async () => {
-    const result = await userFlowOperation.runProfileUpdateEmptyUsername('fake-token');
-    expect(result.success).toBe(true);
-    expect(result.data.error).toBe('Username cannot be empty');
-  });
-
-  test('should handle get public profile for nonexistent user', async () => {
-    const result = await userFlowOperation.runGetPublicProfileNonexistent();
-    expect(result.success).toBe(true);
-    expect(result.data.error).toBe('User not found');
-  });
-
-  test('should handle user search without query', async () => {
-    const result = await userFlowOperation.runUserSearchWithoutQuery();
-    expect(result.success).toBe(true);
-    expect(result.data.error).toBe('Search query is required');
-  });
-
-  test('should handle user search with empty query', async () => {
-    const result = await userFlowOperation.runUserSearchEmptyQuery();
-    expect(result.success).toBe(true);
-    expect(result.data.error).toBe('Search query is required');
-  });
-
-  test('should handle user search with short query', async () => {
-    const result = await userFlowOperation.runUserSearchShortQuery();
-    expect(result.success).toBe(true);
-    expect(result.data.error).toBe('Search query must be at least 2 characters long');
-  });
-
-  test('should handle user search with excessive limit', async () => {
-    const result = await userFlowOperation.runUserSearchExcessiveLimit();
-    expect(result.success).toBe(true);
-    expect(result.data.error).toBe('Search limit cannot exceed 50 results');
-  });
-
-  test('should handle user search with custom limit', async () => {
-    const result = await userFlowOperation.runUserSearchCustomLimit();
+  // === USER FLOW TESTS ===
+  test('should get authenticated user profile', async () => {
+    const result = await serialUserFlow.runGetUserProfileWithAuth(authTokens.accessToken);
     expect(result.success).toBe(true);
     expect(result.data.success).toBe(true);
-    expect(result.data.data.results.length).toBeLessThanOrEqual(10);
+    expect(result.data.data.email).toBe(testUserCredentials.email);
   });
 
-  test('should handle check username with short username', async () => {
-    const result = await userFlowOperation.runCheckShortUsername();
-    expect(result.success).toBe(true);
-    expect(result.data.error).toBe('Username must be between 3 and 30 characters');
+  test('should run authenticated user profile tests', async () => {
+    const result = await serialUserFlow.runAuthenticatedUserProfileTests(authTokens.accessToken);
+    expect(result.getProfile.success).toBe(true);
+    expect(result.updateProfile.success).toBe(true);
+    expect(result.usernameAvailability.success).toBe(true);
+    expect(result.search.success).toBe(true);
   });
 
-  test('should handle check username with long username', async () => {
-    const result = await userFlowOperation.runCheckLongUsername();
-    expect(result.success).toBe(true);
-    expect(result.data.error).toBe('Username must be between 3 and 30 characters');
+  test('should run user state change tests', async () => {
+    const result = await serialUserFlow.runUserStateChangeTests(authTokens.accessToken);
+    expect(result.checkAvailable.success).toBe(true);
+    expect(result.updateProfile.success).toBe(true);
+    expect(result.checkTaken.success).toBe(true);
+    expect(result.searchUser.success).toBe(true);
   });
 
-  test('should handle check username with invalid characters', async () => {
-    const result = await userFlowOperation.runCheckInvalidUsernameChars();
-    expect(result.success).toBe(true);
-    expect(result.data.error).toBe('Username can only contain letters, numbers, and underscores');
+  test('should run complete user flow integration', async () => {
+    const result = await serialUserFlow.runCompleteUserFlow(authTokens.accessToken);
+    expect(result.originalProfile.success).toBe(true);
+    expect(result.usernameCheck.success).toBe(true);
+    expect(result.profileUpdate.success).toBe(true);
+    expect(result.updatedProfile.success).toBe(true);
+    expect(result.publicProfile.success).toBe(true);
+    expect(result.searchResult.success).toBe(true);
   });
 
-  test('should handle check username with valid format', async () => {
-    const result = await userFlowOperation.runCheckValidUsernameFormat();
+  test('should handle user logout', async () => {
+    const result = await serialAuthFlow.runLogoutWithToken(authTokens.refreshToken);
     expect(result.success).toBe(true);
     expect(result.data.success).toBe(true);
-    expect(result.data.data.username).toBe('valid_user123');
-    expect(typeof result.data.data.available).toBe('boolean');
+    expect(result.data.message).toBe('Logout successful');
   });
 }); 

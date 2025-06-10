@@ -1,9 +1,9 @@
 import { APIRequestContext } from '@playwright/test';
-import { GetUserProfileRunner } from '../user/GetUserProfile';
-import { UpdateProfileRunner } from '../user/UpdateProfile';
-import { GetPublicProfileRunner } from '../user/GetPublicProfile';
-import { SearchUsersRunner } from '../user/SearchUsers';
-import { CheckUsernameRunner } from '../user/CheckUsername';
+import { GetUserProfileRunner } from '../../user/GetUserProfile';
+import { UpdateProfileRunner } from '../../user/UpdateProfile';
+import { GetPublicProfileRunner } from '../../user/GetPublicProfile';
+import { SearchUsersRunner } from '../../user/SearchUsers';
+import { CheckUsernameRunner } from '../../user/CheckUsername';
 
 export class UserFlowOperation {
   private getUserProfileRunner: GetUserProfileRunner;
@@ -20,11 +20,9 @@ export class UserFlowOperation {
     this.checkUsernameRunner = new CheckUsernameRunner(request);
   }
 
-  // Get User Profile tests
-  async runGetUserProfileWithAuth(authToken: string) {
-    return await this.getUserProfileRunner.runWithValidAuth(authToken);
-  }
+  // === NON-AUTH TESTS (Testing Validation & Public Endpoints) ===
 
+  // Get User Profile tests - testing auth failures
   async runGetUserProfileWithoutAuth() {
     return await this.getUserProfileRunner.runWithoutAuth();
   }
@@ -33,21 +31,13 @@ export class UserFlowOperation {
     return await this.getUserProfileRunner.runWithInvalidAuth();
   }
 
-  // Update Profile tests
-  async runValidProfileUpdate(authToken: string, updateData: any) {
-    return await this.updateProfileRunner.runValidUpdate(authToken, updateData);
-  }
-
+  // Update Profile tests - testing auth failures & validation
   async runProfileUpdateWithoutAuth(updateData: any) {
     return await this.updateProfileRunner.runWithoutAuth(updateData);
   }
 
   async runProfileUpdateEmptyUsername(authToken: string) {
     return await this.updateProfileRunner.runWithEmptyUsername(authToken);
-  }
-
-  async runProfileUpdateDuplicateUsername(authToken: string) {
-    return await this.updateProfileRunner.runWithDuplicateUsername(authToken);
   }
 
   async runProfileUpdateInvalidFormat(authToken: string) {
@@ -58,7 +48,7 @@ export class UserFlowOperation {
     return await this.updateProfileRunner.runWithInvalidWebsiteURL(authToken);
   }
 
-  // Get Public Profile tests
+  // Get Public Profile tests - no auth required
   async runGetPublicProfileByUsername(username: string) {
     return await this.getPublicProfileRunner.runWithUsername(username);
   }
@@ -75,11 +65,7 @@ export class UserFlowOperation {
     return await this.getPublicProfileRunner.runWithoutIdentifier();
   }
 
-  // Search Users tests
-  async runValidUserSearch(query: string, limit?: number) {
-    return await this.searchUsersRunner.runValidSearch(query, limit);
-  }
-
+  // Search Users tests - testing validation errors (no auth required)
   async runUserSearchWithoutQuery() {
     return await this.searchUsersRunner.runWithoutQuery();
   }
@@ -100,15 +86,7 @@ export class UserFlowOperation {
     return await this.searchUsersRunner.runWithCustomLimit();
   }
 
-  // Check Username tests
-  async runCheckAvailableUsername(username: string) {
-    return await this.checkUsernameRunner.runWithAvailableUsername(username);
-  }
-
-  async runCheckTakenUsername(username: string) {
-    return await this.checkUsernameRunner.runWithTakenUsername(username);
-  }
-
+  // Check Username tests - no auth required for validation
   async runCheckShortUsername() {
     return await this.checkUsernameRunner.runWithShortUsername();
   }
@@ -125,50 +103,8 @@ export class UserFlowOperation {
     return await this.checkUsernameRunner.runWithValidFormat();
   }
 
-  // Complete user flow integration test
-  async runCompleteUserFlow(authToken: string) {
-    // Step 1: Get user profile
-    const profileResult = await this.runGetUserProfileWithAuth(authToken);
-    const originalProfile = profileResult.data.data;
-
-    // Step 2: Check username availability
-    const newUsername = `updated_user_${Date.now()}`;
-    const usernameCheck = await this.runCheckAvailableUsername(newUsername);
-
-    // Step 3: Update profile with new username
-    const updateData = {
-      username: newUsername,
-      bio: 'Updated bio through integration test',
-      location: 'Test Location'
-    };
-    const updateResult = await this.runValidProfileUpdate(authToken, updateData);
-
-    // Step 4: Get updated profile
-    const updatedProfileResult = await this.runGetUserProfileWithAuth(authToken);
-
-    // Step 5: Get public profile to verify changes
-    const publicProfileResult = await this.runGetPublicProfileByUsername(newUsername);
-
-    // Step 6: Search for the updated user
-    const searchResult = await this.runValidUserSearch(newUsername);
-
-    return {
-      originalProfile: profileResult,
-      usernameCheck,
-      profileUpdate: updateResult,
-      updatedProfile: updatedProfileResult,
-      publicProfile: publicProfileResult,
-      searchResult,
-      flow: {
-        username: newUsername,
-        updateData,
-        originalUsername: originalProfile.username
-      }
-    };
-  }
-
-  // Run all user tests
-  async runAllUserTests() {
+  // Run all non-auth user tests
+  async runAllNonAuthUserTests() {
     const results = {
       profile: {
         withoutAuth: await this.runGetUserProfileWithoutAuth(),
@@ -177,7 +113,8 @@ export class UserFlowOperation {
       updateProfile: {
         withoutAuth: await this.runProfileUpdateWithoutAuth({ username: 'test' }),
         emptyUsername: await this.runProfileUpdateEmptyUsername('fake-token'),
-        invalidFormat: await this.runProfileUpdateInvalidFormat('fake-token')
+        invalidFormat: await this.runProfileUpdateInvalidFormat('fake-token'),
+        invalidWebsite: await this.runProfileUpdateInvalidWebsite('fake-token')
       },
       publicProfile: {
         nonexistent: await this.runGetPublicProfileNonexistent(),
