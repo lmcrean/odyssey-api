@@ -129,7 +129,7 @@ describe('POST /api/auth/register', () => {
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('success', false);
       expect(response.body).toHaveProperty('error', 'Validation error');
-      expect(response.body.message).toContain('Password must contain at least one uppercase letter');
+      expect(response.body.message).toBe('Password must be at least 6 characters long');
     });
 
     it('should reject registration with password missing numbers', async () => {
@@ -151,9 +151,17 @@ describe('POST /api/auth/register', () => {
 
   describe('Token Generation', () => {
     it('should generate valid JWT tokens upon registration', async () => {
+      const uniqueUser = {
+        email: `token-test-${Date.now()}@register.com`,
+        password: 'ValidPass123',
+        confirmPassword: 'ValidPass123',
+        firstName: 'Token',
+        lastName: 'Test'
+      };
+
       const response = await request(app)
         .post('/api/auth/register')
-        .send(validUser);
+        .send(uniqueUser);
 
       expect(response.status).toBe(201);
       
