@@ -132,6 +132,7 @@ describe('User Types', () => {
         followersCount: 100,
         followingCount: 50,
         createdAt: new Date(),
+        updatedAt: new Date(),
         lastActiveAt: new Date()
       };
 

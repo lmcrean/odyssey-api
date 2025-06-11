@@ -37,7 +37,8 @@ describe('Unified User Model Integration', () => {
       id: 'test-uuid',
       username: 'testuser',
       profilePicture: 'https://res.cloudinary.com/demo/image/upload/v123/profile.jpg',
-      createdAt: new Date()
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
 
     expect('email' in publicProfile).toBe(false);

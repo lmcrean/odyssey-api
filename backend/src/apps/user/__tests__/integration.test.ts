@@ -65,6 +65,7 @@ describe('Unified User Model Integration Tests', () => {
         followersCount: 100,
         followingCount: 50,
         createdAt: new Date(),
+        updatedAt: new Date(),
         lastActiveAt: new Date()
       };
 
@@ -194,6 +195,7 @@ describe('Unified User Model Integration Tests', () => {
         followersCount: fullUser.followersCount,
         followingCount: fullUser.followingCount,
         createdAt: fullUser.createdAt,
+        updatedAt: fullUser.updatedAt,
         lastActiveAt: fullUser.lastActiveAt
       };
 

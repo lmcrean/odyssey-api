@@ -1,5 +1,6 @@
 import { db } from '../../../../shared/db/init-sqlite';
 import { User } from '../../types';
+import { findUserById, createUser, updateUser } from '../index';
 
 /**
  * Search users by query string

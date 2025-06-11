@@ -15,17 +15,36 @@ import {
 // Mock UserService for integration testing
 vi.mock('../services/UserService');
 
+// Mock the authentication middleware
+vi.mock('../../../shared/middleware/auth', () => ({
+  authenticateToken: (req: any, res: any, next: any) => {
+    console.log('Mock authenticateToken called');
+    const authHeader = req.headers['authorization'];
+    
+    if (!authHeader) {
+      return res.status(401).json({
+        success: false,
+        error: 'Authentication required',
+        message: 'Access token is required'
+      });
+    }
+    
+    req.user = { id: 'test-user-id', email: 'test@example.com' };
+    next();
+  },
+  optionalAuth: (req: any, res: any, next: any) => {
+    console.log('Mock optionalAuth called');
+    const authHeader = req.headers['authorization'];
+    
+    if (authHeader) {
+      req.user = { id: 'test-user-id', email: 'test@example.com' };
+    }
+    next();
+  }
+}));
+
 const app = express();
 app.use(express.json());
-
-// Mock authentication middleware - must come BEFORE routes
-app.use((req: any, res: any, next: any) => {
-  if (req.headers.authorization) {
-    req.user = { id: 'test-user-id', email: 'test@example.com' };
-  }
-  next();
-});
-
 app.use('/users', userRoutes);
 
 describe('Unified User Model Integration Tests', () => {
@@ -100,6 +119,7 @@ describe('Unified User Model Integration Tests', () => {
         followersCount: updatedUser.followersCount,
         followingCount: updatedUser.followingCount,
         createdAt: updatedUser.createdAt,
+        updatedAt: updatedUser.updatedAt,
         lastActiveAt: updatedUser.lastActiveAt
       };
 
@@ -196,7 +216,7 @@ describe('Unified User Model Integration Tests', () => {
         }
       ];
 
-      vi.mocked(UserService.searchUsers).mockResolvedValue(searchResults);
+      vi.mocked(UserService.searchUsers).mockResolvedValue(searchResults as any);
 
       const response = await request(app)
         .get('/users/search?q=user&limit=10');

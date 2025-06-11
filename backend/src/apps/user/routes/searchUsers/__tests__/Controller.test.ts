@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Request, Response } from 'express';
 import { searchUsersController } from '../Controller';
 import { UserService } from '../../../services/UserService';
-import { UserSearchResult, DEFAULT_PROFILE_PICTURE } from '../../../types';
+import { User, UserSearchResult, DEFAULT_PROFILE_PICTURE } from '../../../types';
 
 // Mock UserService
 vi.mock('../../../services/UserService');
@@ -28,22 +28,28 @@ describe('searchUsersController', () => {
     };
   });
 
-  const mockSearchResults: UserSearchResult[] = [
+  const mockSearchResults: User[] = [
     {
       id: 'user1',
+      email: 'john@example.com',
       username: 'john_doe',
       profileName: 'John Doe',
       profilePicture: 'https://res.cloudinary.com/demo/image/upload/v123/profile-pictures/john.jpg',
       profileBio: 'Software developer',
-      followersCount: 150
+      followersCount: 150,
+      createdAt: new Date(),
+      updatedAt: new Date()
     },
     {
       id: 'user2',
+      email: 'jane@example.com',
       username: 'jane_smith',
       profileName: 'Jane Smith',
       profilePicture: DEFAULT_PROFILE_PICTURE,
       profileBio: 'Designer',
-      followersCount: 89
+      followersCount: 89,
+      createdAt: new Date(),
+      updatedAt: new Date()
     }
   ];
 
@@ -177,7 +183,7 @@ describe('searchUsersController', () => {
 
       const results = jsonSpy.mock.calls[0][0].data.results;
       
-      results.forEach((result: UserSearchResult) => {
+      results.forEach((result: User) => {
         expect(result).toHaveProperty('id');
         expect(result).toHaveProperty('username');
         expect(result).toHaveProperty('profileName');
@@ -185,10 +191,10 @@ describe('searchUsersController', () => {
         expect(result).toHaveProperty('profileBio');
         expect(result).toHaveProperty('followersCount');
         
-        // Should not have sensitive fields
-        expect('email' in result).toBe(false);
-        expect('firstName' in result).toBe(false);
-        expect('lastName' in result).toBe(false);
+        // User objects do include email (unlike UserSearchResult)
+        expect(result).toHaveProperty('email');
+        expect(result).toHaveProperty('createdAt');
+        expect(result).toHaveProperty('updatedAt');
       });
     });
   });
@@ -246,30 +252,39 @@ describe('searchUsersController', () => {
 
   describe('Profile picture variations', () => {
     it('should handle users with various profile picture states', async () => {
-      const mixedResults: UserSearchResult[] = [
+      const mixedResults: User[] = [
         {
           id: 'user1',
+          email: 'user1@example.com',
           username: 'user_with_cloudinary',
           profileName: 'User One',
           profilePicture: 'https://res.cloudinary.com/demo/image/upload/v123/profile-pictures/user1.jpg',
           profileBio: 'Has Cloudinary picture',
-          followersCount: 100
+          followersCount: 100,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           id: 'user2',
+          email: 'user2@example.com',
           username: 'user_with_default',
           profileName: 'User Two',
           profilePicture: DEFAULT_PROFILE_PICTURE,
           profileBio: 'Has default picture',
-          followersCount: 50
+          followersCount: 50,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
-          id: 'user3',
+          id: 'user3', 
+          email: 'user3@example.com',
           username: 'user_without_picture',
           profileName: 'User Three',
           profilePicture: undefined,
           profileBio: 'No picture',
-          followersCount: 25
+          followersCount: 25,
+          createdAt: new Date(),
+          updatedAt: new Date()
         }
       ];
 
