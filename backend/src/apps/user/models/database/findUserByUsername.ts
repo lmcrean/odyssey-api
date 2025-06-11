@@ -1,47 +1,57 @@
 import { db } from '../../../../shared/db/init-sqlite';
-import { User } from '../../types';
+import { UserWithoutPassword } from '../../types';
 
 /**
- * Find user by username (returns User without password)
+ * Find user by username with lean validation
+ * Returns UserWithoutPassword for public profile purposes
  */
-export async function findUserByUsername(username: string): Promise<User | null> {
+export async function findUserByUsername(username: string): Promise<UserWithoutPassword | null> {
   try {
-    // Ensure the table exists
-    const tableExists = await db.schema.hasTable('users');
-    if (!tableExists) {
-      console.log('⚠️  Users table not found - this should be created by init-sqlite.ts first');
+    // 1. ESSENTIAL VALIDATION ONLY
+    if (!username?.trim()) {
       return null;
     }
 
+    // 2. DATABASE QUERY
     const user = await db('users')
       .select('*')
       .where('username', username)
       .first();
 
-    if (!user) return null;
+    if (!user) {
+      return null;
+    }
 
-    // Convert database fields to User format (without password)
-    return {
-      id: user.id,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      username: user.username,
-      profileName: user.profileName,
-      profilePicture: user.profilePicture || user.avatar, // Handle both column names
-      profileBio: user.profileBio || user.bio,
-      profileLocation: user.profileLocation || user.location,
-      profileWebsite: user.profileWebsite || user.website,
-      profileBirthdate: user.profileBirthdate ? new Date(user.profileBirthdate) : undefined,
-      profilePrivate: user.profilePrivate || false,
-      postsCount: user.postsCount || 0,
-      followersCount: user.followersCount || 0,
-      followingCount: user.followingCount || 0,
-      createdAt: new Date(user.created_at),
-      updatedAt: new Date(user.updated_at)
-    };
+    // 3. DATA TRANSFORMATION
+    return transformToUserWithoutPassword(user);
+
   } catch (error) {
     console.error('Error finding user by username:', error);
     return null;
   }
+}
+
+/**
+ * Transform database row to UserWithoutPassword type (for public use)
+ */
+function transformToUserWithoutPassword(dbRow: any): UserWithoutPassword {
+  return {
+    id: dbRow.id,
+    email: dbRow.email,
+    firstName: dbRow.firstName,
+    lastName: dbRow.lastName,
+    username: dbRow.username,
+    profileName: dbRow.profileName,
+    profilePicture: dbRow.profilePicture || dbRow.avatar,
+    profileBio: dbRow.profileBio || dbRow.bio,
+    profileLocation: dbRow.profileLocation || dbRow.location,
+    profileWebsite: dbRow.profileWebsite || dbRow.website,
+    profileBirthdate: dbRow.profileBirthdate ? new Date(dbRow.profileBirthdate) : undefined,
+    profilePrivate: dbRow.profilePrivate || false,
+    postsCount: dbRow.postsCount || 0,
+    followersCount: dbRow.followersCount || 0,
+    followingCount: dbRow.followingCount || 0,
+    createdAt: new Date(dbRow.created_at),
+    updatedAt: new Date(dbRow.updated_at)
+  };
 } 

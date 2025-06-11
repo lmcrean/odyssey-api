@@ -1,5 +1,5 @@
 import { db } from '../../../../shared/db/init-sqlite';
-import { User } from '../../types';
+import { UserWithoutPassword } from '../../types';
 
 interface UpdateUserInput {
   firstName?: string;
@@ -18,63 +18,87 @@ interface UpdateUserInput {
 }
 
 /**
- * Update user record in database
+ * Update user with lean validation and efficient mapping
+ * Enhanced function with essential checks only
  */
-export async function updateUser(id: string, updateData: UpdateUserInput): Promise<User | null> {
+export async function updateUser(id: string, updateData: UpdateUserInput): Promise<UserWithoutPassword | null> {
   try {
-    // Ensure the table exists
-    const tableExists = await db.schema.hasTable('users');
-    if (!tableExists) {
-      throw new Error('Users table not found - this should be created by init-sqlite.ts first');
+    // 1. ESSENTIAL VALIDATION ONLY
+    if (!id?.trim()) {
+      return null;
     }
 
-    // Map to database column names
-    const dbUpdateData: any = {};
-    if (updateData.firstName !== undefined) dbUpdateData.firstName = updateData.firstName;
-    if (updateData.lastName !== undefined) dbUpdateData.lastName = updateData.lastName;
-    if (updateData.username !== undefined) dbUpdateData.username = updateData.username;
-    if (updateData.profileName !== undefined) dbUpdateData.profileName = updateData.profileName;
-    if (updateData.profilePicture !== undefined) dbUpdateData.profilePicture = updateData.profilePicture;
-    if (updateData.profileBio !== undefined) dbUpdateData.profileBio = updateData.profileBio;
-    if (updateData.profileLocation !== undefined) dbUpdateData.profileLocation = updateData.profileLocation;
-    if (updateData.profileWebsite !== undefined) dbUpdateData.profileWebsite = updateData.profileWebsite;
-    if (updateData.profileBirthdate !== undefined) dbUpdateData.profileBirthdate = updateData.profileBirthdate;
-    if (updateData.profilePrivate !== undefined) dbUpdateData.profilePrivate = updateData.profilePrivate;
-    if (updateData.postsCount !== undefined) dbUpdateData.postsCount = updateData.postsCount;
-    if (updateData.followersCount !== undefined) dbUpdateData.followersCount = updateData.followersCount;
-    if (updateData.followingCount !== undefined) dbUpdateData.followingCount = updateData.followingCount;
-    
-    dbUpdateData.updated_at = db.fn.now();
+    if (!updateData || Object.keys(updateData).length === 0) {
+      return null;
+    }
 
+    // 2. PREPARE UPDATE DATA
+    const dbUpdateData = prepareUpdateData(updateData);
+
+    // 3. DATABASE UPDATE
     const [updatedUser] = await db('users')
       .where({ id })
       .update(dbUpdateData)
       .returning('*');
 
-    if (!updatedUser) return null;
+    if (!updatedUser) {
+      return null;
+    }
 
-    // Return user without password
-    return {
-      id: updatedUser.id,
-      email: updatedUser.email,
-      firstName: updatedUser.firstName,
-      lastName: updatedUser.lastName,
-      username: updatedUser.username,
-      profileName: updatedUser.profileName,
-      profilePicture: updatedUser.profilePicture || updatedUser.avatar,
-      profileBio: updatedUser.profileBio || updatedUser.bio,
-      profileLocation: updatedUser.profileLocation || updatedUser.location,
-      profileWebsite: updatedUser.profileWebsite || updatedUser.website,
-      profileBirthdate: updatedUser.profileBirthdate ? new Date(updatedUser.profileBirthdate) : undefined,
-      profilePrivate: updatedUser.profilePrivate || false,
-      postsCount: updatedUser.postsCount || 0,
-      followersCount: updatedUser.followersCount || 0,
-      followingCount: updatedUser.followingCount || 0,
-      createdAt: new Date(updatedUser.created_at),
-      updatedAt: new Date(updatedUser.updated_at)
-    };
+    // 4. DATA TRANSFORMATION
+    return transformToUserWithoutPassword(updatedUser);
+
   } catch (error) {
     console.error('Error updating user:', error);
     return null;
   }
+}
+
+/**
+ * Prepare update data by mapping fields and adding timestamp
+ */
+function prepareUpdateData(updateData: UpdateUserInput): any {
+  const dbData: any = {
+    updated_at: db.fn.now()
+  };
+
+  // Direct mapping (field names match)
+  const directFields = [
+    'firstName', 'lastName', 'username', 'profileName', 'profilePicture',
+    'profileBio', 'profileLocation', 'profileWebsite', 'profileBirthdate',
+    'profilePrivate', 'postsCount', 'followersCount', 'followingCount'
+  ];
+
+  directFields.forEach(field => {
+    if (updateData[field as keyof UpdateUserInput] !== undefined) {
+      dbData[field] = updateData[field as keyof UpdateUserInput];
+    }
+  });
+
+  return dbData;
+}
+
+/**
+ * Transform database row to UserWithoutPassword type
+ */
+function transformToUserWithoutPassword(dbRow: any): UserWithoutPassword {
+  return {
+    id: dbRow.id,
+    email: dbRow.email,
+    firstName: dbRow.firstName,
+    lastName: dbRow.lastName,
+    username: dbRow.username,
+    profileName: dbRow.profileName,
+    profilePicture: dbRow.profilePicture || dbRow.avatar,
+    profileBio: dbRow.profileBio || dbRow.bio,
+    profileLocation: dbRow.profileLocation || dbRow.location,
+    profileWebsite: dbRow.profileWebsite || dbRow.website,
+    profileBirthdate: dbRow.profileBirthdate ? new Date(dbRow.profileBirthdate) : undefined,
+    profilePrivate: dbRow.profilePrivate || false,
+    postsCount: dbRow.postsCount || 0,
+    followersCount: dbRow.followersCount || 0,
+    followingCount: dbRow.followingCount || 0,
+    createdAt: new Date(dbRow.created_at),
+    updatedAt: new Date(dbRow.updated_at)
+  };
 } 

@@ -1,48 +1,58 @@
 import { db } from '../../../../shared/db/init-sqlite';
-import { DatabaseUser } from '../../types';
+import { User } from '../../types';
 
 /**
- * Find user by email with all profile fields
+ * Find user by email with lean validation
+ * Returns User with password for authentication purposes
  */
-export async function findUserByEmail(email: string): Promise<DatabaseUser | null> {
+export async function findUserByEmail(email: string): Promise<User | null> {
   try {
-    // Ensure the table exists
-    const tableExists = await db.schema.hasTable('users');
-    if (!tableExists) {
-      console.log('⚠️  Users table not found - this should be created by init-sqlite.ts first');
+    // 1. ESSENTIAL VALIDATION ONLY
+    if (!email?.trim()) {
       return null;
     }
 
+    // 2. DATABASE QUERY
     const user = await db('users')
       .select('*')
       .where('email', email)
       .first();
 
-    if (!user) return null;
+    if (!user) {
+      return null;
+    }
 
-    // Convert database fields to DatabaseUser format
-    return {
-      id: user.id,
-      email: user.email,
-      password: user.password, // Include password for auth
-      firstName: user.firstName,
-      lastName: user.lastName,
-      username: user.username,
-      profileName: user.profileName,
-      profilePicture: user.profilePicture || user.avatar, // Handle both column names
-      profileBio: user.profileBio || user.bio,
-      profileLocation: user.profileLocation || user.location,
-      profileWebsite: user.profileWebsite || user.website,
-      profileBirthdate: user.profileBirthdate ? new Date(user.profileBirthdate) : undefined,
-      profilePrivate: user.profilePrivate || false,
-      postsCount: user.postsCount || 0,
-      followersCount: user.followersCount || 0,
-      followingCount: user.followingCount || 0,
-      createdAt: new Date(user.created_at),
-      updatedAt: new Date(user.updated_at)
-    };
+    // 3. DATA TRANSFORMATION
+    return transformToUser(user);
+
   } catch (error) {
     console.error('Error finding user by email:', error);
     return null;
   }
+}
+
+/**
+ * Transform database row to User type (includes password for auth)
+ */
+function transformToUser(dbRow: any): User {
+  return {
+    id: dbRow.id,
+    email: dbRow.email,
+    password: dbRow.password, // Include password for auth
+    firstName: dbRow.firstName,
+    lastName: dbRow.lastName,
+    username: dbRow.username,
+    profileName: dbRow.profileName,
+    profilePicture: dbRow.profilePicture || dbRow.avatar,
+    profileBio: dbRow.profileBio || dbRow.bio,
+    profileLocation: dbRow.profileLocation || dbRow.location,
+    profileWebsite: dbRow.profileWebsite || dbRow.website,
+    profileBirthdate: dbRow.profileBirthdate ? new Date(dbRow.profileBirthdate) : undefined,
+    profilePrivate: dbRow.profilePrivate || false,
+    postsCount: dbRow.postsCount || 0,
+    followersCount: dbRow.followersCount || 0,
+    followingCount: dbRow.followingCount || 0,
+    createdAt: new Date(dbRow.created_at),
+    updatedAt: new Date(dbRow.updated_at)
+  };
 } 
