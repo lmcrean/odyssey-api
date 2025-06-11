@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import { AuthenticatedRequest } from '../../../../shared/types';
-import { UserService } from '../../services/UserService';
+import { getUserProfile } from '../../services/user-retrieval';
 
 export const getUserProfileController = async (req: AuthenticatedRequest, res: Response) => {
   try {
@@ -13,7 +13,7 @@ export const getUserProfileController = async (req: AuthenticatedRequest, res: R
       });
     }
 
-    const userProfile = await UserService.getUserProfile(userId);
+    const userProfile = await getUserProfile(userId);
     
     if (!userProfile) {
       return res.status(404).json({ 

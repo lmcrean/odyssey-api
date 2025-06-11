@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import { AuthenticatedRequest } from '../../../../shared/types';
-import { UserService } from '../../services/UserService';
+import { updateUserProfile } from '../../services/user-updates';
 import { UpdateUserData } from '../../types';
 
 export const updateUserProfileController = async (req: AuthenticatedRequest, res: Response) => {
@@ -23,7 +23,7 @@ export const updateUserProfileController = async (req: AuthenticatedRequest, res
       });
     }
 
-    const updatedProfile = await UserService.updateUserProfile(userId, updateData);
+    const updatedProfile = await updateUserProfile(userId, updateData);
     
     if (!updatedProfile) {
       return res.status(404).json({ 

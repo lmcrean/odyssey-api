@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { ProfileService } from '../../services/ProfileService';
+import { getUserProfile } from '../../services/user-retrieval';
+import { updateUserProfile } from '../../services/user-updates';
 
 export class ProfileController {
   static async getProfile(req: Request, res: Response) {
@@ -7,7 +8,7 @@ export class ProfileController {
       // TODO: Get user ID from authentication middleware
       const userId = req.params.id || 'mock-user-id';
       
-      const profile = await ProfileService.getUserProfile(userId);
+      const profile = await getUserProfile(userId);
       
       if (!profile) {
         return res.status(404).json({
@@ -35,7 +36,7 @@ export class ProfileController {
       const userId = req.params.id || 'mock-user-id';
       const updateData = req.body;
 
-      const updatedProfile = await ProfileService.updateUserProfile(userId, updateData);
+      const updatedProfile = await updateUserProfile(userId, updateData);
 
       res.json({
         success: true,

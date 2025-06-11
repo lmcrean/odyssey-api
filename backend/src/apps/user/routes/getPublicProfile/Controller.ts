@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UserService } from '../../services/UserService';
+import { getPublicUserProfile } from '../../services/user-retrieval';
 
 export const getPublicProfileController = async (req: Request, res: Response) => {
   try {
@@ -11,18 +11,8 @@ export const getPublicProfileController = async (req: Request, res: Response) =>
       });
     }
 
-    let publicProfile;
-    
-    // Check if identifier is a UUID (user ID) or username
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-    
-    if (uuidRegex.test(identifier)) {
-      // It's a user ID
-      publicProfile = await UserService.getPublicUserProfile(identifier);
-    } else {
-      // It's a username
-      publicProfile = await UserService.getUserByUsername(identifier);
-    }
+    // getPublicUserProfile handles both username and ID lookups
+    const publicProfile = await getPublicUserProfile(identifier);
     
     if (!publicProfile) {
       return res.status(404).json({ 
