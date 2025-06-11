@@ -1,15 +1,23 @@
-// Export all individual types
+// Export core User entity
 export * from './User';
-export * from './DatabaseUser';
-export * from './CreateUserRequest';
-export * from './UpdateUserRequest';
-export * from './PublicUserProfile';
-export * from './UserSearchResult';
-export * from './UserWithoutPassword';
-export * from './CloudinaryImageData';
-export * from './ProfilePictureUpload';
-export * from './constants';
+
+// Export user-related types and requests
+export * from './user-types/CreateUserRequest';
+export * from './user-types/UpdateUserRequest';
+export * from './user-types/PublicUserProfile';
+export * from './user-types/UserSearchResult';
+
+// Export Cloudinary-related types and utilities
+export * from './cloudinary/CloudinaryImageData';
+export * from './cloudinary/CloudinaryConfig';
+export * from './cloudinary/ProfilePictureUpload';
+
+// Export constants
+export * from './constants/DefaultProfilePicture';
+
+// Utility types derived from User
+export type UserWithoutPassword = Omit<import('./User').User, 'password'>;
 
 // Type aliases for backward compatibility and consistency
-export type UpdateUserData = import('./UpdateUserRequest').UpdateUserRequest;
-export type PublicProfile = import('./PublicUserProfile').PublicUserProfile; 
+export type UpdateUserData = import('./user-types/UpdateUserRequest').UpdateUserRequest;
+export type PublicProfile = import('./user-types/PublicUserProfile').PublicUserProfile; 
