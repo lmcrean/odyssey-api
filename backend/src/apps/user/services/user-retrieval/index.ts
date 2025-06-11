@@ -1,3 +1,3 @@
 export { getUserProfile } from './getUserProfile';
 export { getPublicUserProfile } from './getPublicProfile';
-export { getUserByUsername } from './getUserByUsername'; 
+// Note: getUserByUsername was removed - use getPublicUserProfile instead 

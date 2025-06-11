@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Request, Response } from 'express';
+import { searchUsers } from '../../../models/database';
 import { searchUsersController } from '../Controller';
 import { UserService } from '../../../services/UserService';
 import { User, UserSearchResult, DEFAULT_PROFILE_PICTURE } from '../../../types';
