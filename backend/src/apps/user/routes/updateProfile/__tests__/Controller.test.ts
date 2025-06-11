@@ -74,7 +74,7 @@ describe('updateUserProfileController', () => {
   });
 
   it('should return 400 for empty username', async () => {
-    mockRequest.body = { username: '' };
+    mockRequest.body = { username: '   ' };
 
     await updateUserProfileController(
       mockRequest as AuthenticatedRequest,
