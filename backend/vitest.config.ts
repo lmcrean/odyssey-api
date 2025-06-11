@@ -10,6 +10,8 @@ export default defineConfig({
       '**/dist/**'
     ],
     environment: 'node',
+    watch: false,
+    reporters: ['default', 'hanging-process'],
     coverage: {
       reporter: ['text', 'json', 'html'],
       exclude: [
@@ -22,7 +24,15 @@ export default defineConfig({
     },
     testTimeout: 60000,
     globalSetup: './src/shared/utilities/setupDb.ts',
-    globals: true
+    globalTeardown: './src/shared/utilities/setupDb.ts',
+    globals: true,
+    forceExit: true,
+    pool: 'forks',
+    poolOptions: {
+      forks: {
+        singleFork: true
+      }
+    }
   },
   resolve: {
     alias: {
