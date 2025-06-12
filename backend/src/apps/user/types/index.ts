@@ -8,8 +8,8 @@ export * from './user-types/PublicUserProfile';
 export * from './user-types/UserSearchResult';
 
 // Export Cloudinary-related types and utilities
-export * from './cloudinary/CloudinaryImageData';
-export * from './cloudinary/CloudinaryConfig';
+// Re-export Cloudinary configuration for backward compatibility
+export { CLOUDINARY_CONFIG, CloudinaryValidation } from '../../../shared/services/CloudinaryValidation';
 export * from './cloudinary/ProfilePictureUpload';
 
 // Export constants

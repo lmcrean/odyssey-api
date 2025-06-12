@@ -1,4 +1,4 @@
-import { CLOUDINARY_CONFIG, CloudinaryValidation } from '../CloudinaryConfig';
+import { CLOUDINARY_CONFIG, CloudinaryValidation } from '../../../../../shared/services/CloudinaryValidation';
 
 describe('CLOUDINARY_CONFIG', () => {
   it('should have correct configuration values', () => {

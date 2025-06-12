@@ -1,13 +1,16 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Response } from 'express';
 import { AuthenticatedRequest } from '../../../../../shared/types';
-import { updateUserProfile } from '../../../services/user-updates';
 import { updateUserProfileController } from '../Controller';
 
-// Mock updateUserProfile function
-vi.mock('../../../services/user-updates', () => ({
-  updateUserProfile: vi.fn()
+// Mock database functions
+vi.mock('../../../models/database', () => ({
+  findUserById: vi.fn(),
+  updateUser: vi.fn(),
+  checkUsernameExists: vi.fn()
 }));
+
+import { findUserById, updateUser, checkUsernameExists } from '../../../models/database';
 
 describe('updateUserProfileController', () => {
   let mockResponse: Partial<Response>;
@@ -22,6 +25,15 @@ describe('updateUserProfileController', () => {
     profileName: 'Jane Doe',
     createdAt: new Date(),
     updatedAt: new Date()
+  };
+
+  const mockCurrentUser = {
+    id: 'test-user-id',
+    email: 'test@example.com',
+    firstName: 'John',
+    lastName: 'Doe',
+    username: 'johndoe',
+    password: 'hashed-password'
   };
 
   beforeEach(() => {
@@ -42,19 +54,19 @@ describe('updateUserProfileController', () => {
     const updateData = { firstName: 'Jane', lastName: 'Doe' };
     mockRequest.body = updateData;
 
-    vi.mocked(updateUserProfile).mockResolvedValue(mockUpdatedUser);
+    vi.mocked(updateUser).mockResolvedValue(mockUpdatedUser);
 
     await updateUserProfileController(
       mockRequest as AuthenticatedRequest,
       mockResponse as Response
     );
 
-    expect(updateUserProfile).toHaveBeenCalledWith('test-user-id', updateData);
+    expect(updateUser).toHaveBeenCalledWith('test-user-id', updateData);
     expect(mockResponse.status).toHaveBeenCalledWith(200);
     expect(mockResponse.json).toHaveBeenCalledWith({
       success: true,
-      message: 'Profile updated successfully',
-      data: mockUpdatedUser
+      data: mockUpdatedUser,
+      message: 'Profile updated successfully'
     });
   });
 
@@ -66,31 +78,84 @@ describe('updateUserProfileController', () => {
       mockResponse as Response
     );
 
-    expect(updateUserProfile).not.toHaveBeenCalled();
+    expect(updateUser).not.toHaveBeenCalled();
     expect(mockResponse.status).toHaveBeenCalledWith(401);
     expect(mockResponse.json).toHaveBeenCalledWith({
       error: 'Authentication required'
     });
   });
 
-  it('should return 400 for empty username', async () => {
-    mockRequest.body = { username: '   ' };
+  it('should return 400 for invalid website URL', async () => {
+    mockRequest.body = { profileWebsite: 'invalid-url' };
 
     await updateUserProfileController(
       mockRequest as AuthenticatedRequest,
       mockResponse as Response
     );
 
-    expect(updateUserProfile).not.toHaveBeenCalled();
+    expect(updateUser).not.toHaveBeenCalled();
     expect(mockResponse.status).toHaveBeenCalledWith(400);
     expect(mockResponse.json).toHaveBeenCalledWith({
-      error: 'Username cannot be empty'
+      error: 'Invalid website URL'
     });
+  });
+
+  it('should return 400 for invalid username format', async () => {
+    mockRequest.body = { username: 'a' }; // Too short
+
+    await updateUserProfileController(
+      mockRequest as AuthenticatedRequest,
+      mockResponse as Response
+    );
+
+    expect(updateUser).not.toHaveBeenCalled();
+    expect(mockResponse.status).toHaveBeenCalledWith(400);
+    expect(mockResponse.json).toHaveBeenCalledWith({
+      error: 'Invalid username format'
+    });
+  });
+
+  it('should return 400 for taken username', async () => {
+    mockRequest.body = { username: 'taken_username' };
+    
+    vi.mocked(findUserById).mockResolvedValue(mockCurrentUser);
+    vi.mocked(checkUsernameExists).mockResolvedValue(true);
+
+    await updateUserProfileController(
+      mockRequest as AuthenticatedRequest,
+      mockResponse as Response
+    );
+
+    expect(findUserById).toHaveBeenCalledWith('test-user-id');
+    expect(checkUsernameExists).toHaveBeenCalledWith('taken_username');
+    expect(updateUser).not.toHaveBeenCalled();
+    expect(mockResponse.status).toHaveBeenCalledWith(400);
+    expect(mockResponse.json).toHaveBeenCalledWith({
+      error: 'Username is already taken'
+    });
+  });
+
+  it('should allow username change when available', async () => {
+    mockRequest.body = { username: 'new_username' };
+    
+    vi.mocked(findUserById).mockResolvedValue(mockCurrentUser);
+    vi.mocked(checkUsernameExists).mockResolvedValue(false);
+    vi.mocked(updateUser).mockResolvedValue(mockUpdatedUser);
+
+    await updateUserProfileController(
+      mockRequest as AuthenticatedRequest,
+      mockResponse as Response
+    );
+
+    expect(findUserById).toHaveBeenCalledWith('test-user-id');
+    expect(checkUsernameExists).toHaveBeenCalledWith('new_username');
+    expect(updateUser).toHaveBeenCalledWith('test-user-id', { username: 'new_username' });
+    expect(mockResponse.status).toHaveBeenCalledWith(200);
   });
 
   it('should return 404 when user not found', async () => {
     mockRequest.body = { firstName: 'Jane' };
-    vi.mocked(updateUserProfile).mockResolvedValue(null);
+    vi.mocked(updateUser).mockResolvedValue(null);
 
     await updateUserProfileController(
       mockRequest as AuthenticatedRequest,
@@ -106,7 +171,7 @@ describe('updateUserProfileController', () => {
   it('should handle errors and return 500', async () => {
     mockRequest.body = { firstName: 'Jane' };
     const error = new Error('Update failed');
-    vi.mocked(updateUserProfile).mockRejectedValue(error);
+    vi.mocked(updateUser).mockRejectedValue(error);
 
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 

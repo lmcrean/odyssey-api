@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import { AuthenticatedRequest } from '../../../../shared/types';
-import { getUserProfile } from '../../services/user-retrieval';
+import { findUserById } from '../../models/database';
 
 export const getUserProfileController = async (req: AuthenticatedRequest, res: Response) => {
   try {
@@ -13,13 +13,17 @@ export const getUserProfileController = async (req: AuthenticatedRequest, res: R
       });
     }
 
-    const userProfile = await getUserProfile(userId);
+    // Get user directly from database
+    const user = await findUserById(userId);
     
-    if (!userProfile) {
+    if (!user) {
       return res.status(404).json({ 
         error: 'User profile not found' 
       });
     }
+
+    // Remove password from response (inline business logic)
+    const { password, ...userProfile } = user;
 
     res.status(200).json({
       success: true,

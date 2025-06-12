@@ -70,4 +70,4 @@ export const deleteFromCloudinary = async (publicId: string) => {
   }
 };
 
-export default cloudinary;
+export default cloudinary; 

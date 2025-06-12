@@ -4,7 +4,9 @@ import {
   getTransformedUrl, 
   deleteFromCloudinary,
   defaultUploadOptions 
-} from '../../../cloudinary.config';
+} from '../config/cloudinary.config';
+import { CloudinaryValidation, CLOUDINARY_CONFIG } from './CloudinaryValidation';
+import { CloudinaryImageData, CloudinaryUploadResult, CloudinaryDeleteResult, CloudinaryUploadOptions } from '../types/CloudinaryTypes';
 
 export class CloudinaryService {
   
@@ -14,23 +16,22 @@ export class CloudinaryService {
    * @param options - Additional upload options
    * @returns Promise with upload result
    */
-  static async uploadFile(file: string, options: any = {}) {
+  static async uploadFile(file: string, options: CloudinaryUploadOptions = {}): Promise<CloudinaryUploadResult> {
     try {
       const result = await uploadToCloudinary(file, {
         ...options,
-        folder: options.folder || 'odyssey', // Ensure odyssey folder by default
+        folder: options.folder || CLOUDINARY_CONFIG.FOLDERS.GENERAL,
       });
       
       return {
         success: true,
         data: {
-          public_id: result.public_id,
-          secure_url: result.secure_url,
+          publicId: result.public_id,
+          secureUrl: result.secure_url,
           url: result.url,
           width: result.width,
           height: result.height,
           format: result.format,
-          resource_type: result.resource_type,
           bytes: result.bytes,
         }
       };
@@ -49,10 +50,10 @@ export class CloudinaryService {
    * @param userId - User ID for naming
    * @returns Promise with upload result
    */
-  static async uploadProfileImage(file: string, userId: string) {
+  static async uploadProfileImage(file: string, userId: string): Promise<CloudinaryUploadResult> {
     return this.uploadFile(file, {
-      folder: 'odyssey/profiles',
-      public_id: `profile_${userId}_${Date.now()}`,
+      folder: CLOUDINARY_CONFIG.FOLDERS.PROFILES,
+      public_id: CloudinaryValidation.generatePublicId('profile', userId),
       transformation: [
         { width: 400, height: 400, crop: 'fill', gravity: 'face' },
         { quality: 'auto', fetch_format: 'auto' }
@@ -66,15 +67,43 @@ export class CloudinaryService {
    * @param postId - Post ID for naming
    * @returns Promise with upload result
    */
-  static async uploadPostImage(file: string, postId?: string) {
+  static async uploadPostImage(file: string, postId?: string): Promise<CloudinaryUploadResult> {
     return this.uploadFile(file, {
-      folder: 'odyssey/posts',
-      public_id: postId ? `post_${postId}_${Date.now()}` : undefined,
+      folder: CLOUDINARY_CONFIG.FOLDERS.POSTS,
+      public_id: postId ? CloudinaryValidation.generatePublicId('post', postId) : undefined,
       transformation: [
         { width: 1200, height: 1200, crop: 'limit' },
         { quality: 'auto', fetch_format: 'auto' }
       ]
     });
+  }
+
+  /**
+   * Upload chat image
+   * @param file - File to upload
+   * @param chatId - Chat ID for naming
+   * @returns Promise with upload result
+   */
+  static async uploadChatImage(file: string, chatId?: string): Promise<CloudinaryUploadResult> {
+    return this.uploadFile(file, {
+      folder: CLOUDINARY_CONFIG.FOLDERS.CHAT,
+      public_id: chatId ? CloudinaryValidation.generatePublicId('chat', chatId) : undefined,
+      transformation: [
+        { width: 800, height: 800, crop: 'limit' },
+        { quality: 'auto', fetch_format: 'auto' }
+      ]
+    });
+  }
+
+  /**
+   * Validate image file before upload
+   * @param filename - File name
+   * @param bytes - File size in bytes
+   * @param mimetype - File mime type
+   * @returns Validation result
+   */
+  static validateImageFile(filename: string, bytes: number, mimetype: string) {
+    return CloudinaryValidation.validateImageFile(filename, bytes, mimetype);
   }
 
   /**
@@ -109,7 +138,7 @@ export class CloudinaryService {
    * @param publicId - Public ID of the image to delete
    * @returns Promise with deletion result
    */
-  static async deleteImage(publicId: string) {
+  static async deleteImage(publicId: string): Promise<CloudinaryDeleteResult> {
     try {
       const result = await deleteFromCloudinary(publicId);
       return {
@@ -130,23 +159,21 @@ export class CloudinaryService {
    * @param publicId - Public ID of the image
    * @returns Promise with image info
    */
-  static async getImageInfo(publicId: string) {
+  static async getImageInfo(publicId: string): Promise<CloudinaryUploadResult> {
     try {
-      const cloudinary = (await import('../../../cloudinary.config')).default;
+      const cloudinary = (await import('../config/cloudinary.config')).default;
       const result = await cloudinary.api.resource(publicId);
       
       return {
         success: true,
         data: {
-          public_id: result.public_id,
+          publicId: result.public_id,
           width: result.width,
           height: result.height,
           format: result.format,
-          resource_type: result.resource_type,
           bytes: result.bytes,
           url: result.url,
-          secure_url: result.secure_url,
-          created_at: result.created_at,
+          secureUrl: result.secure_url,
         }
       };
     } catch (error) {
