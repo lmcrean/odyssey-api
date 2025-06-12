@@ -8,8 +8,9 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 import importPlugin from 'eslint-plugin-import';
 import prettier from 'eslint-plugin-prettier';
 import unusedImports from 'eslint-plugin-unused-imports';
+import type { Linter } from 'eslint';
 
-export default tseslint.config(
+const config: Linter.FlatConfig[] = tseslint.config(
   { ignores: ['dist'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
@@ -80,4 +81,6 @@ export default tseslint.config(
       'prettier/prettier': 'error',
     },
   }
-); 
+);
+
+export default config; 
