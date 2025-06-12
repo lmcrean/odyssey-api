@@ -116,10 +116,10 @@ describe('User Database Functions - Validation Logic', () => {
           lastName: dbRow.lastName,
           username: dbRow.username,
           profileName: dbRow.profileName,
-          profilePicture: dbRow.profilePicture || (dbRow as any).avatar,
-          profileBio: dbRow.profileBio || (dbRow as any).bio,
-          profileLocation: dbRow.profileLocation || (dbRow as any).location,
-          profileWebsite: dbRow.profileWebsite || (dbRow as any).website,
+          profilePicture: dbRow.profilePicture,
+          profileBio: dbRow.profileBio,
+          profileLocation: dbRow.profileLocation,
+          profileWebsite: dbRow.profileWebsite,
           profileBirthdate: dbRow.profileBirthdate ? new Date(dbRow.profileBirthdate) : undefined,
           profilePrivate: dbRow.profilePrivate || false,
           postsCount: dbRow.postsCount || 0,
@@ -186,16 +186,16 @@ describe('User Database Functions - Validation Logic', () => {
         expect(transformed.profileWebsite).toBeUndefined();
       });
 
-      it('should prefer modern fields over legacy fields', () => {
+      it('should handle modern profile fields correctly', () => {
         const dbRow = {
           id: 'user-123',
           email: 'test@example.com',
           firstName: 'John',
           lastName: 'Doe',
           profilePicture: 'modern-avatar.jpg',
-          avatar: 'legacy-avatar.jpg',
           profileBio: 'Modern bio',
-          bio: 'Legacy bio',
+          profileLocation: 'New York',
+          profileWebsite: 'https://johndoe.com',
           created_at: '2023-01-01T00:00:00Z',
           updated_at: '2023-01-01T12:00:00Z'
         };
@@ -207,10 +207,10 @@ describe('User Database Functions - Validation Logic', () => {
           lastName: dbRow.lastName,
           username: (dbRow as any).username,
           profileName: (dbRow as any).profileName,
-          profilePicture: dbRow.profilePicture || (dbRow as any).avatar,
-          profileBio: dbRow.profileBio || (dbRow as any).bio,
-          profileLocation: (dbRow as any).profileLocation || (dbRow as any).location,
-          profileWebsite: (dbRow as any).profileWebsite || (dbRow as any).website,
+          profilePicture: dbRow.profilePicture,
+          profileBio: dbRow.profileBio,
+          profileLocation: dbRow.profileLocation,
+          profileWebsite: dbRow.profileWebsite,
           profileBirthdate: (dbRow as any).profileBirthdate ? new Date((dbRow as any).profileBirthdate) : undefined,
           profilePrivate: (dbRow as any).profilePrivate || false,
           postsCount: (dbRow as any).postsCount || 0,
@@ -222,6 +222,8 @@ describe('User Database Functions - Validation Logic', () => {
 
         expect(transformed.profilePicture).toBe('modern-avatar.jpg');
         expect(transformed.profileBio).toBe('Modern bio');
+        expect(transformed.profileLocation).toBe('New York');
+        expect(transformed.profileWebsite).toBe('https://johndoe.com');
       });
 
       it('should handle default values for missing fields', () => {
