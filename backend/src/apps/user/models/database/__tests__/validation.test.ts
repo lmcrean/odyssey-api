@@ -68,7 +68,7 @@ describe('User Database Functions - Validation Logic', () => {
         
         expect(ValidationService.validatePassword).toHaveBeenCalledWith(password);
         expect(result.valid).toBe(true);
-        expect(result.message).toBeNull();
+        expect(result.message).toBeUndefined();
       });
 
       it('should handle invalid passwords', () => {
@@ -150,16 +150,12 @@ describe('User Database Functions - Validation Logic', () => {
         });
       });
 
-      it('should handle legacy field mappings', () => {
+      it('should handle missing profile fields correctly', () => {
         const dbRow = {
           id: 'user-123',
           email: 'test@example.com',
           firstName: 'John',
           lastName: 'Doe',
-          avatar: 'legacy-avatar.jpg',
-          bio: 'Legacy bio',
-          location: 'Legacy location',
-          website: 'https://legacy.com',
           created_at: '2023-01-01T00:00:00Z',
           updated_at: '2023-01-01T12:00:00Z'
         };
@@ -171,10 +167,10 @@ describe('User Database Functions - Validation Logic', () => {
           lastName: dbRow.lastName,
           username: (dbRow as any).username,
           profileName: (dbRow as any).profileName,
-          profilePicture: (dbRow as any).profilePicture || dbRow.avatar,
-          profileBio: (dbRow as any).profileBio || dbRow.bio,
-          profileLocation: (dbRow as any).profileLocation || dbRow.location,
-          profileWebsite: (dbRow as any).profileWebsite || dbRow.website,
+          profilePicture: (dbRow as any).profilePicture,
+          profileBio: (dbRow as any).profileBio,
+          profileLocation: (dbRow as any).profileLocation,
+          profileWebsite: (dbRow as any).profileWebsite,
           profileBirthdate: (dbRow as any).profileBirthdate ? new Date((dbRow as any).profileBirthdate) : undefined,
           profilePrivate: (dbRow as any).profilePrivate || false,
           postsCount: (dbRow as any).postsCount || 0,
@@ -184,10 +180,10 @@ describe('User Database Functions - Validation Logic', () => {
           updatedAt: new Date(dbRow.updated_at)
         };
 
-        expect(transformed.profilePicture).toBe('legacy-avatar.jpg');
-        expect(transformed.profileBio).toBe('Legacy bio');
-        expect(transformed.profileLocation).toBe('Legacy location');
-        expect(transformed.profileWebsite).toBe('https://legacy.com');
+        expect(transformed.profilePicture).toBeUndefined();
+        expect(transformed.profileBio).toBeUndefined();
+        expect(transformed.profileLocation).toBeUndefined();
+        expect(transformed.profileWebsite).toBeUndefined();
       });
 
       it('should prefer modern fields over legacy fields', () => {

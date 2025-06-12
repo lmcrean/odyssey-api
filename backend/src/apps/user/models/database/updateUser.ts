@@ -1,5 +1,6 @@
 import { db } from '../../../../shared/db/init-sqlite';
 import { UserWithoutPassword } from '../../types';
+import { transformToUserWithoutPassword } from './transformations';
 
 interface UpdateUserInput {
   firstName?: string;
@@ -78,27 +79,4 @@ function prepareUpdateData(updateData: UpdateUserInput): any {
   return dbData;
 }
 
-/**
- * Transform database row to UserWithoutPassword type
- */
-function transformToUserWithoutPassword(dbRow: any): UserWithoutPassword {
-  return {
-    id: dbRow.id,
-    email: dbRow.email,
-    firstName: dbRow.firstName,
-    lastName: dbRow.lastName,
-    username: dbRow.username,
-    profileName: dbRow.profileName,
-    profilePicture: dbRow.profilePicture || dbRow.avatar,
-    profileBio: dbRow.profileBio,
-    profileLocation: dbRow.profileLocation,
-    profileWebsite: dbRow.profileWebsite,
-    profileBirthdate: dbRow.profileBirthdate ? new Date(dbRow.profileBirthdate) : undefined,
-    profilePrivate: Boolean(dbRow.profilePrivate),
-    postsCount: dbRow.postsCount || 0,
-    followersCount: dbRow.followersCount || 0,
-    followingCount: dbRow.followingCount || 0,
-    createdAt: new Date(dbRow.created_at),
-    updatedAt: new Date(dbRow.updated_at)
-  };
-} 
+ 

@@ -1,5 +1,6 @@
 import { db } from '../../../../shared/db/init-sqlite';
 import { UserWithoutPassword } from '../../types';
+import { transformToUserWithoutPassword } from './transformations';
 
 /**
  * Find user by username with lean validation
@@ -31,27 +32,4 @@ export async function findUserByUsername(username: string): Promise<UserWithoutP
   }
 }
 
-/**
- * Transform database row to UserWithoutPassword type (for public use)
- */
-function transformToUserWithoutPassword(dbRow: any): UserWithoutPassword {
-  return {
-    id: dbRow.id,
-    email: dbRow.email,
-    firstName: dbRow.firstName,
-    lastName: dbRow.lastName,
-    username: dbRow.username,
-    profileName: dbRow.profileName,
-    profilePicture: dbRow.profilePicture || dbRow.avatar,
-    profileBio: dbRow.profileBio || dbRow.bio,
-    profileLocation: dbRow.profileLocation || dbRow.location,
-    profileWebsite: dbRow.profileWebsite || dbRow.website,
-    profileBirthdate: dbRow.profileBirthdate ? new Date(dbRow.profileBirthdate) : undefined,
-    profilePrivate: dbRow.profilePrivate || false,
-    postsCount: dbRow.postsCount || 0,
-    followersCount: dbRow.followersCount || 0,
-    followingCount: dbRow.followingCount || 0,
-    createdAt: new Date(dbRow.created_at),
-    updatedAt: new Date(dbRow.updated_at)
-  };
-} 
+ 
