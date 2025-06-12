@@ -10,7 +10,6 @@ export * from './user-types/UserSearchResult';
 // Export Cloudinary-related types and utilities
 // Re-export Cloudinary configuration for backward compatibility
 export { CLOUDINARY_CONFIG, CloudinaryValidation } from '../../../shared/services/CloudinaryValidation';
-export * from './cloudinary/ProfilePictureUpload';
 
 // Export constants
 export * from './constants/DefaultProfilePicture';
