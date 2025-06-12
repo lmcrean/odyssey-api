@@ -4,7 +4,7 @@ export class UpdateProfileRunner {
   constructor(private request: APIRequestContext) {}
 
   async runValidUpdate(authToken: string, updateData: any) {
-    const response = await this.request.put('/api/user/profile/update', {
+    const response = await this.request.put('/api/user/profile', {
       headers: {
         'Authorization': `Bearer ${authToken}`
       },
@@ -30,7 +30,7 @@ export class UpdateProfileRunner {
       profilePrivate: false
     };
 
-    const response = await this.request.put('/api/user/profile/update', {
+    const response = await this.request.put('/api/user/profile', {
       headers: {
         'Authorization': `Bearer ${authToken}`
       },
@@ -59,7 +59,7 @@ export class UpdateProfileRunner {
       profilePrivate: true
     };
 
-    const response = await this.request.put('/api/user/profile/update', {
+    const response = await this.request.put('/api/user/profile', {
       headers: {
         'Authorization': `Bearer ${authToken}`
       },
@@ -80,7 +80,7 @@ export class UpdateProfileRunner {
   }
 
   async runWithoutAuth(updateData: any) {
-    const response = await this.request.put('/api/user/profile/update', {
+    const response = await this.request.put('/api/user/profile', {
       data: updateData
     });
 
@@ -97,7 +97,7 @@ export class UpdateProfileRunner {
       username: ''
     };
 
-    const response = await this.request.put('/api/user/profile/update', {
+    const response = await this.request.put('/api/user/profile', {
       headers: {
         'Authorization': `Bearer ${authToken}`
       },
@@ -125,7 +125,7 @@ export class UpdateProfileRunner {
       username: 'existinguser' // Assuming this username exists
     };
 
-    const response = await this.request.put('/api/user/profile/update', {
+    const response = await this.request.put('/api/user/profile', {
       headers: {
         'Authorization': `Bearer ${authToken}`
       },
@@ -145,7 +145,7 @@ export class UpdateProfileRunner {
       username: 'invalid-username@' // Invalid format
     };
 
-    const response = await this.request.put('/api/user/profile/update', {
+    const response = await this.request.put('/api/user/profile', {
       headers: {
         'Authorization': `Bearer ${authToken}`
       },
@@ -166,7 +166,7 @@ export class UpdateProfileRunner {
       profileWebsite: 'not-a-valid-url'
     };
 
-    const response = await this.request.put('/api/user/profile/update', {
+    const response = await this.request.put('/api/user/profile', {
       headers: {
         'Authorization': `Bearer ${authToken}`
       },
