@@ -54,6 +54,7 @@ describe('getUserProfileController', () => {
   const mockUser: User = {
     id: 'test-user-id',
     email: 'test@example.com',
+    password: 'hashed-password',
     username: 'testuser',
     firstName: 'Test',
     lastName: 'User',

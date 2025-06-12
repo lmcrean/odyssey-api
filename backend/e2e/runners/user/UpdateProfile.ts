@@ -24,10 +24,10 @@ export class UpdateProfileRunner {
   // Test updating actual profile fields
   async runValidProfileFieldsUpdate(authToken: string) {
     const updateData = {
-      bio: 'I am a software developer passionate about creating amazing applications.',
-      location: 'San Francisco, CA',
-      website: 'https://example.com',
-      isPrivate: false
+      profileBio: 'I am a software developer passionate about creating amazing applications.',
+      profileLocation: 'San Francisco, CA',
+      profileWebsite: 'https://example.com',
+      profilePrivate: false
     };
 
     const response = await this.request.put('/api/user/profile/update', {
@@ -42,10 +42,10 @@ export class UpdateProfileRunner {
     const data = await response.json();
     expect(data).toHaveProperty('success', true);
     expect(data).toHaveProperty('message', 'Profile updated successfully');
-    expect(data.data).toHaveProperty('bio', updateData.bio);
-    expect(data.data).toHaveProperty('location', updateData.location);
-    expect(data.data).toHaveProperty('website', updateData.website);
-    expect(data.data).toHaveProperty('isPrivate', updateData.isPrivate);
+    expect(data.data).toHaveProperty('profileBio', updateData.profileBio);
+    expect(data.data).toHaveProperty('profileLocation', updateData.profileLocation);
+    expect(data.data).toHaveProperty('profileWebsite', updateData.profileWebsite);
+    expect(data.data).toHaveProperty('profilePrivate', updateData.profilePrivate);
 
     return { success: true, data, updateData };
   }
@@ -53,10 +53,10 @@ export class UpdateProfileRunner {
   // Test clearing profile fields
   async runClearProfileFields(authToken: string) {
     const updateData = {
-      bio: '',
-      location: '',
-      website: '',
-      isPrivate: true
+      profileBio: '',
+      profileLocation: '',
+      profileWebsite: '',
+      profilePrivate: true
     };
 
     const response = await this.request.put('/api/user/profile/update', {
@@ -70,12 +70,11 @@ export class UpdateProfileRunner {
 
     const data = await response.json();
     expect(data).toHaveProperty('success', true);
-    expect(data.data).toHaveProperty('bio', '');
-    expect(data.data).toHaveProperty('location', '');
-    expect(data.data).toHaveProperty('website', '');
-    // Note: isPrivate field update is temporarily disabled due to column schema mismatch
-    // expect(data.data).toHaveProperty('isPrivate', true);
-    expect(data.data).toHaveProperty('isPrivate', false); // Default value since update is disabled
+    expect(data.data).toHaveProperty('profileBio', '');
+    expect(data.data).toHaveProperty('profileLocation', '');
+    expect(data.data).toHaveProperty('profileWebsite', '');
+    // Schema has been fixed, profilePrivate field update is now working
+    expect(data.data).toHaveProperty('profilePrivate', true);
 
     return { success: true, data };
   }
@@ -164,7 +163,7 @@ export class UpdateProfileRunner {
 
   async runWithInvalidWebsiteURL(authToken: string) {
     const updateData = {
-      website: 'not-a-valid-url'
+      profileWebsite: 'not-a-valid-url'
     };
 
     const response = await this.request.put('/api/user/profile/update', {
@@ -177,7 +176,7 @@ export class UpdateProfileRunner {
     expect(response.status()).toBe(400);
 
     const data = await response.json();
-    expect(data).toHaveProperty('error', 'Invalid website URL format');
+    expect(data).toHaveProperty('error', 'Invalid website URL');
 
     return { success: true, data };
   }

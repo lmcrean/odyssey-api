@@ -19,7 +19,9 @@ describe('searchUsersController', () => {
       firstName: 'John',
       lastName: 'Doe',
       username: 'johndoe',
-      profileName: 'John Doe'
+      profileName: 'John Doe',
+      createdAt: new Date('2024-01-01'),
+      updatedAt: new Date('2024-01-01')
     },
     {
       id: 'user-2', 
@@ -27,7 +29,9 @@ describe('searchUsersController', () => {
       firstName: 'Jane',
       lastName: 'Smith',
       username: 'janesmith',
-      profileName: 'Jane Smith'
+      profileName: 'Jane Smith',
+      createdAt: new Date('2024-01-01'),
+      updatedAt: new Date('2024-01-01')
     }
   ];
 

@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 
 // Import app routes directly
 import appRoutes from './apps';
+import { initializeDatabase } from './shared/db/init-sqlite';
 
 // Load environment variables
 dotenv.config();
@@ -93,14 +94,21 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 
 // Only start server when run directly (not when imported for testing)
 if (require.main === module) {
-  // Start server
-  app.listen(PORT, () => {
-    console.log(
-      `🚀 Odyssey Backend running on port ${PORT} in ${
-        process.env.NODE_ENV || 'development'
-      } mode`
-    );
-  });
+  // Initialize database and start server
+  initializeDatabase()
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(
+          `🚀 Odyssey Backend running on port ${PORT} in ${
+            process.env.NODE_ENV || 'development'
+          } mode`
+        );
+      });
+    })
+    .catch((error) => {
+      console.error('Failed to initialize database:', error);
+      process.exit(1);
+    });
 } else {
   console.log('Exporting server app for serverless deployment');
 }
