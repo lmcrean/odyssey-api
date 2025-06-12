@@ -14,6 +14,7 @@ describe('Unified User Model Integration Tests', () => {
       const completeUser: User = {
         id: 'test-uuid',
         email: 'test@example.com',
+        password: 'TestPass123!',
         username: 'testuser',
         firstName: 'Test',
         lastName: 'User',

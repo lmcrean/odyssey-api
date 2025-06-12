@@ -38,7 +38,9 @@ describe('POST /api/auth/register', () => {
       const minimalUser = {
         email: `minimal-${timestamp + 1}@register.com`,
         password: 'MinimalPass123',
-        confirmPassword: 'MinimalPass123'
+        confirmPassword: 'MinimalPass123',
+        firstName: 'Minimal',
+        lastName: 'User'
       };
 
       const response = await request(app)
@@ -48,6 +50,8 @@ describe('POST /api/auth/register', () => {
       expect(response.status).toBe(201);
       expect(response.body).toHaveProperty('success', true);
       expect(response.body.data.user).toHaveProperty('email', minimalUser.email);
+      expect(response.body.data.user).toHaveProperty('firstName', minimalUser.firstName);
+      expect(response.body.data.user).toHaveProperty('lastName', minimalUser.lastName);
     });
   });
 

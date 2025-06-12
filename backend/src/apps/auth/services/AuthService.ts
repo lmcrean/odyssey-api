@@ -2,7 +2,7 @@ import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { AuthUser, LoginRequest, RegisterRequest, JWTPayload } from '../types';
 import { findUserByEmail, createUser, findUserById } from '../../user/models';
-import { DatabaseUser } from '../../user/types';
+import { User } from '../../user/types';
 import { v4 as uuidv4 } from 'uuid';
 
 // Simple in-memory store for testing (replace with actual database)
