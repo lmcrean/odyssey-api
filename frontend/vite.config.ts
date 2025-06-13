@@ -1,6 +1,7 @@
+import path from 'path';
+
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -16,13 +17,13 @@ export default defineConfig(({ mode }) => {
         '@': path.resolve(__dirname, './'),
         '@src': path.resolve(__dirname, './src'),
         '@core': path.resolve(__dirname, './src/api/core'),
-        core: path.resolve(__dirname, './src/api/core')
-      }
+        core: path.resolve(__dirname, './src/api/core'),
+      },
     },
     server: {
       port,
       headers: {
-        'cache-control': 'no-store'
+        'cache-control': 'no-store',
       },
       proxy: {
         // Proxy API requests to the backend server
@@ -36,9 +37,9 @@ export default defineConfig(({ mode }) => {
             proxy.on('error', (err, _req, _res) => {
               console.log('Proxy error:', err);
             });
-          }
-        }
-      }
+          },
+        },
+      },
     },
     build: {
       outDir: 'dist',
@@ -70,9 +71,9 @@ export default defineConfig(({ mode }) => {
             ) {
               return 'ui-components';
             }
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
   };
-}); 
+});

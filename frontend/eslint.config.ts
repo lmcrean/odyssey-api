@@ -4,13 +4,14 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import react from 'eslint-plugin-react';
+// @ts-expect-error - This plugin doesn't have proper TypeScript declarations
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+// @ts-expect-error - This plugin doesn't have proper TypeScript declarations
 import importPlugin from 'eslint-plugin-import';
 import prettier from 'eslint-plugin-prettier';
 import unusedImports from 'eslint-plugin-unused-imports';
-import type { Linter } from 'eslint';
 
-const config: Linter.FlatConfig[] = tseslint.config(
+export default tseslint.config(
   { ignores: ['dist'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
@@ -82,5 +83,3 @@ const config: Linter.FlatConfig[] = tseslint.config(
     },
   }
 );
-
-export default config; 

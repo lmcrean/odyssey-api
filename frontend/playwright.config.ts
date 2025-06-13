@@ -1,7 +1,8 @@
-import { defineConfig, devices } from '@playwright/test';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
+
+import { defineConfig, devices } from '@playwright/test';
 
 // Get directory name in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -21,7 +22,11 @@ createDirIfNotExists(screenshotsBaseDir);
 // Create environment directories
 const envs = ['development', 'production'];
 const testTypes = ['test_page'];
-const componentTests = ['api-connection', 'database-connection', 'both-connections'];
+const componentTests = [
+  'api-connection',
+  'database-connection',
+  'both-connections',
+];
 const testModes = ['mock', 'real'];
 
 // Create the full directory structure
@@ -29,7 +34,13 @@ envs.forEach((env) => {
   testTypes.forEach((testType) => {
     componentTests.forEach((component) => {
       testModes.forEach((mode) => {
-        const dir = path.join(screenshotsBaseDir, env, testType, component, mode);
+        const dir = path.join(
+          screenshotsBaseDir,
+          env,
+          testType,
+          component,
+          mode
+        );
         createDirIfNotExists(dir);
       });
     });
@@ -73,15 +84,15 @@ export default defineConfig({
     trace: 'on-first-retry',
 
     // Screenshot on test completion
-    screenshot: 'on'
+    screenshot: 'on',
   },
 
   // Configure projects for different browsers - ONLY SAFARI
   projects: [
     {
       name: 'safari',
-      use: { ...devices['Desktop Safari'] }
-    }
+      use: { ...devices['Desktop Safari'] },
+    },
   ],
 
   // Setup and teardown for the tests
@@ -91,6 +102,6 @@ export default defineConfig({
     reuseExistingServer: true,
     stdout: 'pipe',
     stderr: 'pipe',
-    timeout: 120000 // Increase timeout to 2 minutes to ensure API is fully ready
-  }
+    timeout: 120000, // Increase timeout to 2 minutes to ensure API is fully ready
+  },
 });

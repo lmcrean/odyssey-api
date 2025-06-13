@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { EndpointTable, EndpointRow } from '../../page-components';
 
 /**
@@ -21,9 +22,9 @@ export default function PostsEndpoints() {
               content: 'This is a sample post content',
               owner: 'testuser',
               created_at: '2024-01-01T00:00:00Z',
-              updated_at: '2024-01-01T00:00:00Z'
-            }
-          ]
+              updated_at: '2024-01-01T00:00:00Z',
+            },
+          ],
         }}
       />
 
@@ -36,7 +37,7 @@ export default function PostsEndpoints() {
           content: 'This is new post content',
           owner: 'testuser',
           created_at: '2024-01-01T00:00:00Z',
-          updated_at: '2024-01-01T00:00:00Z'
+          updated_at: '2024-01-01T00:00:00Z',
         }}
         requiresAuth={true}
         requiresParams={true}
@@ -46,15 +47,15 @@ export default function PostsEndpoints() {
             label: 'Title',
             type: 'text',
             required: true,
-            placeholder: 'Enter post title'
+            placeholder: 'Enter post title',
           },
           {
             name: 'content',
             label: 'Content',
             type: 'textarea',
             required: true,
-            placeholder: 'Enter post content'
-          }
+            placeholder: 'Enter post content',
+          },
         ]}
       />
 
@@ -67,10 +68,10 @@ export default function PostsEndpoints() {
           content: 'This is a sample post content',
           owner: 'testuser',
           created_at: '2024-01-01T00:00:00Z',
-          updated_at: '2024-01-01T00:00:00Z'
+          updated_at: '2024-01-01T00:00:00Z',
         }}
         pathParams={['id']}
       />
     </EndpointTable>
   );
-} 
+}

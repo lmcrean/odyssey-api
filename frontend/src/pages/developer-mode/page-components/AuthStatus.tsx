@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { InputForm } from './index';
+
 import { LoginInput } from '../types';
+
+import { InputForm } from './index';
 
 interface AuthStatusProps {
   onLogin: (credentials: LoginInput) => Promise<void>;
@@ -37,7 +39,7 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
     try {
       const credentials = {
         username: formData.username as string,
-        password: formData.password as string
+        password: formData.password as string,
       };
       await onLogin(credentials);
       setIsAuthenticated(true);
@@ -91,9 +93,9 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
       };
 
       // Step 1: Find and click the "Generate Random User" button
-      const generateButton = Array.from(document.querySelectorAll('button')).find((button) =>
-        button.textContent?.includes('Generate Random User')
-      );
+      const generateButton = Array.from(
+        document.querySelectorAll('button')
+      ).find((button) => button.textContent?.includes('Generate Random User'));
 
       if (generateButton) {
         scrollToElement(generateButton as HTMLElement);
@@ -124,12 +126,18 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
           // Search through all forms for the one with email and password and username fields
           for (const form of Array.from(signupForms)) {
             const hasEmailField = form.querySelector('input[name="email"]');
-            const hasPasswordField = form.querySelector('input[name="password"]');
-            const hasUsernameField = form.querySelector('input[name="username"]');
+            const hasPasswordField = form.querySelector(
+              'input[name="password"]'
+            );
+            const hasUsernameField = form.querySelector(
+              'input[name="username"]'
+            );
 
             if (hasEmailField && hasPasswordField && hasUsernameField) {
               // This is likely the signup form
-              sendSignupButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+              sendSignupButton = form.querySelector(
+                'button[type="submit"]'
+              ) as HTMLButtonElement;
               break;
             }
           }
@@ -157,13 +165,18 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
               await wait(800, 'Waiting for login form to appear');
 
               // Step 5: Find and click "Use Latest Signup Credentials" button
-              const useCredentialsButton = Array.from(document.querySelectorAll('button')).find(
-                (button) => button.textContent?.includes('Use Latest Signup Credentials')
+              const useCredentialsButton = Array.from(
+                document.querySelectorAll('button')
+              ).find((button) =>
+                button.textContent?.includes('Use Latest Signup Credentials')
               );
 
               if (useCredentialsButton) {
                 scrollToElement(useCredentialsButton as HTMLElement);
-                await wait(300, 'Scrolling to Use Latest Signup Credentials button');
+                await wait(
+                  300,
+                  'Scrolling to Use Latest Signup Credentials button'
+                );
                 (useCredentialsButton as HTMLButtonElement).click();
 
                 // Wait for credentials to be populated
@@ -176,9 +189,15 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
 
                 // Search through all forms for the one with username and password fields but no email
                 for (const form of Array.from(loginForms)) {
-                  const hasUsernameField = form.querySelector('input[name="username"]');
-                  const hasPasswordField = form.querySelector('input[name="password"]');
-                  const hasEmailField = form.querySelector('input[name="email"]');
+                  const hasUsernameField = form.querySelector(
+                    'input[name="username"]'
+                  );
+                  const hasPasswordField = form.querySelector(
+                    'input[name="password"]'
+                  );
+                  const hasEmailField = form.querySelector(
+                    'input[name="email"]'
+                  );
 
                   if (hasUsernameField && hasPasswordField && !hasEmailField) {
                     // This is likely the login form
@@ -191,18 +210,26 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
 
                 if (sendLoginButton) {
                   scrollToElement(sendLoginButton as HTMLElement);
-                  await wait(300, 'Scrolling to Send POST Request button for login');
+                  await wait(
+                    300,
+                    'Scrolling to Send POST Request button for login'
+                  );
 
                   sendLoginButton.click();
 
                   // Wait for login to complete - use a longer delay to ensure token is saved
-                  await wait(2500, 'Waiting for login to complete and token to be saved');
+                  await wait(
+                    2500,
+                    'Waiting for login to complete and token to be saved'
+                  );
 
                   // Check if authentication worked - more comprehensive check
                   const authToken = localStorage.getItem('authToken');
                   const userString = localStorage.getItem('auth_user');
                   const isAuthSuccess =
-                    authToken || userString || document.querySelector('.bg-green-500');
+                    authToken ||
+                    userString ||
+                    document.querySelector('.bg-green-500');
 
                   if (isAuthSuccess) {
                     // Refresh auth status from localStorage
@@ -231,23 +258,32 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
                     );
 
                     // Refresh the auth status for reliability
-                    const hasGreenStatus = document.querySelector('.bg-green-500');
+                    const hasGreenStatus =
+                      document.querySelector('.bg-green-500');
                     if (hasGreenStatus) {
                       setIsAuthenticated(true);
                       window.scrollTo({ top: 0, behavior: 'smooth' });
-                      alert('Auth flow likely succeeded - UI shows logged in state.');
+                      alert(
+                        'Auth flow likely succeeded - UI shows logged in state.'
+                      );
                     } else {
-                      console.error('Auth flow likely failed - UI shows not logged in.');
+                      console.error(
+                        'Auth flow likely failed - UI shows not logged in.'
+                      );
                       alert(
                         'Auth flow may have failed: No authentication indicators found. Check your login status in the UI.'
                       );
                     }
                   }
                 } else {
-                  console.error('Could not find Send POST Request button for login');
+                  console.error(
+                    'Could not find Send POST Request button for login'
+                  );
                 }
               } else {
-                console.error('Could not find Use Latest Signup Credentials button');
+                console.error(
+                  'Could not find Use Latest Signup Credentials button'
+                );
               }
             } else {
               console.error('Could not find Login button');
@@ -279,10 +315,14 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
                 isAuthenticated ? 'bg-green-500' : 'bg-red-500'
               }`}
             ></div>
-            <span>{isAuthenticated ? 'Authenticated' : 'Not authenticated'}</span>
+            <span>
+              {isAuthenticated ? 'Authenticated' : 'Not authenticated'}
+            </span>
           </div>
           {isAuthenticated && user && (
-            <div className="mt-2 text-sm text-gray-300">Logged in as: {user.email}</div>
+            <div className="mt-2 text-sm text-gray-300">
+              Logged in as: {user.email}
+            </div>
           )}
         </div>
 
@@ -332,15 +372,15 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
                 label: 'Username',
                 type: 'text',
                 required: true,
-                placeholder: 'your_username'
+                placeholder: 'your_username',
               },
               {
                 name: 'password',
                 label: 'Password',
                 type: 'password',
                 required: true,
-                placeholder: 'Your password'
-              }
+                placeholder: 'Your password',
+              },
             ]}
             onSubmit={handleLogin}
             submitLabel="Login"
@@ -350,4 +390,4 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
       )}
     </div>
   );
-} 
+}

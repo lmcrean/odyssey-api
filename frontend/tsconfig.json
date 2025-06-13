@@ -25,6 +25,14 @@
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "dist", "vite.config.ts", "eslint.config.ts", "*.config.ts", "**/*.test.tsx", "**/*.test.ts"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "vite.config.ts",
+    "eslint.config.ts",
+    "*.config.ts",
+    "**/*.test.tsx",
+    "**/*.test.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
-} 
+}

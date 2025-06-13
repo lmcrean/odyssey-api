@@ -82,4 +82,4 @@ export interface RegisterData {
 export interface AuthTokens {
   access: string;
   refresh: string;
-} 
+}

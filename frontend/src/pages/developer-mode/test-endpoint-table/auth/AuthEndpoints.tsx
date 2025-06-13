@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { EndpointTable } from '../../page-components';
+
 import PostAuthSignup from './post-auth-signup/EndpointRow';
 import PostAuthLogin from './post-auth-login/EndpointRow';
 import PostAuthLogout from './post-auth-logout/EndpointRow';
@@ -15,4 +17,4 @@ export default function AuthEndpoints() {
       <PostAuthLogout />
     </EndpointTable>
   );
-} 
+}

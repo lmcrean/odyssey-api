@@ -15,9 +15,9 @@ export default function JsonDisplay({ data }: JsonDisplayProps) {
 
   return (
     <div className="rounded border border-gray-600 bg-gray-800 p-3">
-      <pre className="text-xs text-gray-300 overflow-x-auto">
+      <pre className="overflow-x-auto text-xs text-gray-300">
         <code>{formatJson(data)}</code>
       </pre>
     </div>
   );
-} 
+}

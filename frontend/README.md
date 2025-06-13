@@ -20,12 +20,14 @@ Dottie is a mobile-friendly web application designed to provide personalized men
 ## Tech Stack
 
 ### Frontend
+
 - **Framework**: React with Vite
 - **Styling**: Tailwind CSS
 - **UI Components**: shadcn/ui
 - **Icons**: Lucide React
 
 ### Backend
+
 - **Runtime**: Node.js
 - **Framework**: Express
 - **Database**: SQLite (development), SQL Server (production)
@@ -40,6 +42,7 @@ Before you begin, ensure you have the following installed on your system:
 - **npm** or **yarn**: Package managers for installing dependencies.
 
 To check your current Node.js and npm versions, run:
+
 ```bash
 node -v
 npm -v
@@ -50,6 +53,7 @@ If you don't have Node.js installed, follow these steps:
 #### **Installing Node.js**
 
 1. **Using `nvm` (Recommended)**:
+
    - Install `nvm` (Node Version Manager):
      ```bash
      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
@@ -64,6 +68,7 @@ If you don't have Node.js installed, follow these steps:
      ```
 
 2. **Using the Official Installer**:
+
    - Download the latest LTS version from the [official Node.js website](https://nodejs.org/).
    - Follow the installation instructions for your operating system.
 
@@ -83,17 +88,19 @@ If you don't have Node.js installed, follow these steps:
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/lmcrean/dottie.git
    cd dottie
    ```
 
 2. Install dependencies for both frontend and backend:
+
    ```bash
    # Install backend dependencies
    cd backend
    npm install
-   
+
    # Install frontend dependencies
    cd ../frontend
    npm install
@@ -102,14 +109,15 @@ If you don't have Node.js installed, follow these steps:
 3. Environment Variables (Optional):
    - The application is designed to run without environment variables in development mode
    - If you want to use real API services, create a `.env` file in the backend directory with:
+
      ```
      # Gemini API key (optional - mock responses used if not provided)
      VITE_GEMINI_API_KEY=your_gemini_api_key
-     
+
      # Supabase configuration (optional - mock client used if not provided)
      SUPABASE_URL=your_supabase_url
      SUPABASE_ANON_PUBLIC=your_supabase_anon_key
-     
+
      # Local development flag
      LOCAL_DEV=true
      ```
@@ -119,10 +127,12 @@ If you don't have Node.js installed, follow these steps:
 ### Running the Application
 
 1. Start the development server for both frontend and backend:
+
    ```bash
    # From the frontend directory
    npm run dev
    ```
+
    This will start both the backend (on port 5000) and frontend (on port 3000) concurrently.
 
 2. Open your browser and navigate to:
@@ -148,6 +158,7 @@ If you don't have Node.js installed, follow these steps:
 ### Building for Production
 
 1. Build the frontend application:
+
    ```bash
    cd frontend
    npm run build

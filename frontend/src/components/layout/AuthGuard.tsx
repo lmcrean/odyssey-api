@@ -10,9 +10,9 @@ export default function AuthGuard({ children }: AuthGuardProps) {
 
   if (!isAuthenticated) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">Authentication Required</h2>
+          <h2 className="mb-4 text-2xl font-bold">Authentication Required</h2>
           <p className="text-muted-foreground">
             Please log in to access this page.
           </p>
@@ -22,4 +22,4 @@ export default function AuthGuard({ children }: AuthGuardProps) {
   }
 
   return <>{children}</>;
-} 
+}

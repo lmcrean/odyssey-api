@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { Toaster } from './components/ui/sonner';
-
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import AuthGuard from './components/layout/AuthGuard';
@@ -32,4 +31,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;

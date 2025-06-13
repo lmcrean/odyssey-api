@@ -14,4 +14,4 @@ describe('App', () => {
     render(<App />);
     expect(screen.getByText('Odyssey')).toBeInTheDocument();
   });
-}); 
+});

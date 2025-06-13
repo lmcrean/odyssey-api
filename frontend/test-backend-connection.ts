@@ -2,18 +2,20 @@ import { spawn, ChildProcess } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import axios, { AxiosInstance } from 'axios';
 import fs from 'fs';
+
+import axios, { AxiosInstance } from 'axios';
 
 // Get current directory
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // API configuration
-const API_BASE_URL: string = process.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_BASE_URL: string =
+  process.env.VITE_API_BASE_URL || 'http://localhost:5000';
 const apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 3000
+  timeout: 3000,
 });
 
 // Check if API is running
@@ -22,7 +24,8 @@ const isApiRunning = async (): Promise<boolean> => {
     await apiClient.get('/api/hello', { timeout: 1000 });
     return true;
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error';
     console.error('API check failed:', errorMessage);
     return false;
   }
@@ -51,7 +54,7 @@ const startBackendServer = async (): Promise<boolean> => {
     const serverProcess: ChildProcess = spawn(nodeExecutable, [serverPath], {
       cwd: backendDir,
       stdio: 'pipe',
-      env: { ...process.env, PORT: '5000' }
+      env: { ...process.env, PORT: '5000' },
     });
 
     serverProcess.stderr?.on('data', (data: Buffer) => {
@@ -99,4 +102,4 @@ const runTest = async (): Promise<void> => {
 
 runTest().catch((error: unknown) => {
   console.error('Test failed:', error);
-}); 
+});

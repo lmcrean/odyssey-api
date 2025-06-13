@@ -23,7 +23,7 @@ export default function InputForm({
   fields,
   onSubmit,
   submitLabel = 'Submit',
-  isLoading = false
+  isLoading = false,
 }: InputFormProps) {
   const [formValues, setFormValues] = useState<Record<string, any>>(() => {
     // Initialize form values with default values
@@ -36,7 +36,9 @@ export default function InputForm({
 
   const [jsonErrors, setJsonErrors] = useState<Record<string, boolean>>({});
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormValues((prev) => ({ ...prev, [name]: value }));
 
@@ -68,7 +70,10 @@ export default function InputForm({
     // Parse JSON fields before submitting
     const processedValues = { ...formValues };
     fields.forEach((field) => {
-      if (field.type === 'json' && typeof processedValues[field.name] === 'string') {
+      if (
+        field.type === 'json' &&
+        typeof processedValues[field.name] === 'string'
+      ) {
         try {
           processedValues[field.name] = processedValues[field.name].trim()
             ? JSON.parse(processedValues[field.name])
@@ -86,8 +91,12 @@ export default function InputForm({
     <form onSubmit={handleSubmit} className="mt-2 space-y-4">
       {fields.map((field) => (
         <div key={field.name} className="space-y-1">
-          <label htmlFor={field.name} className="block text-sm font-medium text-gray-300">
-            {field.label} {field.required && <span className="text-red-500">*</span>}
+          <label
+            htmlFor={field.name}
+            className="block text-sm font-medium text-gray-300"
+          >
+            {field.label}{' '}
+            {field.required && <span className="text-red-500">*</span>}
           </label>
 
           {field.type === 'textarea' || field.type === 'json' ? (
@@ -168,4 +177,4 @@ export default function InputForm({
       </button>
     </form>
   );
-} 
+}

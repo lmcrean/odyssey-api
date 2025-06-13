@@ -1,7 +1,12 @@
-import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, {
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+  AxiosResponse,
+} from 'axios';
 
 // API configuration
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
@@ -42,9 +47,12 @@ apiClient.interceptors.response.use(
       const refreshToken = localStorage.getItem('refreshToken');
       if (refreshToken) {
         try {
-          const response = await axios.post(`${API_BASE_URL}/api/token/refresh/`, {
-            refresh: refreshToken,
-          });
+          const response = await axios.post(
+            `${API_BASE_URL}/api/token/refresh/`,
+            {
+              refresh: refreshToken,
+            }
+          );
 
           const { access } = response.data;
           localStorage.setItem('accessToken', access);
@@ -68,4 +76,4 @@ apiClient.interceptors.response.use(
   }
 );
 
-export default apiClient; 
+export default apiClient;

@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { EndpointRow as BaseEndpointRow, testCredentialsManager } from '../../../page-components';
+
+import {
+  EndpointRow as BaseEndpointRow,
+  testCredentialsManager,
+} from '../../../page-components';
 
 export default function EndpointRow() {
   const [randomCredentials, setRandomCredentials] = useState<{
@@ -40,8 +44,8 @@ export default function EndpointRow() {
           user: {
             id: 1,
             username: 'newuser',
-            email: 'newuser@example.com'
-          }
+            email: 'newuser@example.com',
+          },
         }}
         requiresParams={true}
         inputFields={[
@@ -51,7 +55,7 @@ export default function EndpointRow() {
             type: 'text',
             required: true,
             placeholder: 'Choose a username',
-            defaultValue: randomCredentials?.username || ''
+            defaultValue: randomCredentials?.username || '',
           },
           {
             name: 'email',
@@ -59,7 +63,7 @@ export default function EndpointRow() {
             type: 'email',
             required: true,
             placeholder: 'user@example.com',
-            defaultValue: randomCredentials?.email || ''
+            defaultValue: randomCredentials?.email || '',
           },
           {
             name: 'password1',
@@ -67,7 +71,7 @@ export default function EndpointRow() {
             type: 'password',
             required: true,
             placeholder: 'Create a password',
-            defaultValue: randomCredentials?.password || ''
+            defaultValue: randomCredentials?.password || '',
           },
           {
             name: 'password2',
@@ -75,8 +79,8 @@ export default function EndpointRow() {
             type: 'password',
             required: true,
             placeholder: 'Confirm your password',
-            defaultValue: randomCredentials?.password || ''
-          }
+            defaultValue: randomCredentials?.password || '',
+          },
         ]}
       />
 
@@ -94,13 +98,22 @@ export default function EndpointRow() {
             {randomCredentials && (
               <div className="ml-4 rounded bg-gray-800 p-2 text-xs">
                 <div>
-                  Email: <span className="text-green-400">{randomCredentials.email}</span>
+                  Email:{' '}
+                  <span className="text-green-400">
+                    {randomCredentials.email}
+                  </span>
                 </div>
                 <div>
-                  Password: <span className="text-green-400">{randomCredentials.password}</span>
+                  Password:{' '}
+                  <span className="text-green-400">
+                    {randomCredentials.password}
+                  </span>
                 </div>
                 <div>
-                  Username: <span className="text-green-400">{randomCredentials.username}</span>
+                  Username:{' '}
+                  <span className="text-green-400">
+                    {randomCredentials.username}
+                  </span>
                 </div>
               </div>
             )}
@@ -109,4 +122,4 @@ export default function EndpointRow() {
       </tr>
     </>
   );
-} 
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { EndpointRow as BaseEndpointRow } from '../../../page-components';
 
 export default function EndpointRow() {
@@ -7,9 +8,9 @@ export default function EndpointRow() {
       method="POST"
       endpoint="/dj-rest-auth/logout/"
       expectedOutput={{
-        detail: 'Successfully logged out.'
+        detail: 'Successfully logged out.',
       }}
       requiresAuth={true}
     />
   );
-} 
+}

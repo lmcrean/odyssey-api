@@ -5,13 +5,14 @@ import {
   AuthEndpoints,
   ProfilesEndpoints,
   MessagesEndpoints,
-  CommentsEndpoints
+  CommentsEndpoints,
 } from './test-endpoint-table';
 import { AuthStatus } from './page-components';
 import { LoginInput } from './types';
 
 export default function TestPage() {
-  const environment = typeof window !== 'undefined' ? 'development' : 'development';
+  const environment =
+    typeof window !== 'undefined' ? 'development' : 'development';
 
   const handleLogin = async (credentials: LoginInput) => {
     try {
@@ -49,4 +50,4 @@ export default function TestPage() {
       </div>
     </div>
   );
-} 
+}

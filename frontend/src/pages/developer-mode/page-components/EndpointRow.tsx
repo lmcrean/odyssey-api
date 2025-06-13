@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import axios, { AxiosError } from 'axios';
+
 import EndpointButton from './EndpointButton';
 import JsonDisplay from './JsonDisplay';
 import ApiResponse from './ApiResponse';
 import InputForm from './InputForm';
-import axios, { AxiosError } from 'axios';
 
 interface InputField {
   name: string;
@@ -36,13 +37,17 @@ export default function EndpointRow({
   requiresParams = false,
   inputFields = [],
   pathParams = [],
-  onCustomButtonClick
+  onCustomButtonClick,
 }: EndpointRowProps) {
   const [response, setResponse] = useState<unknown>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [status, setStatus] = useState<'idle' | 'success' | 'error' | 'partial'>('idle');
+  const [status, setStatus] = useState<
+    'idle' | 'success' | 'error' | 'partial'
+  >('idle');
   const [showInputForm, setShowInputForm] = useState(false);
-  const [pathParamValues, setPathParamValues] = useState<Record<string, string>>({});
+  const [pathParamValues, setPathParamValues] = useState<
+    Record<string, string>
+  >({});
   const [authError, setAuthError] = useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
@@ -58,17 +63,22 @@ export default function EndpointRow({
     label: `${param} (path parameter)`,
     type: 'text',
     required: true,
-    placeholder: `Enter value for ${param}`
+    placeholder: `Enter value for ${param}`,
   }));
 
   // Replace path parameters in endpoint
-  const getProcessedEndpoint = (overridePathParams?: Record<string, string>) => {
+  const getProcessedEndpoint = (
+    overridePathParams?: Record<string, string>
+  ) => {
     let processedEndpoint = endpoint;
     const paramsToUse = overridePathParams || pathParamValues;
 
     pathParams.forEach((param) => {
       if (paramsToUse[param]) {
-        processedEndpoint = processedEndpoint.replace(`:${param}`, paramsToUse[param]);
+        processedEndpoint = processedEndpoint.replace(
+          `:${param}`,
+          paramsToUse[param]
+        );
       }
     });
 
@@ -89,7 +99,11 @@ export default function EndpointRow({
       const baseURL = 'https://odyssey-api-lmcreans-projects.vercel.app';
 
       // Check authentication if required
-      if (requiresAuth && !localStorage.getItem('accessToken') && endpoint !== '/dj-rest-auth/logout/') {
+      if (
+        requiresAuth &&
+        !localStorage.getItem('accessToken') &&
+        endpoint !== '/dj-rest-auth/logout/'
+      ) {
         setAuthError(true);
         throw new Error('Authentication required. Please login first.');
       }
@@ -107,18 +121,24 @@ export default function EndpointRow({
       // Make appropriate API call based on method
       switch (method) {
         case 'GET':
-          result = await axios.get(`${baseURL}${processedEndpoint}`, { headers });
+          result = await axios.get(`${baseURL}${processedEndpoint}`, {
+            headers,
+          });
           break;
         case 'POST':
           if (endpoint === '/dj-rest-auth/logout/') {
             try {
-              result = await axios.post(`${baseURL}${processedEndpoint}`, {}, { headers });
+              result = await axios.post(
+                `${baseURL}${processedEndpoint}`,
+                {},
+                { headers }
+              );
               // Clear tokens after successful logout
               localStorage.removeItem('accessToken');
               localStorage.removeItem('refreshToken');
               localStorage.removeItem('auth_user');
               setIsAuthenticated(false);
-              
+
               // Trigger auth state change
               window.dispatchEvent(new Event('authToken_changed'));
             } catch (error) {
@@ -128,35 +148,51 @@ export default function EndpointRow({
               localStorage.removeItem('refreshToken');
               localStorage.removeItem('auth_user');
               setIsAuthenticated(false);
-              
+
               // Trigger auth state change
               window.dispatchEvent(new Event('authToken_changed'));
               result = { data: { message: 'Logged out locally' } };
             }
           } else {
-            result = await axios.post(`${baseURL}${processedEndpoint}`, formData || {}, { headers });
-            
+            result = await axios.post(
+              `${baseURL}${processedEndpoint}`,
+              formData || {},
+              { headers }
+            );
+
             // Handle login response
-            if (endpoint === '/dj-rest-auth/login/' && result.data.access_token) {
+            if (
+              endpoint === '/dj-rest-auth/login/' &&
+              result.data.access_token
+            ) {
               localStorage.setItem('accessToken', result.data.access_token);
               if (result.data.refresh_token) {
                 localStorage.setItem('refreshToken', result.data.refresh_token);
               }
               if (result.data.user) {
-                localStorage.setItem('auth_user', JSON.stringify(result.data.user));
+                localStorage.setItem(
+                  'auth_user',
+                  JSON.stringify(result.data.user)
+                );
               }
               setIsAuthenticated(true);
-              
+
               // Trigger auth state change in AuthStatus component
               window.dispatchEvent(new Event('authToken_changed'));
             }
           }
           break;
         case 'PUT':
-          result = await axios.put(`${baseURL}${processedEndpoint}`, formData || {}, { headers });
+          result = await axios.put(
+            `${baseURL}${processedEndpoint}`,
+            formData || {},
+            { headers }
+          );
           break;
         case 'DELETE':
-          result = await axios.delete(`${baseURL}${processedEndpoint}`, { headers });
+          result = await axios.delete(`${baseURL}${processedEndpoint}`, {
+            headers,
+          });
           break;
       }
 
@@ -209,12 +245,17 @@ export default function EndpointRow({
     <div className="mb-4 rounded border border-gray-600 bg-gray-700">
       <div className="p-4">
         <div className="mb-2 flex items-center space-x-2">
-          <span className={`rounded px-2 py-1 text-xs font-mono ${
-            method === 'GET' ? 'bg-green-600' :
-            method === 'POST' ? 'bg-blue-600' :
-            method === 'PUT' ? 'bg-yellow-600' :
-            'bg-red-600'
-          }`}>
+          <span
+            className={`rounded px-2 py-1 font-mono text-xs ${
+              method === 'GET'
+                ? 'bg-green-600'
+                : method === 'POST'
+                  ? 'bg-blue-600'
+                  : method === 'PUT'
+                    ? 'bg-yellow-600'
+                    : 'bg-red-600'
+            }`}
+          >
             {method}
           </span>
           <code className="text-yellow-300">{getProcessedEndpoint()}</code>
@@ -224,12 +265,16 @@ export default function EndpointRow({
           <div>
             {requiresAuth && (
               <div className="mb-2">
-                <span className={`text-xs ${isAuthenticated ? 'text-green-400' : 'text-red-400'}`}>
-                  {isAuthenticated ? '🔒 Authentication: ✅' : '🔒 Authentication: ❌ Required'}
+                <span
+                  className={`text-xs ${isAuthenticated ? 'text-green-400' : 'text-red-400'}`}
+                >
+                  {isAuthenticated
+                    ? '🔒 Authentication: ✅'
+                    : '🔒 Authentication: ❌ Required'}
                 </span>
               </div>
             )}
-            
+
             <EndpointButton
               label={`${method} ${endpoint}`}
               method={method}
@@ -247,7 +292,7 @@ export default function EndpointRow({
         </div>
 
         {authError && (
-          <div className="mb-3 rounded bg-red-900 p-2 text-red-300 text-sm">
+          <div className="mb-3 rounded bg-red-900 p-2 text-sm text-red-300">
             ❌ Authentication required. Please login first.
           </div>
         )}
@@ -265,7 +310,9 @@ export default function EndpointRow({
 
         {status === 'success' && response ? (
           <div className="mt-4">
-            <h4 className="mb-2 text-sm font-semibold text-gray-300">Response:</h4>
+            <h4 className="mb-2 text-sm font-semibold text-gray-300">
+              Response:
+            </h4>
             <JsonDisplay data={response} />
           </div>
         ) : null}
@@ -273,15 +320,19 @@ export default function EndpointRow({
         {status === 'error' && response ? (
           <div className="mt-4">
             <h4 className="mb-2 text-sm font-semibold text-red-400">Error:</h4>
-            <JsonDisplay data={(response as AxiosError)?.response?.data || response} />
+            <JsonDisplay
+              data={(response as AxiosError)?.response?.data || response}
+            />
           </div>
         ) : null}
 
         <div className="mt-4">
-          <h4 className="mb-2 text-sm font-semibold text-gray-400">Expected Output:</h4>
+          <h4 className="mb-2 text-sm font-semibold text-gray-400">
+            Expected Output:
+          </h4>
           <JsonDisplay data={expectedOutput} />
         </div>
       </div>
     </div>
   );
-} 
+}

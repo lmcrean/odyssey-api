@@ -16,23 +16,25 @@ export default function EndpointButton({
   method,
   onClick,
   status,
-  isLoading
+  isLoading,
 }: EndpointButtonProps) {
   // Determine button color based on status
   const getButtonClass = () => {
     const baseClass =
       'w-full px-4 py-2 text-white rounded-md font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
 
-    if (status === 'success') return `${baseClass} bg-green-600 hover:bg-green-700`;
+    if (status === 'success')
+      return `${baseClass} bg-green-600 hover:bg-green-700`;
     if (status === 'error') return `${baseClass} bg-red-600 hover:bg-red-700`;
-    if (status === 'partial') return `${baseClass} bg-yellow-600 hover:bg-yellow-700`;
+    if (status === 'partial')
+      return `${baseClass} bg-yellow-600 hover:bg-yellow-700`;
 
     // Map HTTP methods to different colors
     const methodColors = {
       GET: 'bg-blue-600 hover:bg-blue-700',
       POST: 'bg-purple-600 hover:bg-purple-700',
       PUT: 'bg-amber-600 hover:bg-amber-700',
-      DELETE: 'bg-rose-600 hover:bg-rose-700'
+      DELETE: 'bg-rose-600 hover:bg-rose-700',
     };
 
     return `${baseClass} ${methodColors[method]}`;
@@ -44,7 +46,8 @@ export default function EndpointButton({
     if (parts.length >= 2) {
       return (
         <>
-          <span className="font-bold">{parts[0]}</span> {parts.slice(1).join(' ')}
+          <span className="font-bold">{parts[0]}</span>{' '}
+          {parts.slice(1).join(' ')}
         </>
       );
     }
@@ -87,4 +90,4 @@ export default function EndpointButton({
       )}
     </button>
   );
-} 
+}

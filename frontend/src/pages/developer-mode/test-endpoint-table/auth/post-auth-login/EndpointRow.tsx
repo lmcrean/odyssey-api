@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { EndpointRow as BaseEndpointRow, testCredentialsManager } from '../../../page-components';
+
+import {
+  EndpointRow as BaseEndpointRow,
+  testCredentialsManager,
+} from '../../../page-components';
 
 export default function EndpointRow() {
   const [storedCredentials, setStoredCredentials] = useState<{
@@ -19,10 +23,16 @@ export default function EndpointRow() {
     handleCredentialsUpdate();
 
     // Listen for updates
-    window.addEventListener('signup_credentials_updated', handleCredentialsUpdate);
+    window.addEventListener(
+      'signup_credentials_updated',
+      handleCredentialsUpdate
+    );
 
     return () => {
-      window.removeEventListener('signup_credentials_updated', handleCredentialsUpdate);
+      window.removeEventListener(
+        'signup_credentials_updated',
+        handleCredentialsUpdate
+      );
     };
   }, []);
 
@@ -30,12 +40,17 @@ export default function EndpointRow() {
     const credentials = testCredentialsManager.getCredentials();
     if (credentials) {
       setStoredCredentials(credentials);
-      
+
       // Update the form fields
-      const usernameInput = document.querySelector('input[name="username"]') as HTMLInputElement;
-      const passwordInput = document.querySelector('input[name="password"]') as HTMLInputElement;
-      
-      if (usernameInput) usernameInput.value = credentials.username || credentials.email;
+      const usernameInput = document.querySelector(
+        'input[name="username"]'
+      ) as HTMLInputElement;
+      const passwordInput = document.querySelector(
+        'input[name="password"]'
+      ) as HTMLInputElement;
+
+      if (usernameInput)
+        usernameInput.value = credentials.username || credentials.email;
       if (passwordInput) passwordInput.value = credentials.password;
     }
   };
@@ -51,8 +66,8 @@ export default function EndpointRow() {
           user: {
             id: 1,
             username: 'testuser',
-            email: 'user@example.com'
-          }
+            email: 'user@example.com',
+          },
         }}
         requiresParams={true}
         inputFields={[
@@ -62,7 +77,8 @@ export default function EndpointRow() {
             type: 'text',
             required: true,
             placeholder: 'your_username',
-            defaultValue: storedCredentials?.username || storedCredentials?.email || ''
+            defaultValue:
+              storedCredentials?.username || storedCredentials?.email || '',
           },
           {
             name: 'password',
@@ -70,8 +86,8 @@ export default function EndpointRow() {
             type: 'password',
             required: true,
             placeholder: 'Your password',
-            defaultValue: storedCredentials?.password || ''
-          }
+            defaultValue: storedCredentials?.password || '',
+          },
         ]}
       />
 
@@ -89,10 +105,16 @@ export default function EndpointRow() {
 
               <div className="ml-4 rounded bg-gray-800 p-2 text-xs">
                 <div>
-                  Username: <span className="text-green-400">{storedCredentials.username || storedCredentials.email}</span>
+                  Username:{' '}
+                  <span className="text-green-400">
+                    {storedCredentials.username || storedCredentials.email}
+                  </span>
                 </div>
                 <div>
-                  Password: <span className="text-green-400">{storedCredentials.password}</span>
+                  Password:{' '}
+                  <span className="text-green-400">
+                    {storedCredentials.password}
+                  </span>
                 </div>
               </div>
             </div>
@@ -101,4 +123,4 @@ export default function EndpointRow() {
       )}
     </>
   );
-} 
+}
