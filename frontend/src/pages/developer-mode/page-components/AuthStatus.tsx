@@ -305,33 +305,45 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
   };
 
   return (
-    <div className="mb-8 rounded-lg bg-gray-800 p-4">
+    <div className="mb-10 rounded-2xl bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-sm border border-slate-700/50 shadow-2xl p-6">
       <div className="flex flex-col items-center justify-between md:flex-row">
-        <div className="mb-4 md:mb-0">
-          <h2 className="text-xl font-semibold">Authentication Status</h2>
-          <div className="mt-2 flex items-center">
-            <div
-              className={`mr-2 h-3 w-3 rounded-full ${
-                isAuthenticated ? 'bg-green-500' : 'bg-red-500'
-              }`}
-            ></div>
-            <span>
+        <div className="mb-6 md:mb-0">
+          <div className="flex items-center space-x-3 mb-3">
+            <div className="w-1 h-6 bg-gradient-to-b from-blue-400 to-purple-500 rounded-full"></div>
+            <h2 className="text-xl font-bold text-slate-100">Authentication Status</h2>
+          </div>
+          
+          <div className="flex items-center space-x-3 mb-2">
+            <div className="relative">
+              <div
+                className={`w-4 h-4 rounded-full transition-all duration-300 ${
+                  isAuthenticated 
+                    ? 'bg-emerald-400 shadow-lg shadow-emerald-400/50' 
+                    : 'bg-rose-400 shadow-lg shadow-rose-400/50'
+                }`}
+              ></div>
+              {isAuthenticated && (
+                <div className="absolute inset-0 w-4 h-4 bg-emerald-400 rounded-full animate-ping opacity-30"></div>
+              )}
+            </div>
+            <span className={`font-medium ${isAuthenticated ? 'text-emerald-300' : 'text-rose-300'}`}>
               {isAuthenticated ? 'Authenticated' : 'Not authenticated'}
             </span>
           </div>
+          
           {isAuthenticated && user && (
-            <div className="mt-2 text-sm text-gray-300">
-              Logged in as: {user.email}
+            <div className="text-sm text-slate-400 italic ml-7">
+              Logged in as: <span className="text-slate-300 font-medium">{user.email}</span>
             </div>
           )}
         </div>
 
-        <div className="flex space-x-3">
+        <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
           {isAuthenticated ? (
             <button
               type="button"
               onClick={handleLogout}
-              className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+              className="rounded-lg bg-rose-500/90 hover:bg-rose-500 px-5 py-2.5 text-white font-medium transition-all duration-200 border border-rose-400/50 hover:border-rose-300/60 hover:shadow-lg hover:shadow-rose-500/25 active:scale-95"
             >
               Logout
             </button>
@@ -339,23 +351,30 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
             <button
               type="button"
               onClick={() => setShowLoginForm(!showLoginForm)}
-              className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+              className="rounded-lg bg-blue-500/90 hover:bg-blue-500 px-5 py-2.5 text-white font-medium transition-all duration-200 border border-blue-400/50 hover:border-blue-300/60 hover:shadow-lg hover:shadow-blue-500/25 active:scale-95"
             >
               {showLoginForm ? 'Cancel' : 'Login'}
             </button>
           )}
 
           {/* Auth-Flow utility button */}
-          <div className="relative px-14">
+          <div className="text-center sm:text-left">
             <button
               type="button"
               onClick={runAuthFlow}
               disabled={isFlowRunning}
-              className="ml-2 rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600 disabled:bg-gray-500"
+              className="rounded-lg bg-emerald-500/90 hover:bg-emerald-500 disabled:bg-slate-600/50 disabled:text-slate-400 px-5 py-2.5 text-white font-medium transition-all duration-200 border border-emerald-400/50 hover:border-emerald-300/60 hover:shadow-lg hover:shadow-emerald-500/25 active:scale-95 disabled:cursor-not-allowed disabled:active:scale-100"
             >
-              {isFlowRunning ? 'Running...' : 'Auto Auth Flow'}
+              {isFlowRunning ? (
+                <span className="flex items-center space-x-2">
+                  <div className="w-4 h-4 border-2 border-slate-300 border-t-transparent rounded-full animate-spin"></div>
+                  <span>Running...</span>
+                </span>
+              ) : (
+                'Auto Auth Flow'
+              )}
             </button>
-            <div className="absolute mt-1 text-xs text-gray-300 md:relative md:mt-2">
+            <div className="text-xs text-slate-400 italic mt-2 max-w-xs">
               Click to quickly signup and login with a random user
             </div>
           </div>
@@ -363,8 +382,11 @@ export default function AuthStatus({ onLogin, onLogout }: AuthStatusProps) {
       </div>
 
       {showLoginForm && !isAuthenticated && (
-        <div className="mt-4 rounded-md bg-gray-700 p-4">
-          <h3 className="mb-2 text-lg font-medium">Login</h3>
+        <div className="mt-6 rounded-xl bg-slate-900/80 border border-slate-700/50 p-6">
+          <div className="flex items-center space-x-2 mb-4">
+            <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+            <h3 className="text-lg font-semibold text-slate-200">Login</h3>
+          </div>
           <InputForm
             fields={[
               {

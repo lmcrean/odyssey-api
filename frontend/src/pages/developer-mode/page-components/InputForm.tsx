@@ -88,41 +88,50 @@ export default function InputForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-2 space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-6">
       {fields.map((field) => (
-        <div key={field.name} className="space-y-1">
+        <div key={field.name} className="space-y-2">
           <label
             htmlFor={field.name}
-            className="block text-sm font-medium text-gray-300"
+            className="block text-sm font-semibold text-slate-200 tracking-wide"
           >
-            {field.label}{' '}
-            {field.required && <span className="text-red-500">*</span>}
+            {field.label}
+            {field.required && <span className="text-rose-400 ml-1">*</span>}
           </label>
 
           {field.type === 'textarea' || field.type === 'json' ? (
-            <textarea
-              id={field.name}
-              name={field.name}
-              value={
-                typeof formValues[field.name] === 'object'
-                  ? JSON.stringify(formValues[field.name], null, 2)
-                  : formValues[field.name]
-              }
-              onChange={handleInputChange}
-              onBlur={
-                field.type === 'json'
-                  ? (e) => handleJsonChange(field.name, e.target.value)
-                  : undefined
-              }
-              placeholder={field.placeholder}
-              required={field.required}
-              rows={5}
-              className={`w-full rounded-md border bg-gray-700 px-3 py-2 ${
-                jsonErrors[field.name]
-                  ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
-                  : 'border-gray-600 focus:border-blue-500 focus:ring-blue-500'
-              } text-white placeholder-gray-400 focus:outline-none focus:ring-2`}
-            />
+            <div className="relative">
+              <textarea
+                id={field.name}
+                name={field.name}
+                value={
+                  typeof formValues[field.name] === 'object'
+                    ? JSON.stringify(formValues[field.name], null, 2)
+                    : formValues[field.name]
+                }
+                onChange={handleInputChange}
+                onBlur={
+                  field.type === 'json'
+                    ? (e) => handleJsonChange(field.name, e.target.value)
+                    : undefined
+                }
+                placeholder={field.placeholder}
+                required={field.required}
+                rows={5}
+                className={`w-full rounded-lg border bg-slate-800/80 backdrop-blur-sm px-4 py-3 transition-all duration-200 font-mono text-sm ${
+                  jsonErrors[field.name]
+                    ? 'border-rose-500/60 focus:border-rose-400 focus:ring-rose-500/30 bg-rose-500/5'
+                    : 'border-slate-600/50 focus:border-blue-400/60 focus:ring-blue-500/30 hover:border-slate-500/60'
+                } text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 resize-none`}
+              />
+              {field.type === 'json' && (
+                <div className="absolute top-2 right-2">
+                  <span className="text-xs text-slate-500 bg-slate-700/60 px-2 py-1 rounded">
+                    JSON
+                  </span>
+                </div>
+              )}
+            </div>
           ) : (
             <input
               id={field.name}
@@ -132,49 +141,35 @@ export default function InputForm({
               onChange={handleInputChange}
               placeholder={field.placeholder}
               required={field.required}
-              className="w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border border-slate-600/50 bg-slate-800/80 backdrop-blur-sm px-4 py-3 text-slate-100 placeholder-slate-400 focus:border-blue-400/60 focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-all duration-200 hover:border-slate-500/60"
             />
           )}
 
           {field.type === 'json' && jsonErrors[field.name] && (
-            <p className="mt-1 text-sm text-red-500">Invalid JSON format</p>
+            <div className="flex items-center space-x-2 text-sm text-rose-400 bg-rose-500/10 border border-rose-500/30 rounded-lg px-3 py-2">
+              <span>⚠️</span>
+              <span className="italic">Invalid JSON format</span>
+            </div>
           )}
         </div>
       ))}
 
-      <button
-        type="submit"
-        disabled={isLoading || Object.values(jsonErrors).some(Boolean)}
-        className="w-full rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        {isLoading ? (
-          <div className="flex items-center justify-center space-x-2">
-            <svg
-              className="h-5 w-5 animate-spin text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-            <span>Processing...</span>
-          </div>
-        ) : (
-          submitLabel
-        )}
-      </button>
+      <div className="pt-4 border-t border-slate-700/50">
+        <button
+          type="submit"
+          disabled={isLoading || Object.values(jsonErrors).some(Boolean)}
+          className="w-full rounded-lg bg-blue-600/90 hover:bg-blue-500/90 disabled:bg-slate-600/50 disabled:text-slate-400 px-6 py-3 font-semibold text-white transition-all duration-200 border border-blue-500/50 hover:border-blue-400/60 hover:shadow-lg hover:shadow-blue-500/25 active:scale-95 disabled:cursor-not-allowed disabled:active:scale-100 disabled:hover:shadow-none"
+        >
+          {isLoading ? (
+            <div className="flex items-center justify-center space-x-3">
+              <div className="w-5 h-5 border-2 border-slate-300 border-t-transparent rounded-full animate-spin"></div>
+              <span>Processing...</span>
+            </div>
+          ) : (
+            submitLabel
+          )}
+        </button>
+      </div>
     </form>
   );
 }

@@ -34,24 +34,34 @@ export default function TestPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="mb-8 text-center text-3xl font-bold">
-          Now testing in {environment.toUpperCase()}
-        </h1>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100">
+      <div className="container mx-auto px-6 py-10">
+        {/* Header with improved styling */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent mb-2">
+            Odyssey Developer Mode
+          </h1>
+          <p className="text-slate-400 italic text-lg">
+            Now testing in <span className="font-semibold text-slate-200">{environment.toUpperCase()}</span>
+          </p>
+        </div>
 
         {/* Authentication status and login */}
-        <AuthStatus onLogin={handleLogin} onLogout={handleLogout} />
+        <div className="mb-10">
+          <AuthStatus onLogin={handleLogin} onLogout={handleLogout} />
+        </div>
 
         {/* Main endpoint sections - organized like Dottie project */}
-        <SetupEndpoints />
-        <AuthEndpoints />
-        <UserEndpoints />
+        <div className="space-y-8">
+          <SetupEndpoints />
+          <AuthEndpoints />
+          <UserEndpoints />
 
-        {/* Additional endpoints - can be reorganized later */}
-        <PostsEndpoints />
-        <MessagesEndpoints />
-        <CommentsEndpoints />
+          {/* Additional endpoints - can be reorganized later */}
+          <PostsEndpoints />
+          <MessagesEndpoints />
+          <CommentsEndpoints />
+        </div>
       </div>
     </div>
   );

@@ -14,10 +14,12 @@ export default function JsonDisplay({ data }: JsonDisplayProps) {
   };
 
   return (
-    <div className="rounded border border-gray-600 bg-gray-800 p-3">
-      <pre className="overflow-x-auto text-xs text-gray-300">
-        <code>{formatJson(data)}</code>
-      </pre>
+    <div className="rounded-lg border border-slate-600/50 bg-slate-900/60 backdrop-blur-sm">
+      <div className="p-4">
+        <pre className="overflow-x-auto text-xs text-slate-300 font-mono leading-relaxed">
+          <code className="language-json">{formatJson(data)}</code>
+        </pre>
+      </div>
     </div>
   );
 }

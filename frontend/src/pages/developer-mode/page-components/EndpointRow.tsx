@@ -242,11 +242,11 @@ export default function EndpointRow({
   const getStatusColor = () => {
     switch (status) {
       case 'success':
-        return 'text-green-400';
+        return 'text-emerald-400';
       case 'error':
-        return 'text-red-400';
+        return 'text-rose-400';
       default:
-        return 'text-gray-400';
+        return 'text-slate-400';
     }
   };
 
@@ -262,95 +262,134 @@ export default function EndpointRow({
     }
   };
 
+  const getMethodStyle = () => {
+    switch (method) {
+      case 'GET':
+        return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
+      case 'POST':
+        return 'bg-blue-500/20 text-blue-300 border-blue-500/30';
+      case 'PUT':
+        return 'bg-amber-500/20 text-amber-300 border-amber-500/30';
+      case 'DELETE':
+        return 'bg-rose-500/20 text-rose-300 border-rose-500/30';
+      default:
+        return 'bg-slate-500/20 text-slate-300 border-slate-500/30';
+    }
+  };
+
   return (
     <>
-      <tr className="border-b border-gray-700 hover:bg-gray-800 transition-colors">
-        <td className="px-4 py-4">
-          <div className="space-y-2">
-            <div className="flex items-center space-x-2">
+      <tr className="border-b border-slate-700/40 hover:bg-slate-800/50 transition-all duration-200 group">
+        <td className="px-6 py-6">
+          <div className="space-y-4">
+            {/* Method and Endpoint */}
+            <div className="flex items-center space-x-3">
               <span
-                className={`rounded px-2 py-1 font-mono text-xs font-semibold ${
-                  method === 'GET'
-                    ? 'bg-green-600 text-white'
-                    : method === 'POST'
-                      ? 'bg-blue-600 text-white'
-                      : method === 'PUT'
-                        ? 'bg-yellow-600 text-black'
-                        : 'bg-red-600 text-white'
-                }`}
+                className={`rounded-lg px-3 py-1.5 font-mono text-xs font-semibold border transition-all duration-200 group-hover:shadow-md ${getMethodStyle()}`}
               >
                 {method}
               </span>
-              <code className="text-yellow-300 text-sm">
+              <code className="text-yellow-300/90 text-sm font-medium bg-slate-800/60 px-3 py-1 rounded-md border border-slate-700/50">
                 {getProcessedEndpoint()}
               </code>
             </div>
             
+            {/* Authentication Status */}
             {requiresAuth && (
-              <div className="text-xs">
-                <span
-                  className={`${isAuthenticated ? 'text-green-400' : 'text-red-400'}`}
-                >
-                  {isAuthenticated
-                    ? '🔒 Authentication: ✅'
-                    : '🔒 Authentication: ❌ Required'}
+              <div className="flex items-center space-x-2 text-xs">
+                <div className={`w-2 h-2 rounded-full ${isAuthenticated ? 'bg-emerald-400' : 'bg-rose-400'}`}></div>
+                <span className={`font-medium ${isAuthenticated ? 'text-emerald-400' : 'text-rose-400'}`}>
+                  {isAuthenticated ? 'Authenticated' : 'Authentication Required'}
+                </span>
+                <span className="text-slate-500 italic">
+                  {isAuthenticated ? '🔓' : '🔒'}
                 </span>
               </div>
             )}
 
-            <button
-              onClick={handleButtonClick}
-              disabled={isLoading}
-              className={`rounded px-3 py-1 text-sm font-medium transition-colors ${
-                isLoading
-                  ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                  : 'bg-blue-600 text-white hover:bg-blue-700'
-              }`}
-            >
-              {isLoading ? 'Loading...' : `Test ${method}`}
-            </button>
+            {/* Test Button */}
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={handleButtonClick}
+                disabled={isLoading}
+                className={`rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 border ${
+                  isLoading
+                    ? 'bg-slate-600/50 text-slate-400 cursor-not-allowed border-slate-600/50'
+                    : 'bg-blue-600/90 text-white hover:bg-blue-500/90 border-blue-500/50 hover:border-blue-400/60 hover:shadow-lg hover:shadow-blue-500/25 active:scale-95'
+                }`}
+              >
+                {isLoading ? (
+                  <span className="flex items-center space-x-2">
+                    <div className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin"></div>
+                    <span>Loading...</span>
+                  </span>
+                ) : (
+                  `Test ${method}`
+                )}
+              </button>
 
+              {/* Status Indicator */}
+              <div className={`text-xs font-medium flex items-center space-x-1 ${getStatusColor()}`}>
+                <span>{getStatusIcon()}</span>
+              </div>
+            </div>
+
+            {/* Auth Error */}
             {authError && (
-              <div className="text-xs text-red-400">
-                ❌ Authentication required. Please login first.
+              <div className="flex items-center space-x-2 text-xs bg-rose-500/10 border border-rose-500/30 rounded-lg px-3 py-2">
+                <span className="text-rose-400">⚠️</span>
+                <span className="text-rose-300 italic">Authentication required. Please login first.</span>
               </div>
             )}
           </div>
         </td>
 
-        <td className="px-4 py-4">
+        <td className="px-6 py-6">
           <div className="max-w-md">
-            <JsonDisplay data={expectedOutput} />
+            <div className="bg-slate-800/60 rounded-lg border border-slate-700/50 p-3">
+              <JsonDisplay data={expectedOutput} />
+            </div>
           </div>
         </td>
 
-        <td className="px-4 py-4">
+        <td className="px-6 py-6">
           <div className="max-w-md">
-            <div className={`text-sm font-medium mb-2 ${getStatusColor()}`}>
-              {getStatusIcon()}
-            </div>
             {response ? (
-              <JsonDisplay
-                data={
-                  status === 'error' 
-                    ? (response as AxiosError)?.response?.data || response
-                    : response
-                }
-              />
-            ) : null}
+              <div className="bg-slate-800/60 rounded-lg border border-slate-700/50 p-3">
+                <JsonDisplay
+                  data={
+                    status === 'error' 
+                      ? (response as AxiosError)?.response?.data || response
+                      : response
+                  }
+                />
+              </div>
+            ) : (
+              <div className="bg-slate-800/30 rounded-lg border border-dashed border-slate-600/50 p-6 text-center">
+                <span className="text-slate-500 italic text-sm">
+                  No response yet. Click the endpoint button to test.
+                </span>
+              </div>
+            )}
           </div>
         </td>
       </tr>
 
       {showInputForm && (
         <tr>
-          <td colSpan={3} className="px-4 py-4 bg-gray-800">
-            <InputForm
-              fields={[...pathParamFields, ...inputFields]}
-              onSubmit={handleFormSubmit}
-              submitLabel={`Send ${method} Request`}
-              isLoading={isLoading}
-            />
+          <td colSpan={3} className="px-6 py-6 bg-slate-800/60 border-b border-slate-700/40">
+            <div className="bg-slate-900/80 rounded-xl border border-slate-700/50 p-6">
+              <h4 className="text-slate-200 font-semibold mb-4 flex items-center space-x-2">
+                <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+                <span>Request Parameters</span>
+              </h4>
+              <InputForm
+                fields={[...pathParamFields, ...inputFields]}
+                onSubmit={handleFormSubmit}
+                submitLabel={`Send ${method} Request`}
+                isLoading={isLoading}
+              />
+            </div>
           </td>
         </tr>
       )}
