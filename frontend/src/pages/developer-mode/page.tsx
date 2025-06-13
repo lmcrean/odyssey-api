@@ -1,9 +1,11 @@
 'use client';
 
 import {
-  PostsEndpoints,
+  SetupEndpoints,
   AuthEndpoints,
-  ProfilesEndpoints,
+  UserEndpoints,
+  // Other endpoints for now - can be reorganized later
+  PostsEndpoints,
   MessagesEndpoints,
   CommentsEndpoints,
 } from './test-endpoint-table';
@@ -41,10 +43,13 @@ export default function TestPage() {
         {/* Authentication status and login */}
         <AuthStatus onLogin={handleLogin} onLogout={handleLogout} />
 
-        {/* Render all endpoint category components */}
+        {/* Main endpoint sections - organized like Dottie project */}
+        <SetupEndpoints />
         <AuthEndpoints />
+        <UserEndpoints />
+
+        {/* Additional endpoints - can be reorganized later */}
         <PostsEndpoints />
-        <ProfilesEndpoints />
         <MessagesEndpoints />
         <CommentsEndpoints />
       </div>

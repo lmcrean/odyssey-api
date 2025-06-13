@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
 
-import EndpointButton from './EndpointButton';
 import JsonDisplay from './JsonDisplay';
-import ApiResponse from './ApiResponse';
 import InputForm from './InputForm';
 
 interface InputField {
@@ -27,7 +25,7 @@ interface EndpointRowProps {
 }
 
 /**
- * A reusable row component for an API endpoint
+ * A reusable table row component for an API endpoint
  */
 export default function EndpointRow({
   method,
@@ -241,32 +239,57 @@ export default function EndpointRow({
     }
   };
 
-  return (
-    <div className="mb-4 rounded border border-gray-600 bg-gray-700">
-      <div className="p-4">
-        <div className="mb-2 flex items-center space-x-2">
-          <span
-            className={`rounded px-2 py-1 font-mono text-xs ${
-              method === 'GET'
-                ? 'bg-green-600'
-                : method === 'POST'
-                  ? 'bg-blue-600'
-                  : method === 'PUT'
-                    ? 'bg-yellow-600'
-                    : 'bg-red-600'
-            }`}
-          >
-            {method}
-          </span>
-          <code className="text-yellow-300">{getProcessedEndpoint()}</code>
-        </div>
+  const getStatusColor = () => {
+    switch (status) {
+      case 'success':
+        return 'text-green-400';
+      case 'error':
+        return 'text-red-400';
+      default:
+        return 'text-gray-400';
+    }
+  };
 
-        <div className="mb-3 flex items-center justify-between">
-          <div>
+  const getStatusIcon = () => {
+    if (isLoading) return '⏳';
+    switch (status) {
+      case 'success':
+        return '✅ Success';
+      case 'error':
+        return '❌ Error';
+      default:
+        return '⚪ Ready';
+    }
+  };
+
+  return (
+    <>
+      <tr className="border-b border-gray-700 hover:bg-gray-800 transition-colors">
+        <td className="px-4 py-4">
+          <div className="space-y-2">
+            <div className="flex items-center space-x-2">
+              <span
+                className={`rounded px-2 py-1 font-mono text-xs font-semibold ${
+                  method === 'GET'
+                    ? 'bg-green-600 text-white'
+                    : method === 'POST'
+                      ? 'bg-blue-600 text-white'
+                      : method === 'PUT'
+                        ? 'bg-yellow-600 text-black'
+                        : 'bg-red-600 text-white'
+                }`}
+              >
+                {method}
+              </span>
+              <code className="text-yellow-300 text-sm">
+                {getProcessedEndpoint()}
+              </code>
+            </div>
+            
             {requiresAuth && (
-              <div className="mb-2">
+              <div className="text-xs">
                 <span
-                  className={`text-xs ${isAuthenticated ? 'text-green-400' : 'text-red-400'}`}
+                  className={`${isAuthenticated ? 'text-green-400' : 'text-red-400'}`}
                 >
                   {isAuthenticated
                     ? '🔒 Authentication: ✅'
@@ -275,64 +298,62 @@ export default function EndpointRow({
               </div>
             )}
 
-            <EndpointButton
-              label={`${method} ${endpoint}`}
-              method={method}
+            <button
               onClick={handleButtonClick}
-              status={status}
-              isLoading={isLoading}
-            />
-          </div>
+              disabled={isLoading}
+              className={`rounded px-3 py-1 text-sm font-medium transition-colors ${
+                isLoading
+                  ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                  : 'bg-blue-600 text-white hover:bg-blue-700'
+              }`}
+            >
+              {isLoading ? 'Loading...' : `Test ${method}`}
+            </button>
 
-          {status !== 'idle' && (
-            <div className="text-right">
-              <ApiResponse response={response} status={status} />
+            {authError && (
+              <div className="text-xs text-red-400">
+                ❌ Authentication required. Please login first.
+              </div>
+            )}
+          </div>
+        </td>
+
+        <td className="px-4 py-4">
+          <div className="max-w-md">
+            <JsonDisplay data={expectedOutput} />
+          </div>
+        </td>
+
+        <td className="px-4 py-4">
+          <div className="max-w-md">
+            <div className={`text-sm font-medium mb-2 ${getStatusColor()}`}>
+              {getStatusIcon()}
             </div>
-          )}
-        </div>
-
-        {authError && (
-          <div className="mb-3 rounded bg-red-900 p-2 text-sm text-red-300">
-            ❌ Authentication required. Please login first.
+            {response ? (
+              <JsonDisplay
+                data={
+                  status === 'error' 
+                    ? (response as AxiosError)?.response?.data || response
+                    : response
+                }
+              />
+            ) : null}
           </div>
-        )}
+        </td>
+      </tr>
 
-        {showInputForm && (
-          <div className="mt-4">
+      {showInputForm && (
+        <tr>
+          <td colSpan={3} className="px-4 py-4 bg-gray-800">
             <InputForm
               fields={[...pathParamFields, ...inputFields]}
               onSubmit={handleFormSubmit}
-              submitLabel="Send POST Request"
+              submitLabel={`Send ${method} Request`}
               isLoading={isLoading}
             />
-          </div>
-        )}
-
-        {status === 'success' && response ? (
-          <div className="mt-4">
-            <h4 className="mb-2 text-sm font-semibold text-gray-300">
-              Response:
-            </h4>
-            <JsonDisplay data={response} />
-          </div>
-        ) : null}
-
-        {status === 'error' && response ? (
-          <div className="mt-4">
-            <h4 className="mb-2 text-sm font-semibold text-red-400">Error:</h4>
-            <JsonDisplay
-              data={(response as AxiosError)?.response?.data || response}
-            />
-          </div>
-        ) : null}
-
-        <div className="mt-4">
-          <h4 className="mb-2 text-sm font-semibold text-gray-400">
-            Expected Output:
-          </h4>
-          <JsonDisplay data={expectedOutput} />
-        </div>
-      </div>
-    </div>
+          </td>
+        </tr>
+      )}
+    </>
   );
 }
