@@ -3,8 +3,8 @@ description:
 globs: 
 alwaysApply: true
 ---
-we don't need legacy files -- this is not yet a codebase with real, paying users
+We don't need legacy files -- this is not yet a codebase with real, paying users
 
 
 
-it would be better to remove legacy functioality - fail the tests , and then remove ALL legacy functionality.
+it would be better to remove legacy functionality - fail the tests , and then remove ALL legacy functionality.
