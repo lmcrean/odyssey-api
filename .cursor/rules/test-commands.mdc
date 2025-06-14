@@ -1,0 +1,42 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+## Testing Commands
+
+### Unit & Integration Testing
+```bash
+# Test specific domain/app
+npm run test "app/[domain]"
+
+# Examples:
+npm run test "app/auth"
+npm run test "app/user" 
+npm run test "app/chat"
+
+# Test specific file
+npm run test "Controller.test.ts"
+npm run test "Route.test.ts"
+```
+
+### Development Environment Testing
+```bash
+# Test against development layer (SQLite localhost)
+npm run test:dev
+```
+- **Database**: SQLite (local)
+- **Purpose**: Fast local development testing
+- **Use Case**: Quick feedback during development
+
+### Production Environment Testing
+```bash
+# Test against production layer (Vercel + Neon PostgreSQL)
+npm run test:prod
+```
+- **Database**: Neon PostgreSQL
+- **Infrastructure**: Vercel deployment
+- **Purpose**: Validate production environment compatibility
+- **Use Case**: Pre-deployment validation and production issue debugging
+

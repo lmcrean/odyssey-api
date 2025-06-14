@@ -1,1 +1,2 @@
-export * from './User'; 
+// New modular database functions
+export * from './database';

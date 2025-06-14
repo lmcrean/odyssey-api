@@ -1,7 +1,6 @@
 import { Response } from 'express';
 import { AuthenticatedRequest } from '../../../../shared/types';
-import { UserService } from '../../services/UserService';
-import { UpdateUserData } from '../../types';
+import { updateUser } from '../../models/database';
 
 export const updateUserProfileController = async (req: AuthenticatedRequest, res: Response) => {
   try {
@@ -14,51 +13,32 @@ export const updateUserProfileController = async (req: AuthenticatedRequest, res
       });
     }
 
-    const updateData: UpdateUserData = req.body;
+    const updateData = req.body;
 
-    // Validate required fields if provided
-    if (updateData.username && updateData.username.trim().length === 0) {
+    // Basic validation - ensure we have some data to update
+    if (!updateData || Object.keys(updateData).length === 0) {
       return res.status(400).json({ 
-        error: 'Username cannot be empty' 
+        error: 'Update data is required' 
       });
     }
 
-    const updatedProfile = await UserService.updateUserProfile(userId, updateData);
+    // Update user profile using database function
+    const updatedUser = await updateUser(userId, updateData);
     
-    if (!updatedProfile) {
+    if (!updatedUser) {
       return res.status(404).json({ 
-        error: 'User not found' 
+        error: 'User not found or update failed' 
       });
     }
 
     res.status(200).json({
       success: true,
       message: 'Profile updated successfully',
-      data: updatedProfile
+      data: updatedUser
     });
 
   } catch (error) {
-    console.error('Update user profile error:', error);
-    
-    // Handle specific validation errors
-    if (error instanceof Error) {
-      if (error.message.includes('Username is already taken')) {
-        return res.status(409).json({ 
-          error: 'Username is already taken' 
-        });
-      }
-      if (error.message.includes('Invalid username format')) {
-        return res.status(400).json({ 
-          error: 'Invalid username format. Use 3-30 alphanumeric characters and underscores only.' 
-        });
-      }
-      if (error.message.includes('Invalid website URL')) {
-        return res.status(400).json({ 
-          error: 'Invalid website URL format' 
-        });
-      }
-    }
-
+    console.error('Update profile error:', error);
     res.status(500).json({ 
       error: 'Internal server error',
       message: error instanceof Error ? error.message : 'Unknown error'

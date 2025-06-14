@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UserService } from '../../services/UserService';
+import { searchUsers } from '../../models/database';
 
 export const searchUsersController = async (req: Request, res: Response) => {
   try {
@@ -26,7 +26,7 @@ export const searchUsersController = async (req: Request, res: Response) => {
       });
     }
 
-    const searchResults = await UserService.searchUsers(trimmedQuery, searchLimit);
+    const searchResults = await searchUsers(trimmedQuery, searchLimit);
 
     res.status(200).json({
       success: true,

@@ -16,6 +16,10 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   
+  // Auto-exit configuration
+  maxFailures: process.env.CI ? undefined : 1,
+  globalTeardown: './src/shared/utilities/playwrightTeardown.ts',
+  
   testMatch: '**/*.api.pw.spec.ts',
 
   projects: [

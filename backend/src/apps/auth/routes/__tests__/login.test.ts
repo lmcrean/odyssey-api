@@ -2,16 +2,31 @@ import request from 'supertest';
 import app from '../../../../server';
 
 describe('POST /api/auth/login', () => {
-  // Using the mock credentials from AuthService
+  const timestamp = Date.now();
+  // Create unique credentials for each test run
   const validCredentials = {
-    email: 'test@example.com',
-    password: 'password'
+    email: `logintest-${timestamp}@example.com`,
+    password: 'ValidPass123'
   };
 
   const invalidCredentials = {
     email: 'wrong@example.com',
     password: 'wrongpassword'
   };
+
+  // Create a user before running login tests
+  beforeAll(async () => {
+    // Register the user that we'll use for login tests
+    await request(app)
+      .post('/api/auth/register')
+      .send({
+        email: validCredentials.email,
+        password: validCredentials.password,
+        confirmPassword: validCredentials.password,
+        firstName: 'Login',
+        lastName: 'Test'
+      });
+  });
 
   describe('Successful Login', () => {
     it('should login with valid credentials', async () => {

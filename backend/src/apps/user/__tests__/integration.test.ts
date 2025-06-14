@@ -14,6 +14,7 @@ describe('Unified User Model Integration Tests', () => {
       const completeUser: User = {
         id: 'test-uuid',
         email: 'test@example.com',
+        password: 'TestPass123!',
         username: 'testuser',
         firstName: 'Test',
         lastName: 'User',
@@ -65,6 +66,7 @@ describe('Unified User Model Integration Tests', () => {
         followersCount: 100,
         followingCount: 50,
         createdAt: new Date(),
+        updatedAt: new Date(),
         lastActiveAt: new Date()
       };
 
@@ -94,6 +96,7 @@ describe('Unified User Model Integration Tests', () => {
       const userWithDefault: User = {
         id: 'test',
         email: 'test@example.com',
+        password: 'TestPass123!',
         username: 'test',
         profilePicture: DEFAULT_PROFILE_PICTURE,
         createdAt: new Date(),
@@ -164,6 +167,7 @@ describe('Unified User Model Integration Tests', () => {
       const fullUser: User = {
         id: 'test-uuid',
         email: 'test@example.com', // Sensitive
+        password: 'TestPass123!', // Sensitive
         username: 'testuser',
         firstName: 'Test', // Sensitive
         lastName: 'User', // Sensitive
@@ -194,6 +198,7 @@ describe('Unified User Model Integration Tests', () => {
         followersCount: fullUser.followersCount,
         followingCount: fullUser.followingCount,
         createdAt: fullUser.createdAt,
+        updatedAt: fullUser.updatedAt,
         lastActiveAt: fullUser.lastActiveAt
       };
 
@@ -215,6 +220,7 @@ describe('Unified User Model Integration Tests', () => {
       const originalUser: User = {
         id: 'test-uuid',
         email: 'test@example.com',
+        password: 'TestPass123!',
         username: 'oldusername',
         profilePicture: DEFAULT_PROFILE_PICTURE,
         profileBio: 'Old bio',
@@ -252,6 +258,7 @@ describe('Unified User Model Integration Tests', () => {
       const minimalUser: User = {
         id: 'test-uuid',
         email: 'test@example.com',
+        password: 'TestPass123!',
         username: 'testuser',
         createdAt: new Date(),
         updatedAt: new Date()

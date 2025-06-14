@@ -4,7 +4,7 @@ import { authenticateToken } from '../../../../shared/middleware/auth';
 
 const router = express.Router();
 
-// PUT /users/profile/update - Update current user's profile
+// PUT /users/profile - Update current user's profile
 router.put('/', authenticateToken, updateUserProfileController);
 
 export default router; 

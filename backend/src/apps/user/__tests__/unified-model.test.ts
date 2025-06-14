@@ -13,6 +13,7 @@ describe('Unified User Model Integration', () => {
     const user: User = {
       id: 'test-uuid',
       email: 'test@example.com',
+      password: 'TestPass123!',
       username: 'testuser',
       profilePicture: 'https://res.cloudinary.com/demo/image/upload/v123/profile-pictures/testuser.jpg',
       profileBio: 'Test bio',
@@ -37,7 +38,8 @@ describe('Unified User Model Integration', () => {
       id: 'test-uuid',
       username: 'testuser',
       profilePicture: 'https://res.cloudinary.com/demo/image/upload/v123/profile.jpg',
-      createdAt: new Date()
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
 
     expect('email' in publicProfile).toBe(false);

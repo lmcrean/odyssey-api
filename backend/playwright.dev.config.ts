@@ -16,6 +16,10 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   
+  // Auto-exit configuration
+  maxFailures: process.env.CI ? undefined : 1,
+  globalTeardown: './src/shared/utilities/playwrightTeardown.ts',
+  
   testMatch: ['**/*.spec.ts', '**/*.api.pw.spec.ts'],
 
   webServer: {
@@ -23,6 +27,8 @@ export default defineConfig({
     url: 'http://localhost:5000/api/health',
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
+    stdout: 'ignore',
+    stderr: 'pipe',
   },
 
   projects: [

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UserService } from '../../services/UserService';
+import { findUserById, findUserByUsername } from '../../models/database';
 
 export const getPublicProfileController = async (req: Request, res: Response) => {
   try {
@@ -11,24 +11,43 @@ export const getPublicProfileController = async (req: Request, res: Response) =>
       });
     }
 
-    let publicProfile;
+    let user = null;
     
-    // Check if identifier is a UUID (user ID) or username
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-    
-    if (uuidRegex.test(identifier)) {
-      // It's a user ID
-      publicProfile = await UserService.getPublicUserProfile(identifier);
+    // Try to find by username first, then by ID (inline business logic)
+    if (identifier.match(/^[a-zA-Z0-9_]{3,30}$/)) {
+      user = await findUserByUsername(identifier);
     } else {
-      // It's a username
-      publicProfile = await UserService.getUserByUsername(identifier);
+      const userWithPassword = await findUserById(identifier);
+      if (userWithPassword) {
+        const { password, ...userWithoutPassword } = userWithPassword;
+        user = userWithoutPassword;
+      }
     }
     
-    if (!publicProfile) {
+    if (!user) {
       return res.status(404).json({ 
         error: 'User not found' 
       });
     }
+
+    // Format public profile response (inline data transformation)
+    const publicProfile = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.username,
+      profileName: user.profileName,
+      profilePicture: user.profilePicture,
+      profileBio: user.profileBio,
+      profileLocation: user.profileLocation,
+      profileWebsite: user.profileWebsite,
+      profilePrivate: user.profilePrivate || false,
+      postsCount: user.postsCount || 0,
+      followersCount: user.followersCount || 0,
+      followingCount: user.followingCount || 0,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
+    };
 
     res.status(200).json({
       success: true,

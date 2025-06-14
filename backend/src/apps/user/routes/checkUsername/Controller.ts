@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UserService } from '../../services/UserService';
+import { checkUsernameExists } from '../../models/database';
 
 export const checkUsernameController = async (req: Request, res: Response) => {
   try {
@@ -25,7 +25,8 @@ export const checkUsernameController = async (req: Request, res: Response) => {
       });
     }
 
-    const isAvailable = await UserService.checkUsernameAvailability(username);
+    const usernameExists = await checkUsernameExists(username);
+    const isAvailable = !usernameExists;
 
     res.status(200).json({
       success: true,

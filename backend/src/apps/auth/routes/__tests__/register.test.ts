@@ -2,8 +2,10 @@ import request from 'supertest';
 import app from '../../../../server';
 
 describe('POST /api/auth/register', () => {
+  // Use unique timestamps to avoid email conflicts between test runs
+  const timestamp = Date.now();
   const validUser = {
-    email: 'test@register.com',
+    email: `test-${timestamp}@register.com`,
     password: 'ValidPass123',
     confirmPassword: 'ValidPass123',
     firstName: 'Test',
@@ -34,9 +36,11 @@ describe('POST /api/auth/register', () => {
 
     it('should register a user with minimal required fields', async () => {
       const minimalUser = {
-        email: 'minimal@register.com',
+        email: `minimal-${timestamp + 1}@register.com`,
         password: 'MinimalPass123',
-        confirmPassword: 'MinimalPass123'
+        confirmPassword: 'MinimalPass123',
+        firstName: 'Minimal',
+        lastName: 'User'
       };
 
       const response = await request(app)
@@ -46,6 +50,8 @@ describe('POST /api/auth/register', () => {
       expect(response.status).toBe(201);
       expect(response.body).toHaveProperty('success', true);
       expect(response.body.data.user).toHaveProperty('email', minimalUser.email);
+      expect(response.body.data.user).toHaveProperty('firstName', minimalUser.firstName);
+      expect(response.body.data.user).toHaveProperty('lastName', minimalUser.lastName);
     });
   });
 

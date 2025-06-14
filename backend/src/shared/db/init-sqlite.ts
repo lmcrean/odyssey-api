@@ -35,9 +35,9 @@ async function createTables() {
       table.string('avatar');
       
       // Profile fields
-      table.text('bio');
-      table.string('location');
-      table.string('website');
+      table.text('profileBio');
+      table.string('profileLocation');
+      table.string('profileWebsite');
       table.string('profileName');
       table.string('profilePicture');
       table.date('profileBirthdate');
@@ -54,14 +54,14 @@ async function createTables() {
   }
   
   // Always check and add missing columns (for existing tables)
-  const hasProfileColumns = await db.schema.hasColumn('users', 'bio');
+  const hasProfileColumns = await db.schema.hasColumn('users', 'profileBio');
   if (!hasProfileColumns) {
     console.log('🔄 Adding missing profile columns to users table...');
     await db.schema.alterTable('users', (table) => {
       // Profile fields
-      table.text('bio');
-      table.string('location');
-      table.string('website');
+      table.text('profileBio');
+      table.string('profileLocation');
+      table.string('profileWebsite');
       table.string('profileName');
       table.string('profilePicture');
       table.date('profileBirthdate');

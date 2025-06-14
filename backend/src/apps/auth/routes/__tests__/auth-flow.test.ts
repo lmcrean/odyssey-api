@@ -4,8 +4,9 @@ import app from '../../../../server';
 describe('Auth Flow Integration Tests', () => {
   let accessToken: string;
   let refreshToken: string;
+  const timestamp = Date.now();
   const testUser = {
-    email: 'integrationtest@example.com',
+    email: `integrationtest-${timestamp}@example.com`,
     password: 'TestPass123',
     confirmPassword: 'TestPass123',
     firstName: 'Integration',
@@ -83,7 +84,7 @@ describe('Auth Flow Integration Tests', () => {
       await request(app)
         .post('/api/auth/register')
         .send({
-          email: 'edgecase@example.com',
+          email: `edgecase-${timestamp + 1}@example.com`,
           password: 'CorrectPass123',
           confirmPassword: 'CorrectPass123',
           firstName: 'Edge',
@@ -94,7 +95,7 @@ describe('Auth Flow Integration Tests', () => {
       const loginResponse = await request(app)
         .post('/api/auth/login')
         .send({
-          email: 'edgecase@example.com',
+          email: `edgecase-${timestamp + 1}@example.com`,
           password: 'WrongPassword123'
         });
 
@@ -117,7 +118,7 @@ describe('Auth Flow Integration Tests', () => {
 
     it('should handle multiple logins with same credentials', async () => {
       const credentials = {
-        email: 'multilogin@example.com',
+        email: `multilogin-${timestamp + 2}@example.com`,
         password: 'MultiLogin123',
         confirmPassword: 'MultiLogin123',
         firstName: 'Multi',

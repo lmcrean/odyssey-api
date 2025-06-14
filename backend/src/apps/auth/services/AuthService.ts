@@ -1,13 +1,9 @@
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { AuthUser, LoginRequest, RegisterRequest, JWTPayload } from '../types';
-import { UserModel } from '../../user/models/UserModel';
+import { findUserByEmail, createUser, findUserById } from '../../user/models';
 import { User } from '../../user/types';
-
-// Database user interface that includes password field
-interface DatabaseUser extends User {
-  password: string;
-}
+import { v4 as uuidv4 } from 'uuid';
 
 // Simple in-memory store for testing (replace with actual database)
 const userStore = new Map<string, { user: AuthUser; hashedPassword: string }>();
@@ -20,7 +16,7 @@ export class AuthService {
 
   static async register(userData: RegisterRequest): Promise<AuthUser> {
     // Check if user already exists in database
-    const existingUser = await UserModel.findByEmail(userData.email);
+    const existingUser = await findUserByEmail(userData.email);
     if (existingUser) {
       throw new Error('User with this email already exists');
     }
@@ -29,7 +25,8 @@ export class AuthService {
     const hashedPassword = await bcryptjs.hash(userData.password, 12);
     
     // Create user in database
-    const dbUser = await UserModel.createUser({
+    const dbUser = await createUser({
+      id: uuidv4(),
       email: userData.email,
       password: hashedPassword,
       username: userData.email.split('@')[0] + Date.now(), // Generate username from email
@@ -54,8 +51,8 @@ export class AuthService {
   }
 
   static async login(credentials: LoginRequest): Promise<AuthUser | null> {
-    // Find user in database (cast to include password field)
-    const dbUser = await UserModel.findByEmail(credentials.email) as DatabaseUser | null;
+    // Find user in database
+    const dbUser = await findUserByEmail(credentials.email);
     if (!dbUser) {
       return null;
     }
@@ -120,7 +117,7 @@ export class AuthService {
     }
 
     // Get user from database instead of using mock data
-    const dbUser = await UserModel.findById(payload.userId);
+    const dbUser = await findUserById(payload.userId);
     if (!dbUser) {
       throw new Error('User not found');
     }

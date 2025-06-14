@@ -1,84 +1,22 @@
-export * from './user';
+// Export core User entity
+export * from './User';
 
-export interface User {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  username?: string;
-  // Profile fields -- moved to profileFields in camelCase (profilePicture, profileBio, profileLocation, profileWebsite)
-  // avatar?: string; avatar is now profilePicture
-  // bio?: string; bio is now profileBio
-  // location?: string; location is now profileLocation
-  // website?: string; website is now profileWebsite
-  profileName?: string;
-  profilePicture?: string;
-  profileBio?: string;
-  profileLocation?: string;
-  profileWebsite?: string;
-  profileBirthdate?: Date;
-  profilePrivate?: boolean;
-  
-  // Social counts
-  postsCount?: number;
-  followersCount?: number;
-  followingCount?: number;
-  
-  createdAt: Date;
-  updatedAt: Date;
-}
+// Export user-related types and requests
+export * from './user-types/CreateUserRequest';
+export * from './user-types/UpdateUserRequest';
+export * from './user-types/PublicUserProfile';
+export * from './user-types/UserSearchResult';
 
-// Database user includes password for auth operations
-export interface DatabaseUser extends User {
-  password: string;
-}
+// Export Cloudinary-related types and utilities
+// Re-export Cloudinary configuration for backward compatibility
+export { CLOUDINARY_CONFIG, CloudinaryValidation } from '../../../shared/services/CloudinaryValidation';
 
-export interface CreateUserRequest {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  username?: string;
-}
+// Export constants
+export * from './constants/DefaultProfilePicture';
 
-export interface UpdateUserRequest {
-  firstName?: string;
-  lastName?: string;
-  username?: string;
-  bio?: string;
-  location?: string;
-  website?: string;
-  avatar?: string;
-  profileName?: string;
-  profilePicture?: string;
-  profileBio?: string;
-  profileLocation?: string;
-  profileWebsite?: string;
-  profileBirthdate?: Date;
-  profilePrivate?: boolean;
-  postsCount?: number;
-  followersCount?: number;
-  followingCount?: number;
-}
+// Utility types derived from User
+export type UserWithoutPassword = Omit<import('./User').User, 'password'>;
 
-export interface PublicProfile {
-  id: string;
-  firstName: string;
-  lastName: string;
-  username?: string;
-  avatar?: string;
-  bio?: string;
-  location?: string;
-  website?: string;
-  profileName?: string;
-  profilePicture?: string;
-  profileBio?: string;
-  profileLocation?: string;
-  profileWebsite?: string;
-  profilePrivate?: boolean;
-  postsCount?: number;
-  followersCount?: number;
-  followingCount?: number;
-  createdAt: Date;
-  updatedAt: Date;
-} 
+// Type aliases for backward compatibility and consistency
+export type UpdateUserData = import('./user-types/UpdateUserRequest').UpdateUserRequest;
+export type PublicProfile = import('./user-types/PublicUserProfile').PublicUserProfile; 
