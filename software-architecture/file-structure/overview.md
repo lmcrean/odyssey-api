@@ -18,7 +18,7 @@ A TypeScript-first creator monetization platform built for **MVP deployment** wi
 **Apps (MVP Implementation):**
 - ✅ **apps/web** - React frontend (basic UI, image upload, payment flows)
 - ✅ **apps/api** - Express API (auth, image handling, payment processing)
-- ❌ **apps/payments** - Post-MVP (integrate directly in api initially)
+- 🔄 **apps/payments** - payments (minimal implementation)
 - ❌ **apps/workers** - Post-MVP (process images synchronously initially)
 - ❌ **apps/admin** - Post-MVP (not user-facing)
 
@@ -27,9 +27,9 @@ A TypeScript-first creator monetization platform built for **MVP deployment** wi
 - ✅ **packages/auth** - JWT authentication, basic validation
 - ✅ **packages/ui** - Essential components (Button, Input, Modal, ImageUpload)
 - 🔄 **packages/media** - Image upload/display only (no video/audio processing)
-- ❌ **packages/payments** - Post-MVP (keep Stripe integration simple in api)
+- 🔄 **packages/payments** - payments (minimal implementation)
+- 🔄 **packages/observability** - E2E testing logs, correlation IDs (essential for Playwright)
 - ❌ **packages/security** - Post-MVP (basic auth security only)
-- ❌ **packages/observability** - Post-MVP (console.log initially)
 
 ### 🚀 Post-MVP Features (Scale & Polish)
 **When you have 100+ creators and $10K+ monthly GMV:**
@@ -64,8 +64,16 @@ apps/api/
 ├── src/routes/
 │   ├── auth.ts               # Login/register
 │   ├── users.ts              # User profiles
-│   ├── images.ts             # Image upload/display
-│   └── payments.ts           # Stripe integration
+│   └── images.ts             # Image upload/display
+
+apps/payments/                 # 🔄 Minimal but separate
+├── src/routes/
+│   ├── process.ts            # Process payments
+│   ├── webhooks.ts           # Stripe webhooks
+│   └── status.ts             # Payment status
+├── src/services/
+│   └── StripeService.ts      # Basic Stripe integration
+└── vercel.json               # Separate deployment config
 ```
 
 **Week 3-4: MVP Features**
