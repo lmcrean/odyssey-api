@@ -29,3 +29,9 @@ combined_repo.md
 # frontend/test-results.json
 # frontend/screenshots/.last-run.json
 
+.vercel
+
+.archive/frontend-ts-reference/**
+.archive/frontend-ts-new/**
+.archive/backend-ts-reference/**
+.archive/backend-js-reference/**

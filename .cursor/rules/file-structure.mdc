@@ -1,0 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+refer to /software-architecture in the root to understand proposed file structure.
+
+It contains many subfolders with highest level overview of intention of the app and the 

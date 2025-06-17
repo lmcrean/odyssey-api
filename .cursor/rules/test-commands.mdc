@@ -1,0 +1,19 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+## Testing Commands
+
+For detailed testing commands and examples, refer to the [Test-Driven Development Documentation](./test-driven-development.mdc).
+
+### Unit & Integration Testing
+See the "Unit & Integration Testing" section in [Test-Driven Development Documentation](./test-driven-development.mdc).
+
+### Development Environment Testing
+See the "Development Environment Testing" section in [Test-Driven Development Documentation](./test-driven-development.mdc).
+
+### Production Environment Testing
+See the "Production Environment Testing" section in [Test-Driven Development Documentation](./test-driven-development.mdc).
+

@@ -1,0 +1,9 @@
+.vercel
+
+playwright/screenshots/**/**
+
+build/*
+staticfiles/*
+
+test-results/*
+

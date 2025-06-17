@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "strict": true,
+    "declaration": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node", "vitest/globals"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/models/*": ["./src/models/*"],
+      "@/routes/*": ["./src/routes/*"],
+      "@/middleware/*": ["./src/middleware/*"],
+      "@/services/*": ["./src/services/*"],
+      "@/db/*": ["./src/db/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/test-utils/*": ["./src/test-utilities/*"]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.spec.js",
+    "**/*.test.js"
+  ]
+} 

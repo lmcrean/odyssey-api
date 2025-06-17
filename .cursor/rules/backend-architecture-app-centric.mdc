@@ -1,0 +1,42 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+## BACKEND ARCHITECTURE - APP-CENTRIC ORGANIZATION
+
+**Always organize backend code by domain/app rather than technical layers.**
+
+### Structure:
+```
+src/apps/{domain}/
+├── models/          # Domain-specific data models
+├── routes/{endpoint}/  # Each endpoint gets its own folder
+│   ├── Route.ts     # Route definition
+│   └── Controller.ts # Business logic
+├── services/        # Business logic services for the domain
+└── types/          # Domain-specific TypeScript types
+```
+
+### Examples:
+- `src/apps/auth/routes/login/Route.ts + Controller.ts`
+- `src/apps/user/routes/changePassword/Route.ts + Controller.ts`  
+- `src/apps/chat/routes/sendMessage/Route.ts + Controller.ts`
+
+### Shared Resources:
+
+```
+src/shared/
+├── middleware/     # Shared middleware
+├── db/            # Database utilities  
+├── types/         # Global types
+└── utilities/     # Common utilities
+```
+
+### Benefits:
+- **Domain cohesion** - Related functionality stays together
+- **Easier navigation** - Find everything for a feature in one place
+- **Better scalability** - New features don't pollute entire codebase
+- **Isolated testing** - Tests co-located with domains
+
+- **Team collaboration** - Teams can work on different apps independently
