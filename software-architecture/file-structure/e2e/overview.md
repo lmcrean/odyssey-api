@@ -34,65 +34,94 @@ backend/e2e/
 ## Future Structure (Apps/Packages Architecture)
 ```typescript
 odyssey/e2e/
-├── global-integration.spec.ts    # Cross-app integration tests
+├── master-integration.spec.ts    # Single test file that runs everything
 ├── playwright.config.ts          # Global Playwright config
 └── runners/
     ├── auth/                     # Authentication domain
-    │   ├── login.api.test.ts     # POST /api/auth/login (API testing)
-    │   ├── login.web.test.ts     # Login page interactions (Frontend testing)
-    │   ├── register.api.test.ts  # POST /api/auth/register (API testing)
-    │   ├── register.web.test.ts  # Registration page interactions (Frontend testing)
-    │   ├── logout.api.test.ts    # POST /api/auth/logout (API testing)
-    │   ├── logout.web.test.ts    # Logout flow (Frontend testing)
-    │   └── authFlow.integration.test.ts # Complete auth journey (Cross-app)
+    │   ├── login.ts              # Login action runner
+    │   ├── register.ts           # Register action runner
+    │   └── logout.ts             # Logout action runner
     ├── content/                  # Content management domain
-    │   ├── uploadImage.api.test.ts     # POST /api/content/upload (API testing)
-    │   ├── uploadImage.web.test.ts     # Image upload interface (Frontend testing)
-    │   ├── getFeed.api.test.ts         # GET /api/content/feed (API testing)
-    │   ├── browseFeed.web.test.ts      # Content feed page (Frontend testing)
-    │   ├── deleteContent.api.test.ts   # DELETE /api/content/:id (API testing)
-    │   ├── deleteContent.web.test.ts   # Delete content UI (Frontend testing)
-    │   └── contentFlow.integration.test.ts # Upload → display → delete journey
+    │   ├── uploadImage.ts        # Upload image action runner
+    │   ├── deleteContent.ts     # Delete content action runner
+    │   └── viewContent.ts       # View content action runner
     ├── payments/                 # Payment processing domain
-    │   ├── createPayment.api.test.ts        # POST /api/payments/create (API testing)
-    │   ├── createPayment.payments.test.ts   # POST /payments/process (Payments app testing)
-    │   ├── makePayment.web.test.ts          # Payment interface (Frontend testing)
-    │   ├── processWebhook.payments.test.ts  # POST /payments/webhooks/stripe (Payments app)
-    │   ├── getPaymentStatus.api.test.ts     # GET /api/payments/:id/status (API testing)
-    │   └── paymentFlow.integration.test.ts  # Web → API → Payments → Webhook flow
-    ├── users/                    # User management domain
-    │   ├── getProfile.api.test.ts      # GET /api/users/profile (API testing)
-    │   ├── updateProfile.api.test.ts   # PUT /api/users/profile (API testing)
-    │   ├── editProfile.web.test.ts     # Profile editing page (Frontend testing)
-    │   ├── searchUsers.api.test.ts     # GET /api/users/search (API testing)
-    │   ├── discoverCreators.web.test.ts # Creator discovery page (Frontend testing)
-    │   └── userFlow.integration.test.ts # Registration → profile → discovery journey
-    ├── health/                   # Health check domain
-    │   ├── checkHealth.api.test.ts     # GET /api/health (API testing)
-    │   ├── checkDatabase.api.test.ts   # GET /api/health/db (API testing)
-    │   └── checkCors.api.test.ts       # OPTIONS preflight testing (API testing)
-    └── operations/               # Cross-app orchestrated flows
-        ├── creatorOnboarding.integration.test.ts  # Full creator signup → first payment
-        ├── fanJourney.integration.test.ts         # Fan discovery → payment → content
-        └── platformHealth.integration.test.ts     # End-to-end platform testing
+    │   ├── createPayment.ts     # Create payment action runner
+    │   ├── processPayment.ts    # Process payment action runner
+    │   └── confirmPayment.ts    # Confirm payment action runner
+    ├── user/                    # User management domain
+    │   ├── getProfile.ts        # Get profile action runner
+    │   ├── updateProfile.ts     # Update profile action runner
+    │   └── searchUsers.ts       # Search users action runner
+    └── operations/              # Cross-domain orchestration
+        ├── authFlow.ts          # Orchestrates login → register → logout
+        ├── contentFlow.ts       # Orchestrates upload → view → delete
+        ├── paymentFlow.ts       # Orchestrates payment → process → confirm
+        └── creatorJourney.ts    # Full creator signup → upload → payment
+```
+
+## Testing Architecture Flow
+
+### 🎭 **Single Test Entry Point**
+```typescript
+// master-integration.spec.ts - The ONLY .spec file
+test('creator journey flow', async ({ page, request }) => {
+  const creatorJourney = new CreatorJourneyOperation(page, request);
+  await creatorJourney.execute();
+});
+
+test('payment processing flow', async ({ page, request }) => {
+  const paymentFlow = new PaymentFlowOperation(page, request);  
+  await paymentFlow.execute();
+});
+```
+
+### 🔧 **Operations Orchestrate Runners**
+```typescript
+// operations/creatorJourney.ts
+export class CreatorJourneyOperation {
+  async execute() {
+    // Use individual runners in sequence
+    const auth = new RegisterRunner(this.page, this.request);
+    const content = new UploadImageRunner(this.page, this.request);
+    const payment = new CreatePaymentRunner(this.page, this.request);
+    
+    await auth.run();
+    await content.run();  
+    await payment.run();
+  }
+}
+```
+
+### ⚡ **Runners Execute Single Actions**
+```typescript
+// runners/auth/register.ts - No .test suffix!
+export class RegisterRunner {
+  constructor(private page: Page, private request: APIRequestContext) {}
+  
+  async run() {
+    // Single action: user registration
+    await this.page.goto('/register');
+    await this.page.fill('[data-testid="email"]', 'test@example.com');
+    await this.page.click('[data-testid="submit"]');
+    // Return data for next runner
+    return { userId: '123', token: 'abc' };
+  }
+}
 ```
 
 ## Runner Pattern Principles
 
-### 1. **Verb-Based Naming with Test Type Suffixes**
+### 1. **Action-Based Naming (No .test Suffix)**
 ```typescript
-// Naming convention: {verb}{Object}.{testType}.test.ts
-login.api.test.ts           # Tests POST /api/auth/login endpoint
-login.web.test.ts           # Tests login page interactions
-uploadImage.api.test.ts     # Tests POST /api/content/upload endpoint  
-uploadImage.web.test.ts     # Tests image upload UI interactions
-createPayment.payments.test.ts # Tests payment app processing
+// Naming convention: {verb}{Object}.ts
+login.ts              # Handles login action
+register.ts           # Handles registration action  
+uploadImage.ts        # Handles image upload action
+createPayment.ts      # Handles payment creation action
 
-// Test type suffixes:
-// .api.test.ts        → Backend API endpoint testing
-// .web.test.ts        → Frontend page/component testing  
-// .payments.test.ts   → Payment service testing
-// .integration.test.ts → Cross-app flow testing
+// NOT .test.ts because they're not test files!
+// They're action runners executed by operations
 ```
 
 ### 2. **Domain-Based Folder Organization**
@@ -100,18 +129,17 @@ createPayment.payments.test.ts # Tests payment app processing
 // All related tests in same domain folder
 runners/
 ├── auth/              # Authentication domain
-│   ├── login.api.test.ts
-│   ├── login.web.test.ts
-│   └── authFlow.integration.test.ts
+│   ├── login.ts
+│   ├── register.ts
+│   └── logout.ts
 ├── content/           # Content management domain
-│   ├── uploadImage.api.test.ts
-│   ├── uploadImage.web.test.ts
-│   └── contentFlow.integration.test.ts
+│   ├── uploadImage.ts
+│   ├── deleteContent.ts
+│   └── viewContent.ts
 └── payments/          # Payment processing domain
-    ├── createPayment.api.test.ts
-    ├── createPayment.payments.test.ts
-    ├── makePayment.web.test.ts
-    └── paymentFlow.integration.test.ts
+    ├── createPayment.ts
+    ├── processPayment.ts
+    └── confirmPayment.ts
 ```
 
 ### 3. **Reusable & Composable Runners**
