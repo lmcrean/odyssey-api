@@ -1,5 +1,9 @@
 # Odyssey - Creator Platform MVP Architecture
 
+key: ✅ - MVP
+key: 🔄 - MVP but bare minimal implementation, should be expanded later
+key: ❌ - Not MVP but should be added later
+
 ## Overview
 A TypeScript-first creator monetization platform built for **MVP deployment** with 100-500 initial creators. Instagram-ish image sharing with direct creator monetization.
 
@@ -30,6 +34,18 @@ A TypeScript-first creator monetization platform built for **MVP deployment** wi
 - 🔄 **packages/payments** - payments (minimal implementation)
 - 🔄 **packages/observability** - E2E testing logs, correlation IDs (essential for Playwright)
 - ❌ **packages/security** - Post-MVP (basic auth security only)
+
+**e2e tests**
+- ✅ **e2e/runners** - E2E tests for all apps
+- ✅ **e2e/operations** - E2E tests for cross-app flows
+
+**integration tests**
+- ✅ **integration/runners** - Integration tests for all apps
+- ✅ **integration/operations** - Integration tests for cross-app flows
+- ✅ **integration/pages** - Integration tests for web pages
+- ✅ **integration/api** - Integration tests for api endpoints
+- ✅ **integration/payments** - Integration tests for payments
+- ✅ **integration/auth** - Integration tests for auth
 
 ### 🚀 Post-MVP Features (Scale & Polish)
 **When you have 100+ creators and $10K+ monthly GMV:**
