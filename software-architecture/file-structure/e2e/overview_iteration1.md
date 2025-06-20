@@ -7,7 +7,7 @@ Comprehensive end-to-end testing using Playwright with a **runners pattern** tha
 
 ## Basic File Structure
 
-```typescript
+```bash
 odyssey/e2e/
 ├── master-integration.spec.ts    # Single test file that runs everything
 ├── playwright.config.ts          # Global Playwright config
