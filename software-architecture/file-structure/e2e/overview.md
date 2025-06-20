@@ -1,63 +1,61 @@
 # E2E Testing Architecture - Playwright Runners Pattern
 
-> **Testing Strategy**: Each endpoint = unique runner file, each app = dedicated folder
+> **Testing Strategy**: Each endpoint = unique runner file, organized by app type (API/Web)
 
 ## Overview
-Comprehensive end-to-end testing using Playwright with a **runners pattern** that provides modular, reusable, and maintainable test components. Each API endpoint gets its own runner class, organized by application domain.
+Comprehensive end-to-end testing using Playwright with a **runners pattern** that provides modular, reusable, and maintainable test components. Each API endpoint and web interaction gets its own runner class, organized by domain and app type.
 
-## Current Structure (Backend-Focused)
-```typescript
-backend/e2e/
-├── master-integration.spec.ts    # Main test orchestration
-├── playwright.config.ts          # Playwright configuration
-└── runners/
-    ├── auth/                     # Authentication app runners
-    │   ├── Login.ts              # POST /api/auth/login
-    │   ├── Register.ts           # POST /api/auth/register
-    │   ├── Logout.ts             # POST /api/auth/logout
-    │   └── RefreshToken.ts       # POST /api/auth/refresh
-    ├── user/                     # User management runners
-    │   ├── GetUserProfile.ts     # GET /api/users/profile
-    │   ├── UpdateProfile.ts      # PUT /api/users/profile
-    │   ├── SearchUsers.ts        # GET /api/users/search
-    │   ├── CheckUsername.ts      # GET /api/users/check-username
-    │   └── GetPublicProfile.ts   # GET /api/users/:id/public
-    ├── health/                   # Health check runners
-    │   ├── HealthStatus.ts       # GET /api/health
-    │   ├── DatabaseHealth.ts     # GET /api/health/db
-    │   └── CorsCheck.ts          # OPTIONS preflight testing
-    └── operations/               # Orchestrated test flows
-        ├── AuthFlow.ts           # Complete auth user journey
-        └── UserFlow.ts           # Complete user management flow
-```
-
-## Future Structure (Apps/Packages Architecture)
+## Apps/Packages Architecture Structure
 ```typescript
 odyssey/e2e/
 ├── master-integration.spec.ts    # Single test file that runs everything
 ├── playwright.config.ts          # Global Playwright config
 └── runners/
     ├── auth/                     # Authentication domain
-    │   ├── login.ts              # Login action runner
-    │   ├── register.ts           # Register action runner
-    │   └── logout.ts             # Logout action runner
-    ├── content/                  # Content management domain
-    │   ├── uploadImage.ts        # Upload image action runner
-    │   ├── deleteContent.ts     # Delete content action runner
-    │   └── viewContent.ts       # View content action runner
-    ├── payments/                 # Payment processing domain
-    │   ├── createPayment.ts     # Create payment action runner
-    │   ├── processPayment.ts    # Process payment action runner
-    │   └── confirmPayment.ts    # Confirm payment action runner
-    ├── user/                    # User management domain
-    │   ├── getProfile.ts        # Get profile action runner
-    │   ├── updateProfile.ts     # Update profile action runner
-    │   └── searchUsers.ts       # Search users action runner
+    │   ├── login/
+    │   │   ├── login.api.ts      # Backend API endpoint testing
+    │   │   └── login.web.ts      # Frontend UI testing
+    │   ├── register/
+    │   │   ├── register.api.ts   
+    │   │   └── register.web.ts   
+    │   └── logout/
+    │       ├── logout.api.ts     
+    │       └── logout.web.ts     
+    ├── user/                     # User management domain
+    │   ├── profile/
+    │   │   ├── getProfile.api.ts
+    │   │   ├── updateProfile.api.ts
+    │   │   └── profile.web.ts    # UI for viewing/editing profile
+    │   ├── search/
+    │   │   ├── searchUsers.api.ts
+    │   │   └── search.web.ts
+    │   └── username/
+    │       ├── checkUsername.api.ts
+    │       └── username.web.ts
+    ├── content/                  # Content management domain (future)
+    │   ├── upload/
+    │   │   ├── uploadImage.api.ts
+    │   │   └── upload.web.ts
+    │   └── manage/
+    │       ├── deleteContent.api.ts
+    │       └── manage.web.ts
+    ├── payments/                 # Payment processing domain (future)
+    │   ├── create/
+    │   │   ├── createPayment.api.ts
+    │   │   └── create.web.ts
+    │   └── process/
+    │       ├── processPayment.api.ts
+    │       └── process.web.ts
     └── operations/              # Cross-domain orchestration
-        ├── authFlow.ts          # Orchestrates login → register → logout
-        ├── contentFlow.ts       # Orchestrates upload → view → delete
-        ├── paymentFlow.ts       # Orchestrates payment → process → confirm
-        └── creatorJourney.ts    # Full creator signup → upload → payment
+        ├── auth/
+        │   ├── authFlow.api.ts   # Backend-only auth operations
+        │   └── authFlow.web.ts   # Frontend-only auth operations
+        ├── user/
+        │   ├── userFlow.api.ts   # Backend user operations
+        │   └── userFlow.web.ts   # Frontend user operations
+        └── content/              # Future content flows
+            ├── contentFlow.api.ts
+            └── contentFlow.web.ts
 ```
 
 ## Testing Architecture Flow
@@ -65,89 +63,68 @@ odyssey/e2e/
 ### 🎭 **Single Test Entry Point**
 ```typescript
 // master-integration.spec.ts - The ONLY .spec file
-test('creator journey flow', async ({ page, request }) => {
-  const creatorJourney = new CreatorJourneyOperation(page, request);
-  await creatorJourney.execute();
+test('API auth flow', async ({ request }) => {
+  const authFlow = new AuthFlowApiOperation(request);
+  await authFlow.runComplete();
 });
 
-test('payment processing flow', async ({ page, request }) => {
-  const paymentFlow = new PaymentFlowOperation(page, request);  
-  await paymentFlow.execute();
+test('Web auth flow', async ({ page }) => {
+  const authFlow = new AuthFlowWebOperation(page);  
+  await authFlow.runComplete();
+});
+
+test('API user management', async ({ request }) => {
+  const userFlow = new UserFlowApiOperation(request);
+  await userFlow.runComplete();
+});
+
+test('Web user journey', async ({ page }) => {
+  const userFlow = new UserFlowWebOperation(page);
+  await userFlow.runComplete();
 });
 ```
 
-### 🔧 **Operations Orchestrate Runners**
+### 🔧 **Operations Orchestrate App-Specific Runners**
 ```typescript
-// operations/creatorJourney.ts
-export class CreatorJourneyOperation {
-  async execute() {
-    // Use individual runners in sequence
-    const auth = new RegisterRunner(this.page, this.request);
-    const content = new UploadImageRunner(this.page, this.request);
-    const payment = new CreatePaymentRunner(this.page, this.request);
-    
-    await auth.run();
-    await content.run();  
-    await payment.run();
-  }
-}
-```
-
-### ⚡ **Runners Execute Single Actions**
-```typescript
-// runners/auth/register.ts - No .test suffix!
-export class RegisterRunner {
-  constructor(private page: Page, private request: APIRequestContext) {}
+// operations/auth/authFlow.api.ts - Backend API operations
+export class AuthFlowApiOperation {
+  constructor(private request: APIRequestContext) {}
   
-  async run() {
-    // Single action: user registration
-    await this.page.goto('/register');
-    await this.page.fill('[data-testid="email"]', 'test@example.com');
-    await this.page.click('[data-testid="submit"]');
-    // Return data for next runner
-    return { userId: '123', token: 'abc' };
+  async runComplete() {
+    const register = new RegisterApiRunner(this.request);
+    const login = new LoginApiRunner(this.request);
+    const logout = new LogoutApiRunner(this.request);
+    
+    await register.runValidRegistration();
+    await login.runValidLogin();
+    await logout.runLogout();
+  }
+}
+
+// operations/auth/authFlow.web.ts - Frontend UI operations  
+export class AuthFlowWebOperation {
+  constructor(private page: Page) {}
+  
+  async runComplete() {
+    const register = new RegisterWebRunner(this.page);
+    const login = new LoginWebRunner(this.page);
+    const logout = new LogoutWebRunner(this.page);
+    
+    await register.runValidRegistration();
+    await login.runValidLogin();
+    await logout.runLogout();
   }
 }
 ```
 
-## Runner Pattern Principles
+### ⚡ **App-Specific Runners Execute Single Actions**
 
-### 1. **Action-Based Naming (No .test Suffix)**
+#### **API Runner Pattern**
 ```typescript
-// Naming convention: {verb}{Object}.ts
-login.ts              # Handles login action
-register.ts           # Handles registration action  
-uploadImage.ts        # Handles image upload action
-createPayment.ts      # Handles payment creation action
-
-// NOT .test.ts because they're not test files!
-// They're action runners executed by operations
-```
-
-### 2. **Domain-Based Folder Organization**
-```typescript
-// All related tests in same domain folder
-runners/
-├── auth/              # Authentication domain
-│   ├── login.ts
-│   ├── register.ts
-│   └── logout.ts
-├── content/           # Content management domain
-│   ├── uploadImage.ts
-│   ├── deleteContent.ts
-│   └── viewContent.ts
-└── payments/          # Payment processing domain
-    ├── createPayment.ts
-    ├── processPayment.ts
-    └── confirmPayment.ts
-```
-
-### 3. **Reusable & Composable Runners**
-```typescript
-// Each file exports a runner class
+// runners/auth/login/login.api.ts - Backend endpoint testing
 export class LoginApiRunner {
   constructor(private request: APIRequestContext) {}
-
+  
   async runValidLogin() {
     const response = await this.request.post('/api/auth/login', {
       data: { email: 'test@example.com', password: 'TestPassword123!' }
@@ -159,10 +136,14 @@ export class LoginApiRunner {
     return { success: true, data };
   }
 }
+```
 
+#### **Web Runner Pattern**
+```typescript
+// runners/auth/login/login.web.ts - Frontend UI testing
 export class LoginWebRunner {
   constructor(private page: Page) {}
-
+  
   async runValidLogin() {
     await this.page.goto('/login');
     await this.page.fill('[data-testid="email"]', 'test@example.com');
@@ -170,61 +151,95 @@ export class LoginWebRunner {
     await this.page.click('[data-testid="login-button"]');
     
     await expect(this.page).toHaveURL('/dashboard');
+    await expect(this.page.locator('[data-testid="user-menu"]')).toBeVisible();
+    
     return { success: true };
   }
 }
 ```
 
-## Integration with Observability
+## Runner Pattern Principles
 
-### Request Correlation Across Apps
+### 1. **App-Specific File Naming**
 ```typescript
-// Each test generates correlation ID for tracing
-export class PaymentIntegrationFlow {
-  async runCrossAppPaymentFlow() {
-    const correlationId = generateCorrelationId();
-    
-    // 1. Frontend: User initiates payment
-    const frontendResult = await webRunner.initiatePayment({ correlationId });
-    
-    // 2. API: Creates payment intent
-    const apiResult = await apiRunner.createPaymentIntent({ correlationId });
-    
-    // 3. Payments: Processes with Stripe
-    const paymentResult = await paymentsRunner.processPayment({ correlationId });
-    
-    // 4. Verify all logs are correlated
-    const logs = await observabilityRunner.getLogsByCorrelation(correlationId);
-    expect(logs).toContain('frontend.payment.initiated');
-    expect(logs).toContain('api.payment.created');
-    expect(logs).toContain('payments.stripe.processed');
+// Naming convention: {action}.{app}.ts
+login.api.ts          # Backend API endpoint testing
+login.web.ts          # Frontend UI interaction testing
+register.api.ts       # Backend registration endpoint  
+register.web.ts       # Frontend registration form
+
+// Clear separation of concerns:
+// .api.ts = APIRequestContext, HTTP requests, JSON validation
+// .web.ts = Page interactions, selectors, UI validation
+```
+
+### 2. **Domain-First Organization**
+```typescript
+// Related functionality grouped by domain, then by app
+runners/
+├── auth/              # Authentication domain
+│   ├── login/         # Login functionality
+│   │   ├── login.api.ts
+│   │   └── login.web.ts
+│   └── register/      # Registration functionality
+│       ├── register.api.ts
+│       └── register.web.ts
+├── user/              # User management domain
+│   ├── profile/       # Profile functionality
+│   │   ├── getProfile.api.ts
+│   │   ├── updateProfile.api.ts
+│   │   └── profile.web.ts
+│   └── search/        # Search functionality
+│       ├── searchUsers.api.ts
+│       └── search.web.ts
+```
+
+### 3. **Separate Testing Buckets**
+```typescript
+// Clean workflow: Test apps separately, not mixed
+Bucket 1: All API Testing    (Fast, no browser overhead)
+Bucket 2: All Web Testing    (Browser-based, UI validation)
+
+// No .integrated.ts files - keeps it simple
+// Cross-app testing handled at operation level if needed
+```
+
+## Testing Commands & Workflow
+
+### **Separate App Testing**
+```bash
+# Test all API endpoints (fast, no browser)
+npx playwright test --project=api-tests
+
+# Test all web interactions (browser-based)  
+npx playwright test --project=web-tests
+
+# Test both buckets sequentially
+npm run test:api && npm run test:web
+
+# Test specific domain API
+npx playwright test --project=api-tests --grep="auth"
+
+# Test specific domain web
+npx playwright test --project=web-tests --grep="user"
+```
+
+### **Package.json Scripts**
+```json
+{
+  "scripts": {
+    "test:api": "playwright test --project=api-tests",
+    "test:web": "playwright test --project=web-tests", 
+    "test:e2e": "npm run test:api && npm run test:web",
+    "test:auth:api": "playwright test --project=api-tests --grep='auth'",
+    "test:auth:web": "playwright test --project=web-tests --grep='auth'"
   }
 }
 ```
 
-## Testing Strategies
+## Playwright Configuration
 
-### 1. **Unit-Level Runners** (Individual Endpoints)
-- Test single API endpoints in isolation
-- Validate request/response formats
-- Test error scenarios and edge cases
-- Fast execution, focused assertions
-
-### 2. **Integration-Level Operations** (Cross-App Flows)
-- Test complete user journeys
-- Validate data flow between apps
-- Test real-world scenarios
-- Comprehensive end-to-end validation
-
-### 3. **Frontend Page Runners** (UI Interactions)
-- Test user interface interactions
-- Validate frontend/backend integration
-- Test responsive design and accessibility
-- Visual regression testing
-
-## Configuration & Environment
-
-### Playwright Configuration
+### **App-Specific Project Configuration**
 ```typescript
 // playwright.config.ts
 export default defineConfig({
@@ -234,110 +249,103 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
-  
-  use: {
-    baseURL: process.env.TEST_BASE_URL || 'http://localhost:3000',
-    trace: 'on-first-retry',
-    video: 'retain-on-failure'
-  },
 
   projects: [
     {
       name: 'api-tests',
-      testMatch: '**/*.api.test.ts',
+      testMatch: '**/*.api.spec.ts',
       use: { 
-        baseURL: 'http://localhost:3001' // API app URL
-      }
-    },
-    {
-      name: 'payments-tests', 
-      testMatch: '**/*.payments.test.ts',
-      use: { 
-        baseURL: 'http://localhost:3002' // Payments app URL
+        baseURL: 'https://odyssey-api-lmcreans-projects.vercel.app'
       }
     },
     {
       name: 'web-tests',
-      testMatch: '**/*.web.test.ts',
+      testMatch: '**/*.web.spec.ts',
       use: { 
-        baseURL: 'http://localhost:3000', // Web app URL
-        browserName: 'chromium'
-      }
-    },
-    {
-      name: 'integration-tests',
-      testMatch: '**/*.integration.test.ts',
-      use: {
-        baseURL: 'http://localhost:3000' // Start with web, test across all apps
+        baseURL: 'https://odyssey-web-lmcreans-projects.vercel.app',
+        browserName: 'webkit' // Safari only per project requirements
       }
     }
   ]
 });
 ```
 
-### Environment-Specific Testing
+### **Environment-Specific Testing**
 ```typescript
-// Test against different environments
+// Test against different deployment environments
 const environments = {
   development: {
-    webApp: 'http://localhost:3000',
-    apiApp: 'http://localhost:3001', 
-    paymentsApp: 'http://localhost:3002'
+    api: 'http://localhost:3001',
+    web: 'http://localhost:3000'
   },
   staging: {
-    webApp: 'https://web-staging.vercel.app',
-    apiApp: 'https://api-staging.vercel.app',
-    paymentsApp: 'https://payments-staging.vercel.app'
+    api: 'https://odyssey-api-staging-lmcreans-projects.vercel.app',
+    web: 'https://odyssey-web-staging-lmcreans-projects.vercel.app'
   },
   production: {
-    webApp: 'https://odyssey.com',
-    apiApp: 'https://api.odyssey.com',
-    paymentsApp: 'https://payments.odyssey.com'
+    api: 'https://odyssey-api-lmcreans-projects.vercel.app',
+    web: 'https://odyssey-web-lmcreans-projects.vercel.app'
   }
 };
 ```
 
-## Benefits of Runners Pattern
+## Benefits of App-Specific Runners Pattern
+
+### 🚀 **Clear Separation of Concerns**
+- **API testing**: Request/response validation, data integrity, business logic
+- **Web testing**: UI interactions, user experience, visual feedback  
+- **No mixed concerns**: Each file has single responsibility
+
+### ⚡ **Optimized Testing Speed**
+- **API tests**: Fast execution, no browser overhead
+- **Web tests**: Full browser testing when needed
+- **Parallel execution**: Both test types can run simultaneously
 
 ### 🔧 **Maintainability**
-- Each endpoint has dedicated test logic
-- Easy to update when APIs change
-- Clear ownership and responsibility
+- **Co-location**: API and web versions of same feature are adjacent
+- **Easy updates**: When feature changes, both files are in same folder
+- **Clear ownership**: Each runner has single responsibility
 
-### 🚀 **Scalability** 
-- Add new runners for new endpoints
-- Compose complex flows from simple runners
-- Parallel test execution
+### 📊 **Development Workflow**
+- **Separate buckets**: Test API independently of web, or together
+- **Targeted testing**: Test specific domains or specific app types
+- **CI/CD friendly**: Different pipelines for different app types
 
-### 🧪 **Reusability**
-- Share runners across different test scenarios
-- Compose operations from existing runners
-- Consistent testing patterns
-
-### 📊 **Debugging**
-- Clear test failure attribution
-- Isolated test scenarios
-- Comprehensive logging and tracing
-
-### 🤖 **AI-Friendly**
-- Clear file structure for AI tools
-- Predictable naming conventions  
-- Isolated concerns for focused AI assistance
+### 🤖 **AI-Friendly Architecture**
+- **Predictable patterns**: Clear naming conventions for AI tools
+- **Domain boundaries**: Easy for AI to understand feature organization
+- **Isolated concerns**: AI can focus on single app type per file
 
 ## Migration Strategy
 
-### Phase 1: Current State (Backend Only)
-- ✅ API endpoint runners established
-- ✅ Basic operations for user flows
-- ✅ Health check and auth testing
+### Phase 1: Current State → App-Specific Structure
+- ✅ Convert existing API runners to `.api.ts` pattern
+- 🔄 Create corresponding `.web.ts` runners for UI testing
+- 🔄 Reorganize operations by app type
 
-### Phase 2: Apps Architecture (MVP)
-- 🔄 Add minimal frontend page runners
-- 🔄 Add basic payments app runners
-- 🔄 Create cross-app integration operations
+### Phase 2: Complete Two-App Testing
+- 📈 Full coverage of API endpoints
+- 📈 Complete web UI testing coverage
+- 📈 Optimized testing workflows
 
-### Phase 3: Full Platform (Scale)
-- 📈 Comprehensive frontend testing
-- 📈 Advanced payment scenarios
-- 📈 Complete user journey testing
-- 📈 Performance and load testing
+### Phase 3: Scale to Additional Apps (Future)
+- 📈 Add payments app runners (payments.api.ts, payments.web.ts)
+- 📈 Add workers app testing
+- 📈 Cross-app user journey testing
+
+## Integration with Other Testing Layers
+
+### **Testing Pyramid Integration**
+```typescript
+Unit Tests (Vitest)     → Integration Tests (Vitest)    → E2E Tests (Playwright)
+├── Single functions    ├── Multiple components        ├── Complete user flows
+├── Fast feedback       ├── Within-app testing         ├── Cross-app validation  
+└── Isolated testing    └── Database + services        └── Real browser testing
+
+// E2E complements, doesn't replace other testing layers
+```
+
+### **Relationship to Integration Testing**
+- **Integration tests**: Multiple components within same app (Vitest)
+- **E2E tests**: Complete flows across apps (Playwright)
+- **Complementary**: Both needed for comprehensive testing strategy
