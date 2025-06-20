@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  testDir: './e2e',
+  testDir: './',
   timeout: 30000,
   expect: {
     timeout: 5000,
@@ -12,19 +12,17 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: [['html'], ['list']],
   use: {
-    baseURL: 'http://localhost:5000',
+    baseURL: 'http://localhost:5005',
     trace: 'on-first-retry',
   },
   
-  // Auto-exit configuration
-  maxFailures: process.env.CI ? undefined : 1,
-  globalTeardown: './src/shared/utilities/playwrightTeardown.ts',
-  
-  testMatch: ['**/*.spec.ts', '**/*.api.pw.spec.ts'],
+  // Target the master integration spec file
+  testMatch: 'master-integration.spec.ts',
 
+  // Configure webServer to start the API for testing
   webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:5000/api/health',
+    command: 'cd ../apps/api && npm run dev:e2e',
+    url: 'http://localhost:5005/api/health',
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
     stdout: 'ignore',
@@ -34,15 +32,10 @@ export default defineConfig({
   projects: [
     {
       name: 'api-dev',
-      use: {},
-      testMatch: ['**/*.spec.ts', '**/*.api.pw.spec.ts'],
-    },
-    {
-      name: 'browser-dev',
       use: {
-        ...devices['Desktop Safari'],
+        baseURL: 'http://localhost:5005',
       },
-      testMatch: '**/*.ui.pw.spec.ts',
+      testMatch: 'master-integration.spec.ts',
     },
   ],
 }); 

@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  testDir: './e2e',
+  testDir: './',
   timeout: 30000,
   expect: {
     timeout: 5000,
@@ -20,20 +20,16 @@ export default defineConfig({
   maxFailures: process.env.CI ? undefined : 1,
   globalTeardown: './src/shared/utilities/playwrightTeardown.ts',
   
-  testMatch: '**/*.api.pw.spec.ts',
+  // Target the master integration spec file
+  testMatch: 'master-integration.spec.ts',
 
   projects: [
     {
       name: 'api-prod',
-      use: {},
-      testMatch: '**/*.api.pw.spec.ts',
-    },
-    {
-      name: 'browser-prod',
       use: {
-        ...devices['Desktop Safari'],
+        baseURL: 'https://odyssey-api-lmcreans-projects.vercel.app',
       },
-      testMatch: '**/*.ui.pw.spec.ts',
+      testMatch: 'master-integration.spec.ts',
     },
   ],
 }); 

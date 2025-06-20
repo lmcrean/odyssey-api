@@ -35,9 +35,10 @@ A TypeScript-first creator monetization platform built for **MVP deployment** wi
 - 🔄 **packages/observability** - E2E testing logs, correlation IDs (essential for Playwright)
 - ❌ **packages/security** - Post-MVP (basic auth security only)
 
-**e2e tests**
-- ✅ **e2e/runners** - E2E tests for all apps
-- ✅ **e2e/operations** - E2E tests for cross-app flows
+**e2e tests** (Root-Level Consolidated)
+- ✅ **e2e/runners** - Cross-app E2E testing with runners pattern
+- ✅ **e2e/operations** - Multi-app user journey orchestration
+- ✅ **e2e/master-integration.spec.ts** - Single test entry point
 
 **integration tests**
 - ✅ **integration/runners** - Integration tests for all apps

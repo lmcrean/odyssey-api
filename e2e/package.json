@@ -1,0 +1,30 @@
+{
+  "name": "odyssey-e2e",
+  "version": "1.0.0",
+  "description": "Odyssey End-to-End Testing Suite - Cross-app integration testing",
+  "private": true,
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:dev": "npx playwright test master-integration.spec.ts -c playwright.dev.config.ts",
+    "test:dev:verbose": "npx playwright test master-integration.spec.ts -c playwright.dev.config.ts --reporter=list --headed",
+    "test:prod": "npx playwright test master-integration.spec.ts -c playwright.prod.config.ts",
+    "test:prod:verbose": "npx playwright test master-integration.spec.ts -c playwright.prod.config.ts --reporter=list --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug"
+  },
+  "keywords": [
+    "e2e",
+    "playwright",
+    "integration",
+    "testing",
+    "odyssey"
+  ],
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "axios": "^1.9.0",
+    "typescript": "^5.6.0"
+  }
+} 

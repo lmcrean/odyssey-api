@@ -188,29 +188,7 @@ web/
 │       ├── globals.css           // Global CSS
 │       ├── components.css        // Component-specific CSS
 │       └── animations.css        // Animation definitions
-└── e2e/                 // Playwright E2E tests
-    ├── auth/
-    │   ├── login.spec.ts         // Login flow tests
-    │   ├── signup.spec.ts        // Registration tests
-    │   └── gdpr.spec.ts         // GDPR compliance tests
-    ├── creator/
-    │   ├── dashboard.spec.ts     // Creator dashboard tests
-    │   ├── content-upload.spec.ts // Content upload tests
-    │   ├── monetization.spec.ts  // Monetization tests
-    │   └── analytics.spec.ts     // Analytics tests
-    ├── fan/
-    │   ├── feed.spec.ts          // Feed browsing tests
-    │   ├── discovery.spec.ts     // Content discovery tests
-    │   ├── sponsorship.spec.ts   // Sponsorship tests
-    │   └── subscriptions.spec.ts // Subscription tests
-    ├── payments/
-    │   ├── payment-flow.spec.ts  // Payment processing tests
-    │   ├── payout.spec.ts       // Creator payout tests
-    │   └── subscription.spec.ts  // Subscription billing tests
-    └── utils/
-        ├── test-helpers.ts       // Test utilities
-        ├── mock-data.ts         // Test data
-        └── page-objects.ts      // Page object models
+
 ```
 
 ## Key Features
@@ -246,6 +224,11 @@ VITE_CLOUDINARY_CLOUD_NAME=odyssey-creator
 VITE_GOOGLE_OAUTH_CLIENT_ID=...
 VITE_MIXPANEL_TOKEN=...
 ```
+
+## Testing
+- **Unit Tests**: Vitest for component and utility testing
+- **E2E Tests**: Centralized in root `/e2e` folder using Playwright
+- **Cross-App Testing**: Root-level e2e tests web, api, and other apps together
 
 ## Deployment
 - **Vercel**: Optimized for Vercel static deployment
