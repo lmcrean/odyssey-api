@@ -18,12 +18,16 @@ odyssey/e2e/
     │   ├── register/
     │   │   ├── register.api.ts   
     │   │   └── register.web.ts   
+    │   ├── refresh-token/
+    │   │   ├── refreshToken.api.ts
+    │   │   └── refreshToken.web.ts
     │   └── logout/
     │       ├── logout.api.ts     
     │       └── logout.web.ts     
     ├── user/                     # User management domain
     │   ├── profile/
     │   │   ├── getProfile.api.ts
+    │   │   ├── getPublicProfile.api.ts
     │   │   ├── updateProfile.api.ts
     │   │   └── profile.web.ts    # UI for viewing/editing profile
     │   ├── search/
@@ -32,20 +36,63 @@ odyssey/e2e/
     │   └── username/
     │       ├── checkUsername.api.ts
     │       └── username.web.ts
+    ├── chat/                     # Messaging/Chat domain
+    │   ├── messages/
+    │   │   ├── sendMessage.api.ts
+    │   │   ├── getMessages.api.ts
+    │   │   ├── deleteMessage.api.ts
+    │   │   └── messages.web.ts   # Chat UI interactions
+    │   ├── conversations/
+    │   │   ├── createConversation.api.ts
+    │   │   ├── getConversations.api.ts
+    │   │   ├── deleteConversation.api.ts
+    │   │   └── conversations.web.ts
+    │   ├── channels/
+    │   │   ├── createChannel.api.ts
+    │   │   ├── joinChannel.api.ts
+    │   │   ├── leaveChannel.api.ts
+    │   │   └── channels.web.ts
+    │   └── real-time/
+    │       ├── messageStreaming.api.ts
+    │       └── realTimeChat.web.ts
+    ├── health/                   # System health domain
+    │   ├── status/
+    │   │   ├── healthCheck.api.ts
+    │   │   └── status.web.ts     # Health dashboard UI
+    │   ├── database/
+    │   │   ├── dbHealth.api.ts
+    │   │   └── dbStatus.web.ts
+    │   └── monitoring/
+    │       ├── systemMetrics.api.ts
+    │       └── monitoring.web.ts
     ├── content/                  # Content management domain (future)
     │   ├── upload/
     │   │   ├── uploadImage.api.ts
+    │   │   ├── uploadVideo.api.ts
     │   │   └── upload.web.ts
-    │   └── manage/
-    │       ├── deleteContent.api.ts
-    │       └── manage.web.ts
+    │   ├── manage/
+    │   │   ├── deleteContent.api.ts
+    │   │   ├── updateContent.api.ts
+    │   │   └── manage.web.ts
+    │   └── media/
+    │       ├── processMedia.api.ts
+    │       └── mediaGallery.web.ts
     ├── payments/                 # Payment processing domain (future)
     │   ├── create/
     │   │   ├── createPayment.api.ts
+    │   │   ├── createSubscription.api.ts
     │   │   └── create.web.ts
-    │   └── process/
-    │       ├── processPayment.api.ts
-    │       └── process.web.ts
+    │   ├── process/
+    │   │   ├── processPayment.api.ts
+    │   │   ├── refundPayment.api.ts
+    │   │   └── process.web.ts
+    │   ├── billing/
+    │   │   ├── getBillingHistory.api.ts
+    │   │   ├── updateBillingInfo.api.ts
+    │   │   └── billing.web.ts
+    │   └── subscriptions/
+    │       ├── manageSubscription.api.ts
+    │       └── subscriptions.web.ts
     └── operations/              # Cross-domain orchestration
         ├── auth/
         │   ├── authFlow.api.ts   # Backend-only auth operations
@@ -53,9 +100,18 @@ odyssey/e2e/
         ├── user/
         │   ├── userFlow.api.ts   # Backend user operations
         │   └── userFlow.web.ts   # Frontend user operations
-        └── content/              # Future content flows
-            ├── contentFlow.api.ts
-            └── contentFlow.web.ts
+        ├── chat/
+        │   ├── messagingFlow.api.ts  # Backend messaging operations
+        │   └── messagingFlow.web.ts  # Frontend chat interactions
+        ├── health/
+        │   ├── monitoringFlow.api.ts # Backend health monitoring
+        │   └── monitoringFlow.web.ts # Frontend health dashboard
+        ├── content/              # Future content flows
+        │   ├── contentFlow.api.ts
+        │   └── contentFlow.web.ts
+        └── payments/             # Future payment flows
+            ├── paymentFlow.api.ts
+            └── paymentFlow.web.ts
 ```
 
 ## Testing Architecture Flow
@@ -81,6 +137,36 @@ test('API user management', async ({ request }) => {
 test('Web user journey', async ({ page }) => {
   const userFlow = new UserFlowWebOperation(page);
   await userFlow.runComplete();
+});
+
+test('API messaging flow', async ({ request }) => {
+  const messagingFlow = new MessagingFlowApiOperation(request);
+  await messagingFlow.runComplete();
+});
+
+test('Web messaging flow', async ({ page }) => {
+  const messagingFlow = new MessagingFlowWebOperation(page);
+  await messagingFlow.runComplete();
+});
+
+test('API health monitoring', async ({ request }) => {
+  const healthFlow = new MonitoringFlowApiOperation(request);
+  await healthFlow.runComplete();
+});
+
+test('Web health dashboard', async ({ page }) => {
+  const healthFlow = new MonitoringFlowWebOperation(page);
+  await healthFlow.runComplete();
+});
+
+test('API payments flow (future)', async ({ request }) => {
+  const paymentFlow = new PaymentFlowApiOperation(request);
+  await paymentFlow.runComplete();
+});
+
+test('Web payments flow (future)', async ({ page }) => {
+  const paymentFlow = new PaymentFlowWebOperation(page);
+  await paymentFlow.runComplete();
 });
 ```
 
@@ -113,6 +199,51 @@ export class AuthFlowWebOperation {
     await register.runValidRegistration();
     await login.runValidLogin();
     await logout.runLogout();
+  }
+}
+
+// operations/chat/messagingFlow.api.ts - Backend messaging operations
+export class MessagingFlowApiOperation {
+  constructor(private request: APIRequestContext) {}
+  
+  async runComplete() {
+    const sendMessage = new SendMessageApiRunner(this.request);
+    const getMessages = new GetMessagesApiRunner(this.request);
+    const createConversation = new CreateConversationApiRunner(this.request);
+    
+    await createConversation.runCreateConversation();
+    await sendMessage.runSendMessage();
+    await getMessages.runGetMessages();
+  }
+}
+
+// operations/chat/messagingFlow.web.ts - Frontend chat operations
+export class MessagingFlowWebOperation {
+  constructor(private page: Page) {}
+  
+  async runComplete() {
+    const chatInterface = new MessagesWebRunner(this.page);
+    const conversations = new ConversationsWebRunner(this.page);
+    const realTimeChat = new RealTimeChatWebRunner(this.page);
+    
+    await conversations.runCreateConversation();
+    await chatInterface.runSendMessage();
+    await realTimeChat.runRealTimeMessaging();
+  }
+}
+
+// operations/health/monitoringFlow.api.ts - Backend health monitoring
+export class MonitoringFlowApiOperation {
+  constructor(private request: APIRequestContext) {}
+  
+  async runComplete() {
+    const healthCheck = new HealthCheckApiRunner(this.request);
+    const dbHealth = new DbHealthApiRunner(this.request);
+    const metrics = new SystemMetricsApiRunner(this.request);
+    
+    await healthCheck.runHealthStatus();
+    await dbHealth.runDatabaseHealth();
+    await metrics.runSystemMetrics();
   }
 }
 ```
@@ -152,6 +283,79 @@ export class LoginWebRunner {
     
     await expect(this.page).toHaveURL('/dashboard');
     await expect(this.page.locator('[data-testid="user-menu"]')).toBeVisible();
+    
+    return { success: true };
+  }
+}
+```
+
+#### **Messaging Runner Examples**
+```typescript
+// runners/chat/messages/sendMessage.api.ts - Backend messaging endpoint
+export class SendMessageApiRunner {
+  constructor(private request: APIRequestContext) {}
+  
+  async runSendMessage() {
+    const response = await this.request.post('/api/chat/messages', {
+      data: { 
+        conversationId: 'conv-123',
+        content: 'Hello, this is a test message!',
+        messageType: 'text'
+      }
+    });
+    
+    expect(response.status()).toBe(201);
+    const data = await response.json();
+    expect(data).toHaveProperty('messageId');
+    expect(data).toHaveProperty('timestamp');
+    return { success: true, messageId: data.messageId };
+  }
+}
+
+// runners/chat/messages/messages.web.ts - Frontend chat UI testing
+export class MessagesWebRunner {
+  constructor(private page: Page) {}
+  
+  async runSendMessage() {
+    await this.page.goto('/chat/conversation/conv-123');
+    await this.page.fill('[data-testid="message-input"]', 'Hello from e2e test!');
+    await this.page.click('[data-testid="send-button"]');
+    
+    await expect(this.page.locator('[data-testid="message-sent"]')).toBeVisible();
+    await expect(this.page.locator('.message-content')).toContainText('Hello from e2e test!');
+    
+    return { success: true };
+  }
+}
+```
+
+#### **Health Monitoring Runner Examples**
+```typescript
+// runners/health/status/healthCheck.api.ts - Backend health endpoint
+export class HealthCheckApiRunner {
+  constructor(private request: APIRequestContext) {}
+  
+  async runHealthStatus() {
+    const response = await this.request.get('/api/health/status');
+    
+    expect(response.status()).toBe(200);
+    const data = await response.json();
+    expect(data).toHaveProperty('status', 'healthy');
+    expect(data).toHaveProperty('database', 'connected');
+    return { success: true, status: data.status };
+  }
+}
+
+// runners/health/status/status.web.ts - Frontend health dashboard
+export class StatusWebRunner {
+  constructor(private page: Page) {}
+  
+  async runHealthDashboard() {
+    await this.page.goto('/admin/health');
+    
+    await expect(this.page.locator('[data-testid="system-status"]')).toContainText('Healthy');
+    await expect(this.page.locator('[data-testid="db-status"]')).toContainText('Connected');
+    await expect(this.page.locator('[data-testid="api-status"]')).toContainText('Online');
     
     return { success: true };
   }
@@ -219,9 +423,14 @@ npm run test:api && npm run test:web
 
 # Test specific domain API
 npx playwright test --project=api-tests --grep="auth"
+npx playwright test --project=api-tests --grep="chat" 
+npx playwright test --project=api-tests --grep="health"
+npx playwright test --project=api-tests --grep="payments"
 
 # Test specific domain web
 npx playwright test --project=web-tests --grep="user"
+npx playwright test --project=web-tests --grep="messaging"
+npx playwright test --project=web-tests --grep="monitoring"
 ```
 
 ### **Package.json Scripts**
@@ -232,7 +441,15 @@ npx playwright test --project=web-tests --grep="user"
     "test:web": "playwright test --project=web-tests", 
     "test:e2e": "npm run test:api && npm run test:web",
     "test:auth:api": "playwright test --project=api-tests --grep='auth'",
-    "test:auth:web": "playwright test --project=web-tests --grep='auth'"
+    "test:auth:web": "playwright test --project=web-tests --grep='auth'",
+    "test:chat:api": "playwright test --project=api-tests --grep='chat'",
+    "test:chat:web": "playwright test --project=web-tests --grep='messaging'",
+    "test:user:api": "playwright test --project=api-tests --grep='user'",
+    "test:user:web": "playwright test --project=web-tests --grep='user'",
+    "test:health:api": "playwright test --project=api-tests --grep='health'",
+    "test:health:web": "playwright test --project=web-tests --grep='monitoring'",
+    "test:payments:api": "playwright test --project=api-tests --grep='payments'",
+    "test:payments:web": "playwright test --project=web-tests --grep='payments'"
   }
 }
 ```
