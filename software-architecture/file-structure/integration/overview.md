@@ -39,9 +39,4 @@ odyssey/
 │       ├── fixtures/              # Test data for integration tests
 │       ├── helpers/               # Integration test helper functions
 │       └── setup/                 # Integration test environment setup
-├── e2e/                           # Cross-app user flows (Playwright)
-│   └── runners/                   # E2E uses .api.ts/.web.ts pattern
-└── apps/                          # Implementation + unit tests only
-    ├── api/src/auth/__tests__/    # Unit tests only (single components)
-    └── web/src/auth/__tests__/    # Unit tests only (single components)
 ```
