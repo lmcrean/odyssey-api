@@ -13,6 +13,7 @@ A TypeScript-first creator monetization platform built for **MVP deployment** wi
 - **Vercel Native**: Optimized for Vercel deployment
 - **Creator-Centric**: Focus on creator-fan direct monetization
 - **Apps/Packages Structure**: Future-proof architecture from day 1
+- **Design System First**: UX-driven development with Figma integration
 
 ## MVP vs Post-MVP Breakdown
 
@@ -46,6 +47,13 @@ A TypeScript-first creator monetization platform built for **MVP deployment** wi
 - ✅ **integration/api** - Integration tests for api endpoints
 - ✅ **integration/payments** - Integration tests for payments
 - ✅ **integration/auth** - Integration tests for auth
+
+**ux-design**
+- ✅ **ux-design/Contributing.md** - Design system and Figma integration guide
+- ✅ **ux-design/** - Design documentation and user experience guidelines
+
+**platform integrations**
+- ✅ **platform-integrations.md** - Comprehensive external service integration status and documentation
 
 ### 🚀 Post-MVP Features (Scale & Polish)
 **When you have 100+ creators and $10K+ monthly GMV:**
@@ -104,6 +112,12 @@ apps/payments/                 # 🔄 Minimal but separate
 - Error handling
 - Basic tests
 - Vercel deployment
+
+**Post-MVP: Gemini AI Migration**
+- Migrate chat system from `.archive/backend-js-reference/`
+- Integrate Gemini API with new apps/api structure
+- Add chat endpoints to API documentation
+- Implement conversation management and history
 
 ## What's Documented vs What We'll Build
 
@@ -427,14 +441,19 @@ VITE_API_URL=https://odyssey-api-lmcreans-projects.vercel.app
 VITE_PAYMENTS_URL=https://odyssey-payments-lmcreans-projects.vercel.app
 
 // API App  
-DATABASE_URL=postgresql://...
-JWT_SECRET=...
-CLOUDINARY_URL=...
+DATABASE_URL=postgresql://...          # Neon PostgreSQL connection
+JWT_SECRET=...                        # JWT signing secret
+CLOUDINARY_CLOUD_NAME=...             # Cloudinary configuration
+CLOUDINARY_API_KEY=...
+CLOUDINARY_API_SECRET=...
+GEMINI_API_KEY=...                    # Google Gemini AI integration
+GEMINI_MODEL=gemini-2.0-flash         # AI model configuration
+CHAT_SYSTEM_PROMPT=...                # AI assistant prompt
 
 // Payments App
-STRIPE_SECRET_KEY=...
-STRIPE_WEBHOOK_SECRET=...
-DATABASE_URL=postgresql://...
+STRIPE_SECRET_KEY=...                 # Stripe payment processing
+STRIPE_WEBHOOK_SECRET=...             # Stripe webhook validation
+DATABASE_URL=postgresql://...          # Shared Neon database
 ```
 
 ### 🧪 **Testing Integration with Deployment**
