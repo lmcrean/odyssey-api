@@ -1,5 +1,7 @@
 # packages/security - Security & GDPR Compliance
 
+there is no iteration 1 for this package, as it won't be used initially.
+
 > **Security utilities** and GDPR compliance tools
 
 ## Overview
