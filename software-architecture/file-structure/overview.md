@@ -23,6 +23,7 @@ A TypeScript-first creator monetization platform built for **MVP deployment** wi
 **Apps (MVP Implementation):**
 - ✅ **apps/web** - React frontend (basic UI, image upload, payment flows)
 - ✅ **apps/api** - Express API (auth, image handling, payment processing)
+- ✅ **apps/ai** - Dedicated AI service (Gemini chat, memory, content generation)
 - 🔄 **apps/payments** - payments (minimal implementation)
 - ❌ **apps/workers** - Post-MVP (process images synchronously initially)
 - ❌ **apps/admin** - Post-MVP (not user-facing)
@@ -154,7 +155,8 @@ Each app deploys as separate Vercel project while importing shared packages:
 ```typescript
 // Deployment targets
 apps/web/     → odyssey-web-lmcreans-projects.vercel.app
-apps/api/     → odyssey-api-lmcreans-projects.vercel.app  
+apps/api/     → odyssey-api-lmcreans-projects.vercel.app
+apps/ai/      → odyssey-ai-lmcreans-projects.vercel.app
 apps/payments/ → odyssey-payments-lmcreans-projects.vercel.app
 ```
 

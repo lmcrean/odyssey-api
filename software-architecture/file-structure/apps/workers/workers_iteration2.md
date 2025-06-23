@@ -1,5 +1,7 @@
 # apps/workers - Background Processing
 
+this is marked as iteration 2 because initially, it won't be used.
+
 > **Queue-based job processing** for heavy operations like content processing, notifications, and analytics
 
 ## Overview

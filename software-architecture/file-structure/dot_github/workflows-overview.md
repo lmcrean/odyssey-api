@@ -171,10 +171,48 @@ jobs:
     outputs:
       api-url: ${{ steps.vercel-deploy-api.outputs.preview-url }}
 
+  deploy-ai:
+    name: Deploy AI App (Preview)
+    runs-on: ubuntu-latest
+    needs: [build-packages, deploy-api]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Restore packages cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            packages/*/dist
+            packages/*/build
+          key: packages-${{ needs.build-packages.outputs.packages-hash }}
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Deploy AI App to Vercel
+        uses: amondnet/vercel-action@v25
+        id: vercel-deploy-ai
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_AI_PROJECT_ID }}
+          working-directory: ./apps/ai
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+    
+    outputs:
+      ai-url: ${{ steps.vercel-deploy-ai.outputs.preview-url }}
+
   deploy-payments:
     name: Deploy Payments App (Preview)
     runs-on: ubuntu-latest
-    needs: [build-packages, deploy-api]
+    needs: [build-packages, deploy-ai]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -212,7 +250,7 @@ jobs:
   test-preview-deployment:
     name: Test Preview Deployment
     runs-on: ubuntu-latest
-    needs: [deploy-web, deploy-api, deploy-payments]
+    needs: [deploy-web, deploy-api, deploy-ai, deploy-payments]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -230,6 +268,7 @@ jobs:
         run: |
           export PLAYWRIGHT_WEB_URL="${{ needs.deploy-web.outputs.web-url }}"
           export PLAYWRIGHT_API_URL="${{ needs.deploy-api.outputs.api-url }}"
+          export PLAYWRIGHT_AI_URL="${{ needs.deploy-ai.outputs.ai-url }}"
           export PLAYWRIGHT_PAYMENTS_URL="${{ needs.deploy-payments.outputs.payments-url }}"
           npm run test:e2e:preview
       
@@ -245,7 +284,7 @@ jobs:
   comment-preview-urls:
     name: Comment Preview URLs
     runs-on: ubuntu-latest
-    needs: [deploy-web, deploy-api, deploy-payments, test-preview-deployment]
+    needs: [deploy-web, deploy-api, deploy-ai, deploy-payments, test-preview-deployment]
     if: always()
     steps:
       - name: Comment PR with preview URLs
@@ -268,6 +307,7 @@ jobs:
             |-----|-----|--------|
             | **Web** | [${{ needs.deploy-web.outputs.web-url }}](${{ needs.deploy-web.outputs.web-url }}) | ✅ Deployed |
             | **API** | [${{ needs.deploy-api.outputs.api-url }}](${{ needs.deploy-api.outputs.api-url }}) | ✅ Deployed |
+            | **AI** | [${{ needs.deploy-ai.outputs.ai-url }}](${{ needs.deploy-ai.outputs.ai-url }}) | ✅ Deployed |
             | **Payments** | [${{ needs.deploy-payments.outputs.payments-url }}](${{ needs.deploy-payments.outputs.payments-url }}) | ✅ Deployed |
             
             ### 🧪 Test Results
@@ -342,6 +382,7 @@ jobs:
         env:
           PLAYWRIGHT_WEB_URL: https://odyssey-web-lmcreans-projects.vercel.app
           PLAYWRIGHT_API_URL: https://odyssey-api-lmcreans-projects.vercel.app
+          PLAYWRIGHT_AI_URL: https://odyssey-ai-lmcreans-projects.vercel.app
           PLAYWRIGHT_PAYMENTS_URL: https://odyssey-payments-lmcreans-projects.vercel.app
 
   deploy-production:
@@ -350,7 +391,7 @@ jobs:
     needs: pre-deployment-tests
     strategy:
       matrix:
-        app: [web, api, payments]
+        app: [web, api, ai, payments]
         include:
           - app: web
             project-id-secret: VERCEL_WEB_PROJECT_ID
@@ -358,6 +399,9 @@ jobs:
           - app: api
             project-id-secret: VERCEL_API_PROJECT_ID
             working-directory: ./apps/api
+          - app: ai
+            project-id-secret: VERCEL_AI_PROJECT_ID
+            working-directory: ./apps/ai
           - app: payments
             project-id-secret: VERCEL_PAYMENTS_PROJECT_ID
             working-directory: ./apps/payments
