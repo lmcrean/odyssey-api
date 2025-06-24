@@ -1,22 +1,27 @@
-# Integration Testing Architecture - MVP Essential Integration Tests
+# Integration Testing Architecture - API-First Integration Tests
 
-> **Integration Testing Strategy**: Test multiple components working together within the same domain using root-level integration directory
+> **Integration Testing Strategy**: Test multiple components working together within the same domain using root-level integration directory with API-first approach
 
 ## Overview
-Integration tests verify that multiple units (controllers, services, models) work correctly together within a single domain. Unlike E2E tests that test across apps with real browsers, integration tests focus on **within-domain component interaction** using Vitest.
+Integration tests verify that multiple units (controllers, services, models) work correctly together within a single domain. Unlike E2E tests that test across apps with real browsers, integration tests focus on **within-domain component interaction** using Vitest with **API-first testing approach**.
 
 ## Integration vs E2E Distinction
 
-### 🔧 **Integration Tests (Vitest) - Within Domain**
+### 🔧 **Integration Tests (Vitest) - Within Domain, API-First**
 ```typescript
 // Location: integration/{domain}/
 // Purpose: Test multiple components within same domain working together
 // Tool: Vitest (fast, no browser)
 // Scope: Single domain
+// API-First: Test API endpoints first, then Web interfaces
 
-integration/auth/auth-flow.integration.test.ts
-// Tests: LoginController + ValidationService + AuthService + Database
-// Mocks: External APIs, real browser interactions
+integration/auth/auth-flow.api.test.ts
+// Tests: LoginController + ValidationService + AuthService + Database (API)
+// Mocks: External APIs, browser interactions
+
+integration/auth/auth-flow.web.test.ts  
+// Tests: Frontend auth forms + API integration + UI state management (Web)
+// Mocks: External APIs, simulated browser interactions via jsdom
 ```
 
 ### 🎭 **E2E Tests (Playwright) - Cross App**  
@@ -31,50 +36,75 @@ e2e/master-integration.spec.ts → operations/creatorJourney.ts → runners/
 // Real: Browser interactions, actual API calls
 ```
 
-## Integration Test Structure - MVP Essential
+## Integration Test Structure - API-First MVP Essential
 
 ### **Root-Level Integration Directory**
 ```typescript
 odyssey/
 ├── apps/
-├── integration/                                 # Root-level integration tests
+├── integration/                                         # Root-level integration tests
 │   ├── auth/
-│   │   ├── auth-flow.integration.test.ts        # Register → Login → Logout
-│   │   ├── token-management.integration.test.ts # Token refresh cycle
-│   │   └── validation-chain.integration.test.ts # Email + password validation
+│   │   ├── auth-flow.api.test.ts                        # Register → Login → Logout (API)
+│   │   ├── auth-flow.web.test.ts                        # Auth forms + UI state management (Web)
+│   │   ├── token-management.api.test.ts                 # Token refresh cycle (API)
+│   │   ├── token-management.web.test.ts                 # Token UI handling + storage (Web)
+│   │   ├── validation-chain.api.test.ts                 # Email + password validation (API)
+│   │   └── validation-chain.web.test.ts                 # Form validation + error display (Web)
 │   ├── user/
-│   │   ├── profile-lifecycle.integration.test.ts # Create → Update → Get profile
-│   │   ├── username-validation.integration.test.ts # Check + validate username
-│   │   └── search-users.integration.test.ts     # Search + filter users
+│   │   ├── profile-lifecycle.api.test.ts                # Create → Update → Get profile (API)
+│   │   ├── profile-lifecycle.web.test.ts                # Profile forms + UI updates (Web)
+│   │   ├── username-validation.api.test.ts              # Check + validate username (API)
+│   │   ├── username-validation.web.test.ts              # Username form validation (Web)
+│   │   ├── search-users.api.test.ts                     # Search + filter users (API)
+│   │   └── search-users.web.test.ts                     # Search UI + results display (Web)
 │   ├── content/
-│   │   ├── media-upload.integration.test.ts     # Basic upload + storage
-│   │   ├── image-processing.integration.test.ts # Basic image processing
-│   │   └── content-access.integration.test.ts   # View + download content
+│   │   ├── media-upload.api.test.ts                     # Basic upload + storage (API)
+│   │   ├── media-upload.web.test.ts                     # Upload forms + progress UI (Web)
+│   │   ├── image-processing.api.test.ts                 # Basic image processing (API)
+│   │   ├── image-processing.web.test.ts                 # Image preview + processing UI (Web)
+│   │   ├── content-access.api.test.ts                   # View + download content (API)
+│   │   └── content-access.web.test.ts                   # Content display + interaction (Web)
 │   ├── chat/
-│   │   ├── message-flow.integration.test.ts     # Send + receive messages
-│   │   ├── conversation-basic.integration.test.ts # Create + list conversations
-│   │   └── message-validation.integration.test.ts # Message content validation
+│   │   ├── message-flow.api.test.ts                     # Send + receive messages (API)
+│   │   ├── message-flow.web.test.ts                     # Chat UI + real-time updates (Web)
+│   │   ├── conversation-basic.api.test.ts               # Create + list conversations (API)
+│   │   ├── conversation-basic.web.test.ts               # Conversation UI + navigation (Web)
+│   │   ├── message-validation.api.test.ts               # Message content validation (API)
+│   │   └── message-validation.web.test.ts               # Message form validation (Web)
 │   ├── payments/
-│   │   ├── payment-basic.integration.test.ts    # Create + process payments
-│   │   ├── stripe-webhook.integration.test.ts   # Basic webhook handling
-│   │   └── payment-validation.integration.test.ts # Amount + user validation
+│   │   ├── payment-basic.api.test.ts                    # Create + process payments (API)
+│   │   ├── payment-basic.web.test.ts                    # Payment forms + Stripe UI (Web)
+│   │   ├── stripe-webhook.api.test.ts                   # Basic webhook handling (API)
+│   │   ├── stripe-webhook.web.test.ts                   # Webhook status updates UI (Web)
+│   │   ├── payment-validation.api.test.ts               # Amount + user validation (API)
+│   │   └── payment-validation.web.test.ts               # Payment form validation (Web)
+│   ├── ai/                                              # AI app integration tests (Future)
+│   │   ├── chat-completion.api.test.ts                  # AI chat endpoints (API)
+│   │   ├── chat-completion.web.test.ts                  # AI chat UI + streaming (Web)
+│   │   ├── content-generation.api.test.ts               # AI content generation (API)
+│   │   └── content-generation.web.test.ts               # Content generation UI (Web)
+│   ├── workers/                                         # Background workers tests (Future)
+│   │   ├── media-processing.api.test.ts                 # Media processing jobs (API)
+│   │   ├── notification-jobs.api.test.ts                # Notification jobs (API)
+│   │   └── analytics-jobs.api.test.ts                   # Analytics processing (API)
 │   ├── health/
-│   │   ├── system-health.integration.test.ts    # Health + DB connectivity
-│   │   └── cors-validation.integration.test.ts  # CORS + preflight handling
+│   │   ├── system-health.api.test.ts                    # Health + DB connectivity (API)
+│   │   ├── system-health.web.test.ts                    # Health dashboard UI (Web)
+│   │   ├── cors-validation.api.test.ts                  # CORS + preflight handling (API)
+│   │   └── cors-validation.web.test.ts                  # CORS status display (Web)
 │   └── shared/
-│       ├── database-operations.integration.test.ts # Core DB operations
-│       └── middleware-auth.integration.test.ts     # Auth middleware chain
-└── e2e/                                         # Cross-app E2E tests
-    ├── master-integration.spec.ts
-    └── runners/
+│       ├── database-operations.api.test.ts              # Core DB operations (API)
+│       ├── database-operations.web.test.ts              # DB status UI components (Web)
+│       ├── middleware-auth.api.test.ts                  # Auth middleware chain (API)
+│       └── middleware-auth.web.test.ts                  # Auth state management (Web)
 ```
 
-## Essential MVP Integration Test Patterns
+## Essential MVP Integration Test Patterns - API-First
 
-### 1. **Authentication Flow Integration**
+### 1. **Authentication Flow Integration - API**
 ```typescript
-// integration/auth/auth-flow.integration.test.ts
-describe('Authentication Flow Integration', () => {
+// integration/auth/auth-flow.api.test.ts
+describe('Authentication Flow Integration - API', () => {
   test('complete user registration and login flow', async () => {
     // Test RegisterController + LoginController + ValidationService working together
     const registerResult = await registerController.handle(registerRequest);
@@ -97,10 +127,54 @@ describe('Authentication Flow Integration', () => {
 });
 ```
 
-### 2. **User Management Integration**
+### 2. **Authentication Flow Integration - Web**
 ```typescript
-// integration/user/profile-lifecycle.integration.test.ts  
-describe('User Profile Management Integration', () => {
+// integration/auth/auth-flow.web.test.ts
+describe('Authentication Flow Integration - Web', () => {
+  test('complete registration form and UI state management', async () => {
+    // Test form validation + API integration + UI state updates
+    const { container } = render(<RegistrationForm />);
+    
+    // Fill form and submit
+    fireEvent.change(screen.getByTestId('email'), { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByTestId('password'), { target: { value: 'TestPassword123!' } });
+    fireEvent.click(screen.getByTestId('register-button'));
+    
+    // Wait for API call and UI updates
+    await waitFor(() => {
+      expect(screen.getByTestId('registration-success')).toBeInTheDocument();
+    });
+    
+    expect(mockApiCall).toHaveBeenCalledWith('/api/auth/register', expect.any(Object));
+  });
+
+  test('login form validation and error handling', async () => {
+    // Test form validation + error display + retry logic
+    const { container } = render(<LoginForm />);
+    
+    // Submit empty form
+    fireEvent.click(screen.getByTestId('login-button'));
+    expect(screen.getByTestId('email-error')).toBeInTheDocument();
+    expect(screen.getByTestId('password-error')).toBeInTheDocument();
+    
+    // Test invalid credentials response
+    mockApiCall.mockRejectedValue({ status: 401, message: 'Invalid credentials' });
+    
+    fireEvent.change(screen.getByTestId('email'), { target: { value: 'wrong@example.com' } });
+    fireEvent.change(screen.getByTestId('password'), { target: { value: 'wrongpassword' } });
+    fireEvent.click(screen.getByTestId('login-button'));
+    
+    await waitFor(() => {
+      expect(screen.getByTestId('login-error')).toHaveTextContent('Invalid credentials');
+    });
+  });
+});
+```
+
+### 3. **User Management Integration - API**
+```typescript
+// integration/user/profile-lifecycle.api.test.ts  
+describe('User Profile Management Integration - API', () => {
   test('complete profile lifecycle', async () => {
     // Test createUser + updateProfile + getProfile working together
     const user = await createUser(userData);
@@ -123,10 +197,62 @@ describe('User Profile Management Integration', () => {
 });
 ```
 
-### 3. **Content Management Integration**
+### 4. **User Management Integration - Web**
 ```typescript
-// integration/content/media-upload.integration.test.ts
-describe('Content Management Integration', () => {
+// integration/user/profile-lifecycle.web.test.ts
+describe('User Profile Management Integration - Web', () => {
+  test('profile update form and real-time validation', async () => {
+    // Test profile form + API integration + optimistic updates
+    const { container } = render(<ProfileUpdateForm initialData={profileData} />);
+    
+    // Update profile fields
+    fireEvent.change(screen.getByTestId('displayName'), { target: { value: 'New Display Name' } });
+    fireEvent.change(screen.getByTestId('bio'), { target: { value: 'Updated bio' } });
+    
+    // Test real-time validation
+    expect(screen.getByTestId('character-count')).toHaveTextContent('11/100');
+    
+    // Submit and verify optimistic updates
+    fireEvent.click(screen.getByTestId('save-profile'));
+    
+    // Should show optimistic update immediately
+    expect(screen.getByDisplayValue('New Display Name')).toBeInTheDocument();
+    expect(screen.getByTestId('saving-indicator')).toBeInTheDocument();
+    
+    // Wait for API response
+    await waitFor(() => {
+      expect(screen.getByTestId('save-success')).toBeInTheDocument();
+      expect(screen.queryByTestId('saving-indicator')).not.toBeInTheDocument();
+    });
+  });
+
+  test('username availability checking with debounce', async () => {
+    // Test username input + debounced API calls + validation UI
+    const { container } = render(<UsernameField />);
+    
+    // Type username and verify debouncing
+    fireEvent.change(screen.getByTestId('username'), { target: { value: 'newuser' } });
+    
+    // Should not call API immediately
+    expect(mockApiCall).not.toHaveBeenCalled();
+    
+    // Wait for debounce
+    await waitFor(() => {
+      expect(mockApiCall).toHaveBeenCalledWith('/api/users/check-username?username=newuser');
+    }, { timeout: 1000 });
+    
+    // Verify availability indicator
+    await waitFor(() => {
+      expect(screen.getByTestId('username-available')).toBeInTheDocument();
+    });
+  });
+});
+```
+
+### 5. **Content Management Integration - API**
+```typescript
+// integration/content/media-upload.api.test.ts
+describe('Content Management Integration - API', () => {
   test('basic media upload and storage flow', async () => {
     // Test upload + basic processing + storage + retrieval
     const upload = await uploadController.handle(imageFile, userId);
@@ -149,11 +275,64 @@ describe('Content Management Integration', () => {
     expect(unauthorizedAccess.granted).toBe(false);
   });
 });
+```
 
-### 4. **Chat System Integration**
+### 6. **Content Management Integration - Web**
 ```typescript
-// integration/chat/message-flow.integration.test.ts
-describe('Chat System Integration', () => {
+// integration/content/media-upload.web.test.ts
+describe('Content Management Integration - Web', () => {
+  test('file upload with progress and preview', async () => {
+    // Test file input + upload progress + preview generation
+    const { container } = render(<MediaUploadForm />);
+    
+    const file = new File(['test image content'], 'test.jpg', { type: 'image/jpeg' });
+    const fileInput = screen.getByTestId('file-input');
+    
+    // Upload file and verify preview
+    fireEvent.change(fileInput, { target: { files: [file] } });
+    
+    await waitFor(() => {
+      expect(screen.getByTestId('file-preview')).toBeInTheDocument();
+      expect(screen.getByTestId('file-name')).toHaveTextContent('test.jpg');
+    });
+    
+    // Start upload and monitor progress
+    fireEvent.click(screen.getByTestId('upload-button'));
+    
+    expect(screen.getByTestId('upload-progress')).toBeInTheDocument();
+    expect(screen.getByTestId('progress-bar')).toHaveAttribute('value', '0');
+    
+    // Simulate progress updates
+    await waitFor(() => {
+      expect(screen.getByTestId('upload-success')).toBeInTheDocument();
+    });
+  });
+
+  test('image processing and optimization UI', async () => {
+    // Test image editing tools + real-time preview + optimization
+    const { container } = render(<ImageEditor imageUrl={testImageUrl} />);
+    
+    // Test crop functionality
+    fireEvent.click(screen.getByTestId('crop-tool'));
+    fireEvent.mouseDown(screen.getByTestId('crop-handle'));
+    
+    // Verify real-time preview updates
+    expect(screen.getByTestId('preview-image')).toHaveStyle('transform: scale(0.8)');
+    
+    // Test optimization settings
+    fireEvent.change(screen.getByTestId('quality-slider'), { target: { value: '80' } });
+    
+    await waitFor(() => {
+      expect(screen.getByTestId('file-size-estimate')).toHaveTextContent(/~\d+KB/);
+    });
+  });
+});
+```
+
+### 7. **Chat System Integration - API**
+```typescript
+// integration/chat/message-flow.api.test.ts
+describe('Chat System Integration - API', () => {
   test('basic messaging workflow', async () => {
     // Test conversation creation + message sending + retrieval
     const conversation = await conversationController.create([userId1, userId2]);
@@ -178,11 +357,70 @@ describe('Chat System Integration', () => {
     expect(unauthorizedMessage.success).toBe(false);
   });
 });
+```
 
-### 5. **Payment Processing Integration**
+### 8. **Chat System Integration - Web**
 ```typescript
-// integration/payments/payment-basic.integration.test.ts
-describe('Payment Processing Integration', () => {
+// integration/chat/message-flow.web.test.ts
+describe('Chat System Integration - Web', () => {
+  test('real-time messaging UI and state management', async () => {
+    // Test message form + real-time updates + conversation state
+    const { container } = render(<ChatInterface conversationId={conversationId} />);
+    
+    // Send message
+    fireEvent.change(screen.getByTestId('message-input'), { target: { value: 'Hello there!' } });
+    fireEvent.click(screen.getByTestId('send-button'));
+    
+    // Verify optimistic update
+    expect(screen.getByText('Hello there!')).toBeInTheDocument();
+    expect(screen.getByTestId('message-sending')).toBeInTheDocument();
+    
+    // Wait for message confirmation
+    await waitFor(() => {
+      expect(screen.getByTestId('message-sent')).toBeInTheDocument();
+      expect(screen.queryByTestId('message-sending')).not.toBeInTheDocument();
+    });
+    
+    // Simulate receiving a message
+    act(() => {
+      mockWebSocket.simulateMessage({
+        id: 'msg-2',
+        content: 'Hello back!',
+        senderId: otherUserId,
+        timestamp: new Date().toISOString()
+      });
+    });
+    
+    expect(screen.getByText('Hello back!')).toBeInTheDocument();
+  });
+
+  test('conversation list and unread message indicators', async () => {
+    // Test conversation list + unread counts + real-time updates
+    const { container } = render(<ConversationList />);
+    
+    // Verify conversation list loads
+    await waitFor(() => {
+      expect(screen.getByTestId('conversation-list')).toBeInTheDocument();
+      expect(screen.getAllByTestId('conversation-item')).toHaveLength(3);
+    });
+    
+    // Test unread message indicator
+    expect(screen.getByTestId('unread-count-1')).toHaveTextContent('2');
+    
+    // Click conversation and verify unread count clears
+    fireEvent.click(screen.getByTestId('conversation-1'));
+    
+    await waitFor(() => {
+      expect(screen.queryByTestId('unread-count-1')).not.toBeInTheDocument();
+    });
+  });
+});
+```
+
+### 9. **Payment Processing Integration - API**
+```typescript
+// integration/payments/payment-basic.api.test.ts
+describe('Payment Processing Integration - API', () => {
   test('basic payment lifecycle', async () => {
     // Test payment creation + Stripe processing + confirmation
     const payment = await paymentController.create(paymentData);
@@ -214,62 +452,117 @@ describe('Payment Processing Integration', () => {
     expect(updated.status).toBe('paid');
   });
 });
+```
 
-### 6. **Health Monitoring Integration**
+### 10. **Payment Processing Integration - Web**
 ```typescript
-// integration/health/system-health.integration.test.ts
-describe('Health System Integration', () => {
-  test('comprehensive health check flow', async () => {
-    // Test health status + database connectivity + system checks
-    const healthStatus = await healthController.handle();
-    const dbHealth = await dbHealthController.handle();
-    const helloDb = await helloDbController.handle();
+// integration/payments/payment-basic.web.test.ts
+describe('Payment Processing Integration - Web', () => {
+  test('Stripe payment form and processing flow', async () => {
+    // Test Stripe Elements + payment flow + status updates
+    const { container } = render(<PaymentForm amount={100} />);
     
-    expect(healthStatus.status).toBe('healthy');
-    expect(dbHealth.database.connected).toBe(true);
-    expect(helloDb.message).toContain('database');
+    // Wait for Stripe Elements to load
+    await waitFor(() => {
+      expect(screen.getByTestId('stripe-card-element')).toBeInTheDocument();
+    });
+    
+    // Fill payment form
+    fireEvent.change(screen.getByTestId('amount'), { target: { value: '100' } });
+    
+    // Simulate Stripe card input (mocked)
+    mockStripeElements.card.update({ complete: true });
+    
+    // Submit payment
+    fireEvent.click(screen.getByTestId('pay-button'));
+    
+    // Verify processing state
+    expect(screen.getByTestId('payment-processing')).toBeInTheDocument();
+    expect(screen.getByTestId('pay-button')).toBeDisabled();
+    
+    // Wait for payment success
+    await waitFor(() => {
+      expect(screen.getByTestId('payment-success')).toBeInTheDocument();
+    });
   });
 
-  test('CORS and preflight validation', async () => {
-    // Test CORS headers + preflight requests + origin validation
-    const corsResult = await corsMiddleware.handle(request);
-    const preflightResult = await corsMiddleware.handlePreflight(preflightRequest);
+  test('payment history and status tracking', async () => {
+    // Test payment history list + status updates + refund UI
+    const { container } = render(<PaymentHistory userId={userId} />);
     
-    expect(corsResult.headers).toHaveProperty('Access-Control-Allow-Origin');
-    expect(preflightResult.status).toBe(200);
+    // Verify payment list loads
+    await waitFor(() => {
+      expect(screen.getAllByTestId('payment-item')).toHaveLength(5);
+    });
+    
+    // Test status filtering
+    fireEvent.click(screen.getByTestId('filter-completed'));
+    
+    await waitFor(() => {
+      expect(screen.getAllByTestId('payment-item')).toHaveLength(3);
+      expect(screen.getAllByText('Completed')).toHaveLength(3);
+    });
+    
+    // Test refund request
+    fireEvent.click(screen.getByTestId('refund-button-1'));
+    
+    expect(screen.getByTestId('refund-modal')).toBeInTheDocument();
   });
 });
 ```
 
-## Testing Commands - MVP Essential
+## Testing Commands - API-First MVP Essential
 
 ### **Domain-Specific Integration Testing**
 ```bash
-# Test all integration tests in specific domain
+# Test all API integration tests in specific domain
+npm run test "integration/auth" -- "*.api.test.ts"
+npm run test "integration/user" -- "*.api.test.ts"
+npm run test "integration/content" -- "*.api.test.ts"
+npm run test "integration/chat" -- "*.api.test.ts"
+npm run test "integration/payments" -- "*.api.test.ts"
+
+# Test all Web integration tests in specific domain  
+npm run test "integration/auth" -- "*.web.test.ts"
+npm run test "integration/user" -- "*.web.test.ts"
+npm run test "integration/content" -- "*.web.test.ts"
+npm run test "integration/chat" -- "*.web.test.ts"
+npm run test "integration/payments" -- "*.web.test.ts"
+
+# Test both API and Web for specific domain
 npm run test "integration/auth"
 npm run test "integration/user"
 npm run test "integration/content"
-npm run test "integration/chat"
-npm run test "integration/payments"
-npm run test "integration/health"
 
 # Test specific integration flow
-npm run test "auth-flow.integration.test.ts"
-npm run test "message-flow.integration.test.ts"
-npm run test "media-upload.integration.test.ts"
-npm run test "payment-basic.integration.test.ts"
+npm run test "auth-flow.api.test.ts"
+npm run test "auth-flow.web.test.ts"
+npm run test "message-flow.api.test.ts"
+npm run test "message-flow.web.test.ts"
+```
 
-# Test all integration tests across all domains
+### **API-First Testing Strategy**
+```bash
+# Phase 1: Test all API integrations first
+npm run test "integration/" -- "*.api.test.ts"
+
+# Phase 2: Test all Web integrations after APIs pass
+npm run test "integration/" -- "*.web.test.ts"
+
+# Phase 3: Test all integrations together
 npm run test "integration/"
 ```
 
 ### **Test Type Separation**
 ```bash
-# Run only integration tests
-npm run test "integration/"
+# Run only API integration tests
+npm run test "integration/" -- "*.api.test.ts"
+
+# Run only Web integration tests  
+npm run test "integration/" -- "*.web.test.ts"
 
 # Run only unit tests  
-npm run test "apps/" --testNamePattern="\.test\."
+npm run test "apps/" -- "*.test.ts"
 
 # Run only E2E tests
 npm run test "e2e/"
@@ -278,117 +571,142 @@ npm run test "e2e/"
 npm run test
 ```
 
-### **MVP Development Workflow**
+### **MVP Development Workflow - API-First**
 ```bash
-# 1. Write integration test first (TDD Red phase)
-npm run test "integration/auth" # Should fail
+# 1. Write API integration test first (TDD Red phase)
+npm run test "integration/auth" -- "*.api.test.ts" # Should fail
 
-# 2. Implement controllers/services (TDD Green phase)  
-npm run test "integration/auth" # Should pass
+# 2. Implement API controllers/services (TDD Green phase)  
+npm run test "integration/auth" -- "*.api.test.ts" # Should pass
 
-# 3. Test specific domain integration
-npm run test "integration/payments"
-npm run test "integration/content"
+# 3. Write Web integration test (TDD Red phase)
+npm run test "integration/auth" -- "*.web.test.ts" # Should fail
 
-# 4. Run all integration tests before E2E
+# 4. Implement Web components (TDD Green phase)
+npm run test "integration/auth" -- "*.web.test.ts" # Should pass
+
+# 5. Test complete domain integration
+npm run test "integration/auth"
+
+# 6. Run all integrations before E2E
 npm run test "integration/"
 ```
 
-## Essential MVP Integration Coverage
+## Essential MVP Integration Coverage - API-First
 
 ### 🔐 **Authentication Domain**
-- **Auth Flow**: Registration → Login → Token validation → Logout
-- **Token Management**: Token refresh → Validation → Expiration handling
-- **Validation Chain**: Email validation → Password validation → User creation
+- **API**: Registration → Login → Token validation → Logout → Refresh tokens
+- **Web**: Auth forms → Validation UI → Token storage → Auth state management
+- **Integration**: API + Web auth flow working together
 
 ### 👤 **User Management Domain**
-- **Profile Lifecycle**: User creation → Profile setup → Updates → Retrieval
-- **Username Management**: Availability checking → Uniqueness validation
-- **Search & Discovery**: User search → Basic filtering
+- **API**: User creation → Profile updates → Search functionality → Username validation
+- **Web**: Profile forms → Real-time validation → Search UI → Optimistic updates
+- **Integration**: API + Web user management working together
 
 ### 📁 **Content Management Domain**
-- **Media Upload**: Basic file upload → Processing → Storage
-- **Image Processing**: Basic image transformation → Optimization
-- **Content Access**: Ownership validation → Access control → Retrieval
+- **API**: File upload → Processing → Storage → Access control → Retrieval
+- **Web**: Upload forms → Progress indicators → Preview generation → Content display
+- **Integration**: API + Web content lifecycle working together
 
 ### 💬 **Chat System Domain**
-- **Message Flow**: Conversation creation → Message sending → Retrieval
-- **Basic Messaging**: User-to-user communication → Message validation
-- **Conversation Management**: Basic conversation listing → User permissions
+- **API**: Conversation creation → Message sending → Retrieval → Permissions
+- **Web**: Chat UI → Real-time updates → Message forms → Conversation management
+- **Integration**: API + Web messaging working together
 
 ### 💳 **Payment Processing Domain**
-- **Basic Payments**: Payment creation → Stripe processing → Confirmation
-- **Payment Validation**: Amount validation → Currency validation → User verification
-- **Webhook Handling**: Basic Stripe webhook processing → Status updates
+- **API**: Payment creation → Stripe processing → Webhook handling → Status updates
+- **Web**: Payment forms → Stripe Elements → Processing UI → Payment history
+- **Integration**: API + Web payment flow working together
+
+### 🤖 **AI Integration Domain** (Future)
+- **API**: AI chat endpoints → Content generation → Model management
+- **Web**: AI chat UI → Content generation forms → Streaming responses
+- **Integration**: API + Web AI features working together
+
+### ⚡ **Workers Domain** (Future)
+- **API**: Background job processing → Queue management → Status tracking
+- **Integration**: Job processing + status updates working together
 
 ### 🔍 **Health Monitoring Domain**
-- **System Health**: Application status → Database connectivity
-- **CORS Validation**: Preflight handling → Origin validation
-- **API Endpoints**: Health endpoints → Response validation
+- **API**: System health → Database connectivity → CORS validation
+- **Web**: Health dashboard → Status displays → System monitoring UI
+- **Integration**: API + Web health monitoring working together
 
 ### 🛠️ **Shared Infrastructure Domain**
-- **Database Operations**: Connection → Query validation → Transaction handling
-- **Middleware Chain**: Auth middleware → Route protection → User context
-- **Error Handling**: Validation failures → System errors → Recovery
+- **API**: Database operations → Middleware chains → Error handling
+- **Web**: Error boundaries → Loading states → Auth state management
+- **Integration**: API + Web infrastructure working together
 
-## Key Benefits for MVP
+## Key Benefits for MVP - API-First
 
-### 🚀 **Clear Separation of Test Types**
-- **Unit tests**: Stay in `apps/` near code
-- **Integration tests**: Centralized in `integration/` 
-- **E2E tests**: Cross-app flows in `e2e/`
-- **No confusion**: Developers know exactly where tests belong
+### 🚀 **API-First Confidence**
+- **API tests first**: Validate backend functionality before building UI
+- **Web tests second**: Test frontend integrations with working APIs
+- **Clear separation**: Backend vs frontend integration issues easily identified
+- **Faster debugging**: API failures caught early, UI issues isolated
 
 ### ⚡ **Fast Development Feedback**
 - **Domain-focused**: Test specific business domains independently
 - **Quick execution**: Vitest runs integration tests faster than E2E
-- **Parallel testing**: Multiple domains can be tested simultaneously
-- **TDD-friendly**: Easy to write failing tests first
+- **Parallel testing**: API and Web tests can run independently
+- **TDD-friendly**: Easy to write failing tests first, implement incrementally
 
 ### 🔧 **Scalable Architecture**
-- **Future-ready**: Easy to add new domains without restructuring
-- **AI-friendly**: Predictable structure for AI coding tools
-- **Clean commands**: Simple, memorable test commands
-- **Maintainable**: Tests organized by business domain, not technical layer
+- **Future-ready**: Easy to add AI and Workers app tests without restructuring
+- **AI-friendly**: Predictable structure for AI coding tools (.api.test.ts + .web.test.ts)
+- **Clean commands**: Simple, memorable test commands with clear API/Web distinction
+- **Maintainable**: Tests organized by business domain with clear API/Web separation
 
 ### 📦 **Complete MVP Coverage**
-- **All essential features**: Auth, User, Content, Chat, Payments, Health
-- **Core workflows**: Registration → Content creation → Monetization → Communication
+- **All essential features**: Auth, User, Content, Chat, Payments, Health with API + Web
+- **Core workflows**: API-first approach ensures reliable backend before UI development
 - **Platform viability**: All components needed for functioning creator platform
+- **Ready for scale**: Structure supports AI and Workers apps when needed
 
-## Integration Test Scope - MVP
+## Integration Test Scope - API-First MVP
 
-### ✅ **What Integration Tests Cover**
+### ✅ **What API Integration Tests Cover**
 - Multiple controllers working in sequence within same domain
 - Service layer + database operations + data transformations
-- Component interaction patterns and data flow within domain
-- Error handling between components and services
+- API endpoint validation + request/response handling
+- Authentication and authorization middleware chains
 - Business logic workflows within domain boundaries
-- Authentication and authorization within domain
-- Basic external service integration (Stripe, media processing)
+- External service integration (Stripe, media processing) - mocked
+
+### ✅ **What Web Integration Tests Cover**
+- Frontend components + API integration + state management
+- Form validation + error handling + user feedback
+- Real-time UI updates + optimistic updates + loading states
+- Component interaction patterns within domain
+- UI state management + local storage + auth state
+- Browser API usage + file handling + WebSocket connections
 
 ### ❌ **What Integration Tests Don't Cover**
 - Cross-app communication (E2E handles this)
-- Real browser interactions (E2E handles this)
+- Real browser interactions across multiple pages (E2E handles this)
 - Actual external API calls (mocked in integration tests)
 - Complete user journeys across multiple apps (E2E handles this)
-- Frontend UI interactions (E2E handles this)
-- Advanced real-time features (WebSocket testing in E2E)
+- Advanced real-time features across apps (E2E handles this)
+- Performance testing across multiple apps (E2E handles this)
 
-## Relationship to E2E Testing - MVP
+## Relationship to E2E Testing - API-First MVP
 
 ```typescript
 // Development Flow:
-Unit Tests → Integration Tests → E2E Tests
+Unit Tests → API Integration Tests → Web Integration Tests → E2E Tests
 
-// Example: Essential Creator Journey - MVP
+// Example: Essential Creator Journey - API-First MVP
 1. Unit: ValidationService.test.ts (email validation)
-2. Integration: auth-flow.integration.test.ts (register + login flow)  
-3. Integration: profile-lifecycle.integration.test.ts (profile setup)
-4. Integration: media-upload.integration.test.ts (content upload)
-5. Integration: payment-basic.integration.test.ts (basic monetization)
-6. Integration: message-flow.integration.test.ts (creator-fan communication)
-7. E2E: operations/mvpCreatorJourney.ts (register → profile → upload → monetize → chat)
+2. API Integration: auth-flow.api.test.ts (register + login API flow)
+3. Web Integration: auth-flow.web.test.ts (auth forms + UI state)
+4. API Integration: profile-lifecycle.api.test.ts (profile API operations)
+5. Web Integration: profile-lifecycle.web.test.ts (profile forms + UI)
+6. API Integration: media-upload.api.test.ts (content upload API)
+7. Web Integration: media-upload.web.test.ts (upload forms + progress UI)
+8. API Integration: payment-basic.api.test.ts (payment API processing)
+9. Web Integration: payment-basic.web.test.ts (payment forms + Stripe UI)
+10. E2E: operations/mvpCreatorJourney.ts (complete cross-app user journey)
 ```
 
-Integration tests provide the **essential middle layer** for MVP - more comprehensive than unit tests, faster than E2E tests, focused on **within-domain component collaboration** covering all core business functionality needed for a viable creator platform.
+Integration tests provide the **essential API-first middle layer** for MVP - validating backend APIs work correctly before building UI, then testing frontend integrations work with validated APIs, creating a reliable foundation for cross-app E2E testing of complete user journeys.
