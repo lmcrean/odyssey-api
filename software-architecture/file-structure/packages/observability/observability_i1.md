@@ -1,245 +1,106 @@
-# Packages/Observability - Odyssey Creator Platform (MVP - Iteration 1)
+# packages/observability - Basic Monitoring & Logging
 
-> **Basic Logging** - Simple console logging for development and basic error tracking
+> **Simple logging and metrics** for application monitoring
 
-## Architecture Overview
+## Overview
+Basic observability package providing essential logging and simple metrics collection for application monitoring. Focused on core logging functionality and basic performance tracking for MVP.
 
-Minimal observability package providing **only essential** logging functionality for MVP launch. All advanced monitoring and analytics moved to iteration 2.
+## Tech Stack
+- **Winston** for structured logging
+- **TypeScript** for type safety
 
-## Directory Structure
-
-```
-packages/observability/
+## File Structure
+```typescript
+observability/
+├── package.json       // Dependencies: winston
 ├── src/
-│   ├── logger/
-│   │   ├── Logger.ts               # ✅ Basic console logger
-│   │   ├── types.ts                # ✅ Log level types
+│   ├── logging/      // Structured logging system
+│   │   ├── winston/
+│   │   │   ├── config.ts              // Winston configuration
+│   │   │   ├── transports.ts          // Log transports (file, console)
+│   │   │   ├── formatting.ts          // Log formatting and structure
+│   │   │   └── __tests__/
+│   │   ├── structured/
+│   │   │   ├── logger.ts              // Structured logger implementation
+│   │   │   ├── context.ts             // Request context logging
+│   │   │   └── __tests__/
+│   │   └── utils/
+│   │       ├── filters.ts             // Log filtering utilities
+│   │       └── __tests__/
+│   ├── metrics/      // Application metrics
+│   │   ├── basic/
+│   │   │   ├── performance.ts         // Basic performance metrics
+│   │   │   ├── errors.ts              // Error rate tracking
+│   │   │   └── __tests__/
+│   │   └── utils/
+│   │       ├── collection.ts          // Metric collection utilities
+│   │       └── __tests__/
+│   ├── types/        // Observability types
+│   │   ├── Logging.ts                  // Logging type definitions
+│   │   ├── Metrics.ts                  // Metrics type definitions
 │   │   └── index.ts
-│   ├── utils/
-│   │   ├── formatters.ts           # ✅ Log formatting
-│   │   └── index.ts
-│   └── index.ts
-├── package.json
-└── tsconfig.json
+│   └── utils/        // Observability utilities
+│       ├── helpers.ts                 // Helper functions
+│       └── __tests__/
+└── docs/
+    ├── README.md                       // Package overview
+    └── logging-guide.md                // Logging implementation guide
 ```
 
-## Basic Logging Features
+## Key Features
 
-### **Simple Logger**
-```typescript
-// logger/Logger.ts
-export enum LogLevel {
-  DEBUG = 'debug',
-  INFO = 'info',
-  WARN = 'warn',
-  ERROR = 'error'
-}
+### Structured Logging
+- **Winston Integration**: Basic logging with Winston
+- **Contextual Logging**: Request correlation and context preservation
+- **Log Levels**: Configurable log levels (error, warn, info, debug)
+- **Structured Format**: JSON-structured logs for easy parsing
 
-export interface LogEntry {
-  level: LogLevel;
-  message: string;
-  timestamp: Date;
-  data?: any;
-}
-
-export class Logger {
-  private isDevelopment = process.env.NODE_ENV === 'development';
-
-  debug(message: string, data?: any): void {
-    if (this.isDevelopment) {
-      console.debug(this.formatLog(LogLevel.DEBUG, message, data));
-    }
-  }
-
-  info(message: string, data?: any): void {
-    console.info(this.formatLog(LogLevel.INFO, message, data));
-  }
-
-  warn(message: string, data?: any): void {
-    console.warn(this.formatLog(LogLevel.WARN, message, data));
-  }
-
-  error(message: string, error?: Error | any): void {
-    console.error(this.formatLog(LogLevel.ERROR, message, error));
-  }
-
-  private formatLog(level: LogLevel, message: string, data?: any): string {
-    const timestamp = new Date().toISOString();
-    const dataStr = data ? ` | ${JSON.stringify(data)}` : '';
-    return `[${timestamp}] ${level.toUpperCase()}: ${message}${dataStr}`;
-  }
-}
-
-// Create singleton instance
-export const logger = new Logger();
-```
-
-### **Log Types**
-```typescript
-// logger/types.ts
-export { LogLevel, LogEntry } from './Logger';
-
-export interface ErrorLog {
-  message: string;
-  stack?: string;
-  userId?: string;
-  endpoint?: string;
-}
-
-export interface RequestLog {
-  method: string;
-  url: string;
-  statusCode: number;
-  duration: number;
-  userId?: string;
-}
-```
-
-### **Formatters**
-```typescript
-// utils/formatters.ts
-export function formatError(error: Error): ErrorLog {
-  return {
-    message: error.message,
-    stack: error.stack,
-  };
-}
-
-export function formatRequest(
-  method: string,
-  url: string,
-  statusCode: number,
-  startTime: number,
-  userId?: string
-): RequestLog {
-  return {
-    method,
-    url,
-    statusCode,
-    duration: Date.now() - startTime,
-    userId
-  };
-}
-```
-
-## Dependencies
-
-```json
-{
-  "dependencies": {},
-  "devDependencies": {
-    "@types/node": "^20.0.0",
-    "typescript": "^5.0.0"
-  }
-}
-```
-
-## MVP Features ✅
-
-- ✅ Basic console logging (debug, info, warn, error)
-- ✅ Simple log formatting with timestamps
-- ✅ Development vs production log levels
-- ✅ Error and request log types
-- ✅ JSON serialization for log data
-- ✅ Singleton logger instance
-
-## Excluded from MVP (Moved to Iteration 2) ❌
-
-- ❌ Advanced metrics collection
-- ❌ APM (Application Performance Monitoring)
-- ❌ Distributed tracing
-- ❌ Real-time dashboards
-- ❌ Log aggregation and storage
-- ❌ Error tracking services (Sentry)
-- ❌ Performance monitoring
-- ❌ Custom metrics and counters
-- ❌ Log shipping to external services
-- ❌ Structured logging with correlation IDs
-- ❌ Health check endpoints
-- ❌ Alerting and notifications
-- ❌ Uptime monitoring
+### Basic Metrics
+- **Performance Tracking**: Basic response time tracking
+- **Error Tracking**: Simple error rate monitoring
+- **Custom Metrics**: Basic custom metric definitions
 
 ## Usage Examples
 
-### **Backend (Express)**
+### Structured Logging
 ```typescript
-// In apps/api
-import { logger } from '@odyssey/observability';
+import { Logger } from '@packages/observability/logging';
+
+const logger = Logger.create({
+  service: 'api',
+  environment: 'production',
+  level: 'info'
+});
 
 // Basic logging
-logger.info('Server starting on port 3000');
-logger.debug('Database connection established');
+logger.info('User login', {
+  userId: 'user_123',
+  timestamp: new Date()
+});
 
 // Error logging
-try {
-  await riskyOperation();
-} catch (error) {
-  logger.error('Operation failed', error);
-  throw error;
-}
-
-// Request logging middleware
-app.use((req, res, next) => {
-  const startTime = Date.now();
-  
-  res.on('finish', () => {
-    const duration = Date.now() - startTime;
-    logger.info(`${req.method} ${req.url} - ${res.statusCode} (${duration}ms)`);
-  });
-  
-  next();
+logger.error('Payment failed', {
+  error: error.message,
+  paymentId: 'payment_789',
+  amount: 29.99
 });
 ```
 
-### **Frontend (React)**
+### Basic Metrics
 ```typescript
-// In apps/web
-import { logger } from '@odyssey/observability';
+import { MetricsCollector } from '@packages/observability/metrics';
 
-// Component logging
-function UserProfile({ userId }: { userId: string }) {
-  useEffect(() => {
-    logger.debug('UserProfile component mounted', { userId });
-    
-    return () => {
-      logger.debug('UserProfile component unmounted', { userId });
-    };
-  }, [userId]);
+const metrics = new MetricsCollector();
 
-  const handleSave = async () => {
-    try {
-      logger.info('Saving user profile', { userId });
-      await saveProfile();
-      logger.info('Profile saved successfully', { userId });
-    } catch (error) {
-      logger.error('Failed to save profile', error);
-    }
-  };
+// Track performance
+metrics.recordResponseTime('api.users.get', 150);
 
-  return <div>Profile content...</div>;
-}
+// Track errors
+metrics.recordError('payment.process', 'CARD_DECLINED');
+
+// Custom metrics
+metrics.increment('user.signup');
 ```
 
-### **API Endpoints**
-```typescript
-// In apps/api routes
-import { logger } from '@odyssey/observability';
-
-export async function loginController(req: Request, res: Response) {
-  const { email } = req.body;
-  
-  logger.info('Login attempt', { email });
-  
-  try {
-    const user = await authenticateUser(email, password);
-    logger.info('Login successful', { userId: user.id, email });
-    
-    res.json({ user, token });
-  } catch (error) {
-    logger.warn('Login failed', { email, error: error.message });
-    res.status(401).json({ error: 'Invalid credentials' });
-  }
-}
-```
-
-This package provides **only the absolute minimum** observability needed for MVP development and basic error tracking, with clear console output for debugging. 
+## Dependencies
+- **Winston**: ^3.10.0 - Structured logging library 
