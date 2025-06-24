@@ -30,7 +30,7 @@ apps/ai/
 ├── src/
 │   ├── routes/
 │   │   └── send-message/
-│   │       ├── Controller.ts        # Simple message handling
+│   │       ├── Controller.ts        # Simple message handling, returns ai reponse
 │   │       └── Route.ts             # Basic POST route
 │   ├── services/
 │   │   └── GeminiService.ts         # Direct Gemini API integration

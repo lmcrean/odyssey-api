@@ -22,6 +22,18 @@ backend/e2e/
     │   ├── SearchUsers.ts        # GET /api/users/search
     │   ├── CheckUsername.ts      # GET /api/users/check-username
     │   └── GetPublicProfile.ts   # GET /api/users/:id/public
+    ├── content/                  # Content management runners
+    │   ├── UploadImage.ts        # POST /api/content/upload
+    │   ├── DeleteContent.ts      # DELETE /api/content/:id
+    │   └── ViewContent.ts        # GET /api/content/:id
+    ├── payments/                 # Payment processing runners
+    │   ├── CreatePayment.ts      # POST /api/payments/create
+    │   ├── ProcessPayment.ts     # POST /api/payments/process
+    │   └── ConfirmPayment.ts     # POST /api/payments/confirm
+    ├── chat/                     # Chat runners
+    │   ├── SendMessage.ts        # POST /api/chat/send-message
+    │   └── GetMessages.ts        # GET /api/chat/get-messages
+    │   └── GetConversationList.ts   # GET /api/chat/get-conversation-list
     ├── health/                   # Health check runners
     │   ├── HealthStatus.ts       # GET /api/health
     │   ├── DatabaseHealth.ts     # GET /api/health/db
