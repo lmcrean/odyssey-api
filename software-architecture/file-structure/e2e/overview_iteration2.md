@@ -5,32 +5,6 @@
 ## Overview
 Comprehensive end-to-end testing using Playwright with a **runners pattern** that provides modular, reusable, and maintainable test components. Each API endpoint gets its own runner class, organized by application domain.
 
-## Current Structure (Backend-Focused)
-```typescript
-backend/e2e/
-├── master-integration.spec.ts    # Main test orchestration
-├── playwright.config.ts          # Playwright configuration
-└── runners/
-    ├── auth/                     # Authentication app runners
-    │   ├── Login.ts              # POST /api/auth/login
-    │   ├── Register.ts           # POST /api/auth/register
-    │   ├── Logout.ts             # POST /api/auth/logout
-    │   └── RefreshToken.ts       # POST /api/auth/refresh
-    ├── user/                     # User management runners
-    │   ├── GetUserProfile.ts     # GET /api/users/profile
-    │   ├── UpdateProfile.ts      # PUT /api/users/profile
-    │   ├── SearchUsers.ts        # GET /api/users/search
-    │   ├── CheckUsername.ts      # GET /api/users/check-username
-    │   └── GetPublicProfile.ts   # GET /api/users/:id/public
-    ├── health/                   # Health check runners
-    │   ├── HealthStatus.ts       # GET /api/health
-    │   ├── DatabaseHealth.ts     # GET /api/health/db
-    │   └── CorsCheck.ts          # OPTIONS preflight testing
-    └── operations/               # Orchestrated test flows
-        ├── AuthFlow.ts           # Complete auth user journey
-        └── UserFlow.ts           # Complete user management flow
-```
-
 ## Future Structure (Apps/Packages Architecture)
 ```typescript
 odyssey/e2e/
