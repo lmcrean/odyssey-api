@@ -1,19 +1,18 @@
-# apps/web - React Frontend
+# apps/web - React Frontend (MVP)
 
-> **Main user interface** for creators and fans, built with React + TypeScript + Vite
+> **MVP user interface** for creators and fans - essential features only for 100-500 creators
 
-## Overview
-The web application serves both creators and fans with role-based interfaces, content creation tools, and monetization features.
+## MVP Overview  
+The web application provides basic creator-fan interactions with simple content sharing and payment functionality.
 
-## Tech Stack
+## Tech Stack 
 - **React 18** with TypeScript
-- **Vite** for build tooling
+- **Vite** for build tooling  
 - **Tailwind CSS** for styling
-- **Zustand** for state management
 - **React Router** for navigation
 - **Playwright** for E2E testing
 
-## File Structure
+## MVP File Structure 
 ```typescript
 web/
 ├── package.json            // Dependencies: react, typescript, vite, tailwind
@@ -24,231 +23,185 @@ web/
 ├── tsconfig.json         // TypeScript configuration
 ├── public/
 │   ├── favicon.ico
-│   ├── manifest.json     // PWA manifest
 │   └── robots.txt
 ├── src/
 │   ├── main.tsx         // App entry point
 │   ├── App.tsx          // Root component with routing
 │   ├── components/      // UI components
-│   │   ├── creator/     // Creator-specific components
-│   │   │   ├── Dashboard/
-│   │   │   │   ├── Dashboard.tsx      // Main creator dashboard
-│   │   │   │   ├── RevenueChart.tsx   // Revenue analytics
-│   │   │   │   ├── ContentStats.tsx   // Content performance
+│   │   ├── creator/     // Creator-specific components 
+│   │   │   ├── Profile/
+│   │   │   │   ├── CreatorProfile.tsx     // Basic creator profile
+│   │   │   │   ├── ProfileEditor.tsx      // Edit profile info
 │   │   │   │   └── __tests__/
 │   │   │   ├── Content/
-│   │   │   │   ├── ContentUpload.tsx    // Media upload interface
-│   │   │   │   ├── ContentEditor.tsx    // Content editing
-│   │   │   │   ├── ContentLibrary.tsx   // Content management
+│   │   │   │   ├── ImageUpload.tsx        // Simple image upload
+│   │   │   │   ├── ContentGrid.tsx        // Display creator's images
 │   │   │   │   └── __tests__/
-│   │   │   ├── Monetization/
-│   │   │   │   ├── SponsorshipPanel.tsx // Sponsorship management
-│   │   │   │   ├── SubscriptionTiers.tsx // Subscription setup
-│   │   │   │   ├── PayoutSettings.tsx   // Payout configuration
-│   │   │   │   └── __tests__/
-│   │   │   └── Analytics/
-│   │   │       ├── AnalyticsDashboard.tsx // Detailed analytics
-│   │   │       ├── AudienceInsights.tsx   // Audience data
-│   │   │       ├── EngagementMetrics.tsx  // Engagement stats
+│   │   │   └── Earnings/
+│   │   │       ├── EarningsView.tsx       // Basic earnings display
+│   │   │       ├── TipHistory.tsx         // View received tips
 │   │   │       └── __tests__/
-│   │   ├── fan/         // Fan-specific components  
+│   │   ├── fan/         // Fan-specific components 
 │   │   │   ├── Feed/
-│   │   │   │   ├── FeedView.tsx         // Main content feed
-│   │   │   │   ├── FeedPost.tsx         // Individual post
-│   │   │   │   ├── FeedFilters.tsx      // Content filters
-│   │   │   │   └── __tests__/
-│   │   │   ├── Creator/
-│   │   │   │   ├── CreatorProfile.tsx   // Creator profile view
-│   │   │   │   ├── CreatorContent.tsx   // Creator's content
-│   │   │   │   ├── SponsorButton.tsx    // Support creator
+│   │   │   │   ├── ImageFeed.tsx          // Main image feed
+│   │   │   │   ├── FeedPost.tsx           // Individual image post
 │   │   │   │   └── __tests__/
 │   │   │   ├── Discovery/
-│   │   │   │   ├── DiscoverFeed.tsx     // Discover new creators
-│   │   │   │   ├── TrendingContent.tsx  // Trending content
-│   │   │   │   ├── CategoryBrowser.tsx  // Browse by category
+│   │   │   │   ├── CreatorGrid.tsx        // Browse creators
+│   │   │   │   ├── CreatorCard.tsx        // Creator preview card
 │   │   │   │   └── __tests__/
-│   │   │   └── Subscriptions/
-│   │   │       ├── SubscriptionManager.tsx // Manage subscriptions
-│   │   │       ├── PaymentHistory.tsx      // Payment history
-│   │   │       ├── SubscriptionCard.tsx    // Subscription display
+│   │   │   └── Support/
+│   │   │       ├── TipButton.tsx          // Simple tip creator
+│   │   │       ├── TipModal.tsx           // Tip amount selection
 │   │   │       └── __tests__/
-│   │   ├── shared/      // Shared components
+│   │   ├── shared/      // Shared components 
 │   │   │   ├── Layout/
-│   │   │   │   ├── Layout.tsx           // Main app layout
-│   │   │   │   ├── Header.tsx           // App header
-│   │   │   │   ├── Sidebar.tsx          // Navigation sidebar
-│   │   │   │   ├── Footer.tsx          // App footer
+│   │   │   │   ├── Layout.tsx             // Main app layout
+│   │   │   │   ├── Header.tsx             // App header with nav
+│   │   │   │   ├── Sidebar.tsx            // Basic navigation
 │   │   │   │   └── __tests__/
 │   │   │   ├── Auth/
-│   │   │   │   ├── AuthGuard.tsx        // Route protection
-│   │   │   │   ├── LoginModal.tsx       // Login modal
-│   │   │   │   ├── SignupModal.tsx      // Registration modal
-│   │   │   │   ├── GDPRConsent.tsx     // GDPR consent
+│   │   │   │   ├── AuthGuard.tsx          // Route protection
+│   │   │   │   ├── LoginForm.tsx          // Basic login form
+│   │   │   │   ├── SignupForm.tsx         // Basic registration
 │   │   │   │   └── __tests__/
-│   │   │   ├── Media/
-│   │   │   │   ├── MediaPlayer.tsx      // Video/audio player
-│   │   │   │   ├── ImageGallery.tsx     // Image carousel
-│   │   │   │   ├── LiveStream.tsx       // Live streaming
-│   │   │   │   └── __tests__/
-│   │   │   └── Navigation/
-│   │   │       ├── NavBar.tsx           // Main navigation
-│   │   │       ├── BreadcrumbNav.tsx    // Breadcrumb navigation
-│   │   │       ├── TabNavigation.tsx    // Tab navigation
+│   │   │   └── Media/
+│   │   │       ├── ImageViewer.tsx        // Simple image display
+│   │   │       ├── ImageUploader.tsx      // Cloudinary upload
 │   │   │       └── __tests__/
-│   │   └── ui/          // Design system components (from @packages/ui)
+│   │   └── ui/          // Basic design system 
 │   │       ├── Button.tsx
 │   │       ├── Input.tsx
 │   │       ├── Modal.tsx
 │   │       └── __tests__/
-│   ├── pages/           // Route components
+│   ├── pages/           // Route components 
 │   │   ├── Home.tsx               // Landing page
 │   │   ├── Auth/
 │   │   │   ├── Login.tsx          // Login page
-│   │   │   ├── Signup.tsx         // Registration page
-│   │   │   └── ForgotPassword.tsx // Password reset
+│   │   │   └── Signup.tsx         // Registration page
 │   │   ├── Creator/
-│   │   │   ├── Dashboard.tsx      // Creator dashboard
-│   │   │   ├── Analytics.tsx      // Analytics page
-│   │   │   ├── Content.tsx        // Content management
-│   │   │   ├── Earnings.tsx       // Earnings page
-│   │   │   └── Settings.tsx       // Creator settings
+│   │   │   ├── Dashboard.tsx      // Basic creator dashboard
+│   │   │   ├── Profile.tsx        // Creator profile management
+│   │   │   └── Earnings.tsx       // View earnings/tips
 │   │   ├── Fan/
-│   │   │   ├── Feed.tsx           // Main feed
-│   │   │   ├── Discover.tsx       // Discovery page
-│   │   │   ├── Subscriptions.tsx  // Subscription management
-│   │   │   └── Profile.tsx        // Fan profile
+│   │   │   ├── Feed.tsx           // Main image feed
+│   │   │   └── Discover.tsx       // Creator discovery
 │   │   ├── Content/
-│   │   │   ├── ContentView.tsx    // Individual content view
-│   │   │   ├── LiveStream.tsx     // Live streaming page
-│   │   │   └── Search.tsx         // Content search
+│   │   │   └── ImageView.tsx      // Individual image view
 │   │   └── __tests__/
-│   ├── hooks/           // Custom React hooks
+│   ├── hooks/           // Custom React hooks 
 │   │   ├── auth/
 │   │   │   ├── useAuth.ts         // Authentication hook
-│   │   │   ├── useSession.ts      // Session management
 │   │   │   └── __tests__/
 │   │   ├── creator/
-│   │   │   ├── useCreator.ts      // Creator operations
-│   │   │   ├── useAnalytics.ts    // Analytics data
-│   │   │   ├── useContent.ts      // Content management
+│   │   │   ├── useProfile.ts      // Creator profile operations
+│   │   │   ├── useContent.ts      // Image management
 │   │   │   └── __tests__/
 │   │   ├── fan/
-│   │   │   ├── useFeed.ts         // Feed operations
-│   │   │   ├── useSubscriptions.ts // Subscription management
+│   │   │   ├── useFeed.ts         // Image feed operations
 │   │   │   └── __tests__/
-│   │   ├── payments/
-│   │   │   ├── usePayments.ts     // Payment operations
-│   │   │   ├── useSponsorship.ts  // Sponsorship handling
-│   │   │   └── __tests__/
-│   │   └── media/
-│   │       ├── useUpload.ts       // File upload
-│   │       ├── useMediaPlayer.ts  // Media playback
+│   │   └── payments/
+│   │       ├── useTips.ts         // Simple tip functionality
 │   │       └── __tests__/
-│   ├── services/        // API communication
+│   ├── services/        // API communication 
 │   │   ├── api/
 │   │   │   ├── api.ts             // HTTP client configuration
 │   │   │   ├── authAPI.ts         // Authentication API
-│   │   │   ├── creatorAPI.ts      // Creator API calls
-│   │   │   ├── fanAPI.ts          // Fan API calls
-│   │   │   ├── contentAPI.ts      // Content API calls
-│   │   │   ├── paymentAPI.ts      // Payment API calls
-│   │   │   └── __tests__/
-│   │   ├── websocket/
-│   │   │   ├── websocket.ts       // WebSocket client
-│   │   │   ├── liveChat.ts        // Live chat functionality
-│   │   │   ├── notifications.ts   // Real-time notifications
+│   │   │   ├── creatorAPI.ts      // Creator operations
+│   │   │   ├── contentAPI.ts      // Image operations
+│   │   │   ├── tipAPI.ts          // Simple tip payments
 │   │   │   └── __tests__/
 │   │   └── upload/
-│   │       ├── fileUpload.ts      // File upload service
-│   │       ├── mediaProcessing.ts // Media processing
+│   │       ├── imageUpload.ts     // Cloudinary image upload
 │   │       └── __tests__/
-│   ├── store/           // State management (Zustand)
-│   │   ├── authStore.ts           // Authentication state
-│   │   ├── creatorStore.ts        // Creator state
-│   │   ├── fanStore.ts           // Fan state
-│   │   ├── contentStore.ts        // Content state
-│   │   ├── paymentStore.ts        // Payment state
-│   │   ├── uiStore.ts            // UI state (modals, etc.)
+│   ├── store/           // State management (Context API) 
+│   │   ├── authContext.tsx        // Authentication state
+│   │   ├── creatorContext.tsx     // Creator state
+│   │   ├── contentContext.tsx     // Image content state
 │   │   └── __tests__/
-│   ├── types/           // TypeScript definitions
+│   ├── types/           // TypeScript definitions 
 │   │   ├── auth.ts               // Authentication types
 │   │   ├── creator.ts            // Creator types
-│   │   ├── fan.ts               // Fan types
-│   │   ├── content.ts            // Content types
-│   │   ├── payment.ts            // Payment types
-│   │   ├── api.ts               // API response types
-│   │   └── ui.ts                // UI component types
-│   ├── utils/           // Utility functions
+│   │   ├── content.ts            // Image content types
+│   │   ├── payment.ts            // Basic tip types
+│   │   └── api.ts               // API response types
+│   ├── utils/           // Utility functions 
 │   │   ├── formatters.ts         // Data formatting
 │   │   ├── validators.ts         // Client-side validation
 │   │   ├── constants.ts          // App constants
-│   │   ├── helpers.ts            // Helper functions
 │   │   └── __tests__/
-│   └── styles/          // Global styles
-│       ├── globals.css           // Global CSS
-│       ├── components.css        // Component-specific CSS
-│       └── animations.css        // Animation definitions
-└── e2e/                 // Playwright E2E tests
+│   └── styles/          // Global styles 
+│       ├── globals.css           // Global CSS with Tailwind
+│       └── components.css        // Component-specific CSS
+└── e2e/                 // Playwright E2E tests 
     ├── auth/
     │   ├── login.spec.ts         // Login flow tests
-    │   ├── signup.spec.ts        // Registration tests
-    │   └── gdpr.spec.ts         // GDPR compliance tests
+    │   └── signup.spec.ts        // Registration tests
     ├── creator/
-    │   ├── dashboard.spec.ts     // Creator dashboard tests
-    │   ├── content-upload.spec.ts // Content upload tests
-    │   ├── monetization.spec.ts  // Monetization tests
-    │   └── analytics.spec.ts     // Analytics tests
+    │   ├── profile.spec.ts       // Creator profile tests
+    │   └── image-upload.spec.ts  // Image upload tests
     ├── fan/
-    │   ├── feed.spec.ts          // Feed browsing tests
-    │   ├── discovery.spec.ts     // Content discovery tests
-    │   ├── sponsorship.spec.ts   // Sponsorship tests
-    │   └── subscriptions.spec.ts // Subscription tests
-    ├── payments/
-    │   ├── payment-flow.spec.ts  // Payment processing tests
-    │   ├── payout.spec.ts       // Creator payout tests
-    │   └── subscription.spec.ts  // Subscription billing tests
+    │   ├── feed.spec.ts          // Image feed tests
+    │   ├── discovery.spec.ts     // Creator discovery tests
+    │   └── tip.spec.ts           // Tip functionality tests
     └── utils/
         ├── test-helpers.ts       // Test utilities
-        ├── mock-data.ts         // Test data
-        └── page-objects.ts      // Page object models
+        └── mock-data.ts         // Test data
 ```
 
-## Key Features
+## MVP Key Features 
 
-### Creator Features
-- **Revenue Dashboard**: Real-time earnings, analytics, and performance metrics
-- **Content Management**: Upload, edit, and organize photos, videos, live streams
-- **Monetization Tools**: Sponsorship management, subscription tiers, tip jars
-- **Audience Analytics**: Detailed insights into audience behavior and engagement
-- **Live Streaming**: Real-time broadcasting with interactive chat
+### Creator Features (Essential Only)
+- **Basic Profile**: Name, bio, profile picture, creator page
+- **Image Upload**: Simple Cloudinary integration for photos only
+- **Content Management**: View and organize uploaded images
+- **Earnings View**: Basic display of received tips/donations
+- **Creator Dashboard**: Simple overview of profile and content
 
-### Fan Features
-- **Personalized Feed**: Algorithm-driven content discovery
-- **Creator Discovery**: Browse and discover new creators by category
-- **Subscription Management**: Manage creator subscriptions and billing
-- **Interactive Features**: Like, comment, share, and sponsor content
-- **Real-time Notifications**: Updates on new content and live streams
+### Fan Features (Essential Only)  
+- **Image Feed**: Browse latest images from all creators
+- **Creator Discovery**: Simple grid of creator profiles
+- **Basic Interaction**: View creator profiles and images
+- **Simple Tips**: One-click tip/donation to creators
+- **User Profile**: Basic fan profile management
 
-### Shared Features
-- **GDPR Compliance**: Comprehensive privacy controls and data management
-- **Responsive Design**: Mobile-first design with desktop optimization
-- **Accessibility**: WCAG 2.1 AA compliant
-- **Progressive Web App**: Offline functionality and native app-like experience
-- **Real-time Updates**: WebSocket-based live updates and notifications
+### Shared Features (Essential Only)
+- **Authentication**: Email/password login and registration
+- **Responsive Design**: Mobile-first responsive layouts
+- **Image Display**: Fast image loading and viewing
+- **Basic Navigation**: Header navigation and routing
+- **Error Handling**: Basic error messages and validation
 
-## Environment Configuration
+## MVP Environment Configuration 
 ```typescript
 // .env.local
 VITE_API_URL=https://odyssey-api-lmcreans-projects.vercel.app
-VITE_WEBSOCKET_URL=wss://odyssey-ws-lmcreans-projects.vercel.app
 VITE_STRIPE_PUBLIC_KEY=pk_test_...
 VITE_CLOUDINARY_CLOUD_NAME=odyssey-creator
-VITE_GOOGLE_OAUTH_CLIENT_ID=...
-VITE_MIXPANEL_TOKEN=...
 ```
 
-## Deployment
-- **Vercel**: Optimized for Vercel static deployment
-- **CDN**: Global content delivery for fast loading
-- **Edge Functions**: Server-side rendering where needed
-- **Analytics**: Built-in Vercel Analytics and custom tracking 
+## MVP Success Metrics 
+- **25+ Active Creators** posting weekly images
+- **$2K+ Monthly GMV** in creator tips
+- **500+ Registered Users** on platform
+- **<2 second** image upload time
+- **95%+ Payment Success** rate
+
+## Features Excluded from MVP ❌
+*These features are documented in web_i2.md for future implementation:*
+
+- Video/audio content and live streaming
+- Advanced analytics and creator insights
+- Complex monetization (subscriptions, pay-per-view)
+- Real-time features (chat, notifications, WebSocket)
+- Advanced social features (comments, shares, follows)
+- Content moderation tools
+- GDPR compliance tools
+- Multi-language support
+- Advanced search and filtering
+- Creator collaboration tools
+
+## Deployment 
+- **Vercel**: Static deployment optimized for React
+- **CDN**: Global content delivery for images
+- **Domain**: odyssey-lmcreans-projects.vercel.app 

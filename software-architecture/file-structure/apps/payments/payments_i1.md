@@ -1,166 +1,112 @@
-# apps/payments - Payment Processing
+# apps/payments - Payment Processing (MVP)
 
-> **Stripe integration** handling all monetary transactions, revenue sharing, and tax compliance
+> **Basic Stripe integration** for creator tips and simple subscriptions
 
-## Overview
-Dedicated payment processing service managing creator monetization, fan payments, subscriptions, and revenue distribution with full tax compliance.
+## MVP Focus 
+**Essential for 100-500 creators launch:**
+- Basic payment processing (tips/sponsorships)
+- Simple creator payouts 
+- Single subscription tier
+- Essential webhooks
+- Basic Stripe Connect for creators
 
 ## Tech Stack
 - **Node.js** with TypeScript
 - **Stripe API** for payment processing
-- **Decimal.js** for precise financial calculations
-- **Bull** for job queues
 - **Vitest** for testing
 
 ## File Structure
 ```typescript
 payments/
-├── package.json        // Dependencies: stripe, decimal.js, bull
+├── package.json        // Dependencies: stripe
 ├── vercel.json        // Vercel Functions for webhooks
 ├── src/
 │   ├── index.ts       // Payment service entry point
-│   ├── stripe/        // Stripe integration
+│   ├── stripe/        // Basic Stripe integration
 │   │   ├── client.ts  // Stripe API client configuration
-│   │   ├── webhooks/  // Stripe webhook handlers
+│   │   ├── webhooks/  // Essential webhook handlers
 │   │   │   ├── paymentSucceeded.ts    // Payment success handler
 │   │   │   ├── paymentFailed.ts       // Payment failure handler
-│   │   │   ├── subscriptionCreated.ts // Subscription creation
-│   │   │   ├── subscriptionCanceled.ts // Subscription cancellation
-│   │   │   ├── invoicePaid.ts         // Invoice payment
-│   │   │   ├── payoutPaid.ts          // Creator payout confirmation
+│   │   │   ├── subscriptionCreated.ts // Basic subscription creation
 │   │   │   └── __tests__/
-│   │   ├── connect/   // Stripe Connect for creators
+│   │   ├── connect/   // Basic Stripe Connect for creators
 │   │   │   ├── accountCreation.ts     // Creator account setup
-│   │   │   ├── accountVerification.ts // KYC verification
-│   │   │   ├── payoutSchedule.ts      // Payout scheduling
+│   │   │   ├── payoutSchedule.ts      // Simple weekly payouts
 │   │   │   └── __tests__/
-│   │   └── products/  // Stripe Products & Prices
-│   │       ├── subscriptionTiers.ts   // Subscription management
-│   │       ├── oneTimePayments.ts     // Sponsorship products
+│   │   └── products/  // Simple Stripe Products
+│   │       ├── subscriptionTier.ts    // Single $5/month tier
+│   │       ├── tipPayments.ts         // One-time tip products
 │   │       └── __tests__/
-│   ├── services/      // Payment business logic
-│   │   ├── PaymentService.ts      // Core payment processing
-│   │   ├── SubscriptionService.ts // Subscription management
-│   │   ├── PayoutService.ts       // Creator payouts
-│   │   ├── TaxService.ts          // Tax calculation & reporting
-│   │   ├── RevenueService.ts      // Revenue sharing calculations
-│   │   ├── RefundService.ts       // Payment refunds
+│   ├── services/      // Core payment business logic
+│   │   ├── PaymentService.ts      // Basic payment processing
+│   │   ├── SubscriptionService.ts // Simple subscription management
+│   │   ├── PayoutService.ts       // Basic creator payouts
 │   │   └── __tests__/
-│   ├── models/        // Payment data models
+│   ├── models/        // Essential payment data models
 │   │   ├── Payment.ts             // Payment transaction model
-│   │   ├── Subscription.ts        // Subscription model
+│   │   ├── Subscription.ts        // Basic subscription model
 │   │   ├── Payout.ts             // Creator payout model
-│   │   ├── TaxDocument.ts         // Tax document model
-│   │   ├── RevenueShare.ts        // Revenue sharing model
 │   │   └── __tests__/
-│   ├── routes/        // Payment API endpoints
+│   ├── routes/        // Essential payment API endpoints
 │   │   ├── payments/
-│   │   │   ├── createPayment.ts       // POST /payments
+│   │   │   ├── createPayment.ts       // POST /payments (tips/sponsorships)
 │   │   │   ├── getPaymentHistory.ts   // GET /payments/history
-│   │   │   ├── refundPayment.ts       // POST /payments/:id/refund
 │   │   │   └── __tests__/
 │   │   ├── subscriptions/
 │   │   │   ├── createSubscription.ts  // POST /subscriptions
 │   │   │   ├── cancelSubscription.ts  // DELETE /subscriptions/:id
-│   │   │   ├── updateSubscription.ts  // PUT /subscriptions/:id
 │   │   │   └── __tests__/
 │   │   ├── payouts/
-│   │   │   ├── schedulePayout.ts      // POST /payouts
 │   │   │   ├── getPayoutHistory.ts    // GET /payouts/history
 │   │   │   ├── payoutStatus.ts        // GET /payouts/:id/status
-│   │   │   └── __tests__/
-│   │   ├── tax/
-│   │   │   ├── calculate.ts           // POST /tax/calculate
-│   │   │   ├── generate1099.ts        // POST /tax/1099
-│   │   │   ├── getVatInfo.ts          // GET /tax/vat
 │   │   │   └── __tests__/
 │   │   └── webhooks/
 │   │       ├── stripe.ts              // POST /webhooks/stripe
 │   │       └── __tests__/
-│   ├── jobs/          // Background payment jobs
-│   │   ├── payoutProcessing.ts        // Process creator payouts
-│   │   ├── subscriptionBilling.ts     // Handle recurring billing
-│   │   ├── taxCalculation.ts          // Calculate taxes
-│   │   ├── revenueDistribution.ts     // Distribute revenue shares
-│   │   ├── failedPaymentRetry.ts      // Retry failed payments
-│   │   └── __tests__/
 │   ├── utils/
 │   │   ├── calculations/
-│   │   │   ├── revenueSharing.ts      // Revenue split calculations
-│   │   │   ├── taxCalculations.ts     // Tax calculations
-│   │   │   ├── feeCalculations.ts     // Platform fee calculations
-│   │   │   ├── currencyConversion.ts  // Currency conversion
+│   │   │   ├── revenueSharing.ts      // Simple 5% platform fee
+│   │   │   ├── feeCalculations.ts     // Basic Stripe fee calculations
 │   │   │   └── __tests__/
 │   │   ├── validation/
-│   │   │   ├── paymentValidation.ts   // Payment data validation
-│   │   │   ├── subscriptionValidation.ts // Subscription validation
-│   │   │   ├── taxValidation.ts       // Tax information validation
-│   │   │   └── __tests__/
-│   │   ├── formatting/
-│   │   │   ├── currencyFormatting.ts  // Currency display formatting
-│   │   │   ├── receiptFormatting.ts   // Receipt generation
-│   │   │   ├── invoiceFormatting.ts   // Invoice generation
+│   │   │   ├── paymentValidation.ts   // Basic payment validation
 │   │   │   └── __tests__/
 │   │   └── security/
 │   │       ├── webhookVerification.ts // Stripe webhook verification
-│   │       ├── paymentEncryption.ts   // Sensitive data encryption
 │   │       └── __tests__/
-│   └── types/         // Payment TypeScript types
+│   └── types/         // Essential payment TypeScript types
 │       ├── Payment.ts             // Payment transaction types
-│       ├── Subscription.ts        // Subscription types
+│       ├── Subscription.ts        // Basic subscription types
 │       ├── Payout.ts             // Payout types
-│       ├── Tax.ts                // Tax information types
 │       ├── Stripe.ts             // Stripe-specific types
 │       └── index.ts
-└── tax-forms/         // Tax document generation
-    ├── generators/
-    │   ├── 1099Generator.ts       // US 1099 form generation
-    │   ├── VATGenerator.ts        // EU VAT form generation
-    │   ├── TaxSummaryGenerator.ts // Tax summary reports
-    │   └── __tests__/
-    ├── templates/
-    │   ├── 1099Template.ts        // 1099 form template
-    │   ├── VATTemplate.ts         // VAT form template
-    │   └── summaryTemplate.ts     // Summary template
-    └── validation/
-        ├── taxFormValidation.ts   // Tax form validation
-        └── __tests__/
 ```
 
-## Key Features
+## MVP Features
 
-### Payment Processing
-- **Stripe Integration**: Full Stripe API integration for payments
-- **Multiple Payment Methods**: Credit cards, digital wallets, bank transfers
-- **Currency Support**: Multi-currency with automatic conversion
-- **Fraud Protection**: Advanced fraud detection and prevention
-- **PCI Compliance**: Secure payment processing
+### Basic Payment Processing
+- **Stripe Integration**: Essential Stripe API integration
+- **Payment Methods**: Credit cards only (primary payment method)
+- **Currency Support**: USD only for MVP
+- **Basic Security**: Essential fraud protection
 
 ### Creator Monetization
-- **Stripe Connect**: Creator payment accounts
-- **Revenue Sharing**: Configurable platform commission
-- **Instant Payouts**: Real-time creator payouts
-- **Subscription Tiers**: Multiple subscription levels
-- **One-time Sponsorships**: Direct creator support
+- **Stripe Connect**: Basic creator payment accounts
+- **Revenue Sharing**: Simple 5% platform commission
+- **Weekly Payouts**: Automated weekly creator payouts
+- **Single Subscription**: $5/month supporter tier
+- **Tips/Sponsorships**: One-time creator support ($1-$100)
 
-### Tax Compliance
-- **1099 Generation**: Automatic US tax form generation
-- **EU VAT Handling**: VAT calculation and reporting
-- **International Tax**: Multi-country tax compliance
-- **Tax Reporting**: Comprehensive tax reporting tools
-- **Audit Trail**: Complete transaction audit trail
+### Essential Webhooks
+- **Payment Success**: Handle successful payments
+- **Payment Failure**: Handle failed payments
+- **Subscription Events**: Basic subscription lifecycle
+- **Payout Events**: Track creator payouts
 
-### Subscription Management
-- **Recurring Billing**: Automated subscription billing
-- **Tier Management**: Multiple subscription tiers
-- **Proration**: Automatic proration for upgrades/downgrades
-- **Cancellation**: Flexible cancellation policies
-- **Dunning Management**: Failed payment handling
-
-## Revenue Model Configuration
+## MVP Revenue Model
 ```typescript
-// Revenue sharing configuration
-const REVENUE_SHARING = {
+// Simple revenue sharing for MVP
+const MVP_REVENUE_SHARING = {
   PLATFORM_COMMISSION: 0.05, // 5% platform fee
   PAYMENT_PROCESSING: 0.029, // 2.9% + 30¢ Stripe fee
   CREATOR_SHARE: 0.921, // ~92.1% to creator
@@ -168,40 +114,52 @@ const REVENUE_SHARING = {
   PAYOUT_SCHEDULE: 'weekly' // Weekly payouts
 };
 
-// Subscription tiers
-const SUBSCRIPTION_TIERS = {
-  BASIC: { price: 4.99, features: ['ad-free', 'early-access'] },
-  PREMIUM: { price: 9.99, features: ['ad-free', 'early-access', 'exclusive-content'] },
-  VIP: { price: 19.99, features: ['ad-free', 'early-access', 'exclusive-content', '1-on-1'] }
+// Single subscription tier for MVP
+const MVP_SUBSCRIPTION = {
+  SUPPORTER: { 
+    price: 5.00, 
+    features: ['ad-free', 'supporter-badge', 'priority-comments']
+  }
 };
+
+// Tip amounts for MVP
+const TIP_AMOUNTS = [1, 3, 5, 10, 25, 50, 100]; // USD
 ```
 
 ## Environment Variables
 ```typescript
 // .env
-STRIPE_SECRET_KEY="sk_live_..."
+STRIPE_SECRET_KEY="sk_test_..." // Test key for MVP
 STRIPE_WEBHOOK_SECRET="whsec_..."
 STRIPE_CONNECT_CLIENT_ID="ca_..."
-TAX_SERVICE_API_KEY="..."
-REDIS_URL="redis://..."
-DATABASE_URL="postgresql://..."
+DATABASE_URL="postgresql://..." // Or SQLite for MVP
 ```
 
-## Webhook Endpoints
+## Essential Webhook Events
 ```typescript
-// Stripe webhook events
+// MVP Stripe webhook events
 POST /webhooks/stripe
-- payment_intent.succeeded
-- payment_intent.payment_failed
-- customer.subscription.created
-- customer.subscription.deleted
-- invoice.payment_succeeded
-- payout.paid
-- account.updated
+- payment_intent.succeeded     Essential
+- payment_intent.payment_failed  Essential  
+- customer.subscription.created  Essential
+- customer.subscription.deleted  Essential
+- payout.paid  Essential
 ```
+
+## MVP Success Metrics
+- **$2K+ Monthly GMV** in creator earnings
+- **95%+ Payment Success** rate
+- **<3 second** payment processing time
+- **25+ Active Creators** receiving payments
+- **100+ Successful** subscriber signups
 
 ## Deployment
 - **Vercel Functions**: Serverless payment processing
 - **Webhook Security**: Stripe signature verification
-- **Job Queues**: Redis-based background processing
-- **Monitoring**: Payment transaction monitoring 
+- **SQLite Database**: Simple transaction storage
+- **Basic Monitoring**: Console logging + Stripe dashboard
+
+## Post-MVP Migration Path
+- Month 3: Add multiple subscription tiers → `payments_i2.md`
+- Month 6: Add tax compliance → `payments_i2.md`
+- Month 12: Add international currencies → `payments_i2.md` 
