@@ -1,202 +1,329 @@
-# packages/media - Content Processing & Storage
+# Packages/Media - Odyssey Creator Platform (MVP - Iteration 1)
 
-> **Basic media handling** for photos and videos
+> **Basic Image Handling** - Simple image upload and display functionality only
 
-## Overview
-Basic media processing package handling essential content upload, storage, and basic processing for images and videos. Focused on core upload functionality for MVP with Cloudinary integration.
+## Architecture Overview
 
-## Tech Stack
-- **Sharp** for image processing
-- **FFmpeg** for basic video processing
-- **Cloudinary** for media storage and CDN
-- **TypeScript** for type safety
+Minimal media package providing **only essential** image upload and display functionality for MVP launch. All advanced media processing moved to iteration 2.
 
-## File Structure
-```typescript
-media/
-├── package.json       // Dependencies: sharp, ffmpeg, cloudinary
+## Directory Structure
+
+```
+packages/media/
 ├── src/
-│   ├── image/        // Image processing utilities
-│   │   ├── processing/
-│   │   │   ├── resize.ts              // Image resizing
-│   │   │   ├── compress.ts            // Image compression
-│   │   │   ├── optimize.ts            // Format optimization (WebP)
-│   │   │   └── __tests__/
-│   │   ├── formats/
-│   │   │   ├── converter.ts           // Format conversion utilities
-│   │   │   ├── validator.ts           // Format validation
-│   │   │   └── __tests__/
-│   │   └── utils/
-│   │       ├── validation.ts          // Image validation utilities
-│   │       ├── dimensions.ts          // Dimension calculations
-│   │       └── __tests__/
-│   ├── video/        // Video processing utilities
-│   │   ├── processing/
-│   │   │   ├── compress.ts            // Video compression
-│   │   │   ├── thumbnail.ts           // Video thumbnail generation
-│   │   │   └── __tests__/
-│   │   ├── analysis/
-│   │   │   ├── duration.ts            // Duration extraction
-│   │   │   ├── resolution.ts          // Resolution detection
-│   │   │   └── __tests__/
-│   │   └── utils/
-│   │       ├── validation.ts          // Video validation
-│   │       ├── metadata.ts            // Video metadata handling
-│   │       └── __tests__/
-│   ├── storage/      // File storage and CDN
-│   │   ├── providers/
-│   │   │   ├── cloudinary.ts          // Cloudinary integration
-│   │   │   └── __tests__/
-│   │   └── utils/
-│   │       ├── upload.ts              // Upload utilities
-│   │       ├── urls.ts                // URL generation
-│   │       └── __tests__/
-│   ├── types/        // Media-specific types
-│   │   ├── Image.ts                   // Image type definitions
-│   │   ├── Video.ts                   // Video type definitions
-│   │   ├── Storage.ts                 // Storage types
+│   ├── image/
+│   │   ├── upload.ts               # ✅ Basic image upload
+│   │   ├── validation.ts           # ✅ Image validation
 │   │   └── index.ts
-│   ├── validation/   // Media validation schemas
-│   │   ├── upload.ts                  // Upload validation
-│   │   ├── formats.ts                 // Format validation
-│   │   ├── size.ts                    // Size validation
-│   │   └── __tests__/
-│   └── utils/        // Media utilities
-│       ├── constants.ts               // Media constants
-│       ├── helpers.ts                 // Helper functions
-│       ├── mime.ts                    // MIME type utilities
-│       └── __tests__/
-└── docs/
-    ├── README.md                      // Package overview
-    ├── image-processing.md            // Image processing guide
-    ├── video-processing.md            // Video processing guide
-    └── storage-integration.md         // Storage integration guide
+│   ├── types/
+│   │   ├── image.ts                # ✅ Image types
+│   │   └── index.ts
+│   ├── utils/
+│   │   ├── fileSize.ts             # ✅ File size utilities
+│   │   └── index.ts
+│   └── index.ts
+├── package.json
+└── tsconfig.json
 ```
 
-## Key Features
+## Basic Image Features
 
-### Image Processing
-- **Format Support**: JPEG, PNG, WebP
-- **Compression**: Basic compression for web delivery
-- **Resizing**: Simple resizing with aspect ratio preservation
-- **Optimization**: Automatic format selection for performance
-
-### Video Processing
-- **Format Support**: MP4, WebM
-- **Compression**: Basic video compression
-- **Thumbnails**: Automatic thumbnail generation
-- **Metadata**: Basic video information extraction
-
-### Storage & CDN
-- **Cloudinary Integration**: Primary storage and CDN provider
-- **Upload Management**: Direct file uploads
-- **URL Generation**: Dynamic URL generation for different sizes
-
-## Usage Examples
-
-### Image Processing
+### **Image Upload**
 ```typescript
-import { ImageProcessor } from '@packages/media/image';
+// image/upload.ts
+export interface ImageUploadResult {
+  id: string;
+  url: string;
+  filename: string;
+  size: number;
+  mimeType: string;
+}
 
-const processor = new ImageProcessor();
+export interface ImageUploadOptions {
+  maxSizeBytes?: number;
+  allowedTypes?: string[];
+}
 
-// Process uploaded image
-const processedImage = await processor.process({
-  input: uploadedFile,
-  operations: [
-    { type: 'resize', width: 800, height: 600 },
-    { type: 'compress', quality: 85 },
-    { type: 'optimize', format: 'webp' }
-  ]
-});
-```
+export class ImageUploader {
+  private defaultOptions: ImageUploadOptions = {
+    maxSizeBytes: 5 * 1024 * 1024, // 5MB
+    allowedTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+  };
 
-### Video Processing
-```typescript
-import { VideoProcessor } from '@packages/media/video';
-
-const processor = new VideoProcessor();
-
-// Process uploaded video
-const processedVideo = await processor.process({
-  input: videoFile,
-  operations: [
-    { type: 'compress', quality: 'medium' },
-    { type: 'thumbnail', timestamp: 10 }
-  ]
-});
-```
-
-### Storage Management
-```typescript
-import { StorageManager } from '@packages/media/storage';
-
-const storage = new StorageManager({
-  provider: 'cloudinary'
-});
-
-// Upload file
-const uploadResult = await storage.upload({
-  file: mediaFile,
-  folder: 'user-content',
-  transformations: {
-    resize: { width: 800, height: 600 },
-    format: 'auto',
-    quality: 'auto'
+  async uploadImage(
+    file: File,
+    options: ImageUploadOptions = {}
+  ): Promise<ImageUploadResult> {
+    const config = { ...this.defaultOptions, ...options };
+    
+    // Basic validation
+    this.validateImage(file, config);
+    
+    // Simple upload implementation
+    const formData = new FormData();
+    formData.append('image', file);
+    
+    const response = await fetch('/api/upload/image', {
+      method: 'POST',
+      body: formData
+    });
+    
+    if (!response.ok) {
+      throw new Error('Upload failed');
+    }
+    
+    return response.json();
   }
-});
 
-// Generate URLs
-const urls = storage.generateUrls(uploadResult.publicId, {
-  responsive: true,
-  webp: true
-});
-```
-
-## Configuration
-
-### Environment Variables
-```typescript
-// Storage configuration
-CLOUDINARY_CLOUD_NAME="your-cloud-name"
-CLOUDINARY_API_KEY="your-api-key"
-CLOUDINARY_API_SECRET="your-api-secret"
-
-// Processing configuration
-FFMPEG_PATH="/usr/local/bin/ffmpeg"
-SHARP_CACHE_SIZE="50MB"
-```
-
-### Processing Presets
-```typescript
-const imagePresets = {
-  thumbnail: {
-    resize: { width: 150, height: 150, crop: 'fill' },
-    format: 'webp',
-    quality: 80
-  },
-  preview: {
-    resize: { width: 800, height: 600, crop: 'limit' },
-    format: 'auto',
-    quality: 85
+  private validateImage(file: File, options: ImageUploadOptions): void {
+    if (options.maxSizeBytes && file.size > options.maxSizeBytes) {
+      throw new Error(`File too large. Max size: ${options.maxSizeBytes} bytes`);
+    }
+    
+    if (options.allowedTypes && !options.allowedTypes.includes(file.type)) {
+      throw new Error(`File type not allowed: ${file.type}`);
+    }
   }
+}
+```
+
+### **Image Validation**
+```typescript
+// image/validation.ts
+export const IMAGE_CONSTRAINTS = {
+  MAX_SIZE_BYTES: 5 * 1024 * 1024, // 5MB
+  ALLOWED_TYPES: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+  MAX_DIMENSION: 2048 // pixels
 };
 
-const videoPresets = {
-  mobile: {
-    resolution: '480p',
-    bitrate: '500k',
-    codec: 'h264'
-  },
-  desktop: {
-    resolution: '720p',
-    bitrate: '1000k',
-    codec: 'h264'
+export function validateImageFile(file: File): string[] {
+  const errors: string[] = [];
+  
+  // Check file size
+  if (file.size > IMAGE_CONSTRAINTS.MAX_SIZE_BYTES) {
+    errors.push(`File size exceeds ${IMAGE_CONSTRAINTS.MAX_SIZE_BYTES / 1024 / 1024}MB limit`);
   }
-};
+  
+  // Check file type
+  if (!IMAGE_CONSTRAINTS.ALLOWED_TYPES.includes(file.type)) {
+    errors.push(`File type ${file.type} not supported`);
+  }
+  
+  return errors;
+}
+
+export function validateImageUrl(url: string): boolean {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+}
+```
+
+### **Image Types**
+```typescript
+// types/image.ts
+export interface ImageFile {
+  id: string;
+  filename: string;
+  url: string;
+  size: number;
+  mimeType: string;
+  width?: number;
+  height?: number;
+  uploadedAt: Date;
+}
+
+export interface ImageUploadRequest {
+  file: File;
+  alt?: string;
+  description?: string;
+}
+
+export interface ImageDisplayProps {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  loading?: 'lazy' | 'eager';
+}
+```
+
+### **File Size Utilities**
+```typescript
+// utils/fileSize.ts
+export function formatFileSize(bytes: number): string {
+  if (bytes === 0) return '0 Bytes';
+  
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+export function bytesToMB(bytes: number): number {
+  return bytes / (1024 * 1024);
+}
+
+export function mbToBytes(mb: number): number {
+  return mb * 1024 * 1024;
+}
 ```
 
 ## Dependencies
-- **Sharp**: ^0.32.0 - High-performance image processing
-- **FFmpeg**: ^6.0.0 - Video processing
-- **Cloudinary**: ^1.40.0 - Media management platform 
+
+```json
+{
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
+```
+
+## MVP Features ✅
+
+- ✅ Basic image upload functionality
+- ✅ Image file validation (size, type)
+- ✅ Simple image display components
+- ✅ File size utilities and formatting
+- ✅ Basic image types and interfaces
+- ✅ URL validation for images
+
+## Excluded from MVP (Moved to Iteration 2) ❌
+
+- ❌ Video upload and processing
+- ❌ Audio upload and processing
+- ❌ Live streaming capabilities
+- ❌ Image transformation (resize, crop, filters)
+- ❌ Multiple image upload/gallery
+- ❌ CDN integration
+- ❌ Image optimization
+- ❌ Thumbnail generation
+- ❌ Advanced media metadata
+- ❌ Progressive image loading
+- ❌ Image compression
+- ❌ Watermarking
+- ❌ Advanced media management
+
+## Usage Examples
+
+### **React Image Upload Component**
+```typescript
+// In apps/web
+import { ImageUploader, validateImageFile } from '@odyssey/media';
+
+function ImageUploadForm() {
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const uploader = new ImageUploader();
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file
+    const validationErrors = validateImageFile(file);
+    if (validationErrors.length > 0) {
+      setError(validationErrors[0]);
+      return;
+    }
+
+    setUploading(true);
+    setError(null);
+
+    try {
+      const result = await uploader.uploadImage(file);
+      console.log('Upload successful:', result);
+      // Handle success
+    } catch (error) {
+      setError('Upload failed. Please try again.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleFileSelect}
+        disabled={uploading}
+      />
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {uploading && <p>Uploading...</p>}
+    </div>
+  );
+}
+```
+
+### **Backend Image Upload Handler**
+```typescript
+// In apps/api
+import { validateImageFile } from '@odyssey/media';
+
+app.post('/api/upload/image', upload.single('image'), async (req, res) => {
+  try {
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({ error: 'No file provided' });
+    }
+
+    // Basic validation
+    const errors = validateImageFile(file as any);
+    if (errors.length > 0) {
+      return res.status(400).json({ error: errors[0] });
+    }
+
+    // Save file (simplified)
+    const imageUrl = await saveFileToStorage(file);
+    
+    res.json({
+      id: generateId(),
+      url: imageUrl,
+      filename: file.originalname,
+      size: file.size,
+      mimeType: file.mimetype
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Upload failed' });
+  }
+});
+```
+
+### **Image Display Component**
+```typescript
+// In apps/web
+import { ImageDisplayProps } from '@odyssey/media';
+
+function ImageDisplay({ src, alt, width, height, loading = 'lazy' }: ImageDisplayProps) {
+  const [imageError, setImageError] = useState(false);
+
+  if (imageError) {
+    return (
+      <div style={{ background: '#f0f0f0', width, height, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        Image not available
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      loading={loading}
+      onError={() => setImageError(true)}
+      style={{ maxWidth: '100%', height: 'auto' }}
+    />
+  );
+}
+```
+
+This package provides **only the absolute minimum** media functionality needed for MVP launch, focusing on basic image upload and display without any complex processing or advanced features. 
