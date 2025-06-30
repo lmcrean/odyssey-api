@@ -13,16 +13,16 @@
 ┌─────────────────────────────────────┐
 │              🎭 + 🤖               │
 │                                     │
-│    Create Your AI Expert Clone      │
+│    Access All Premium AI Models     │
 │                                     │
-│  Turn Your Knowledge Into           │
-│       24/7 Passive Income          │
+│  Claude • Perplexity • GPT-4        │
+│      One Simple Subscription       │
 │                                     │
-│ [Start Creating Your AI] [Sign Up]  │
+│ [Start Free Trial] [Sign Up]        │
 │                                     │
-│ ✓ No coding required                │
-│ ✓ Earn while you sleep              │
-│ ✓ Train AI on your expertise        │
+│ ✓ Save $45/month on AI subscriptions│
+│ ✓ Switch models instantly           │
+│ ✓ No usage limits                   │
 └─────────────────────────────────────┘
 ```
 
@@ -31,16 +31,17 @@
 ┌─────────────────────────────────────┐
 │           How It Works              │
 │                                     │
-│ 1️⃣ Create AI Persona               │
-│   Upload your knowledge & style     │
+│ 1️⃣ Choose Your AI Model            │
+│   Claude, Perplexity, GPT-4 & more │
 │                                     │
-│ 2️⃣ Set Your Price                  │
-│   $5-20/month for AI access        │
+│ 2️⃣ Chat Without Limits             │
+│   No usage caps or restrictions    │
 │                                     │
-│ 3️⃣ Earn Passive Income             │
-│   Users chat with your AI 24/7     │
+│ 3️⃣ Save Money                      │
+│   $15/month vs $60+ for separate   │
+│   subscriptions                    │
 │                                     │
-│ 💡 Future: Premium human calls     │
+│ 💡 Coming: API access for devs     │
 └─────────────────────────────────────┘
 ```
 
