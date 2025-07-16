@@ -6,7 +6,8 @@
       "Bash(dotnet build)",
       "Bash(dotnet test:*)",
       "Bash(npm install:*)",
-      "Bash(npx playwright:*)"
+      "Bash(npx playwright:*)",
+      "Bash(curl:*)"
     ],
     "deny": []
   }

@@ -44,20 +44,20 @@ export default defineConfig({
     },
   ],
 
-  webServer: [
-    {
-      command: 'cd ../apps/api && dotnet run',
-      port: 5000,
-      reuseExistingServer: !process.env.CI,
-      timeout: 60000,
-    },
-    {
-      command: 'cd ../apps/web && npm start',
-      port: 4200,
-      reuseExistingServer: !process.env.CI,
-      timeout: 60000,
-    },
-  ],
+  // webServer: [
+  //   {
+  //     command: 'cd ../apps/api && dotnet run',
+  //     port: 5000,
+  //     reuseExistingServer: !process.env.CI,
+  //     timeout: 60000,
+  //   },
+  //   {
+  //     command: 'cd ../apps/web && npm start',
+  //     port: 4200,
+  //     reuseExistingServer: !process.env.CI,
+  //     timeout: 60000,
+  //   },
+  // ],
 
   expect: {
     timeout: 10000,
