@@ -1,0 +1,30 @@
+<div class="hello-world-container">
+  <h1>Competitor Analysis Dashboard</h1>
+  
+  <div class="api-test-section">
+    <h2>API Connection Test</h2>
+    
+    <div *ngIf="loading" class="loading">
+      Loading...
+    </div>
+    
+    <div *ngIf="error" class="error">
+      <p>{{ error }}</p>
+      <button (click)="retry()">Retry</button>
+    </div>
+    
+    <div *ngIf="!loading && !error" class="success">
+      <div class="message-card">
+        <h3>Hello World Message</h3>
+        <p>{{ message }}</p>
+      </div>
+      
+      <div class="status-card" *ngIf="healthStatus">
+        <h3>API Status</h3>
+        <p><strong>Message:</strong> {{ healthStatus.message }}</p>
+        <p><strong>Version:</strong> {{ healthStatus.version }}</p>
+        <p><strong>Timestamp:</strong> {{ healthStatus.timestamp | date:'medium' }}</p>
+      </div>
+    </div>
+  </div>
+</div>
