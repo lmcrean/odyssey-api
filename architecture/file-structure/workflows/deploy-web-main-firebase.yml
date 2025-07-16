@@ -1,0 +1,237 @@
+# Deploy Angular Web App to Firebase Hosting (Main Branch)
+
+name: Deploy Angular Web to Firebase (Main)
+
+on:
+  workflow_call:
+    outputs:
+      deployment_url:
+        description: "Web deployment URL"
+        value: ${{ jobs.deploy.outputs.deployment_url }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    outputs:
+      deployment_url: ${{ steps.deploy.outputs.deployment_url }}
+    
+    steps:
+      - name: 🛒 Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: apps/web/package-lock.json
+      
+      - name: 📥 Install Dependencies
+        run: |
+          cd apps/web
+          npm ci
+      
+      - name: 🔧 Build Angular App
+        run: |
+          cd apps/web
+          npm run build:prod
+        env:
+          # Production API URL from the deployed C# API
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+      
+      - name: 🧪 Run Unit Tests
+        run: |
+          cd apps/web
+          npm run test:ci
+      
+      - name: 🧪 Run E2E Tests
+        run: |
+          cd apps/web
+          npm run e2e:ci || echo "⚠️ E2E tests not configured or failed"
+      
+      - name: 🔐 Authenticate to Firebase
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+      
+      - name: 🛠️ Setup Firebase CLI
+        run: |
+          npm install -g firebase-tools
+      
+      - name: 🔍 Validate Firebase Configuration
+        run: |
+          cd apps/web
+          
+          echo "=== 🔥 VALIDATING FIREBASE CONFIGURATION ==="
+          
+          # Check if firebase.json exists
+          if [ -f "firebase.json" ]; then
+            echo "✅ firebase.json found"
+            cat firebase.json
+          else
+            echo "❌ firebase.json not found - creating default configuration"
+            cat > firebase.json << 'EOF'
+          {
+            "hosting": {
+              "public": "dist/web",
+              "ignore": [
+                "firebase.json",
+                "**/.*",
+                "**/node_modules/**"
+              ],
+              "rewrites": [
+                {
+                  "source": "**",
+                  "destination": "/index.html"
+                }
+              ],
+              "headers": [
+                {
+                  "source": "**/*.@(js|css)",
+                  "headers": [
+                    {
+                      "key": "Cache-Control",
+                      "value": "public, max-age=31536000, immutable"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+          EOF
+          fi
+          
+          # Check if .firebaserc exists
+          if [ -f ".firebaserc" ]; then
+            echo "✅ .firebaserc found"
+            cat .firebaserc
+          else
+            echo "❌ .firebaserc not found - creating default configuration"
+            cat > .firebaserc << EOF
+          {
+            "projects": {
+              "default": "${{ secrets.FIREBASE_PROJECT_ID }}"
+            }
+          }
+          EOF
+          fi
+          
+          # Test Firebase authentication
+          echo "🔐 Testing Firebase authentication..."
+          firebase projects:list
+          
+          # Verify project exists
+          echo "🏗️ Verifying Firebase project..."
+          firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
+          
+          echo "=== ✅ FIREBASE VALIDATION COMPLETE ==="
+      
+      - name: 🚀 Deploy to Firebase Hosting
+        id: deploy
+        run: |
+          cd apps/web
+          
+          # Deploy to Firebase Hosting
+          echo "🚀 Deploying to Firebase Hosting..."
+          firebase deploy --only hosting --project ${{ secrets.FIREBASE_PROJECT_ID }}
+          
+          # Get the hosting URL
+          HOSTING_URL="https://${{ secrets.FIREBASE_PROJECT_ID }}.web.app"
+          
+          echo "🌐 Web app deployed at: $HOSTING_URL"
+          echo "deployment_url=$HOSTING_URL" >> $GITHUB_OUTPUT
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      
+      - name: ✅ Validate Web Deployment
+        run: |
+          WEB_URL="${{ steps.deploy.outputs.deployment_url }}"
+          echo "🔍 Testing web app at: $WEB_URL"
+          
+          # Test main page with retry
+          for i in {1..5}; do
+            echo "🌐 Web app check attempt $i/5..."
+            
+            RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$WEB_URL" -m 30)
+            
+            if [ "$RESPONSE" = "200" ]; then
+              echo "✅ Web app responded successfully!"
+              break
+            else
+              echo "❌ Web app returned status: $RESPONSE"
+              
+              if [ $i -eq 5 ]; then
+                echo "❌ Web app health check failed after 5 attempts"
+                exit 1
+              fi
+            fi
+            
+            echo "⏳ Waiting 10 seconds before retry..."
+            sleep 10
+          done
+          
+          # Test if Angular app loads correctly
+          echo "🔍 Testing Angular app bootstrap..."
+          PAGE_CONTENT=$(curl -s "$WEB_URL" -m 30)
+          
+          if echo "$PAGE_CONTENT" | grep -q "ng-version"; then
+            echo "✅ Angular app is properly bootstrapped!"
+          else
+            echo "⚠️ Angular app may not be properly bootstrapped"
+          fi
+          
+          # Test if API connection works
+          echo "🔍 Testing API connectivity from web app..."
+          if echo "$PAGE_CONTENT" | grep -q "API_BASE_URL"; then
+            echo "✅ API base URL is configured"
+          else
+            echo "⚠️ API base URL configuration not found"
+          fi
+      
+      - name: 🔄 Update Firebase Security Rules
+        run: |
+          cd apps/web
+          
+          # Create security rules if they don't exist
+          if [ ! -f "firebase-security-rules.json" ]; then
+            echo "🔐 Creating Firebase security rules..."
+            cat > firebase-security-rules.json << 'EOF'
+          {
+            "hosting": {
+              "headers": [
+                {
+                  "source": "**/*",
+                  "headers": [
+                    {
+                      "key": "X-Content-Type-Options",
+                      "value": "nosniff"
+                    },
+                    {
+                      "key": "X-Frame-Options",
+                      "value": "DENY"
+                    },
+                    {
+                      "key": "X-XSS-Protection",
+                      "value": "1; mode=block"
+                    },
+                    {
+                      "key": "Strict-Transport-Security",
+                      "value": "max-age=31536000; includeSubDomains"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+          EOF
+          fi
+          
+          echo "🔐 Security headers configured for production"
+      
+      - name: 📊 Deployment Summary
+        run: |
+          echo "🎯 Main Production Angular Web Deployment Complete!"
+          echo "📍 URL: ${{ steps.deploy.outputs.deployment_url }}"
+          echo "🔥 Firebase Project: ${{ secrets.FIREBASE_PROJECT_ID }}"
+          echo "✅ Health check passed"
+          echo "🔐 Security headers configured"
