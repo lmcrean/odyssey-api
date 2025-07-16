@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\CompetitorAnalysis.Api.props" />
+</Project>

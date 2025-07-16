@@ -36,6 +36,36 @@ A B2B competitive intelligence platform built with Angular frontend and C# ASP.N
 - JWT token management
 - Role-based access control for B2B users
 
+## Testing Strategy ✅ COMPLETED
+
+### Comprehensive Test Suite
+- **Integration Tests**: API and Web service integration testing
+- **End-to-End Tests**: Complete user workflow testing with Playwright
+- **CI/CD Integration**: Automated testing in GitHub Actions
+
+#### Integration Tests (`integration-tests/`)
+**API Integration Tests (C# + xUnit)**
+- ✅ HTTP endpoint testing with WebApplicationFactory
+- ✅ CORS configuration validation
+- ✅ JSON response structure validation
+- ✅ Error handling and status codes
+- ✅ Concurrent request handling
+
+**Web Integration Tests (Angular + Vitest)**
+- ✅ Service layer testing with HTTP mocking
+- ✅ Component integration with API services
+- ✅ Error state handling and UI updates
+- ✅ Async operation testing
+
+#### End-to-End Tests (`e2e-tests/`)
+**Playwright Test Suite**
+- ✅ Complete hello world user flow
+- ✅ API connectivity validation
+- ✅ Error handling and retry mechanisms
+- ✅ Cross-browser testing (Chrome, Firefox, Safari)
+- ✅ Mobile device compatibility
+- ✅ Performance and timeout handling
+
 ## Project Structure
 ```
 apps/
@@ -50,6 +80,21 @@ apps/
     │   ├── services/      # HTTP services
     │   └── environments/ # Environment configs
     └── firebase.json      # Firebase hosting
+
+integration-tests/
+├── api/                   # C# API integration tests
+│   ├── Tests/            # xUnit test classes
+│   ├── Fixtures/         # Test setup and utilities
+│   └── IntegrationTests.csproj
+└── web/                  # Angular integration tests
+    ├── src/              # Vitest test files
+    └── vitest.config.ts  # Test configuration
+
+e2e-tests/
+├── tests/                # Playwright test scenarios
+├── fixtures/             # Test data and constants
+├── utils/                # Test helpers and utilities
+└── playwright.config.ts  # E2E test configuration
 ```
 
 ## Development Commands
@@ -57,7 +102,14 @@ apps/
 - **Web**: `npm start` (from apps/web directory)
 - **Build**: `dotnet build` (API), `ng build` (Web)
 
+## Testing Commands
+- **All Tests**: `npm run test:all`
+- **API Tests**: `npm run test:api`
+- **Web Tests**: `npm run test:web`
+- **E2E Tests**: `npm run test:e2e`
+- **Custom Runner**: `node test-runner.js [api|web|e2e|integration|all]`
+
 ## Deployment
 - **API**: Google Cloud Run via Docker
 - **Web**: Firebase Hosting
-- **CI/CD**: Google Cloud Build configured
+- **CI/CD**: GitHub Actions with automated testing pipeline

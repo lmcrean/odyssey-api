@@ -35,3 +35,6 @@ app.MapControllers();
 app.MapGet("/", () => "API is running");
 
 app.Run();
+
+// Make Program class accessible for testing
+public partial class Program { }
