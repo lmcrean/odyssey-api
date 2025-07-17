@@ -18,7 +18,10 @@
       "Bash(gcloud:*)",
       "Bash(firebase:*)",
       "Bash(./gcp-setup/deploy-web.sh:*)",
-      "Bash(./gcp-setup/deploy-api.sh:*)"
+      "Bash(./gcp-setup/deploy-api.sh:*)",
+      "Bash(rm:*)",
+      "Bash(npm run build:*)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }
