@@ -1,4 +1,8 @@
+// Load Zone.js first
+import 'zone.js';
 import 'zone.js/testing';
+
+// Then import Angular testing modules
 import { getTestBed } from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,

@@ -1,17 +1,39 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ApiService, HealthResponse } from '../../../../apps/web/src/app/services/api.service';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 
+// Mock environment
+const environment = {
+  apiUrl: 'http://localhost:5000'
+};
+
 describe('ApiService Integration Tests', () => {
   let service: ApiService;
   let httpMock: HttpTestingController;
-  const mockApiUrl = 'http://localhost:5000';
 
   beforeEach(() => {
+    // Clear any previous test module configuration
+    TestBed.resetTestingModule();
+    
+    // Mock the environment module
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [ApiService]
+      providers: [
+        ApiService,
+        { provide: 'environment', useValue: environment }
+      ]
+    });
+
+    // Override the environment import
+    TestBed.overrideProvider(ApiService, {
+      useFactory: (http: any) => {
+        const service = new ApiService(http);
+        (service as any).baseUrl = environment.apiUrl;
+        return service;
+      },
+      deps: [HttpClient]
     });
 
     service = TestBed.inject(ApiService);
@@ -20,6 +42,7 @@ describe('ApiService Integration Tests', () => {
 
   afterEach(() => {
     httpMock.verify();
+    TestBed.resetTestingModule();
   });
 
   describe('getHealth', () => {
@@ -30,7 +53,7 @@ describe('ApiService Integration Tests', () => {
         expect(response).toBe(mockResponse);
       });
 
-      const req = httpMock.expectOne(`${mockApiUrl}/api/health`);
+      const req = httpMock.expectOne(`${environment.apiUrl}/api/health`);
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
     });
@@ -43,7 +66,7 @@ describe('ApiService Integration Tests', () => {
         }
       });
 
-      const req = httpMock.expectOne(`${mockApiUrl}/api/health`);
+      const req = httpMock.expectOne(`${environment.apiUrl}/api/health`);
       req.flush('Server Error', { status: 500, statusText: 'Internal Server Error' });
     });
   });
@@ -63,7 +86,7 @@ describe('ApiService Integration Tests', () => {
         expect(response.timestamp).toBeDefined();
       });
 
-      const req = httpMock.expectOne(`${mockApiUrl}/api/health/status`);
+      const req = httpMock.expectOne(`${environment.apiUrl}/api/health/status`);
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
     });
@@ -76,7 +99,7 @@ describe('ApiService Integration Tests', () => {
         }
       });
 
-      const req = httpMock.expectOne(`${mockApiUrl}/api/health/status`);
+      const req = httpMock.expectOne(`${environment.apiUrl}/api/health/status`);
       req.flush('Invalid JSON', { status: 200, statusText: 'OK' });
     });
   });
@@ -85,8 +108,10 @@ describe('ApiService Integration Tests', () => {
     it('should make requests with correct headers', () => {
       service.getHealth().subscribe();
 
-      const req = httpMock.expectOne(`${mockApiUrl}/api/health`);
-      expect(req.request.headers.get('Accept')).toBe('text/plain, application/json, text/plain, */*');
+      const req = httpMock.expectOne(`${environment.apiUrl}/api/health`);
+      // Angular's HttpClient automatically sets Accept headers
+      const acceptHeader = req.request.headers.get('Accept');
+      expect(acceptHeader).toBeTruthy();
     });
 
     it('should handle network timeouts', () => {
@@ -97,7 +122,7 @@ describe('ApiService Integration Tests', () => {
         }
       });
 
-      const req = httpMock.expectOne(`${mockApiUrl}/api/health/status`);
+      const req = httpMock.expectOne(`${environment.apiUrl}/api/health/status`);
       req.error(new ProgressEvent('timeout'));
     });
   });

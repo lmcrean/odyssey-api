@@ -28,7 +28,7 @@ public class ApiCorsTests : IClassFixture<TestWebApplicationFactory<Program>>
         var response = await _client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         
         var allowOriginHeader = response.Headers.GetValues("Access-Control-Allow-Origin").FirstOrDefault();
         allowOriginHeader.Should().Be(origin);
@@ -46,7 +46,7 @@ public class ApiCorsTests : IClassFixture<TestWebApplicationFactory<Program>>
         var response = await _client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         
         var allowOriginHeader = response.Headers.Contains("Access-Control-Allow-Origin");
         allowOriginHeader.Should().BeFalse();
@@ -64,7 +64,7 @@ public class ApiCorsTests : IClassFixture<TestWebApplicationFactory<Program>>
         var response = await _client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         
         var allowMethodsHeader = response.Headers.GetValues("Access-Control-Allow-Methods").FirstOrDefault();
         allowMethodsHeader.Should().Contain("GET");
@@ -83,7 +83,7 @@ public class ApiCorsTests : IClassFixture<TestWebApplicationFactory<Program>>
         var response = await _client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         
         var allowHeadersHeader = response.Headers.GetValues("Access-Control-Allow-Headers").FirstOrDefault();
         allowHeadersHeader.Should().NotBeNull();

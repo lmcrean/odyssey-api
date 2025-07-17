@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0sjfwI9dVSM=",
+  "dgSpecHash": "wr9W1ujwpgY=",
   "success": true,
-  "projectFilePath": "C:\\Projects\\odyssey\\integration-tests\\api\\IntegrationTests.csproj",
+  "projectFilePath": "C:\\Projects\\odyssey\\integration\\api\\IntegrationTests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lmcre\\.nuget\\packages\\coverlet.collector\\6.0.2\\coverlet.collector.6.0.2.nupkg.sha512",
     "C:\\Users\\lmcre\\.nuget\\packages\\fluentassertions\\6.12.0\\fluentassertions.6.12.0.nupkg.sha512",

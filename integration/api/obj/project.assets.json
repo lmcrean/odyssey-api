@@ -3158,11 +3158,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Projects\\odyssey\\integration-tests\\api\\IntegrationTests.csproj",
+      "projectUniqueName": "C:\\Projects\\odyssey\\integration\\api\\IntegrationTests.csproj",
       "projectName": "IntegrationTests",
-      "projectPath": "C:\\Projects\\odyssey\\integration-tests\\api\\IntegrationTests.csproj",
+      "projectPath": "C:\\Projects\\odyssey\\integration\\api\\IntegrationTests.csproj",
       "packagesPath": "C:\\Users\\lmcre\\.nuget\\packages\\",
-      "outputPath": "C:\\Projects\\odyssey\\integration-tests\\api\\obj\\",
+      "outputPath": "C:\\Projects\\odyssey\\integration\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\lmcre\\AppData\\Roaming\\NuGet\\NuGet.Config"

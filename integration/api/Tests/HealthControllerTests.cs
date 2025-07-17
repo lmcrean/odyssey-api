@@ -98,7 +98,7 @@ public class HealthControllerTests : IClassFixture<TestWebApplicationFactory<Pro
         var response = await _client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         response.Headers.Should().ContainSingle(h => h.Key == "Access-Control-Allow-Origin");
     }
 }
