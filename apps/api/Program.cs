@@ -1,9 +1,24 @@
+using CompetitorAnalysis.Observability.Extensions;
+using CompetitorAnalysis.Observability.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Add observability services
+builder.Services.AddObservability(config =>
+{
+    config.EnableRequestLogging = true;
+    config.EnablePerformanceLogging = true;
+    config.EnableErrorLogging = true;
+    config.LogToConsole = true;
+    config.LogToFile = true;
+    config.LogFilePath = "logs/api.log";
+    config.MinimumLogLevel = LogLevel.Information;
+});
 
 // Add CORS for Angular frontend
 builder.Services.AddCors(options =>
@@ -31,6 +46,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAngularApp");
+
+// Add observability middleware
+app.UseObservability();
+app.UseObservabilityHealthCheck();
+app.UseObservabilityLogs();
 
 app.UseAuthorization();
 

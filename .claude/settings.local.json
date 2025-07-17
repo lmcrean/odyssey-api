@@ -21,7 +21,9 @@
       "Bash(./gcp-setup/deploy-api.sh:*)",
       "Bash(rm:*)",
       "Bash(npm run build:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(cp:*)",
+      "Bash(copy:*)"
     ],
     "deny": []
   }
