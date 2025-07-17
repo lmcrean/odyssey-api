@@ -10,7 +10,12 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
+        policy.WithOrigins(
+                "http://localhost:4200", 
+                "https://localhost:4200",
+                "https://lauriecrean-free-38256.web.app",
+                "https://lauriecrean-free-38256.firebaseapp.com"
+              )
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
