@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CompetitorAnalysis.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a706b71d3d873707a15ccfc1e58a0dce2a40763d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9eff8e54bf087a7e21b09129e81a200e90b3e70")]
 [assembly: System.Reflection.AssemblyProductAttribute("CompetitorAnalysis.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CompetitorAnalysis.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

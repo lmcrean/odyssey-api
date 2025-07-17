@@ -1,18 +1,16 @@
 {
   "config": {
-    "configFile": "C:\\Projects\\odyssey\\e2e-tests\\playwright.config.ts",
-    "rootDir": "C:/Projects/odyssey/e2e-tests/tests",
+    "configFile": "C:\\Projects\\odyssey\\e2e\\playwright.config.ts",
+    "rootDir": "C:/Projects/odyssey/e2e/tests",
     "forbidOnly": false,
     "fullyParallel": true,
-    "globalSetup": "C:\\Projects\\odyssey\\e2e-tests\\utils\\global-setup.ts",
-    "globalTeardown": "C:\\Projects\\odyssey\\e2e-tests\\utils\\global-teardown.ts",
+    "globalSetup": "C:\\Projects\\odyssey\\e2e\\utils\\global-setup.ts",
+    "globalTeardown": "C:\\Projects\\odyssey\\e2e\\utils\\global-teardown.ts",
     "globalTimeout": 0,
     "grep": {},
     "grepInvert": null,
     "maxFailures": 0,
-    "metadata": {
-      "actualWorkers": 1
-    },
+    "metadata": {},
     "preserveOutput": "always",
     "reporter": [
       [
@@ -39,15 +37,13 @@
     "quiet": false,
     "projects": [
       {
-        "outputDir": "C:/Projects/odyssey/e2e-tests/test-results",
+        "outputDir": "C:/Projects/odyssey/e2e/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "chromium",
         "name": "chromium",
-        "testDir": "C:/Projects/odyssey/e2e-tests/tests",
+        "testDir": "C:/Projects/odyssey/e2e/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -55,15 +51,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "C:/Projects/odyssey/e2e-tests/test-results",
+        "outputDir": "C:/Projects/odyssey/e2e/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "firefox",
         "name": "firefox",
-        "testDir": "C:/Projects/odyssey/e2e-tests/tests",
+        "testDir": "C:/Projects/odyssey/e2e/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -71,15 +65,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "C:/Projects/odyssey/e2e-tests/test-results",
+        "outputDir": "C:/Projects/odyssey/e2e/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "webkit",
         "name": "webkit",
-        "testDir": "C:/Projects/odyssey/e2e-tests/tests",
+        "testDir": "C:/Projects/odyssey/e2e/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -87,15 +79,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "C:/Projects/odyssey/e2e-tests/test-results",
+        "outputDir": "C:/Projects/odyssey/e2e/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "mobile-chrome",
         "name": "mobile-chrome",
-        "testDir": "C:/Projects/odyssey/e2e-tests/tests",
+        "testDir": "C:/Projects/odyssey/e2e/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -103,15 +93,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "C:/Projects/odyssey/e2e-tests/test-results",
+        "outputDir": "C:/Projects/odyssey/e2e/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "mobile-safari",
         "name": "mobile-safari",
-        "testDir": "C:/Projects/odyssey/e2e-tests/tests",
+        "testDir": "C:/Projects/odyssey/e2e/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -126,106 +114,25 @@
     "workers": 8,
     "webServer": null
   },
-  "suites": [
+  "suites": [],
+  "errors": [
     {
-      "title": "hello-world.spec.ts",
-      "file": "hello-world.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "Hello World Flow",
-          "file": "hello-world.spec.ts",
-          "line": 5,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should work on mobile devices",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "mobile-chrome",
-                  "projectName": "mobile-chrome",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 10971,
-                      "error": {
-                        "message": "TimeoutError: page.waitForResponse: Timeout 10000ms exceeded while waiting for event \"response\"",
-                        "stack": "TimeoutError: page.waitForResponse: Timeout 10000ms exceeded while waiting for event \"response\"\n    at TestHelpers.waitForApiResponse (C:\\Projects\\odyssey\\e2e-tests\\utils\\helpers.ts:11:39)\n    at C:\\Projects\\odyssey\\e2e-tests\\tests\\hello-world.spec.ts:110:19",
-                        "location": {
-                          "file": "C:\\Projects\\odyssey\\e2e-tests\\utils\\helpers.ts",
-                          "column": 39,
-                          "line": 11
-                        },
-                        "snippet": "\u001b[90m   at \u001b[39m..\\utils\\helpers.ts:11\n\n\u001b[0m \u001b[90m  9 |\u001b[39m\n \u001b[90m 10 |\u001b[39m   \u001b[36masync\u001b[39m waitForApiResponse(url\u001b[33m:\u001b[39m string\u001b[33m,\u001b[39m timeout \u001b[33m=\u001b[39m \u001b[35m10000\u001b[39m) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 11 |\u001b[39m     \u001b[36mconst\u001b[39m responsePromise \u001b[33m=\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mwaitForResponse(\n \u001b[90m    |\u001b[39m                                       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 12 |\u001b[39m       response \u001b[33m=>\u001b[39m response\u001b[33m.\u001b[39murl()\u001b[33m.\u001b[39mincludes(url) \u001b[33m&&\u001b[39m response\u001b[33m.\u001b[39mstatus() \u001b[33m===\u001b[39m \u001b[35m200\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 13 |\u001b[39m       { timeout }\n \u001b[90m 14 |\u001b[39m     )\u001b[33m;\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Projects\\odyssey\\e2e-tests\\utils\\helpers.ts",
-                            "column": 39,
-                            "line": 11
-                          },
-                          "message": "TimeoutError: page.waitForResponse: Timeout 10000ms exceeded while waiting for event \"response\"\n\n   at ..\\utils\\helpers.ts:11\n\n   9 |\n  10 |   async waitForApiResponse(url: string, timeout = 10000) {\n> 11 |     const responsePromise = this.page.waitForResponse(\n     |                                       ^\n  12 |       response => response.url().includes(url) && response.status() === 200,\n  13 |       { timeout }\n  14 |     );\n    at TestHelpers.waitForApiResponse (C:\\Projects\\odyssey\\e2e-tests\\utils\\helpers.ts:11:39)\n    at C:\\Projects\\odyssey\\e2e-tests\\tests\\hello-world.spec.ts:110:19"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-07-16T18:37:42.978Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Projects\\odyssey\\e2e-tests\\test-results\\hello-world-Hello-World-Flow-should-work-on-mobile-devices-mobile-chrome\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Projects\\odyssey\\e2e-tests\\test-results\\hello-world-Hello-World-Flow-should-work-on-mobile-devices-mobile-chrome\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Projects\\odyssey\\e2e-tests\\test-results\\hello-world-Hello-World-Flow-should-work-on-mobile-devices-mobile-chrome\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Projects\\odyssey\\e2e-tests\\utils\\helpers.ts",
-                        "column": 39,
-                        "line": 11
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "3708fe49948971f4ba6a-fb046053cb2f6f3384df",
-              "file": "hello-world.spec.ts",
-              "line": 102,
-              "column": 7
-            }
-          ]
-        }
-      ]
+      "message": "Error: ❌ API failed to start after 60 seconds",
+      "stack": "Error: ❌ API failed to start after 60 seconds\n    at waitForService (C:\\Projects\\odyssey\\e2e\\utils\\global-setup.ts:30:9)\n    at globalSetup (C:\\Projects\\odyssey\\e2e\\utils\\global-setup.ts:7:3)",
+      "location": {
+        "file": "C:\\Projects\\odyssey\\e2e\\utils\\global-setup.ts",
+        "column": 9,
+        "line": 30
+      },
+      "snippet": "\u001b[90m   at \u001b[39m..\\utils\\global-setup.ts:30\n\n\u001b[0m \u001b[90m 28 |\u001b[39m   }\n \u001b[90m 29 |\u001b[39m   \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m   \u001b[36mthrow\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mError\u001b[39m(\u001b[32m`❌ ${serviceName} failed to start after ${maxRetries * 2} seconds`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m }\n \u001b[90m 32 |\u001b[39m\n \u001b[90m 33 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m globalSetup\u001b[33m;\u001b[39m\u001b[0m"
     }
   ],
-  "errors": [],
   "stats": {
-    "startTime": "2025-07-16T18:37:42.402Z",
-    "duration": 11703.101999999999,
+    "startTime": "2025-07-17T16:21:35.966Z",
+    "duration": 60372.676,
     "expected": 0,
     "skipped": 0,
-    "unexpected": 1,
+    "unexpected": 0,
     "flaky": 0
   }
 }
