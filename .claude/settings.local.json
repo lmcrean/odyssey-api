@@ -11,7 +11,9 @@
       "Bash(npm test)",
       "Bash(npm test:*)",
       "Bash(find:*)",
-      "Bash(dotnet run:*)"
+      "Bash(dotnet run:*)",
+      "Bash(npm run test:e2e:*)",
+      "Bash(npm run test:*)"
     ],
     "deny": []
   }

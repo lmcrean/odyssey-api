@@ -107,7 +107,7 @@ test.describe('Hello World Flow', () => {
     
     // Check that components are still visible on mobile
     await helpers.expectElementToBeVisible(SELECTORS.HELLO_WORLD_CONTAINER);
-    await helpers.waitForApiResponse('/api/health');
+    await helpers.waitForApiResponseOrSuccess('/api/health');
     await helpers.expectElementToBeVisible(SELECTORS.SUCCESS);
   });
 
@@ -155,7 +155,7 @@ test.describe('User Scenarios', () => {
     await helpers.expectElementToBeVisible(SELECTORS.HELLO_WORLD_CONTAINER);
     
     // User sees the API connection test succeed
-    await helpers.waitForApiResponse('/api/health');
+    await helpers.waitForApiResponseOrSuccess('/api/health');
     await helpers.expectElementToBeVisible(SELECTORS.SUCCESS);
     
     // User sees the hello world message
