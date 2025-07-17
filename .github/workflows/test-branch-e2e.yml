@@ -29,7 +29,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: e2e-tests/package-lock.json
+          cache-dependency-path: e2e/package-lock.json
       
       - name: 📥 Install E2E Dependencies
         run: |
@@ -41,12 +41,12 @@ jobs:
           
           # Install e2e dependencies
           echo "📦 Installing e2e dependencies..."
-          cd ../../e2e-tests
+          cd ../../e2e
           npm ci
       
       - name: 🎭 Install Playwright Browsers
         run: |
-          cd e2e-tests
+          cd e2e
           npx playwright install webkit
           npx playwright install-deps
       
@@ -104,11 +104,11 @@ jobs:
       
       - name: 🧪 Run E2E Tests
         run: |
-          cd e2e-tests
+          cd e2e
           
           # Run e2e tests using the updated command
           echo "🎭 Running e2e tests..."
-          npm run test:e2e
+          npm run test
           
           echo "✅ E2E tests completed successfully"
         env:
@@ -127,7 +127,7 @@ jobs:
         if: always()
         with:
           name: e2e-test-results-pr-${{ inputs.pr_number }}
-          path: e2e-tests/playwright-report/
+          path: e2e/playwright-report/
           retention-days: 30
       
       - name: 📸 Upload E2E Screenshots
@@ -135,7 +135,7 @@ jobs:
         if: failure()
         with:
           name: e2e-screenshots-pr-${{ inputs.pr_number }}
-          path: e2e-tests/test-results/
+          path: e2e/test-results/
           retention-days: 7
       
       - name: 📋 E2E Test Summary

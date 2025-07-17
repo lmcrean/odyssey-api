@@ -17,27 +17,25 @@ jobs:
       - name: 🛒 Checkout Repository
         uses: actions/checkout@v4
       
-      - name: 📦 Setup Node.js
-        uses: actions/setup-node@v4
+      - name: 📦 Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: apps/api/github/package-lock.json
+          dotnet-version: '9.0.x'
       
-      - name: 📥 Install API Dependencies
+      - name: 📥 Restore API Dependencies
         run: |
-          cd apps/api/github
-          npm ci
+          cd apps/api
+          dotnet restore
       
       - name: 🔧 Build API
         run: |
-          cd apps/api/github
-          npm run build
+          cd apps/api
+          dotnet build --configuration Release --no-restore
       
       - name: 🧪 Run API Tests
         run: |
-          cd apps/api/github
-          npm test 2>/dev/null || echo "⚠️ Tests not configured or failed"
+          cd apps/api
+          dotnet test --configuration Release --no-build --verbosity normal 2>/dev/null || echo "⚠️ Tests not configured or failed"
       
       - name: 🔐 Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -111,7 +109,7 @@ jobs:
           
           # Test repository permissions
           echo "🔑 Testing repository permissions..."
-          SERVICE_NAME="api-github-main"
+          SERVICE_NAME="api-csharp-main"
           IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/api-images/${SERVICE_NAME}:test"
           
           echo "🧪 Testing image push permissions with test image..."
@@ -151,10 +149,10 @@ jobs:
       
       - name: 🏗️ Build and Push Docker Image
         run: |
-          cd apps/api/github
+          cd apps/api
           
           # Use fixed service name for main deployment
-          SERVICE_NAME="api-github-main"
+          SERVICE_NAME="api-csharp-main"
           IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/api-images/${SERVICE_NAME}:${{ github.sha }}"
           
           echo "🏷️ Building image: $IMAGE_NAME"
@@ -197,7 +195,7 @@ jobs:
             --max-instances=10 \
             --timeout=60s \
             --concurrency=100 \
-            --set-env-vars="NODE_ENV=production,GITHUB_TOKEN=${{ secrets.API_GITHUB_TOKEN }}"
+            --set-env-vars="ASPNETCORE_ENVIRONMENT=Production"
           
           # Get the service URL
           SERVICE_URL=$(gcloud run services describe $SERVICE_NAME --platform managed --region us-central1 --format 'value(status.url)')
