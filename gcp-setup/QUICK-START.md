@@ -36,7 +36,7 @@ The script will:
 
 Your apps are now hosted on Google Cloud **completely free**:
 - **Web App**: `https://YOUR_PROJECT_ID.web.app`
-- **API**: `https://YOUR_API_URL/api/github/pull-requests`
+- **API**: `https://YOUR_API_URL/api/health`
 
 ## 🔒 Safety Features Active
 

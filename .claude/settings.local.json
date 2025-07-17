@@ -13,7 +13,11 @@
       "Bash(find:*)",
       "Bash(dotnet run:*)",
       "Bash(npm run test:e2e:*)",
-      "Bash(npm run test:*)"
+      "Bash(npm run test:*)",
+      "Bash(ls:*)",
+      "Bash(gcloud:*)",
+      "Bash(firebase:*)",
+      "Bash(./gcp-setup/deploy-web.sh:*)"
     ],
     "deny": []
   }

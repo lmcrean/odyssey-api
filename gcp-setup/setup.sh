@@ -35,9 +35,9 @@ read -p "Enter your Google Cloud Project ID (or press Enter to create a new one)
 if [ -z "$PROJECT_ID" ]; then
     # Generate a unique project ID
     RANDOM_SUFFIX=$(date +%s | tail -c 6)
-    PROJECT_ID="lauriecrean-free-${RANDOM_SUFFIX}"
+    PROJECT_ID="odyssey-competitor-${RANDOM_SUFFIX}"
     echo "Creating new project: $PROJECT_ID"
-    gcloud projects create $PROJECT_ID --name="Laurie Crean Portfolio"
+    gcloud projects create $PROJECT_ID --name="Odyssey Competitor Analysis"
 fi
 
 # Set the project
@@ -99,16 +99,22 @@ firebase projects:addfirebase $PROJECT_ID
 # Update Firebase configuration
 echo "📝 Updating Firebase configuration..."
 cd apps/web
-sed -i.bak "s/YOUR_PROJECT_ID/$PROJECT_ID/g" .firebaserc
-rm .firebaserc.bak
+# Create .firebaserc if it doesn't exist
+if [ ! -f ".firebaserc" ]; then
+    echo "{\"projects\":{\"default\":\"$PROJECT_ID\"}}" > .firebaserc
+else
+    sed -i.bak "s/YOUR_PROJECT_ID/$PROJECT_ID/g" .firebaserc
+    rm -f .firebaserc.bak
+fi
 cd ../..
 
-# Update Cloud Run configuration
-echo "📝 Updating Cloud Run configuration..."
-cd apps/api/github
-sed -i.bak "s/YOUR_PROJECT_ID/$PROJECT_ID/g" cloudrun.yaml
-rm cloudrun.yaml.bak
-cd ../../..
+# Update Cloud Build configuration
+echo "📝 Updating Cloud Build configuration..."
+cd apps/api
+# Update cloudbuild.yaml with project ID
+sed -i.bak "s/\$PROJECT_ID/$PROJECT_ID/g" cloudbuild.yaml
+rm -f cloudbuild.yaml.bak
+cd ../..
 
 # Create monitoring dashboard
 echo "📊 Setting up monitoring..."

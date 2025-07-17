@@ -28,8 +28,8 @@ jobs:
       
     - name: Build and push Docker image
       run: |
-        cd apps/api/github
-        IMAGE_NAME="gcr.io/${{ secrets.GCP_PROJECT_ID }}/api-github"
+        cd apps/api
+        IMAGE_NAME="gcr.io/${{ secrets.GCP_PROJECT_ID }}/competitor-analysis-api"
         
         # Build with cache optimization
         docker build -t ${IMAGE_NAME}:latest .
@@ -37,8 +37,8 @@ jobs:
         
     - name: Deploy to Cloud Run (FREE TIER)
       run: |
-        gcloud run deploy api-github \
-          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/api-github:latest \
+        gcloud run deploy competitor-analysis-api \
+          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/competitor-analysis-api:latest \
           --platform managed \
           --region us-central1 \
           --allow-unauthenticated \
@@ -51,12 +51,12 @@ jobs:
           --cpu-throttling \
           --no-use-http2 \
           --execution-environment gen2 \
-          --set-env-vars="NODE_ENV=production,GITHUB_TOKEN=${{ secrets.API_GITHUB_TOKEN }}"
+          --set-env-vars="ASPNETCORE_ENVIRONMENT=Production"
           
     - name: Get service URL
       id: get-url
       run: |
-        SERVICE_URL=$(gcloud run services describe api-github --platform managed --region us-central1 --format="value(status.url)")
+        SERVICE_URL=$(gcloud run services describe competitor-analysis-api --platform managed --region us-central1 --format="value(status.url)")
         echo "service_url=$SERVICE_URL" >> $GITHUB_OUTPUT
         
     - name: Test deployment
@@ -67,11 +67,11 @@ jobs:
         sleep 30
         
         # Test health endpoint
-        curl -f "$SERVICE_URL/health" || exit 1
+        curl -f "$SERVICE_URL/api/health" || exit 1
         
         echo "✅ API deployment successful!"
-        echo "🔗 Health check: $SERVICE_URL/health"
-        echo "📡 API endpoint: $SERVICE_URL/api/github/pull-requests"
+        echo "🔗 Health check: $SERVICE_URL/api/health"
+        echo "📡 API status: $SERVICE_URL/api/health/status"
         
     - name: Comment deployment URL
       uses: actions/github-script@v7

@@ -51,8 +51,8 @@ fi
 cd apps/web
 
 # Check if build directory exists and is reasonable size
-if [ -d "build" ]; then
-    BUILD_SIZE=$(du -sm build | cut -f1)
+if [ -d "dist" ]; then
+    BUILD_SIZE=$(du -sm dist | cut -f1)
     if [ $BUILD_SIZE -gt 8000 ]; then
         echo "⚠️  Warning: Build size is ${BUILD_SIZE}MB, approaching 10GB free tier limit"
         read -p "Continue anyway? (y/N): " -n 1 -r
@@ -63,8 +63,14 @@ if [ -d "build" ]; then
     fi
 fi
 
-# Build the application
-echo "🏗️  Building application..."
+# Install dependencies if needed
+if [ ! -d "node_modules" ]; then
+    echo "📦 Installing dependencies..."
+    npm install
+fi
+
+# Build the Angular application
+echo "🏗️  Building Angular application..."
 npm run build
 
 # Deploy to Firebase Hosting
@@ -72,11 +78,11 @@ echo "📤 Deploying to Firebase Hosting..."
 $FIREBASE_CMD deploy --only hosting
 
 # Get the hosting URL
-PROJECT_ID=$(gcloud config get-value project 2>/dev/null || echo "lauriecrean-free-38256")
+PROJECT_ID=$(gcloud config get-value project 2>/dev/null || echo "odyssey-competitor-default")
 HOSTING_URL="https://${PROJECT_ID}.web.app"
 
 echo "✅ Deployment completed successfully!"
-echo "🌐 Your web app is live at: $HOSTING_URL"
+echo "🌐 Your Angular app is live at: $HOSTING_URL"
 echo "📊 Check your Firebase console for usage statistics"
 echo "🆓 Remember: Firebase Hosting free tier includes 10GB storage and 10GB/month bandwidth"
 

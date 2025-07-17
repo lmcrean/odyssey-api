@@ -36,7 +36,7 @@ jobs:
     - name: Check build size (safety check)
       run: |
         cd apps/web
-        BUILD_SIZE=$(du -sm build | cut -f1)
+        BUILD_SIZE=$(du -sm dist | cut -f1)
         echo "Build size: ${BUILD_SIZE}MB"
         if [ $BUILD_SIZE -gt 8000 ]; then
           echo "⚠️ Warning: Build size exceeds 8GB, approaching Firebase free tier limit"

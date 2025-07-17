@@ -53,15 +53,15 @@ Visit your [Google Cloud Console](https://console.cloud.google.com/billing) to m
 ## 🏗️ Architecture
 
 ### Web App (Firebase Hosting)
-- **Technology**: Docusaurus (React-based static site)
+- **Technology**: Angular 18 (Standalone Components)
 - **Hosting**: Firebase Hosting (Free Tier)
 - **Build**: Static files optimized for CDN
 - **SSL**: Automatic HTTPS certificates
 
 ### API (Cloud Run)
-- **Technology**: Node.js/Express API
+- **Technology**: C# ASP.NET Core API
 - **Hosting**: Google Cloud Run (Free Tier)
-- **Container**: Docker container with minimal Alpine Linux
+- **Container**: Docker container with .NET 8 runtime
 - **Scaling**: 0 to 10 instances (scales to zero when not in use)
 
 ## 📁 File Structure
@@ -81,17 +81,19 @@ apps/
 ├── web/
 │   ├── firebase.json        # Firebase Hosting config
 │   ├── .firebaserc          # Firebase project config
+│   ├── angular.json         # Angular configuration
 │   └── ...
-└── api/github/
+└── api/
     ├── Dockerfile           # Container configuration
-    ├── cloudrun.yaml        # Cloud Run service config
+    ├── cloudbuild.yaml      # Cloud Build configuration
+    ├── CompetitorAnalysis.Api.csproj  # .NET project file
     └── ...
 ```
 
 ## 🔧 Configuration Details
 
 ### Firebase Hosting Configuration
-- **Public Directory**: `build/` (Docusaurus output)
+- **Public Directory**: `dist/web/` (Angular output)
 - **Caching**: Optimized for static assets
 - **Rewrites**: Single-page app routing
 - **Clean URLs**: Enabled for better SEO

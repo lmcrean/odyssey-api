@@ -12,7 +12,7 @@ echo "======================================="
 echo "🔒 Performing safety checks..."
 
 # Check if we're in the right directory
-if [ ! -f "apps/api/github/package.json" ]; then
+if [ ! -f "apps/api/CompetitorAnalysis.Api.csproj" ]; then
     echo "❌ Error: Run this script from the project root directory"
     exit 1
 fi
@@ -47,22 +47,22 @@ if [ -z "$BILLING_ACCOUNT" ]; then
 fi
 
 # Navigate to API directory
-cd apps/api/github
+cd apps/api
 
 # Check if Dockerfile exists
 if [ ! -f "Dockerfile" ]; then
-    echo "❌ Error: Dockerfile not found in apps/api/github/"
+    echo "❌ Error: Dockerfile not found in apps/api/"
     exit 1
 fi
 
-# Build the container image
+# Build the container image using Cloud Build
 echo "🏗️  Building container image..."
-IMAGE_NAME="gcr.io/${PROJECT_ID}/api-github"
+IMAGE_NAME="gcr.io/${PROJECT_ID}/competitor-analysis-api"
 gcloud builds submit --tag ${IMAGE_NAME} .
 
 # Deploy to Cloud Run with strict free tier limits
 echo "📤 Deploying to Cloud Run with FREE TIER limits..."
-gcloud run deploy api-github \
+gcloud run deploy competitor-analysis-api \
     --image ${IMAGE_NAME} \
     --platform managed \
     --region us-central1 \
@@ -78,12 +78,12 @@ gcloud run deploy api-github \
     --execution-environment gen2
 
 # Get the service URL
-SERVICE_URL=$(gcloud run services describe api-github --platform managed --region us-central1 --format="value(status.url)")
+SERVICE_URL=$(gcloud run services describe competitor-analysis-api --platform managed --region us-central1 --format="value(status.url)")
 
 echo "✅ Deployment completed successfully!"
 echo "🌐 Your API is live at: $SERVICE_URL"
-echo "🔗 Health check: $SERVICE_URL/health"
-echo "📡 Pull requests: $SERVICE_URL/api/github/pull-requests"
+echo "🔗 Health check: $SERVICE_URL/api/health"
+echo "📡 Health status: $SERVICE_URL/api/health/status"
 echo ""
 echo "🆓 FREE TIER LIMITS:"
 echo "   - CPU: 180,000 vCPU-seconds/month"
