@@ -60,7 +60,7 @@ public class ObservabilityService : IObservabilityService
     {
         var logEntry = new LogEntry
         {
-            Level = LogLevel.Information,
+            Level = Models.LogLevel.Information,
             Message = message,
             Source = source,
             Metadata = metadata
@@ -74,7 +74,7 @@ public class ObservabilityService : IObservabilityService
     {
         var logEntry = new LogEntry
         {
-            Level = LogLevel.Warning,
+            Level = Models.LogLevel.Warning,
             Message = message,
             Source = source,
             Metadata = metadata
@@ -88,7 +88,7 @@ public class ObservabilityService : IObservabilityService
     {
         var logEntry = new LogEntry
         {
-            Level = LogLevel.Debug,
+            Level = Models.LogLevel.Debug,
             Message = message,
             Source = source,
             Metadata = metadata
@@ -98,7 +98,7 @@ public class ObservabilityService : IObservabilityService
         _logger.LogDebug($"🔍 [{source}] {message}");
     }
 
-    public async Task<List<LogEntry>> GetLogsAsync(DateTime? fromDate = null, DateTime? toDate = null, LogLevel? level = null)
+    public async Task<List<LogEntry>> GetLogsAsync(DateTime? fromDate = null, DateTime? toDate = null, Models.LogLevel? level = null)
     {
         return await Task.FromResult(_logs
             .Where(log => 
@@ -124,8 +124,8 @@ public class ObservabilityService : IObservabilityService
     {
         var totalLogs = _logs.Count;
         var recentLogs = _logs.Count(log => log.Timestamp > DateTime.UtcNow.AddHours(-1));
-        var errorLogs = _logs.Count(log => log.Level == LogLevel.Error);
-        var warningLogs = _logs.Count(log => log.Level == LogLevel.Warning);
+        var errorLogs = _logs.Count(log => log.Level == Models.LogLevel.Error);
+        var warningLogs = _logs.Count(log => log.Level == Models.LogLevel.Warning);
 
         var metrics = new Dictionary<string, object>
         {
@@ -168,7 +168,7 @@ public class ObservabilityService : IObservabilityService
         }
     }
 
-    private bool ShouldLog(LogLevel level)
+    private bool ShouldLog(Models.LogLevel level)
     {
         return level <= _config.MinimumLogLevel;
     }

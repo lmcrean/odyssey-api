@@ -53,7 +53,7 @@ public static class ApplicationBuilderExtensions
 
                 DateTime? fromDate = null;
                 DateTime? toDate = null;
-                LogLevel? level = null;
+                Models.LogLevel? level = null;
 
                 if (DateTime.TryParse(fromDateStr, out var parsedFromDate))
                     fromDate = parsedFromDate;
@@ -61,7 +61,7 @@ public static class ApplicationBuilderExtensions
                 if (DateTime.TryParse(toDateStr, out var parsedToDate))
                     toDate = parsedToDate;
 
-                if (Enum.TryParse<LogLevel>(levelStr, true, out var parsedLevel))
+                if (Enum.TryParse<Models.LogLevel>(levelStr, true, out var parsedLevel))
                     level = parsedLevel;
 
                 var logs = string.IsNullOrEmpty(source) 

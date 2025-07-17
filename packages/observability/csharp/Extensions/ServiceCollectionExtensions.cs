@@ -37,15 +37,15 @@ public static class ServiceCollectionExtensions
         return services.AddObservability(config);
     }
 
-    private static Microsoft.Extensions.Logging.LogLevel ConvertLogLevel(LogLevel logLevel)
+    private static Microsoft.Extensions.Logging.LogLevel ConvertLogLevel(Models.LogLevel logLevel)
     {
         return logLevel switch
         {
-            LogLevel.Error => Microsoft.Extensions.Logging.LogLevel.Error,
-            LogLevel.Warning => Microsoft.Extensions.Logging.LogLevel.Warning,
-            LogLevel.Information => Microsoft.Extensions.Logging.LogLevel.Information,
-            LogLevel.Debug => Microsoft.Extensions.Logging.LogLevel.Debug,
-            LogLevel.Trace => Microsoft.Extensions.Logging.LogLevel.Trace,
+            Models.LogLevel.Error => Microsoft.Extensions.Logging.LogLevel.Error,
+            Models.LogLevel.Warning => Microsoft.Extensions.Logging.LogLevel.Warning,
+            Models.LogLevel.Information => Microsoft.Extensions.Logging.LogLevel.Information,
+            Models.LogLevel.Debug => Microsoft.Extensions.Logging.LogLevel.Debug,
+            Models.LogLevel.Trace => Microsoft.Extensions.Logging.LogLevel.Trace,
             _ => Microsoft.Extensions.Logging.LogLevel.Information
         };
     }

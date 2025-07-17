@@ -17,7 +17,7 @@ builder.Services.AddObservability(config =>
     config.LogToConsole = true;
     config.LogToFile = true;
     config.LogFilePath = "logs/api.log";
-    config.MinimumLogLevel = LogLevel.Information;
+    config.MinimumLogLevel = CompetitorAnalysis.Observability.Models.LogLevel.Information;
 });
 
 // Add CORS for Angular frontend

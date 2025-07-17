@@ -23,7 +23,8 @@
       "Bash(npm run build:*)",
       "Bash(grep:*)",
       "Bash(cp:*)",
-      "Bash(copy:*)"
+      "Bash(copy:*)",
+      "Bash(dotnet clean:*)"
     ],
     "deny": []
   }

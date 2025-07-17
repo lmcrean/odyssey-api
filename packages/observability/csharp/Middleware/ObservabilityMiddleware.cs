@@ -57,7 +57,7 @@ public class ObservabilityMiddleware
             // Log successful request
             var apiLogEntry = new ApiLogEntry
             {
-                Level = LogLevel.Information,
+                Level = Models.LogLevel.Information,
                 Message = $"Request completed: {context.Request.Method} {context.Request.Path}",
                 Source = "API",
                 RequestId = requestId,
@@ -84,7 +84,7 @@ public class ObservabilityMiddleware
             // Log error
             var errorLogEntry = new ErrorLogEntry
             {
-                Level = LogLevel.Error,
+                Level = Models.LogLevel.Error,
                 Message = $"Request failed: {context.Request.Method} {context.Request.Path}",
                 Source = "API",
                 RequestId = requestId,
