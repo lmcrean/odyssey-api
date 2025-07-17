@@ -10,7 +10,9 @@
     "grep": {},
     "grepInvert": null,
     "maxFailures": 0,
-    "metadata": {},
+    "metadata": {
+      "actualWorkers": 8
+    },
     "preserveOutput": "always",
     "reporter": [
       [
@@ -40,7 +42,9 @@
         "outputDir": "C:/Projects/odyssey/e2e/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {},
+        "metadata": {
+          "actualWorkers": 8
+        },
         "id": "chromium",
         "name": "chromium",
         "testDir": "C:/Projects/odyssey/e2e/tests",
@@ -54,7 +58,9 @@
         "outputDir": "C:/Projects/odyssey/e2e/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {},
+        "metadata": {
+          "actualWorkers": 8
+        },
         "id": "firefox",
         "name": "firefox",
         "testDir": "C:/Projects/odyssey/e2e/tests",
@@ -68,7 +74,9 @@
         "outputDir": "C:/Projects/odyssey/e2e/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {},
+        "metadata": {
+          "actualWorkers": 8
+        },
         "id": "webkit",
         "name": "webkit",
         "testDir": "C:/Projects/odyssey/e2e/tests",
@@ -82,7 +90,9 @@
         "outputDir": "C:/Projects/odyssey/e2e/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {},
+        "metadata": {
+          "actualWorkers": 8
+        },
         "id": "mobile-chrome",
         "name": "mobile-chrome",
         "testDir": "C:/Projects/odyssey/e2e/tests",
@@ -96,7 +106,9 @@
         "outputDir": "C:/Projects/odyssey/e2e/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {},
+        "metadata": {
+          "actualWorkers": 8
+        },
         "id": "mobile-safari",
         "name": "mobile-safari",
         "testDir": "C:/Projects/odyssey/e2e/tests",
@@ -114,25 +126,2332 @@
     "workers": 8,
     "webServer": null
   },
-  "suites": [],
-  "errors": [
+  "suites": [
     {
-      "message": "Error: ❌ API failed to start after 60 seconds",
-      "stack": "Error: ❌ API failed to start after 60 seconds\n    at waitForService (C:\\Projects\\odyssey\\e2e\\utils\\global-setup.ts:30:9)\n    at globalSetup (C:\\Projects\\odyssey\\e2e\\utils\\global-setup.ts:7:3)",
-      "location": {
-        "file": "C:\\Projects\\odyssey\\e2e\\utils\\global-setup.ts",
-        "column": 9,
-        "line": 30
-      },
-      "snippet": "\u001b[90m   at \u001b[39m..\\utils\\global-setup.ts:30\n\n\u001b[0m \u001b[90m 28 |\u001b[39m   }\n \u001b[90m 29 |\u001b[39m   \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m   \u001b[36mthrow\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mError\u001b[39m(\u001b[32m`❌ ${serviceName} failed to start after ${maxRetries * 2} seconds`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m }\n \u001b[90m 32 |\u001b[39m\n \u001b[90m 33 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m globalSetup\u001b[33m;\u001b[39m\u001b[0m"
+      "title": "api-health.spec.ts",
+      "file": "api-health.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "API Health Checks",
+          "file": "api-health.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should have API health endpoint accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2743,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:13.084Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-8ffb4bc9906818b0a8da",
+              "file": "api-health.spec.ts",
+              "line": 10,
+              "column": 7
+            },
+            {
+              "title": "should have API health status endpoint accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2698,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:13.125Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-8f59191a408fec00ed90",
+              "file": "api-health.spec.ts",
+              "line": 20,
+              "column": 7
+            },
+            {
+              "title": "should have root endpoint accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2755,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:13.117Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-f53a1dd40cd9f9e39eaa",
+              "file": "api-health.spec.ts",
+              "line": 32,
+              "column": 7
+            },
+            {
+              "title": "should return 404 for non-existent endpoints",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 2801,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:13.108Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-4bb11b1559201dfd6326",
+              "file": "api-health.spec.ts",
+              "line": 41,
+              "column": 7
+            },
+            {
+              "title": "should handle CORS for Angular origin",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
+                      "status": "failed",
+                      "duration": 2739,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:56:31",
+                        "location": {
+                          "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                          "column": 31,
+                          "line": 56
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 54 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 55 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 56 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 57 |\u001b[39m     \n \u001b[90m 58 |\u001b[39m     \u001b[36mconst\u001b[39m corsHeader \u001b[33m=\u001b[39m response\u001b[33m.\u001b[39mheaders()[\u001b[32m'access-control-allow-origin'\u001b[39m]\u001b[33m;\u001b[39m\n \u001b[90m 59 |\u001b[39m     expect(corsHeader)\u001b[33m.\u001b[39mtoBe(\u001b[32m'http://localhost:4200'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                            "column": 31,
+                            "line": 56
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n\n  54 |     });\n  55 |     \n> 56 |     expect(response.status()).toBe(200);\n     |                               ^\n  57 |     \n  58 |     const corsHeader = response.headers()['access-control-allow-origin'];\n  59 |     expect(corsHeader).toBe('http://localhost:4200');\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:56:31"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:13.132Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                        "column": 31,
+                        "line": 56
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-d8692289f20eaa1b5bcb",
+              "file": "api-health.spec.ts",
+              "line": 47,
+              "column": 7
+            },
+            {
+              "title": "should reject unauthorized CORS origins",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 5,
+                      "status": "failed",
+                      "duration": 2738,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:71:31",
+                        "location": {
+                          "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                          "column": 31,
+                          "line": 71
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m     \n \u001b[90m 73 |\u001b[39m     \u001b[36mconst\u001b[39m corsHeader \u001b[33m=\u001b[39m response\u001b[33m.\u001b[39mheaders()[\u001b[32m'access-control-allow-origin'\u001b[39m]\u001b[33m;\u001b[39m\n \u001b[90m 74 |\u001b[39m     expect(corsHeader)\u001b[33m.\u001b[39mtoBeUndefined()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                            "column": 31,
+                            "line": 71
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n\n  69 |     });\n  70 |     \n> 71 |     expect(response.status()).toBe(200);\n     |                               ^\n  72 |     \n  73 |     const corsHeader = response.headers()['access-control-allow-origin'];\n  74 |     expect(corsHeader).toBeUndefined();\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:71:31"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:13.126Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                        "column": 31,
+                        "line": 71
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-0472f94e02e3464f358e",
+              "file": "api-health.spec.ts",
+              "line": 62,
+              "column": 7
+            },
+            {
+              "title": "should handle concurrent requests",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 2728,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:13.140Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-b64e30263aa33098302d",
+              "file": "api-health.spec.ts",
+              "line": 77,
+              "column": 7
+            },
+            {
+              "title": "should return valid JSON structure for status endpoint",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 7,
+                      "status": "failed",
+                      "duration": 2836,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"2025-07-17T16:31:16.503\u001b[7m1604\u001b[27mZ\"\u001b[39m\nReceived: \u001b[31m\"2025-07-17T16:31:16.503Z\"\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"2025-07-17T16:31:16.503\u001b[7m1604\u001b[27mZ\"\u001b[39m\nReceived: \u001b[31m\"2025-07-17T16:31:16.503Z\"\u001b[39m\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:112:37",
+                        "location": {
+                          "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                          "column": 37,
+                          "line": 112
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 110 |\u001b[39m     \u001b[90m// Validate timestamp format (ISO 8601)\u001b[39m\n \u001b[90m 111 |\u001b[39m     \u001b[36mconst\u001b[39m timestamp \u001b[33m=\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mDate\u001b[39m(responseJson\u001b[33m.\u001b[39mtimestamp)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 112 |\u001b[39m     expect(timestamp\u001b[33m.\u001b[39mtoISOString())\u001b[33m.\u001b[39mtoBe(responseJson\u001b[33m.\u001b[39mtimestamp)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 113 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 114 |\u001b[39m\n \u001b[90m 115 |\u001b[39m   test(\u001b[32m'should have reasonable response times'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                            "column": 37,
+                            "line": 112
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"2025-07-17T16:31:16.503\u001b[7m1604\u001b[27mZ\"\u001b[39m\nReceived: \u001b[31m\"2025-07-17T16:31:16.503Z\"\u001b[39m\n\n  110 |     // Validate timestamp format (ISO 8601)\n  111 |     const timestamp = new Date(responseJson.timestamp);\n> 112 |     expect(timestamp.toISOString()).toBe(responseJson.timestamp);\n      |                                     ^\n  113 |   });\n  114 |\n  115 |   test('should have reasonable response times', async ({ page }) => {\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:112:37"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:13.153Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                        "column": 37,
+                        "line": 112
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-f4450cb80726f7104a6d",
+              "file": "api-health.spec.ts",
+              "line": 96,
+              "column": 7
+            },
+            {
+              "title": "should have reasonable response times",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 649,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:16.877Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-c2fc93081b4c0bc4a914",
+              "file": "api-health.spec.ts",
+              "line": 115,
+              "column": 7
+            },
+            {
+              "title": "should handle HTTP methods correctly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 635,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:16.903Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-a0a05c0bdbb4ee30dc70",
+              "file": "api-health.spec.ts",
+              "line": 127,
+              "column": 7
+            },
+            {
+              "title": "should have API health endpoint accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 13,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4507,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:18.802Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-836ac26d92280520a480",
+              "file": "api-health.spec.ts",
+              "line": 10,
+              "column": 7
+            },
+            {
+              "title": "should have API health status endpoint accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 5968,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:18.791Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-0f1a6874a99669d358df",
+              "file": "api-health.spec.ts",
+              "line": 20,
+              "column": 7
+            },
+            {
+              "title": "should have root endpoint accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 5829,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:18.782Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-e6a7a7ea8cebf3d742a2",
+              "file": "api-health.spec.ts",
+              "line": 32,
+              "column": 7
+            },
+            {
+              "title": "should return 404 for non-existent endpoints",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 5906,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:18.781Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-32079ff07c369c666d6d",
+              "file": "api-health.spec.ts",
+              "line": 41,
+              "column": 7
+            },
+            {
+              "title": "should handle CORS for Angular origin",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 7,
+                      "status": "failed",
+                      "duration": 7022,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:56:31",
+                        "location": {
+                          "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                          "column": 31,
+                          "line": 56
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 54 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 55 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 56 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 57 |\u001b[39m     \n \u001b[90m 58 |\u001b[39m     \u001b[36mconst\u001b[39m corsHeader \u001b[33m=\u001b[39m response\u001b[33m.\u001b[39mheaders()[\u001b[32m'access-control-allow-origin'\u001b[39m]\u001b[33m;\u001b[39m\n \u001b[90m 59 |\u001b[39m     expect(corsHeader)\u001b[33m.\u001b[39mtoBe(\u001b[32m'http://localhost:4200'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                            "column": 31,
+                            "line": 56
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n\n  54 |     });\n  55 |     \n> 56 |     expect(response.status()).toBe(200);\n     |                               ^\n  57 |     \n  58 |     const corsHeader = response.headers()['access-control-allow-origin'];\n  59 |     expect(corsHeader).toBe('http://localhost:4200');\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:56:31"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:18.778Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-firefox\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-firefox\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-firefox\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                        "column": 31,
+                        "line": 56
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-cbd3153335fb3ba3f151",
+              "file": "api-health.spec.ts",
+              "line": 47,
+              "column": 7
+            },
+            {
+              "title": "should reject unauthorized CORS origins",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 4,
+                      "status": "failed",
+                      "duration": 4853,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:71:31",
+                        "location": {
+                          "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                          "column": 31,
+                          "line": 71
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m     \n \u001b[90m 73 |\u001b[39m     \u001b[36mconst\u001b[39m corsHeader \u001b[33m=\u001b[39m response\u001b[33m.\u001b[39mheaders()[\u001b[32m'access-control-allow-origin'\u001b[39m]\u001b[33m;\u001b[39m\n \u001b[90m 74 |\u001b[39m     expect(corsHeader)\u001b[33m.\u001b[39mtoBeUndefined()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                            "column": 31,
+                            "line": 71
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n\n  69 |     });\n  70 |     \n> 71 |     expect(response.status()).toBe(200);\n     |                               ^\n  72 |     \n  73 |     const corsHeader = response.headers()['access-control-allow-origin'];\n  74 |     expect(corsHeader).toBeUndefined();\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:71:31"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:18.785Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-firefox\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-firefox\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-firefox\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                        "column": 31,
+                        "line": 71
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-634b90fd986fc9178b55",
+              "file": "api-health.spec.ts",
+              "line": 62,
+              "column": 7
+            },
+            {
+              "title": "should handle concurrent requests",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 14,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 4611,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:19.143Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-ffc2229e884743f934c1",
+              "file": "api-health.spec.ts",
+              "line": 77,
+              "column": 7
+            },
+            {
+              "title": "should return valid JSON structure for status endpoint",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 15,
+                      "parallelIndex": 6,
+                      "status": "failed",
+                      "duration": 5233,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"2025-07-17T16:31:27.186\u001b[7m5784\u001b[27mZ\"\u001b[39m\nReceived: \u001b[31m\"2025-07-17T16:31:27.186Z\"\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"2025-07-17T16:31:27.186\u001b[7m5784\u001b[27mZ\"\u001b[39m\nReceived: \u001b[31m\"2025-07-17T16:31:27.186Z\"\u001b[39m\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:112:37",
+                        "location": {
+                          "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                          "column": 37,
+                          "line": 112
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 110 |\u001b[39m     \u001b[90m// Validate timestamp format (ISO 8601)\u001b[39m\n \u001b[90m 111 |\u001b[39m     \u001b[36mconst\u001b[39m timestamp \u001b[33m=\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mDate\u001b[39m(responseJson\u001b[33m.\u001b[39mtimestamp)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 112 |\u001b[39m     expect(timestamp\u001b[33m.\u001b[39mtoISOString())\u001b[33m.\u001b[39mtoBe(responseJson\u001b[33m.\u001b[39mtimestamp)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 113 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 114 |\u001b[39m\n \u001b[90m 115 |\u001b[39m   test(\u001b[32m'should have reasonable response times'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                            "column": 37,
+                            "line": 112
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"2025-07-17T16:31:27.186\u001b[7m5784\u001b[27mZ\"\u001b[39m\nReceived: \u001b[31m\"2025-07-17T16:31:27.186Z\"\u001b[39m\n\n  110 |     // Validate timestamp format (ISO 8601)\n  111 |     const timestamp = new Date(responseJson.timestamp);\n> 112 |     expect(timestamp.toISOString()).toBe(responseJson.timestamp);\n      |                                     ^\n  113 |   });\n  114 |\n  115 |   test('should have reasonable response times', async ({ page }) => {\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:112:37"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:19.173Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-firefox\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-firefox\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-firefox\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                        "column": 37,
+                        "line": 112
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-b30386b1eb7171d18618",
+              "file": "api-health.spec.ts",
+              "line": 96,
+              "column": 7
+            },
+            {
+              "title": "should have reasonable response times",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 14,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 3905,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:25.412Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-57bc7d8033d16bfe7829",
+              "file": "api-health.spec.ts",
+              "line": 115,
+              "column": 7
+            },
+            {
+              "title": "should handle HTTP methods correctly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 13,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3506,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:26.209Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-927ff2f11d0ca0f37184",
+              "file": "api-health.spec.ts",
+              "line": 127,
+              "column": 7
+            },
+            {
+              "title": "should have API health endpoint accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 18,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 3567,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:35.417Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-cbe61d780d462a070a24",
+              "file": "api-health.spec.ts",
+              "line": 10,
+              "column": 7
+            },
+            {
+              "title": "should have API health status endpoint accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 19,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3583,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:35.419Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-a8900175f1897c812dd2",
+              "file": "api-health.spec.ts",
+              "line": 20,
+              "column": 7
+            },
+            {
+              "title": "should have root endpoint accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 16,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 3643,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:35.417Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-bb6c43f9f56ae8e33c7f",
+              "file": "api-health.spec.ts",
+              "line": 32,
+              "column": 7
+            },
+            {
+              "title": "should return 404 for non-existent endpoints",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 17,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 3642,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:35.416Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-6fe467895b2fab511cfc",
+              "file": "api-health.spec.ts",
+              "line": 41,
+              "column": 7
+            },
+            {
+              "title": "should handle CORS for Angular origin",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 21,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 3873,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:56:31",
+                        "location": {
+                          "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                          "column": 31,
+                          "line": 56
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 54 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 55 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 56 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 57 |\u001b[39m     \n \u001b[90m 58 |\u001b[39m     \u001b[36mconst\u001b[39m corsHeader \u001b[33m=\u001b[39m response\u001b[33m.\u001b[39mheaders()[\u001b[32m'access-control-allow-origin'\u001b[39m]\u001b[33m;\u001b[39m\n \u001b[90m 59 |\u001b[39m     expect(corsHeader)\u001b[33m.\u001b[39mtoBe(\u001b[32m'http://localhost:4200'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                            "column": 31,
+                            "line": 56
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n\n  54 |     });\n  55 |     \n> 56 |     expect(response.status()).toBe(200);\n     |                               ^\n  57 |     \n  58 |     const corsHeader = response.headers()['access-control-allow-origin'];\n  59 |     expect(corsHeader).toBe('http://localhost:4200');\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:56:31"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:36.834Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-webkit\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-webkit\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-webkit\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                        "column": 31,
+                        "line": 56
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-485f0aca49669d8f2600",
+              "file": "api-health.spec.ts",
+              "line": 47,
+              "column": 7
+            },
+            {
+              "title": "should reject unauthorized CORS origins",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 22,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 3776,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:71:31",
+                        "location": {
+                          "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                          "column": 31,
+                          "line": 71
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m     \n \u001b[90m 73 |\u001b[39m     \u001b[36mconst\u001b[39m corsHeader \u001b[33m=\u001b[39m response\u001b[33m.\u001b[39mheaders()[\u001b[32m'access-control-allow-origin'\u001b[39m]\u001b[33m;\u001b[39m\n \u001b[90m 74 |\u001b[39m     expect(corsHeader)\u001b[33m.\u001b[39mtoBeUndefined()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                            "column": 31,
+                            "line": 71
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n\n  69 |     });\n  70 |     \n> 71 |     expect(response.status()).toBe(200);\n     |                               ^\n  72 |     \n  73 |     const corsHeader = response.headers()['access-control-allow-origin'];\n  74 |     expect(corsHeader).toBeUndefined();\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:71:31"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:36.877Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-webkit\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-webkit\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-webkit\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                        "column": 31,
+                        "line": 71
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-68bdd6b294d8f5e836be",
+              "file": "api-health.spec.ts",
+              "line": 62,
+              "column": 7
+            },
+            {
+              "title": "should handle concurrent requests",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 23,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 3625,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:36.958Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-54e35f3dc5bf85dff393",
+              "file": "api-health.spec.ts",
+              "line": 77,
+              "column": 7
+            },
+            {
+              "title": "should return valid JSON structure for status endpoint",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 20,
+                      "parallelIndex": 7,
+                      "status": "failed",
+                      "duration": 3773,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"2025-07-17T16:31:40.162\u001b[7m2594\u001b[27mZ\"\u001b[39m\nReceived: \u001b[31m\"2025-07-17T16:31:40.162Z\"\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"2025-07-17T16:31:40.162\u001b[7m2594\u001b[27mZ\"\u001b[39m\nReceived: \u001b[31m\"2025-07-17T16:31:40.162Z\"\u001b[39m\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:112:37",
+                        "location": {
+                          "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                          "column": 37,
+                          "line": 112
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 110 |\u001b[39m     \u001b[90m// Validate timestamp format (ISO 8601)\u001b[39m\n \u001b[90m 111 |\u001b[39m     \u001b[36mconst\u001b[39m timestamp \u001b[33m=\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mDate\u001b[39m(responseJson\u001b[33m.\u001b[39mtimestamp)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 112 |\u001b[39m     expect(timestamp\u001b[33m.\u001b[39mtoISOString())\u001b[33m.\u001b[39mtoBe(responseJson\u001b[33m.\u001b[39mtimestamp)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 113 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 114 |\u001b[39m\n \u001b[90m 115 |\u001b[39m   test(\u001b[32m'should have reasonable response times'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                            "column": 37,
+                            "line": 112
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"2025-07-17T16:31:40.162\u001b[7m2594\u001b[27mZ\"\u001b[39m\nReceived: \u001b[31m\"2025-07-17T16:31:40.162Z\"\u001b[39m\n\n  110 |     // Validate timestamp format (ISO 8601)\n  111 |     const timestamp = new Date(responseJson.timestamp);\n> 112 |     expect(timestamp.toISOString()).toBe(responseJson.timestamp);\n      |                                     ^\n  113 |   });\n  114 |\n  115 |   test('should have reasonable response times', async ({ page }) => {\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:112:37"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:35.859Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-webkit\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-webkit\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-webkit\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                        "column": 37,
+                        "line": 112
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-a5df0eccf1c3227e0ca6",
+              "file": "api-health.spec.ts",
+              "line": 96,
+              "column": 7
+            },
+            {
+              "title": "should have reasonable response times",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 18,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1268,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:40.874Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-718a8a4c96556144bc93",
+              "file": "api-health.spec.ts",
+              "line": 115,
+              "column": 7
+            },
+            {
+              "title": "should handle HTTP methods correctly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 19,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1307,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:40.892Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-7961975687ee434e5fe1",
+              "file": "api-health.spec.ts",
+              "line": 127,
+              "column": 7
+            },
+            {
+              "title": "should have API health endpoint accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-chrome",
+                  "projectName": "mobile-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 26,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 2335,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:42.300Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-2e9742064cfe0827e071",
+              "file": "api-health.spec.ts",
+              "line": 10,
+              "column": 7
+            },
+            {
+              "title": "should have API health status endpoint accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-chrome",
+                  "projectName": "mobile-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 24,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 2317,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:42.293Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-63135b030ea5980a921f",
+              "file": "api-health.spec.ts",
+              "line": 20,
+              "column": 7
+            },
+            {
+              "title": "should have root endpoint accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-chrome",
+                  "projectName": "mobile-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 25,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 2378,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:42.348Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-f08861ff03b726c0ce95",
+              "file": "api-health.spec.ts",
+              "line": 32,
+              "column": 7
+            },
+            {
+              "title": "should return 404 for non-existent endpoints",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-chrome",
+                  "projectName": "mobile-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 27,
+                      "parallelIndex": 7,
+                      "status": "passed",
+                      "duration": 2315,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:42.428Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-ae4281c437af6910841d",
+              "file": "api-health.spec.ts",
+              "line": 41,
+              "column": 7
+            },
+            {
+              "title": "should handle CORS for Angular origin",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-chrome",
+                  "projectName": "mobile-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 28,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 2398,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:56:31",
+                        "location": {
+                          "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                          "column": 31,
+                          "line": 56
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 54 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 55 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 56 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 57 |\u001b[39m     \n \u001b[90m 58 |\u001b[39m     \u001b[36mconst\u001b[39m corsHeader \u001b[33m=\u001b[39m response\u001b[33m.\u001b[39mheaders()[\u001b[32m'access-control-allow-origin'\u001b[39m]\u001b[33m;\u001b[39m\n \u001b[90m 59 |\u001b[39m     expect(corsHeader)\u001b[33m.\u001b[39mtoBe(\u001b[32m'http://localhost:4200'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                            "column": 31,
+                            "line": 56
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n\n  54 |     });\n  55 |     \n> 56 |     expect(response.status()).toBe(200);\n     |                               ^\n  57 |     \n  58 |     const corsHeader = response.headers()['access-control-allow-origin'];\n  59 |     expect(corsHeader).toBe('http://localhost:4200');\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:56:31"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:42.399Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-chrome\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-chrome\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                        "column": 31,
+                        "line": 56
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-43bde0c2c8e19175165c",
+              "file": "api-health.spec.ts",
+              "line": 47,
+              "column": 7
+            },
+            {
+              "title": "should reject unauthorized CORS origins",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-chrome",
+                  "projectName": "mobile-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 29,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 2367,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:71:31",
+                        "location": {
+                          "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                          "column": 31,
+                          "line": 71
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m     \n \u001b[90m 73 |\u001b[39m     \u001b[36mconst\u001b[39m corsHeader \u001b[33m=\u001b[39m response\u001b[33m.\u001b[39mheaders()[\u001b[32m'access-control-allow-origin'\u001b[39m]\u001b[33m;\u001b[39m\n \u001b[90m 74 |\u001b[39m     expect(corsHeader)\u001b[33m.\u001b[39mtoBeUndefined()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                            "column": 31,
+                            "line": 71
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n\n  69 |     });\n  70 |     \n> 71 |     expect(response.status()).toBe(200);\n     |                               ^\n  72 |     \n  73 |     const corsHeader = response.headers()['access-control-allow-origin'];\n  74 |     expect(corsHeader).toBeUndefined();\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:71:31"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:42.446Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-chrome\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-chrome\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                        "column": 31,
+                        "line": 71
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-99ad45b9f1124367f9ba",
+              "file": "api-health.spec.ts",
+              "line": 62,
+              "column": 7
+            },
+            {
+              "title": "should handle concurrent requests",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-chrome",
+                  "projectName": "mobile-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 30,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1611,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:43.351Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-41d91fc905c4e091d5a7",
+              "file": "api-health.spec.ts",
+              "line": 77,
+              "column": 7
+            },
+            {
+              "title": "should return valid JSON structure for status endpoint",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-chrome",
+                  "projectName": "mobile-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 31,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1623,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"2025-07-17T16:31:44.569\u001b[7m1011\u001b[27mZ\"\u001b[39m\nReceived: \u001b[31m\"2025-07-17T16:31:44.569Z\"\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"2025-07-17T16:31:44.569\u001b[7m1011\u001b[27mZ\"\u001b[39m\nReceived: \u001b[31m\"2025-07-17T16:31:44.569Z\"\u001b[39m\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:112:37",
+                        "location": {
+                          "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                          "column": 37,
+                          "line": 112
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 110 |\u001b[39m     \u001b[90m// Validate timestamp format (ISO 8601)\u001b[39m\n \u001b[90m 111 |\u001b[39m     \u001b[36mconst\u001b[39m timestamp \u001b[33m=\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mDate\u001b[39m(responseJson\u001b[33m.\u001b[39mtimestamp)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 112 |\u001b[39m     expect(timestamp\u001b[33m.\u001b[39mtoISOString())\u001b[33m.\u001b[39mtoBe(responseJson\u001b[33m.\u001b[39mtimestamp)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 113 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 114 |\u001b[39m\n \u001b[90m 115 |\u001b[39m   test(\u001b[32m'should have reasonable response times'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                            "column": 37,
+                            "line": 112
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"2025-07-17T16:31:44.569\u001b[7m1011\u001b[27mZ\"\u001b[39m\nReceived: \u001b[31m\"2025-07-17T16:31:44.569Z\"\u001b[39m\n\n  110 |     // Validate timestamp format (ISO 8601)\n  111 |     const timestamp = new Date(responseJson.timestamp);\n> 112 |     expect(timestamp.toISOString()).toBe(responseJson.timestamp);\n      |                                     ^\n  113 |   });\n  114 |\n  115 |   test('should have reasonable response times', async ({ page }) => {\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:112:37"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:43.370Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-chrome\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-chrome\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                        "column": 37,
+                        "line": 112
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-4ceb800c20608ad46752",
+              "file": "api-health.spec.ts",
+              "line": 96,
+              "column": 7
+            },
+            {
+              "title": "should have reasonable response times",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-chrome",
+                  "projectName": "mobile-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 26,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 565,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:45.015Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-89eb93e00a450efced21",
+              "file": "api-health.spec.ts",
+              "line": 115,
+              "column": 7
+            },
+            {
+              "title": "should handle HTTP methods correctly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-chrome",
+                  "projectName": "mobile-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 27,
+                      "parallelIndex": 7,
+                      "status": "passed",
+                      "duration": 691,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:45.053Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-a989c6b65fd546b0e95e",
+              "file": "api-health.spec.ts",
+              "line": 127,
+              "column": 7
+            },
+            {
+              "title": "should have API health endpoint accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-safari",
+                  "projectName": "mobile-safari",
+                  "results": [
+                    {
+                      "workerIndex": 32,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 1897,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:46.275Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-d8b0acb135a92cb9a651",
+              "file": "api-health.spec.ts",
+              "line": 10,
+              "column": 7
+            },
+            {
+              "title": "should have API health status endpoint accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-safari",
+                  "projectName": "mobile-safari",
+                  "results": [
+                    {
+                      "workerIndex": 33,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2102,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:46.283Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-a3f269db56671c532509",
+              "file": "api-health.spec.ts",
+              "line": 20,
+              "column": 7
+            },
+            {
+              "title": "should have root endpoint accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-safari",
+                  "projectName": "mobile-safari",
+                  "results": [
+                    {
+                      "workerIndex": 34,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 2006,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:46.301Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-7214a692e1135e27f79b",
+              "file": "api-health.spec.ts",
+              "line": 32,
+              "column": 7
+            },
+            {
+              "title": "should return 404 for non-existent endpoints",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-safari",
+                  "projectName": "mobile-safari",
+                  "results": [
+                    {
+                      "workerIndex": 35,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 1905,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:46.298Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-4e19a21dc393c24555e6",
+              "file": "api-health.spec.ts",
+              "line": 41,
+              "column": 7
+            },
+            {
+              "title": "should handle CORS for Angular origin",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-safari",
+                  "projectName": "mobile-safari",
+                  "results": [
+                    {
+                      "workerIndex": 37,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2245,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:56:31",
+                        "location": {
+                          "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                          "column": 31,
+                          "line": 56
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 54 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 55 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 56 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 57 |\u001b[39m     \n \u001b[90m 58 |\u001b[39m     \u001b[36mconst\u001b[39m corsHeader \u001b[33m=\u001b[39m response\u001b[33m.\u001b[39mheaders()[\u001b[32m'access-control-allow-origin'\u001b[39m]\u001b[33m;\u001b[39m\n \u001b[90m 59 |\u001b[39m     expect(corsHeader)\u001b[33m.\u001b[39mtoBe(\u001b[32m'http://localhost:4200'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                            "column": 31,
+                            "line": 56
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n\n  54 |     });\n  55 |     \n> 56 |     expect(response.status()).toBe(200);\n     |                               ^\n  57 |     \n  58 |     const corsHeader = response.headers()['access-control-allow-origin'];\n  59 |     expect(corsHeader).toBe('http://localhost:4200');\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:56:31"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:46.327Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-safari\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-safari\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-safari\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                        "column": 31,
+                        "line": 56
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-b1efaff2347b6b600c16",
+              "file": "api-health.spec.ts",
+              "line": 47,
+              "column": 7
+            },
+            {
+              "title": "should reject unauthorized CORS origins",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-safari",
+                  "projectName": "mobile-safari",
+                  "results": [
+                    {
+                      "workerIndex": 36,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 2301,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:71:31",
+                        "location": {
+                          "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                          "column": 31,
+                          "line": 71
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m     \n \u001b[90m 73 |\u001b[39m     \u001b[36mconst\u001b[39m corsHeader \u001b[33m=\u001b[39m response\u001b[33m.\u001b[39mheaders()[\u001b[32m'access-control-allow-origin'\u001b[39m]\u001b[33m;\u001b[39m\n \u001b[90m 74 |\u001b[39m     expect(corsHeader)\u001b[33m.\u001b[39mtoBeUndefined()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                            "column": 31,
+                            "line": 71
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n\n  69 |     });\n  70 |     \n> 71 |     expect(response.status()).toBe(200);\n     |                               ^\n  72 |     \n  73 |     const corsHeader = response.headers()['access-control-allow-origin'];\n  74 |     expect(corsHeader).toBeUndefined();\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:71:31"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:46.329Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-safari\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-safari\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-safari\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                        "column": 31,
+                        "line": 71
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-f392422868c43c0bc2ee",
+              "file": "api-health.spec.ts",
+              "line": 62,
+              "column": 7
+            },
+            {
+              "title": "should handle concurrent requests",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-safari",
+                  "projectName": "mobile-safari",
+                  "results": [
+                    {
+                      "workerIndex": 38,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 1955,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:46.664Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-f2b6f50f0bf7bd7fc185",
+              "file": "api-health.spec.ts",
+              "line": 77,
+              "column": 7
+            },
+            {
+              "title": "should return valid JSON structure for status endpoint",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-safari",
+                  "projectName": "mobile-safari",
+                  "results": [
+                    {
+                      "workerIndex": 39,
+                      "parallelIndex": 7,
+                      "status": "failed",
+                      "duration": 1892,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"2025-07-17T16:31:48.310\u001b[7m6279\u001b[27mZ\"\u001b[39m\nReceived: \u001b[31m\"2025-07-17T16:31:48.310Z\"\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"2025-07-17T16:31:48.310\u001b[7m6279\u001b[27mZ\"\u001b[39m\nReceived: \u001b[31m\"2025-07-17T16:31:48.310Z\"\u001b[39m\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:112:37",
+                        "location": {
+                          "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                          "column": 37,
+                          "line": 112
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 110 |\u001b[39m     \u001b[90m// Validate timestamp format (ISO 8601)\u001b[39m\n \u001b[90m 111 |\u001b[39m     \u001b[36mconst\u001b[39m timestamp \u001b[33m=\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mDate\u001b[39m(responseJson\u001b[33m.\u001b[39mtimestamp)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 112 |\u001b[39m     expect(timestamp\u001b[33m.\u001b[39mtoISOString())\u001b[33m.\u001b[39mtoBe(responseJson\u001b[33m.\u001b[39mtimestamp)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 113 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 114 |\u001b[39m\n \u001b[90m 115 |\u001b[39m   test(\u001b[32m'should have reasonable response times'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                            "column": 37,
+                            "line": 112
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"2025-07-17T16:31:48.310\u001b[7m6279\u001b[27mZ\"\u001b[39m\nReceived: \u001b[31m\"2025-07-17T16:31:48.310Z\"\u001b[39m\n\n  110 |     // Validate timestamp format (ISO 8601)\n  111 |     const timestamp = new Date(responseJson.timestamp);\n> 112 |     expect(timestamp.toISOString()).toBe(responseJson.timestamp);\n      |                                     ^\n  113 |   });\n  114 |\n  115 |   test('should have reasonable response times', async ({ page }) => {\n    at C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts:112:37"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:46.813Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-safari\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-safari\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\odyssey\\e2e\\test-results\\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-safari\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\odyssey\\e2e\\tests\\api-health.spec.ts",
+                        "column": 37,
+                        "line": 112
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-257bddc3664ae9ec04ce",
+              "file": "api-health.spec.ts",
+              "line": 96,
+              "column": 7
+            },
+            {
+              "title": "should have reasonable response times",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-safari",
+                  "projectName": "mobile-safari",
+                  "results": [
+                    {
+                      "workerIndex": 32,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 1149,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:48.298Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-b8076a5be40f1c7c46f0",
+              "file": "api-health.spec.ts",
+              "line": 115,
+              "column": 7
+            },
+            {
+              "title": "should handle HTTP methods correctly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-safari",
+                  "projectName": "mobile-safari",
+                  "results": [
+                    {
+                      "workerIndex": 35,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 1202,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-17T16:31:48.316Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ae946921bd1fde7b4bfb-3d2a630bd0e2822ecad0",
+              "file": "api-health.spec.ts",
+              "line": 127,
+              "column": 7
+            }
+          ]
+        }
+      ]
     }
   ],
+  "errors": [],
   "stats": {
-    "startTime": "2025-07-17T16:21:35.966Z",
-    "duration": 60372.676,
-    "expected": 0,
+    "startTime": "2025-07-17T16:31:11.844Z",
+    "duration": 37722.413,
+    "expected": 35,
     "skipped": 0,
-    "unexpected": 0,
+    "unexpected": 15,
     "flaky": 0
   }
 }

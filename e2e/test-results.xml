@@ -1,2 +1,667 @@
-<testsuites id="" name="" tests="0" failures="0" skipped="0" errors="0" time="60.372676">
+<testsuites id="" name="" tests="50" failures="15" skipped="0" errors="0" time="37.722413">
+<testsuite name="api-health.spec.ts" timestamp="2025-07-17T16:31:12.157Z" hostname="chromium" tests="10" failures="3" skipped="0" time="23.322" errors="0">
+<testcase name="API Health Checks › should have API health endpoint accessible" classname="api-health.spec.ts" time="2.743">
+</testcase>
+<testcase name="API Health Checks › should have API health status endpoint accessible" classname="api-health.spec.ts" time="2.698">
+</testcase>
+<testcase name="API Health Checks › should have root endpoint accessible" classname="api-health.spec.ts" time="2.755">
+</testcase>
+<testcase name="API Health Checks › should return 404 for non-existent endpoints" classname="api-health.spec.ts" time="2.801">
+</testcase>
+<testcase name="API Health Checks › should handle CORS for Angular origin" classname="api-health.spec.ts" time="2.739">
+<failure message="api-health.spec.ts:47:7 should handle CORS for Angular origin" type="FAILURE">
+<![CDATA[  [chromium] › api-health.spec.ts:47:7 › API Health Checks › should handle CORS for Angular origin ─
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 204
+
+      54 |     });
+      55 |     
+    > 56 |     expect(response.status()).toBe(200);
+         |                               ^
+      57 |     
+      58 |     const corsHeader = response.headers()['access-control-allow-origin'];
+      59 |     expect(corsHeader).toBe('http://localhost:4200');
+        at C:\Projects\odyssey\e2e\tests\api-health.spec.ts:56:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-chromium\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-chromium\video.webm]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-chromium\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="API Health Checks › should reject unauthorized CORS origins" classname="api-health.spec.ts" time="2.738">
+<failure message="api-health.spec.ts:62:7 should reject unauthorized CORS origins" type="FAILURE">
+<![CDATA[  [chromium] › api-health.spec.ts:62:7 › API Health Checks › should reject unauthorized CORS origins 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 204
+
+      69 |     });
+      70 |     
+    > 71 |     expect(response.status()).toBe(200);
+         |                               ^
+      72 |     
+      73 |     const corsHeader = response.headers()['access-control-allow-origin'];
+      74 |     expect(corsHeader).toBeUndefined();
+        at C:\Projects\odyssey\e2e\tests\api-health.spec.ts:71:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-chromium\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-chromium\video.webm]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-chromium\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="API Health Checks › should handle concurrent requests" classname="api-health.spec.ts" time="2.728">
+</testcase>
+<testcase name="API Health Checks › should return valid JSON structure for status endpoint" classname="api-health.spec.ts" time="2.836">
+<failure message="api-health.spec.ts:96:7 should return valid JSON structure for status endpoint" type="FAILURE">
+<![CDATA[  [chromium] › api-health.spec.ts:96:7 › API Health Checks › should return valid JSON structure for status endpoint 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "2025-07-17T16:31:16.5031604Z"
+    Received: "2025-07-17T16:31:16.503Z"
+
+      110 |     // Validate timestamp format (ISO 8601)
+      111 |     const timestamp = new Date(responseJson.timestamp);
+    > 112 |     expect(timestamp.toISOString()).toBe(responseJson.timestamp);
+          |                                     ^
+      113 |   });
+      114 |
+      115 |   test('should have reasonable response times', async ({ page }) => {
+        at C:\Projects\odyssey\e2e\tests\api-health.spec.ts:112:37
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-chromium\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-chromium\video.webm]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-chromium\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="API Health Checks › should have reasonable response times" classname="api-health.spec.ts" time="0.649">
+</testcase>
+<testcase name="API Health Checks › should handle HTTP methods correctly" classname="api-health.spec.ts" time="0.635">
+</testcase>
+</testsuite>
+<testsuite name="api-health.spec.ts" timestamp="2025-07-17T16:31:12.157Z" hostname="firefox" tests="10" failures="3" skipped="0" time="51.34" errors="0">
+<testcase name="API Health Checks › should have API health endpoint accessible" classname="api-health.spec.ts" time="4.507">
+</testcase>
+<testcase name="API Health Checks › should have API health status endpoint accessible" classname="api-health.spec.ts" time="5.968">
+</testcase>
+<testcase name="API Health Checks › should have root endpoint accessible" classname="api-health.spec.ts" time="5.829">
+</testcase>
+<testcase name="API Health Checks › should return 404 for non-existent endpoints" classname="api-health.spec.ts" time="5.906">
+</testcase>
+<testcase name="API Health Checks › should handle CORS for Angular origin" classname="api-health.spec.ts" time="7.022">
+<failure message="api-health.spec.ts:47:7 should handle CORS for Angular origin" type="FAILURE">
+<![CDATA[  [firefox] › api-health.spec.ts:47:7 › API Health Checks › should handle CORS for Angular origin ──
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 204
+
+      54 |     });
+      55 |     
+    > 56 |     expect(response.status()).toBe(200);
+         |                               ^
+      57 |     
+      58 |     const corsHeader = response.headers()['access-control-allow-origin'];
+      59 |     expect(corsHeader).toBe('http://localhost:4200');
+        at C:\Projects\odyssey\e2e\tests\api-health.spec.ts:56:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-firefox\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-firefox\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-firefox\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-firefox\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-firefox\video.webm]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-firefox\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="API Health Checks › should reject unauthorized CORS origins" classname="api-health.spec.ts" time="4.853">
+<failure message="api-health.spec.ts:62:7 should reject unauthorized CORS origins" type="FAILURE">
+<![CDATA[  [firefox] › api-health.spec.ts:62:7 › API Health Checks › should reject unauthorized CORS origins 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 204
+
+      69 |     });
+      70 |     
+    > 71 |     expect(response.status()).toBe(200);
+         |                               ^
+      72 |     
+      73 |     const corsHeader = response.headers()['access-control-allow-origin'];
+      74 |     expect(corsHeader).toBeUndefined();
+        at C:\Projects\odyssey\e2e\tests\api-health.spec.ts:71:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-firefox\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-firefox\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-firefox\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-firefox\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-firefox\video.webm]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-firefox\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="API Health Checks › should handle concurrent requests" classname="api-health.spec.ts" time="4.611">
+</testcase>
+<testcase name="API Health Checks › should return valid JSON structure for status endpoint" classname="api-health.spec.ts" time="5.233">
+<failure message="api-health.spec.ts:96:7 should return valid JSON structure for status endpoint" type="FAILURE">
+<![CDATA[  [firefox] › api-health.spec.ts:96:7 › API Health Checks › should return valid JSON structure for status endpoint 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "2025-07-17T16:31:27.1865784Z"
+    Received: "2025-07-17T16:31:27.186Z"
+
+      110 |     // Validate timestamp format (ISO 8601)
+      111 |     const timestamp = new Date(responseJson.timestamp);
+    > 112 |     expect(timestamp.toISOString()).toBe(responseJson.timestamp);
+          |                                     ^
+      113 |   });
+      114 |
+      115 |   test('should have reasonable response times', async ({ page }) => {
+        at C:\Projects\odyssey\e2e\tests\api-health.spec.ts:112:37
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-firefox\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-firefox\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-firefox\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-firefox\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-firefox\video.webm]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-firefox\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="API Health Checks › should have reasonable response times" classname="api-health.spec.ts" time="3.905">
+</testcase>
+<testcase name="API Health Checks › should handle HTTP methods correctly" classname="api-health.spec.ts" time="3.506">
+</testcase>
+</testsuite>
+<testsuite name="api-health.spec.ts" timestamp="2025-07-17T16:31:12.157Z" hostname="webkit" tests="10" failures="3" skipped="0" time="32.057" errors="0">
+<testcase name="API Health Checks › should have API health endpoint accessible" classname="api-health.spec.ts" time="3.567">
+</testcase>
+<testcase name="API Health Checks › should have API health status endpoint accessible" classname="api-health.spec.ts" time="3.583">
+</testcase>
+<testcase name="API Health Checks › should have root endpoint accessible" classname="api-health.spec.ts" time="3.643">
+</testcase>
+<testcase name="API Health Checks › should return 404 for non-existent endpoints" classname="api-health.spec.ts" time="3.642">
+</testcase>
+<testcase name="API Health Checks › should handle CORS for Angular origin" classname="api-health.spec.ts" time="3.873">
+<failure message="api-health.spec.ts:47:7 should handle CORS for Angular origin" type="FAILURE">
+<![CDATA[  [webkit] › api-health.spec.ts:47:7 › API Health Checks › should handle CORS for Angular origin ───
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 204
+
+      54 |     });
+      55 |     
+    > 56 |     expect(response.status()).toBe(200);
+         |                               ^
+      57 |     
+      58 |     const corsHeader = response.headers()['access-control-allow-origin'];
+      59 |     expect(corsHeader).toBe('http://localhost:4200');
+        at C:\Projects\odyssey\e2e\tests\api-health.spec.ts:56:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-webkit\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-webkit\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-webkit\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-webkit\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-webkit\video.webm]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-webkit\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="API Health Checks › should reject unauthorized CORS origins" classname="api-health.spec.ts" time="3.776">
+<failure message="api-health.spec.ts:62:7 should reject unauthorized CORS origins" type="FAILURE">
+<![CDATA[  [webkit] › api-health.spec.ts:62:7 › API Health Checks › should reject unauthorized CORS origins ─
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 204
+
+      69 |     });
+      70 |     
+    > 71 |     expect(response.status()).toBe(200);
+         |                               ^
+      72 |     
+      73 |     const corsHeader = response.headers()['access-control-allow-origin'];
+      74 |     expect(corsHeader).toBeUndefined();
+        at C:\Projects\odyssey\e2e\tests\api-health.spec.ts:71:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-webkit\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-webkit\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-webkit\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-webkit\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-webkit\video.webm]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-webkit\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="API Health Checks › should handle concurrent requests" classname="api-health.spec.ts" time="3.625">
+</testcase>
+<testcase name="API Health Checks › should return valid JSON structure for status endpoint" classname="api-health.spec.ts" time="3.773">
+<failure message="api-health.spec.ts:96:7 should return valid JSON structure for status endpoint" type="FAILURE">
+<![CDATA[  [webkit] › api-health.spec.ts:96:7 › API Health Checks › should return valid JSON structure for status endpoint 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "2025-07-17T16:31:40.1622594Z"
+    Received: "2025-07-17T16:31:40.162Z"
+
+      110 |     // Validate timestamp format (ISO 8601)
+      111 |     const timestamp = new Date(responseJson.timestamp);
+    > 112 |     expect(timestamp.toISOString()).toBe(responseJson.timestamp);
+          |                                     ^
+      113 |   });
+      114 |
+      115 |   test('should have reasonable response times', async ({ page }) => {
+        at C:\Projects\odyssey\e2e\tests\api-health.spec.ts:112:37
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-webkit\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-webkit\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-webkit\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-webkit\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-webkit\video.webm]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-webkit\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="API Health Checks › should have reasonable response times" classname="api-health.spec.ts" time="1.268">
+</testcase>
+<testcase name="API Health Checks › should handle HTTP methods correctly" classname="api-health.spec.ts" time="1.307">
+</testcase>
+</testsuite>
+<testsuite name="api-health.spec.ts" timestamp="2025-07-17T16:31:12.157Z" hostname="mobile-chrome" tests="10" failures="3" skipped="0" time="18.6" errors="0">
+<testcase name="API Health Checks › should have API health endpoint accessible" classname="api-health.spec.ts" time="2.335">
+</testcase>
+<testcase name="API Health Checks › should have API health status endpoint accessible" classname="api-health.spec.ts" time="2.317">
+</testcase>
+<testcase name="API Health Checks › should have root endpoint accessible" classname="api-health.spec.ts" time="2.378">
+</testcase>
+<testcase name="API Health Checks › should return 404 for non-existent endpoints" classname="api-health.spec.ts" time="2.315">
+</testcase>
+<testcase name="API Health Checks › should handle CORS for Angular origin" classname="api-health.spec.ts" time="2.398">
+<failure message="api-health.spec.ts:47:7 should handle CORS for Angular origin" type="FAILURE">
+<![CDATA[  [mobile-chrome] › api-health.spec.ts:47:7 › API Health Checks › should handle CORS for Angular origin 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 204
+
+      54 |     });
+      55 |     
+    > 56 |     expect(response.status()).toBe(200);
+         |                               ^
+      57 |     
+      58 |     const corsHeader = response.headers()['access-control-allow-origin'];
+      59 |     expect(corsHeader).toBe('http://localhost:4200');
+        at C:\Projects\odyssey\e2e\tests\api-health.spec.ts:56:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-chrome\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-chrome\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-chrome\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-chrome\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-chrome\video.webm]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-chrome\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="API Health Checks › should reject unauthorized CORS origins" classname="api-health.spec.ts" time="2.367">
+<failure message="api-health.spec.ts:62:7 should reject unauthorized CORS origins" type="FAILURE">
+<![CDATA[  [mobile-chrome] › api-health.spec.ts:62:7 › API Health Checks › should reject unauthorized CORS origins 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 204
+
+      69 |     });
+      70 |     
+    > 71 |     expect(response.status()).toBe(200);
+         |                               ^
+      72 |     
+      73 |     const corsHeader = response.headers()['access-control-allow-origin'];
+      74 |     expect(corsHeader).toBeUndefined();
+        at C:\Projects\odyssey\e2e\tests\api-health.spec.ts:71:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-chrome\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-chrome\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-chrome\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-chrome\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-chrome\video.webm]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-chrome\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="API Health Checks › should handle concurrent requests" classname="api-health.spec.ts" time="1.611">
+</testcase>
+<testcase name="API Health Checks › should return valid JSON structure for status endpoint" classname="api-health.spec.ts" time="1.623">
+<failure message="api-health.spec.ts:96:7 should return valid JSON structure for status endpoint" type="FAILURE">
+<![CDATA[  [mobile-chrome] › api-health.spec.ts:96:7 › API Health Checks › should return valid JSON structure for status endpoint 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "2025-07-17T16:31:44.5691011Z"
+    Received: "2025-07-17T16:31:44.569Z"
+
+      110 |     // Validate timestamp format (ISO 8601)
+      111 |     const timestamp = new Date(responseJson.timestamp);
+    > 112 |     expect(timestamp.toISOString()).toBe(responseJson.timestamp);
+          |                                     ^
+      113 |   });
+      114 |
+      115 |   test('should have reasonable response times', async ({ page }) => {
+        at C:\Projects\odyssey\e2e\tests\api-health.spec.ts:112:37
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-chrome\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-chrome\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-chrome\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-chrome\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-chrome\video.webm]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-chrome\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="API Health Checks › should have reasonable response times" classname="api-health.spec.ts" time="0.565">
+</testcase>
+<testcase name="API Health Checks › should handle HTTP methods correctly" classname="api-health.spec.ts" time="0.691">
+</testcase>
+</testsuite>
+<testsuite name="api-health.spec.ts" timestamp="2025-07-17T16:31:12.157Z" hostname="mobile-safari" tests="10" failures="3" skipped="0" time="18.654" errors="0">
+<testcase name="API Health Checks › should have API health endpoint accessible" classname="api-health.spec.ts" time="1.897">
+</testcase>
+<testcase name="API Health Checks › should have API health status endpoint accessible" classname="api-health.spec.ts" time="2.102">
+</testcase>
+<testcase name="API Health Checks › should have root endpoint accessible" classname="api-health.spec.ts" time="2.006">
+</testcase>
+<testcase name="API Health Checks › should return 404 for non-existent endpoints" classname="api-health.spec.ts" time="1.905">
+</testcase>
+<testcase name="API Health Checks › should handle CORS for Angular origin" classname="api-health.spec.ts" time="2.245">
+<failure message="api-health.spec.ts:47:7 should handle CORS for Angular origin" type="FAILURE">
+<![CDATA[  [mobile-safari] › api-health.spec.ts:47:7 › API Health Checks › should handle CORS for Angular origin 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 204
+
+      54 |     });
+      55 |     
+    > 56 |     expect(response.status()).toBe(200);
+         |                               ^
+      57 |     
+      58 |     const corsHeader = response.headers()['access-control-allow-origin'];
+      59 |     expect(corsHeader).toBe('http://localhost:4200');
+        at C:\Projects\odyssey\e2e\tests\api-health.spec.ts:56:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-safari\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-safari\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-safari\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-safari\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-safari\video.webm]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-b5108-dle-CORS-for-Angular-origin-mobile-safari\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="API Health Checks › should reject unauthorized CORS origins" classname="api-health.spec.ts" time="2.301">
+<failure message="api-health.spec.ts:62:7 should reject unauthorized CORS origins" type="FAILURE">
+<![CDATA[  [mobile-safari] › api-health.spec.ts:62:7 › API Health Checks › should reject unauthorized CORS origins 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 204
+
+      69 |     });
+      70 |     
+    > 71 |     expect(response.status()).toBe(200);
+         |                               ^
+      72 |     
+      73 |     const corsHeader = response.headers()['access-control-allow-origin'];
+      74 |     expect(corsHeader).toBeUndefined();
+        at C:\Projects\odyssey\e2e\tests\api-health.spec.ts:71:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-safari\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-safari\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-safari\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-safari\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-safari\video.webm]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-cb87a-t-unauthorized-CORS-origins-mobile-safari\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="API Health Checks › should handle concurrent requests" classname="api-health.spec.ts" time="1.955">
+</testcase>
+<testcase name="API Health Checks › should return valid JSON structure for status endpoint" classname="api-health.spec.ts" time="1.892">
+<failure message="api-health.spec.ts:96:7 should return valid JSON structure for status endpoint" type="FAILURE">
+<![CDATA[  [mobile-safari] › api-health.spec.ts:96:7 › API Health Checks › should return valid JSON structure for status endpoint 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "2025-07-17T16:31:48.3106279Z"
+    Received: "2025-07-17T16:31:48.310Z"
+
+      110 |     // Validate timestamp format (ISO 8601)
+      111 |     const timestamp = new Date(responseJson.timestamp);
+    > 112 |     expect(timestamp.toISOString()).toBe(responseJson.timestamp);
+          |                                     ^
+      113 |   });
+      114 |
+      115 |   test('should have reasonable response times', async ({ page }) => {
+        at C:\Projects\odyssey\e2e\tests\api-health.spec.ts:112:37
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-safari\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-safari\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-safari\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-safari\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-safari\video.webm]]
+
+[[ATTACHMENT|test-results\api-health-API-Health-Chec-bf0b0-ructure-for-status-endpoint-mobile-safari\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="API Health Checks › should have reasonable response times" classname="api-health.spec.ts" time="1.149">
+</testcase>
+<testcase name="API Health Checks › should handle HTTP methods correctly" classname="api-health.spec.ts" time="1.202">
+</testcase>
+</testsuite>
 </testsuites>

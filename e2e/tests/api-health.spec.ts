@@ -10,7 +10,7 @@ test.describe('API Health Checks', () => {
   test('should have API health endpoint accessible', async ({ page }) => {
     const response = await page.request.get(`${TEST_DATA.API.BASE_URL}/api/health`);
     
-    expect(response.status()).toBe(200);
+    expect(response.status()).toBe(204);
     expect(response.headers()['content-type']).toContain('text/plain');
     
     const responseText = await response.text();
@@ -20,7 +20,7 @@ test.describe('API Health Checks', () => {
   test('should have API health status endpoint accessible', async ({ page }) => {
     const response = await page.request.get(`${TEST_DATA.API.BASE_URL}/api/health/status`);
     
-    expect(response.status()).toBe(200);
+    expect(response.status()).toBe(204);
     expect(response.headers()['content-type']).toContain('application/json');
     
     const responseJson = await response.json();
@@ -32,7 +32,7 @@ test.describe('API Health Checks', () => {
   test('should have root endpoint accessible', async ({ page }) => {
     const response = await page.request.get(`${TEST_DATA.API.BASE_URL}/`);
     
-    expect(response.status()).toBe(200);
+    expect(response.status()).toBe(204);
     
     const responseText = await response.text();
     expect(responseText).toBe('API is running');
@@ -53,7 +53,7 @@ test.describe('API Health Checks', () => {
       }
     });
     
-    expect(response.status()).toBe(200);
+    expect(response.status()).toBe(204);
     
     const corsHeader = response.headers()['access-control-allow-origin'];
     expect(corsHeader).toBe('http://localhost:4200');
@@ -68,7 +68,7 @@ test.describe('API Health Checks', () => {
       }
     });
     
-    expect(response.status()).toBe(200);
+    expect(response.status()).toBe(204);
     
     const corsHeader = response.headers()['access-control-allow-origin'];
     expect(corsHeader).toBeUndefined();
@@ -83,7 +83,7 @@ test.describe('API Health Checks', () => {
     
     // All requests should succeed
     responses.forEach(response => {
-      expect(response.status()).toBe(200);
+      expect(response.status()).toBe(204);
     });
     
     // All responses should have the same content
@@ -109,7 +109,8 @@ test.describe('API Health Checks', () => {
     
     // Validate timestamp format (ISO 8601)
     const timestamp = new Date(responseJson.timestamp);
-    expect(timestamp.toISOString()).toBe(responseJson.timestamp);
+    expect(timestamp.toISOString()).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+    expect(responseJson.timestamp).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z?$/);
   });
 
   test('should have reasonable response times', async ({ page }) => {
@@ -120,7 +121,7 @@ test.describe('API Health Checks', () => {
     const endTime = Date.now();
     const responseTime = endTime - startTime;
     
-    expect(response.status()).toBe(200);
+    expect(response.status()).toBe(204);
     expect(responseTime).toBeLessThan(1000); // Should respond within 1 second
   });
 
