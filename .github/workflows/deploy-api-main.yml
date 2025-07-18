@@ -149,8 +149,6 @@ jobs:
       
       - name: 🏗️ Build and Push Docker Image
         run: |
-          cd apps/api
-          
           # Use fixed service name for main deployment
           SERVICE_NAME="api-csharp-main"
           IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/api-images/${SERVICE_NAME}:${{ github.sha }}"
@@ -158,8 +156,8 @@ jobs:
           echo "🏷️ Building image: $IMAGE_NAME"
           echo "🔖 Service name: $SERVICE_NAME"
           
-          # Build and push the image
-          docker build -t $IMAGE_NAME .
+          # Build and push the image from repository root with correct context
+          docker build -t $IMAGE_NAME -f apps/api/Dockerfile .
           docker push $IMAGE_NAME
           
           # Store values for next step

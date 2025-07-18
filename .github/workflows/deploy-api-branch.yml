@@ -158,8 +158,6 @@ jobs:
       
       - name: 🏗️ Build and Push Docker Image
         run: |
-          cd apps/api
-          
           # Clean branch name for use in service names (remove special characters)
           CLEAN_BRANCH=$(echo "${{ inputs.branch_name }}" | sed 's/[^a-zA-Z0-9-]/-/g' | tr '[:upper:]' '[:lower:]' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
           SERVICE_NAME="api-csharp-${CLEAN_BRANCH}"
@@ -168,8 +166,8 @@ jobs:
           echo "🏷️ Building image: $IMAGE_NAME"
           echo "🔖 Service name: $SERVICE_NAME"
           
-          # Build and push the image
-          docker build -t $IMAGE_NAME .
+          # Build and push the image from repository root with correct context
+          docker build -t $IMAGE_NAME -f apps/api/Dockerfile .
           docker push $IMAGE_NAME
           
           # Store values for next step

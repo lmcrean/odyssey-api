@@ -4,10 +4,20 @@ EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
-COPY ["CompetitorAnalysis.Api.csproj", "."]
-RUN dotnet restore "./CompetitorAnalysis.Api.csproj"
-COPY . .
-WORKDIR "/src/."
+
+# Copy the project files first for better caching
+COPY ["apps/api/CompetitorAnalysis.Api.csproj", "apps/api/"]
+COPY ["packages/observability/csharp/CompetitorAnalysis.Observability.csproj", "packages/observability/csharp/"]
+
+# Restore dependencies
+RUN dotnet restore "apps/api/CompetitorAnalysis.Api.csproj"
+
+# Copy the entire source code
+COPY apps/api/ apps/api/
+COPY packages/observability/csharp/ packages/observability/csharp/
+
+# Build the application
+WORKDIR "/src/apps/api"
 RUN dotnet build "CompetitorAnalysis.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish

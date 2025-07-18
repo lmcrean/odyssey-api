@@ -24,7 +24,9 @@
       "Bash(grep:*)",
       "Bash(cp:*)",
       "Bash(copy:*)",
-      "Bash(dotnet clean:*)"
+      "Bash(dotnet clean:*)",
+      "Bash(gh secret:*)",
+      "Bash(docker build:*)"
     ],
     "deny": []
   }
