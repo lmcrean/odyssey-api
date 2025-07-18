@@ -38,6 +38,19 @@ test.describe('API Health Checks', () => {
     expect(responseText).toBe('API is running');
   });
 
+  test('should have direct health endpoint accessible', async ({ page }) => {
+    const response = await page.request.get(`${TEST_DATA.API.BASE_URL}/health`);
+    
+    expect(response.status()).toBe(200);
+    expect(response.headers()['content-type']).toContain('application/json');
+    
+    const responseJson = await response.json();
+    expect(responseJson.status).toBe('healthy');
+    expect(responseJson.message).toBe(TEST_DATA.API.EXPECTED_HEALTH_MESSAGE);
+    expect(responseJson.version).toBe(TEST_DATA.API.EXPECTED_VERSION);
+    expect(responseJson.timestamp).toBeDefined();
+  });
+
   test('should return 404 for non-existent endpoints', async ({ page }) => {
     const response = await page.request.get(`${TEST_DATA.API.BASE_URL}/api/nonexistent`);
     
@@ -48,7 +61,7 @@ test.describe('API Health Checks', () => {
     const response = await page.request.fetch(`${TEST_DATA.API.BASE_URL}/api/health`, {
       method: 'OPTIONS',
       headers: {
-        'Origin': 'http://localhost:4200',
+        'Origin': TEST_DATA.WEB.BASE_URL,
         'Access-Control-Request-Method': 'GET'
       }
     });
@@ -56,7 +69,7 @@ test.describe('API Health Checks', () => {
     expect(response.status()).toBe(204);
     
     const corsHeader = response.headers()['access-control-allow-origin'];
-    expect(corsHeader).toBe('http://localhost:4200');
+    expect(corsHeader).toBe(TEST_DATA.WEB.BASE_URL);
   });
 
   test('should reject unauthorized CORS origins', async ({ page }) => {

@@ -1,12 +1,25 @@
+// Configuration that adapts to environment (local vs production)
+const getApiUrl = () => {
+  return process.env.API_DEPLOYMENT_URL || 
+         process.env.CLOUD_RUN_URL || 
+         'http://localhost:5000';
+};
+
+const getWebUrl = () => {
+  return process.env.WEB_DEPLOYMENT_URL || 
+         process.env.FIREBASE_HOSTING_URL || 
+         'http://localhost:4200';
+};
+
 export const TEST_DATA = {
   API: {
-    BASE_URL: 'http://localhost:5000',
+    BASE_URL: getApiUrl(),
     EXPECTED_HEALTH_MESSAGE: 'Hello World from C# API!',
     EXPECTED_STATUS_MESSAGE: 'Hello World from Competitor Analysis API',
     EXPECTED_VERSION: '1.0.0'
   },
   WEB: {
-    BASE_URL: 'http://localhost:4200',
+    BASE_URL: getWebUrl(),
     TITLE: 'Competitor Analysis Dashboard'
   },
   MESSAGES: {
