@@ -56,8 +56,15 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Health check endpoint for Google Cloud Run
+// Health check endpoints for Google Cloud Run
 app.MapGet("/", () => "API is running");
+app.MapGet("/health", () => Results.Ok(new 
+{
+    status = "healthy",
+    message = "Hello World from C# API!",
+    timestamp = DateTime.UtcNow,
+    version = "1.0.0"
+}));
 
 app.Run();
 
