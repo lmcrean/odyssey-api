@@ -10,6 +10,9 @@
     "test:api": "playwright test tests/api-health.spec.ts",
     "test:parallel": "playwright test --workers=4",
     "test:serial": "playwright test --workers=1",
+    "test:production": "playwright test --config=playwright.config.production.ts",
+    "test:production:headed": "playwright test --config=playwright.config.production.ts --headed",
+    "test:production:debug": "playwright test --config=playwright.config.production.ts --debug",
     "report": "playwright show-report",
     "install-browsers": "playwright install"
   },
