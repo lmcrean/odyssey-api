@@ -106,9 +106,9 @@ jobs:
         run: |
           cd e2e
           
-          # Run e2e tests using the updated command
-          echo "🎭 Running e2e tests..."
-          npm run test
+          # Run e2e tests using the production configuration
+          echo "🎭 Running e2e tests against deployed services..."
+          npm run test:production
           
           echo "✅ E2E tests completed successfully"
         env:

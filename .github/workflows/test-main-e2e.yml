@@ -99,10 +99,12 @@ jobs:
         run: |
           echo "🚀 Running main production E2E tests..."
           cd e2e
-          npm run test:main
+          npm run test:production
         env:
-          WEB_URL: ${{ inputs.web_url }}
-          API_URL: ${{ inputs.api_url }}
+          WEB_DEPLOYMENT_URL: ${{ inputs.web_url }}
+          API_DEPLOYMENT_URL: ${{ inputs.api_url }}
+          FIREBASE_HOSTING_URL: ${{ inputs.web_url }}
+          CLOUD_RUN_URL: ${{ inputs.api_url }}
         continue-on-error: true
       
       - name: 📊 Upload E2E Test Results
