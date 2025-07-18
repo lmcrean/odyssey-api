@@ -28,8 +28,8 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
                 "http://localhost:4200", 
                 "https://localhost:4200",
-                "https://lauriecrean-free-38256.web.app",
-                "https://lauriecrean-free-38256.firebaseapp.com"
+                "https://odyssey-466315.web.app",
+                "https://odyssey-466315.firebaseapp.com"
               )
               .AllowAnyHeader()
               .AllowAnyMethod();

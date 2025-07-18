@@ -14,7 +14,7 @@ export default defineConfig({
   ],
   use: {
     // Use deployed web app URL from environment variable
-    baseURL: process.env.WEB_DEPLOYMENT_URL || process.env.FIREBASE_HOSTING_URL || 'https://lauriecrean-free-38256.web.app',
+    baseURL: process.env.WEB_DEPLOYMENT_URL || process.env.FIREBASE_HOSTING_URL || 'https://odyssey-466315.web.app',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',

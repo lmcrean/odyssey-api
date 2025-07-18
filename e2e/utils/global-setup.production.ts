@@ -4,7 +4,7 @@ async function globalSetup(config: FullConfig) {
   console.log('🚀 Starting global setup for production E2E tests...');
   
   // Get URLs from environment variables
-  const webUrl = process.env.WEB_DEPLOYMENT_URL || process.env.FIREBASE_HOSTING_URL || 'https://lauriecrean-free-38256.web.app';
+  const webUrl = process.env.WEB_DEPLOYMENT_URL || process.env.FIREBASE_HOSTING_URL || 'https://odyssey-466315.web.app';
   const apiUrl = process.env.API_DEPLOYMENT_URL || process.env.CLOUD_RUN_URL;
   
   if (!apiUrl) {

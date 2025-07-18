@@ -267,7 +267,7 @@ jobs:
           # Test CORS by making a preflight request
           echo "🌐 Testing CORS configuration..."
           CORS_RESPONSE=$(curl -s -X OPTIONS "$API_URL/health" \
-            -H "Origin: https://lauriecrean-free-38256.web.app" \
+            -H "Origin: https://odyssey-466315.web.app" \
             -H "Access-Control-Request-Method: GET" \
             -H "Access-Control-Request-Headers: Content-Type" \
             -w "%{http_code}" -o /dev/null)

@@ -93,7 +93,7 @@ jobs:
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LAURIECREAN_FREE_38256 }}
-          projectId: lauriecrean-free-38256
+          projectId: odyssey-466315
           channelId: branch-${{ inputs.pr_number }}
           entryPoint: apps/web
         id: deploy
@@ -101,7 +101,7 @@ jobs:
       - name: 🔗 Set Deployment URL
         id: set_url
         run: |
-          # Firebase creates URLs in format: https://lauriecrean-free-38256--branch-123-abcdef.web.app
+          # Firebase creates URLs in format: https://odyssey-466315--branch-123-abcdef.web.app
           DEPLOYMENT_URL="${{ steps.deploy.outputs.details_url }}"
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
       
