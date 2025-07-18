@@ -64,7 +64,7 @@ jobs:
         run: |
           cd e2e
           echo "🏥 Running API health tests at: ${{ inputs.api_deployment_url }}"
-          npm run test:api
+          npm run test:api:production
         env:
           API_BASE_URL: ${{ inputs.api_deployment_url }}
           API_DEPLOYMENT_URL: ${{ inputs.api_deployment_url }}
@@ -76,7 +76,7 @@ jobs:
         run: |
           cd e2e
           echo "🎯 Running integration tests at: ${{ inputs.api_deployment_url }}"
-          npm run test:hello-world
+          npm run test:hello-world:production
         env:
           API_BASE_URL: ${{ inputs.api_deployment_url }}
           API_DEPLOYMENT_URL: ${{ inputs.api_deployment_url }}

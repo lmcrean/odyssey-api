@@ -83,7 +83,11 @@ jobs:
         run: |
           echo "🧪 Running API integration tests..."
           cd e2e
-          npm run test:api:main
+          npm run test:api:production
+        env:
+          API_BASE_URL: ${{ inputs.api_deployment_url }}
+          API_DEPLOYMENT_URL: ${{ inputs.api_deployment_url }}
+          CLOUD_RUN_URL: ${{ inputs.api_deployment_url }}
         continue-on-error: true
       
       - name: 📊 API Test Summary
