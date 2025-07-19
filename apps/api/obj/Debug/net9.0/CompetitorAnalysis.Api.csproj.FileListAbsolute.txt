@@ -1,0 +1,7 @@
+C:\Projects\odyssey\apps\api\bin\Debug\net9.0\CompetitorAnalysis.Api.exe
+C:\Projects\odyssey\apps\api\bin\Debug\net9.0\CompetitorAnalysis.Api.dll
+C:\Projects\odyssey\apps\api\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Projects\odyssey\apps\api\bin\Debug\net9.0\Microsoft.OpenApi.dll
+C:\Projects\odyssey\apps\api\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Projects\odyssey\apps\api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Projects\odyssey\apps\api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll

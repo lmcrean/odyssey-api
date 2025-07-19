@@ -1,0 +1,36 @@
+{
+  "name": "e2e-tests",
+  "version": "1.0.0",
+  "description": "End-to-end tests for Competitor Analysis Dashboard",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:api:local": "playwright test tests/api-health.spec.ts --config=playwright.config.api.local.ts",
+    "test:api:branch": "playwright test tests/api-health.spec.ts --config=playwright.config.api.production.branch.ts",
+    "test:api:main": "playwright test tests/api-health.spec.ts --config=playwright.config.api.production.main.ts",
+    "test:web:local": "playwright test --config=playwright.config.web.local.ts",
+    "test:web:branch": "playwright test --config=playwright.config.web.production.branch.ts",
+    "test:web:main": "playwright test --config=playwright.config.web.production.main.ts",
+    "test:hello-world": "playwright test tests/hello-world.spec.ts",
+    "test:hello-world:branch": "playwright test tests/hello-world.spec.ts --config=playwright.config.web.production.branch.ts",
+    "test:hello-world:main": "playwright test tests/hello-world.spec.ts --config=playwright.config.web.production.main.ts",
+    "test:parallel": "playwright test --workers=4",
+    "test:serial": "playwright test --workers=1",
+    "test:production": "playwright test --config=playwright.config.production.ts",
+    "report": "playwright show-report",
+    "install-browsers": "playwright install"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "e2e",
+    "playwright",
+    "testing",
+    "angular",
+    "aspnet"
+  ]
+}

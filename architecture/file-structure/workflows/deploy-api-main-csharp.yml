@@ -1,0 +1,291 @@
+# Deploy C# ASP.NET Core API to Google Cloud Run (Main Branch)
+
+name: Deploy C# API to Google Cloud Run (Main)
+
+on:
+  workflow_call:
+    outputs:
+      deployment_url:
+        description: "API deployment URL"
+        value: ${{ jobs.deploy.outputs.deployment_url }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    outputs:
+      deployment_url: ${{ steps.deploy.outputs.deployment_url }}
+    
+    steps:
+      - name: 🛒 Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: 🔧 Setup .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      
+      - name: 📦 Restore NuGet Packages
+        run: |
+          cd apps/api
+          dotnet restore
+      
+      - name: 🏗️ Build C# API
+        run: |
+          cd apps/api
+          dotnet build --configuration Release --no-restore
+      
+      - name: 🧪 Run Unit Tests
+        run: |
+          cd apps/api
+          dotnet test --configuration Release --no-build --verbosity normal
+      
+      - name: 🔐 Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      
+      - name: 🛠️ Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+      
+      - name: 🔍 Validate GCP Authentication & Permissions
+        run: |
+          echo "=== 🔐 VALIDATING GCP AUTHENTICATION ==="
+          
+          # Test basic authentication
+          if gcloud auth list --filter=status:ACTIVE --format="value(account)"; then
+            echo "✅ Successfully authenticated to GCP"
+          else
+            echo "❌ GCP authentication failed"
+            exit 1
+          fi
+          
+          # Verify project access
+          PROJECT_ID=$(gcloud config get-value project)
+          echo "📋 Current project: $PROJECT_ID"
+          
+          if [ "$PROJECT_ID" != "${{ secrets.GCP_PROJECT_ID }}" ]; then
+            echo "❌ Project mismatch! Expected: ${{ secrets.GCP_PROJECT_ID }}, Got: $PROJECT_ID"
+            exit 1
+          fi
+          
+          # Check if Cloud Run API is enabled
+          echo "🔌 Checking Cloud Run API..."
+          if gcloud services list --enabled --filter="name:run.googleapis.com" --format="value(name)"; then
+            echo "✅ Cloud Run API is enabled"
+          else
+            echo "❌ Cloud Run API is not enabled"
+            gcloud services enable run.googleapis.com
+          fi
+          
+          # Check if Cloud SQL API is enabled (for database)
+          echo "🔌 Checking Cloud SQL API..."
+          if gcloud services list --enabled --filter="name:sql-component.googleapis.com" --format="value(name)"; then
+            echo "✅ Cloud SQL API is enabled"
+          else
+            echo "❌ Cloud SQL API is not enabled"
+            gcloud services enable sql-component.googleapis.com
+          fi
+          
+          # Check if Secret Manager API is enabled
+          echo "🔌 Checking Secret Manager API..."
+          if gcloud services list --enabled --filter="name:secretmanager.googleapis.com" --format="value(name)"; then
+            echo "✅ Secret Manager API is enabled"
+          else
+            echo "❌ Secret Manager API is not enabled"
+            gcloud services enable secretmanager.googleapis.com
+          fi
+      
+      - name: 🐳 Configure Docker for Artifact Registry
+        run: |
+          gcloud auth configure-docker us-central1-docker.pkg.dev
+      
+      - name: 📝 Create Dockerfile for ASP.NET Core
+        run: |
+          cd apps/api
+          cat > Dockerfile << 'EOF'
+          # Use the official ASP.NET Core runtime as the base image
+          FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+          WORKDIR /app
+          EXPOSE 8080
+          
+          # Use the SDK image to build the app
+          FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+          WORKDIR /src
+          
+          # Copy project files and restore dependencies
+          COPY ["*.csproj", "./"]
+          RUN dotnet restore
+          
+          # Copy source code and build
+          COPY . .
+          RUN dotnet publish -c Release -o /app/publish
+          
+          # Final stage - runtime image
+          FROM base AS final
+          WORKDIR /app
+          COPY --from=build /app/publish .
+          
+          # Create non-root user for security
+          RUN adduser --disabled-password --gecos "" appuser && chown -R appuser /app
+          USER appuser
+          
+          # Configure ASP.NET Core for Cloud Run
+          ENV ASPNETCORE_URLS=http://0.0.0.0:8080
+          ENV ASPNETCORE_ENVIRONMENT=Production
+          
+          ENTRYPOINT ["dotnet", "CompetitorAnalysis.Api.dll"]
+          EOF
+      
+      - name: 🏗️ Build and Push Docker Image
+        run: |
+          cd apps/api
+          
+          # Use fixed service name for main deployment
+          SERVICE_NAME="competitor-api-main"
+          IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/api-images/${SERVICE_NAME}:${{ github.sha }}"
+          
+          echo "🏷️ Building image: $IMAGE_NAME"
+          echo "🔖 Service name: $SERVICE_NAME"
+          
+          # Create repository if it doesn't exist
+          gcloud artifacts repositories create api-images \
+            --repository-format=docker \
+            --location=us-central1 \
+            --description="C# API Docker images for production deployment" || true
+          
+          # Build and push the image
+          docker build -t $IMAGE_NAME .
+          docker push $IMAGE_NAME
+          
+          # Store values for next step
+          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
+          echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
+      
+      - name: 🗄️ Setup Cloud SQL Database
+        run: |
+          # Check if Cloud SQL instance exists
+          INSTANCE_NAME="competitor-analysis-db"
+          if ! gcloud sql instances describe $INSTANCE_NAME --format="value(name)" 2>/dev/null; then
+            echo "🗄️ Creating Cloud SQL instance..."
+            gcloud sql instances create $INSTANCE_NAME \
+              --database-version=POSTGRES_15 \
+              --tier=db-f1-micro \
+              --region=us-central1 \
+              --storage-type=SSD \
+              --storage-size=10GB \
+              --backup-start-time=03:00 \
+              --maintenance-window-day=SUN \
+              --maintenance-window-hour=4
+          else
+            echo "✅ Cloud SQL instance already exists"
+          fi
+          
+          # Create database if it doesn't exist
+          DATABASE_NAME="competitoranalysis"
+          if ! gcloud sql databases describe $DATABASE_NAME --instance=$INSTANCE_NAME --format="value(name)" 2>/dev/null; then
+            echo "🗄️ Creating database..."
+            gcloud sql databases create $DATABASE_NAME --instance=$INSTANCE_NAME
+          else
+            echo "✅ Database already exists"
+          fi
+          
+          # Store connection string in Secret Manager
+          CONNECTION_STRING="Host=/cloudsql/${{ secrets.GCP_PROJECT_ID }}:us-central1:$INSTANCE_NAME;Database=$DATABASE_NAME;Username=postgres;Password=${{ secrets.DB_PASSWORD }}"
+          
+          # Create or update secret
+          if ! gcloud secrets describe db-connection-string --format="value(name)" 2>/dev/null; then
+            echo "🔐 Creating database connection secret..."
+            echo "$CONNECTION_STRING" | gcloud secrets create db-connection-string --data-file=-
+          else
+            echo "🔐 Updating database connection secret..."
+            echo "$CONNECTION_STRING" | gcloud secrets versions add db-connection-string --data-file=-
+          fi
+      
+      - name: 🚀 Deploy to Cloud Run
+        id: deploy
+        run: |
+          # Validate required secrets
+          if [ -z "${{ secrets.JWT_SECRET_KEY }}" ]; then
+            echo "❌ ERROR: JWT_SECRET_KEY secret is not set!"
+            exit 1
+          fi
+          
+          if [ -z "${{ secrets.DB_PASSWORD }}" ]; then
+            echo "❌ ERROR: DB_PASSWORD secret is not set!"
+            exit 1
+          fi
+          
+          # Deploy main production service
+          echo "🚀 Deploying main production service with name: $SERVICE_NAME"
+          gcloud run deploy $SERVICE_NAME \
+            --image $IMAGE_NAME \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated \
+            --memory=512Mi \
+            --cpu=1 \
+            --min-instances=0 \
+            --max-instances=10 \
+            --timeout=300s \
+            --concurrency=100 \
+            --add-cloudsql-instances=${{ secrets.GCP_PROJECT_ID }}:us-central1:competitor-analysis-db \
+            --set-env-vars="ASPNETCORE_ENVIRONMENT=Production" \
+            --set-secrets="ConnectionStrings__DefaultConnection=db-connection-string:latest" \
+            --set-secrets="JwtSettings__SecretKey=jwt-secret-key:latest" \
+            --port=8080
+          
+          # Get the service URL
+          SERVICE_URL=$(gcloud run services describe $SERVICE_NAME --platform managed --region us-central1 --format 'value(status.url)')
+          
+          echo "🌐 Main production service deployed at: $SERVICE_URL"
+          echo "deployment_url=$SERVICE_URL" >> $GITHUB_OUTPUT
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      
+      - name: ✅ Validate API Deployment
+        run: |
+          API_URL="${{ steps.deploy.outputs.deployment_url }}"
+          echo "🔍 Testing main production API at: $API_URL"
+          
+          # Test health endpoint with retry
+          for i in {1..10}; do
+            echo "🏥 Health check attempt $i/10..."
+            
+            if curl -s -f "$API_URL/health" -m 30; then
+              echo "✅ API responded successfully!"
+              break
+            else
+              echo "❌ API health endpoint failed"
+              
+              if [ $i -eq 10 ]; then
+                echo "❌ API health check failed after 10 attempts"
+                exit 1
+              fi
+            fi
+            
+            echo "⏳ Waiting 15 seconds before retry..."
+            sleep 15
+          done
+          
+          # Test CORS configuration
+          echo "🌐 Testing CORS configuration..."
+          CORS_RESPONSE=$(curl -s -X OPTIONS "$API_URL/health" \
+            -H "Origin: https://localhost:4200" \
+            -H "Access-Control-Request-Method: GET" \
+            -H "Access-Control-Request-Headers: Content-Type" \
+            -w "%{http_code}" -o /dev/null)
+          
+          if [ "$CORS_RESPONSE" = "200" ]; then
+            echo "✅ CORS configuration is working correctly!"
+          else
+            echo "⚠️ CORS preflight returned status: $CORS_RESPONSE"
+          fi
+      
+      - name: 📊 Deployment Summary
+        run: |
+          echo "🎯 Main Production C# API Deployment Complete!"
+          echo "📍 URL: ${{ steps.deploy.outputs.deployment_url }}"
+          echo "🏷️ Service: $SERVICE_NAME"
+          echo "✅ Health check passed"
