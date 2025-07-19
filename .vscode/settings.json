@@ -20,7 +20,7 @@
       "**/CVS": true
    },
    "files.autoSave": "afterDelay",
-   "workbench.colorTheme": "codeSTACKr Theme",
+   "workbench.colorTheme": "Default Dark Modern",
    "terminal.integrated.gpuAcceleration": "canvas",
    "editor.defaultFormatter": "HookyQR.beautify",
    "files.showHiddenFiles": true
