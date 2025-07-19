@@ -65,29 +65,28 @@ jobs:
           
           cd apps/web
           
-          # Create environment file for build (legacy approach)
-          echo "REACT_APP_API_BASE_URL=${{ inputs.api_url }}" > .env.production
-          echo "DOCUSAURUS_API_BASE_URL=${{ inputs.api_url }}" >> .env.production
+          # Update Angular environment for production build
+          sed -i "s|apiUrl: '.*'|apiUrl: '${{ inputs.api_url }}'|g" src/environments/environment.prod.ts
+          echo "📝 Updated environment.prod.ts with API URL: ${{ inputs.api_url }}"
           
-          # Create dynamic runtime config (new simple approach)
+          # Create runtime config for dynamic loading
           mkdir -p src/assets
           echo "window.APP_CONFIG = { apiBaseUrl: '${{ inputs.api_url }}' };" > src/assets/config.js
-          echo "📝 Generated config.js with API URL: ${{ inputs.api_url }}"
+          echo "📝 Generated runtime config.js with API URL: ${{ inputs.api_url }}"
           
           echo "✅ API integration configured"
       
       - name: 🧪 Run Web Tests
         run: |
           cd apps/web
-          npm test 2>/dev/null || echo "⚠️ Tests not configured or failed"
+          npm run test -- --run --reporter=verbose 2>/dev/null || echo "⚠️ Tests not configured or failed"
       
       - name: 🏗️ Build Web App
         run: |
           cd apps/web
           npm run build
         env:
-          REACT_APP_API_BASE_URL: ${{ inputs.api_url }}
-          DOCUSAURUS_API_BASE_URL: ${{ inputs.api_url }}
+          NODE_ENV: production
       
       - name: 🔐 Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
