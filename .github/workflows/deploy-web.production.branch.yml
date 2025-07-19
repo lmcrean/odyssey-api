@@ -27,16 +27,20 @@ jobs:
       - name: 🛒 Checkout Repository
         uses: actions/checkout@v4
       
+      - name: 📋 Load Project Configuration
+        id: config
+        uses: ./.github/actions/load-config
+      
       - name: 📦 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: apps/web/package-lock.json
+          cache-dependency-path: ${{ steps.config.outputs.web-entry-point }}/package-lock.json
       
       - name: 📥 Install Web Dependencies  
         run: |
-          cd apps/web
+          cd ${{ steps.config.outputs.web-entry-point }}
           echo "🔍 Checking package-lock.json sync..."
           
           # Try npm ci first (preferred for CI)
@@ -63,28 +67,28 @@ jobs:
             exit 1
           fi
           
-          cd apps/web
+          cd ${{ steps.config.outputs.web-entry-point }}
           
           # Update Angular environment for production build
-          sed -i "s|apiUrl: '.*'|apiUrl: '${{ inputs.api_url }}'|g" src/environments/environment.prod.ts
-          echo "📝 Updated environment.prod.ts with API URL: ${{ inputs.api_url }}"
+          sed -i "s|apiUrl: '.*'|apiUrl: '${{ inputs.api_url }}'|g" ${{ steps.config.outputs.web-environment-file }}
+          echo "📝 Updated ${{ steps.config.outputs.web-environment-file }} with API URL: ${{ inputs.api_url }}"
           
           # Create runtime config for dynamic loading
-          mkdir -p src/assets
-          echo "window.APP_CONFIG = { apiBaseUrl: '${{ inputs.api_url }}' };" > src/assets/config.js
-          echo "📝 Generated runtime config.js with API URL: ${{ inputs.api_url }}"
+          mkdir -p $(dirname ${{ steps.config.outputs.web-config-file }})
+          echo "window.APP_CONFIG = { apiBaseUrl: '${{ inputs.api_url }}' };" > ${{ steps.config.outputs.web-config-file }}
+          echo "📝 Generated ${{ steps.config.outputs.web-config-file }} with API URL: ${{ inputs.api_url }}"
           
           echo "✅ API integration configured"
       
       - name: 🧪 Run Web Tests
         run: |
-          cd apps/web
-          npm run test -- --run --reporter=verbose 2>/dev/null || echo "⚠️ Tests not configured or failed"
+          cd ${{ steps.config.outputs.web-entry-point }}
+          ${{ steps.config.outputs.web-test-command }} 2>/dev/null || echo "⚠️ Tests not configured or failed"
       
       - name: 🏗️ Build Web App
         run: |
-          cd apps/web
-          npm run build
+          cd ${{ steps.config.outputs.web-entry-point }}
+          ${{ steps.config.outputs.web-build-command }}
         env:
           NODE_ENV: production
       
@@ -93,15 +97,15 @@ jobs:
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
-          projectId: lauriecrean-free-38256
+          projectId: ${{ steps.config.outputs.firebase-project-id }}
           channelId: branch-${{ inputs.pr_number }}
-          entryPoint: apps/web
+          entryPoint: ${{ steps.config.outputs.web-entry-point }}
         id: deploy
       
       - name: 🔗 Set Deployment URL
         id: set_url
         run: |
-          # Firebase creates URLs in format: https://lauriecrean-free-38256--branch-123-abcdef.web.app
+          # Firebase creates URLs in format: https://${{ steps.config.outputs.firebase-project-id }}--branch-123-abcdef.web.app
           DEPLOYMENT_URL="${{ steps.deploy.outputs.details_url }}"
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
       

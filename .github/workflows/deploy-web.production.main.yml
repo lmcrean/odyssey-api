@@ -87,7 +87,7 @@ jobs:
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
-          projectId: lauriecrean-free-38256
+          projectId: odyssey-466315
           channelId: live
           entryPoint: apps/web
         id: deploy
@@ -120,7 +120,7 @@ jobs:
             echo "✅ Using first URL from Firebase action: $DEPLOYMENT_URL"
           else
             # Fallback to predictable Firebase main URL
-            DEPLOYMENT_URL="https://lauriecrean-free-38256.web.app"
+            DEPLOYMENT_URL="https://odyssey-466315.web.app"
             echo "⚠️ Firebase action outputs empty, using fallback URL: $DEPLOYMENT_URL"
           fi
           
