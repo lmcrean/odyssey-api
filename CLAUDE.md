@@ -8,6 +8,7 @@ Comprehensive project documentation is organized in the `/docs` directory:
 - **[structure.md](docs/structure.md)** - Codebase organization and directory layout
 - **[development.md](docs/development.md)** - Development commands and workflows
 - **[deployment.md](docs/deployment.md)** - Cloud deployment configuration
+- **[workflows.md](docs/workflows.md)** -- github actions deployment workflow
 
 ## Quick Reference
 
