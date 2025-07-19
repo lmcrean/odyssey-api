@@ -55,6 +55,6 @@ export default defineConfig({
   timeout: 120000,
 
   // Use full global setup that checks both web and API
-  globalSetup: './utils/global-setup.web.main.ts',
+  globalSetup: './utils/global-setup.web.production.main.ts',
   globalTeardown: './utils/global-teardown.ts',
 });

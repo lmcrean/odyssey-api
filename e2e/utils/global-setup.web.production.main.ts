@@ -1,19 +1,20 @@
 import { FullConfig } from '@playwright/test';
 
 async function globalSetup(config: FullConfig) {
-  console.log('🚀 Starting global setup for Web + API E2E tests (Main Branch)...');
+  console.log('🚀 Starting global setup for Web + API E2E tests (Production - Main Branch)...');
   
-  // For main branch, use stable production URLs
+  // For main branch production deployments
   const webUrl = process.env.WEB_DEPLOYMENT_URL || 
                  process.env.FIREBASE_HOSTING_URL || 
                  'https://odyssey-466315.web.app';
   const apiUrl = process.env.API_DEPLOYMENT_URL || 
                  process.env.API_BASE_URL || 
-                 process.env.CLOUD_RUN_URL || 
+                 process.env.CLOUD_RUN_URL ||
                  'https://api-odyssey-466315-tjmqnedl6a-uc.a.run.app';
   
   console.log(`🌐 Web URL: ${webUrl}`);
   console.log(`🔗 API URL: ${apiUrl}`);
+  console.log(`📍 Environment: Production - Main Branch`);
   
   // Wait for both services to be ready
   await Promise.all([

@@ -1,18 +1,16 @@
 import { FullConfig } from '@playwright/test';
 
 async function globalSetup(config: FullConfig) {
-  console.log('🚀 Starting global setup for API E2E tests (Production)...');
+  console.log('🚀 Starting global setup for API E2E tests (Production - Main Branch)...');
   
-  // Get API URL from environment variables (works for both main and branch deployments)
+  // For main branch production deployments
   const apiUrl = process.env.API_DEPLOYMENT_URL || 
                  process.env.API_BASE_URL || 
-                 process.env.CLOUD_RUN_URL;
-  
-  if (!apiUrl) {
-    throw new Error('❌ API_DEPLOYMENT_URL or CLOUD_RUN_URL environment variable is required for production E2E tests');
-  }
+                 process.env.CLOUD_RUN_URL ||
+                 'https://api-odyssey-466315-tjmqnedl6a-uc.a.run.app';
   
   console.log(`🔗 API URL: ${apiUrl}`);
+  console.log(`📍 Environment: Production - Main Branch`);
   
   // Wait for API to be ready
   await waitForService(apiUrl, 'API');
