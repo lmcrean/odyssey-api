@@ -28,7 +28,8 @@
       "Bash(gh secret:*)",
       "Bash(docker build:*)",
       "Bash(mv:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(powershell:*)"
     ],
     "deny": []
   }
