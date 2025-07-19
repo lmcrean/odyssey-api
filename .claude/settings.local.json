@@ -29,7 +29,8 @@
       "Bash(docker build:*)",
       "Bash(mv:*)",
       "Bash(rm:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(ls:*)"
     ],
     "deny": []
   }
