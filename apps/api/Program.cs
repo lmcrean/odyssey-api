@@ -29,7 +29,8 @@ builder.Services.AddCors(options =>
                 "http://localhost:4200", 
                 "https://localhost:4200",
                 "https://odyssey-466315.web.app",
-                "https://odyssey-466315.firebaseapp.com"
+                "https://odyssey-466315.firebaseapp.com",
+                "https://*.web.app"
               )
               .AllowAnyHeader()
               .AllowAnyMethod();
