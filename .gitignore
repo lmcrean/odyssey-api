@@ -36,4 +36,4 @@ combined_repo.md
 .archive/backend-ts-reference/**
 .archive/backend-js-reference/**
 
-.claude/*
+.claude
