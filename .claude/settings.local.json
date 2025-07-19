@@ -30,7 +30,9 @@
       "Bash(mv:*)",
       "Bash(rm:*)",
       "Bash(powershell:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(yq:*)",
+      "Bash(where yq)"
     ],
     "deny": []
   }
