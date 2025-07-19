@@ -117,7 +117,7 @@ runs:
         APP_NAME=$(yq '.project.app.name' "$CONFIG_FILE")
         API_SERVICE_NAME_PATTERN=$(yq '.project.app.api.service_name_pattern' "$CONFIG_FILE")
         API_HEALTH_ENDPOINT=$(yq '.project.app.api.health_endpoint' "$CONFIG_FILE")
-        API_CORS_ORIGINS=$(yq -o=json '.project.app.api.cors_origins' "$CONFIG_FILE")
+        API_CORS_ORIGINS=$(yq -o=json -I=0 '.project.app.api.cors_origins' "$CONFIG_FILE")
         
         WEB_ENTRY_POINT=$(yq '.project.app.web.entry_point' "$CONFIG_FILE")
         WEB_BUILD_COMMAND=$(yq '.project.app.web.build_command' "$CONFIG_FILE")
