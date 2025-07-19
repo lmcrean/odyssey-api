@@ -47,7 +47,7 @@ jobs:
       - name: 🎭 Install Playwright Browsers
         run: |
           cd e2e
-          npx playwright install webkit
+          npx playwright install chromium firefox webkit
           npx playwright install-deps
       
       - name: 🔍 Environment Setup
