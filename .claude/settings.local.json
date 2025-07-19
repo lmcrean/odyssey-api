@@ -3,7 +3,18 @@
     "allow": [
       "Bash(*)",
       "Bash(curl:*)",
-      "Bash(echo)"
+      "Bash(echo)",
+      "Bash(taskkill:*)",
+      "Bash(gcloud run services logs read:*)",
+      "Bash(gcloud run services describe:*)",
+      "Bash(gcloud run services:*)",
+      "Bash(docker build:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(gcloud config get-value:*)",
+      "Bash(gcloud config set:*)",
+      "Bash(gh api:*)",
+      "Bash(ls:*)"
     ],
     "deny": [
       "Bash(git:*)"

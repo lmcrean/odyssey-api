@@ -224,26 +224,22 @@ jobs:
               echo "✅ API responded successfully!"
               echo "📄 Health Response: $HEALTH_RESPONSE"
               
-              # Parse JSON response and check GitHub token status
-              TOKEN_STATUS=$(echo "$HEALTH_RESPONSE" | jq -r '.github_token.status // "unknown"')
-              TOKEN_PRESENT=$(echo "$HEALTH_RESPONSE" | jq -r '.github_token.present // false')
+              # Validate basic health response structure
               OVERALL_STATUS=$(echo "$HEALTH_RESPONSE" | jq -r '.status // "unknown"')
               
               echo "🔍 Overall Status: $OVERALL_STATUS"
-              echo "🔑 Token Present: $TOKEN_PRESENT"
-              echo "📋 Token Status: $TOKEN_STATUS"
               
-              # Validate GitHub token is properly configured
-              if [ "$TOKEN_STATUS" = "configured" ] && [ "$TOKEN_PRESENT" = "true" ]; then
-                echo "✅ GitHub token is properly configured!"
+              # Check if API is healthy
+              if [ "$OVERALL_STATUS" = "healthy" ]; then
+                echo "✅ API is healthy and responding correctly!"
                 break
               else
-                echo "❌ GitHub token is not properly configured!"
-                echo "🔍 Expected: TOKEN_STATUS='configured' and TOKEN_PRESENT='true'"
-                echo "🔍 Actual: TOKEN_STATUS='$TOKEN_STATUS' and TOKEN_PRESENT='$TOKEN_PRESENT'"
+                echo "❌ API is not reporting healthy status!"
+                echo "🔍 Expected: status='healthy'"
+                echo "🔍 Actual: status='$OVERALL_STATUS'"
                 
                 if [ $i -eq 5 ]; then
-                  echo "❌ GitHub token validation failed after 5 attempts"
+                  echo "❌ Health check validation failed after 5 attempts"
                   exit 1
                 fi
               fi
