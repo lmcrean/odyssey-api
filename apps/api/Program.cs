@@ -69,25 +69,13 @@ app.MapControllers();
 
 // Health check endpoints for Google Cloud Run
 app.MapGet("/", () => "API is running");
-app.MapGet("/health", () => 
+app.MapGet("/health", () => Results.Ok(new 
 {
-    var githubToken = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
-    var tokenPresent = !string.IsNullOrEmpty(githubToken);
-    var tokenStatus = tokenPresent ? "configured" : "not_configured";
-    
-    return Results.Ok(new 
-    {
-        status = "healthy",
-        message = "Hello World from C# API!",
-        timestamp = DateTime.UtcNow,
-        version = "1.0.0",
-        github_token = new
-        {
-            present = tokenPresent,
-            status = tokenStatus
-        }
-    });
-});
+    status = "healthy",
+    message = "Hello World from C# API!",
+    timestamp = DateTime.UtcNow,
+    version = "1.0.0"
+}));
 
 app.Run();
 
