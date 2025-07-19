@@ -25,15 +25,25 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins(
-                "http://localhost:4200", 
-                "https://localhost:4200",
-                "https://odyssey-466315.web.app",
-                "https://odyssey-466315.firebaseapp.com",
-                "https://*.web.app"
-              )
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.SetIsOriginAllowed(origin =>
+        {
+            if (string.IsNullOrEmpty(origin)) return false;
+            
+            // Allow localhost for development
+            if (origin.StartsWith("http://localhost:4200") || origin.StartsWith("https://localhost:4200"))
+                return true;
+            
+            // Allow Firebase hosting domains (main and branch deployments)
+            if (origin.StartsWith("https://odyssey-466315.web.app") || 
+                origin.StartsWith("https://odyssey-466315.firebaseapp.com") ||
+                (origin.StartsWith("https://odyssey-466315--") && origin.EndsWith(".web.app")))
+                return true;
+            
+            return false;
+        })
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
     });
 });
 
