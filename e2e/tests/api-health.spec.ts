@@ -2,10 +2,7 @@ import { test, expect } from '@playwright/test';
 import { TEST_DATA, MOCK_RESPONSES } from '../fixtures/test-data';
 
 test.describe('API Health Checks', () => {
-  test.beforeEach(async ({ page }) => {
-    // These tests directly test the API endpoints
-    await page.goto('/');
-  });
+  // No beforeEach needed for API-only tests that use page.request
 
   test('should have API health endpoint accessible', async ({ page }) => {
     const response = await page.request.get(`${TEST_DATA.API.BASE_URL}/api/health`);
