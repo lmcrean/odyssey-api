@@ -1,0 +1,13 @@
+C:\Projects\odyssey\packages\observability\csharp\bin\Debug\net9.0\CompetitorAnalysis.Observability.deps.json
+C:\Projects\odyssey\packages\observability\csharp\bin\Debug\net9.0\CompetitorAnalysis.Observability.dll
+C:\Projects\odyssey\packages\observability\csharp\bin\Debug\net9.0\CompetitorAnalysis.Observability.pdb
+C:\Projects\odyssey\packages\observability\csharp\obj\Debug\net9.0\CompetitorAnalysis.Observability.csproj.AssemblyReference.cache
+C:\Projects\odyssey\packages\observability\csharp\obj\Debug\net9.0\CompetitorAnalysis.Observability.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\odyssey\packages\observability\csharp\obj\Debug\net9.0\CompetitorAnalysis.Observability.AssemblyInfoInputs.cache
+C:\Projects\odyssey\packages\observability\csharp\obj\Debug\net9.0\CompetitorAnalysis.Observability.AssemblyInfo.cs
+C:\Projects\odyssey\packages\observability\csharp\obj\Debug\net9.0\CompetitorAnalysis.Observability.csproj.CoreCompileInputs.cache
+C:\Projects\odyssey\packages\observability\csharp\obj\Debug\net9.0\CompetitorAnalysis.Observability.sourcelink.json
+C:\Projects\odyssey\packages\observability\csharp\obj\Debug\net9.0\CompetitorAnalysis.Observability.dll
+C:\Projects\odyssey\packages\observability\csharp\obj\Debug\net9.0\refint\CompetitorAnalysis.Observability.dll
+C:\Projects\odyssey\packages\observability\csharp\obj\Debug\net9.0\CompetitorAnalysis.Observability.pdb
+C:\Projects\odyssey\packages\observability\csharp\obj\Debug\net9.0\ref\CompetitorAnalysis.Observability.dll
