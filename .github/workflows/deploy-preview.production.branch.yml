@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   deploy-api:
-    uses: ./.github/workflows/deploy-api-branch.yml
+    uses: ./.github/workflows/deploy-api.production.branch.yml
     secrets: inherit
     with:
       branch_name: ${{ github.head_ref }}
@@ -21,7 +21,7 @@ jobs:
 
   test-api:
     needs: deploy-api
-    uses: ./.github/workflows/test-api-branch.yml
+    uses: ./.github/workflows/test-api.production.branch.yml
     secrets: inherit
     with:
       api_deployment_url: ${{ needs.deploy-api.outputs.deployment_url }}
@@ -31,7 +31,7 @@ jobs:
   deploy-web:
     needs: [deploy-api, test-api]
     if: needs.test-api.result == 'success'
-    uses: ./.github/workflows/deploy-web-branch.yml
+    uses: ./.github/workflows/deploy-web.production.branch.yml
     secrets: inherit
     with:
       branch_name: ${{ github.head_ref }}
@@ -40,7 +40,7 @@ jobs:
 
   test-integration:
     needs: [deploy-api, test-api, deploy-web]
-    uses: ./.github/workflows/test-branch-integration.yml
+    uses: ./.github/workflows/test-integration.production.branch.yml
     secrets: inherit
     with:
       web_url: ${{ needs.deploy-web.outputs.deployment_url }}
@@ -49,7 +49,7 @@ jobs:
   test-e2e:
     needs: [deploy-api, test-api, deploy-web, test-integration]
     if: needs.test-integration.result == 'success'
-    uses: ./.github/workflows/test-branch-e2e.yml
+    uses: ./.github/workflows/test-e2e.production.branch.yml
     secrets: inherit
     with:
       web_url: ${{ needs.deploy-web.outputs.deployment_url }}
