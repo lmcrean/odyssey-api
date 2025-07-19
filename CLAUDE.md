@@ -60,24 +60,37 @@ A B2B competitive intelligence platform built with Angular frontend and C# ASP.N
 - ✅ Async operation testing
 
 #### End-to-End Tests (`e2e/`) ✅ UPDATED
-**Playwright Test Suite with Environment-Specific Configurations**
+**Playwright Test Suite with Explicit Configuration Architecture**
 
-**Local Development Configuration** (`playwright.config.ts`):
-- Tests against `http://localhost:4200` (web) and `http://localhost:5000` (API)
-- Uses `global-setup.ts` which waits for local services to start
-- Standard timeouts for local development
-- Run with: `npm test`, `npm run test:headed`, `npm run test:debug`
+**Configuration Strategy**: Explicit naming convention for test scope and environment separation to prevent deployment failures and ensure proper test isolation.
 
-**Production Deployment Configuration** (`playwright.config.production.ts`):
-- Tests against deployed services using environment variables
-- Uses `global-setup.production.ts` which validates deployed service health
-- Increased timeouts for network delays (45s navigation, 15s actions)
-- Environment-aware URL resolution
-- Run with: `npm run test:production`, `npm run test:production:headed`
+**API-Only Test Configurations** (for branch deployments where web apps don't exist):
+- `playwright.config.api.local.ts` - API tests against `http://localhost:5000`
+- `playwright.config.api.production.branch.ts` - API tests for PR branches (requires `API_DEPLOYMENT_URL`)
+- `playwright.config.api.production.main.ts` - API tests for main production (has fallback URL)
+
+**Full Web+API Test Configurations** (for complete deployments):
+- `playwright.config.web.local.ts` - Full tests against localhost:4200 (web) + localhost:5000 (API)
+- `playwright.config.web.production.branch.ts` - Full tests for PR branches (requires env vars)
+- `playwright.config.web.production.main.ts` - Full tests for main production (has fallback URLs)
+
+**Corresponding Global Setup Files**:
+- `global-setup.api.*.ts` - Only validates API service health
+- `global-setup.web.*.ts` - Validates both web and API service health
+
+**Key Benefits**:
+- **Separation of Concerns**: API tests don't wait for web services that may not exist
+- **Branch Deployment Compatibility**: PR branches can test API-only without web deployment failures
+- **Environment-Specific Timeouts**: Production configs use longer timeouts for network delays
+- **Explicit Dependencies**: Clear naming shows exactly what each config tests
+
+**npm Scripts**:
+- `test:api:local`, `test:api:branch`, `test:api:main` - API-only testing
+- `test:web:local`, `test:web:branch`, `test:web:main` - Full web+API testing
 
 **Environment Variables for Production E2E Tests**:
-- `WEB_DEPLOYMENT_URL` or `FIREBASE_HOSTING_URL` - Web app URL
-- `API_DEPLOYMENT_URL` or `CLOUD_RUN_URL` - API service URL
+- `WEB_DEPLOYMENT_URL` or `FIREBASE_HOSTING_URL` - Web app URL (web configs only)
+- `API_DEPLOYMENT_URL` or `CLOUD_RUN_URL` - API service URL (all configs)
 
 **Test Coverage**:
 - ✅ Complete hello world user flow
@@ -140,8 +153,18 @@ e2e/                      # Playwright E2E tests
 ├── tests/                # Test scenarios
 ├── fixtures/             # Test data with environment-aware URLs
 ├── utils/                # Test helpers and global setup
-├── playwright.config.ts  # Local development config
-└── playwright.config.production.ts  # Production deployment config
+├── playwright.config.api.local.ts           # API-only local tests
+├── playwright.config.api.production.branch.ts  # API-only branch tests
+├── playwright.config.api.production.main.ts    # API-only main tests
+├── playwright.config.web.local.ts           # Full web+API local tests
+├── playwright.config.web.production.branch.ts  # Full web+API branch tests
+├── playwright.config.web.production.main.ts    # Full web+API main tests
+├── global-setup.api.local.ts               # API service health check (local)
+├── global-setup.api.production.branch.ts   # API service health check (branch)
+├── global-setup.api.production.main.ts     # API service health check (main)
+├── global-setup.web.local.ts               # Both services health check (local)
+├── global-setup.web.production.branch.ts   # Both services health check (branch)
+└── global-setup.web.production.main.ts     # Both services health check (main)
 ```
 
 ## Development Commands
@@ -152,10 +175,10 @@ e2e/                      # Playwright E2E tests
 
 ## Testing Commands
 - **All Tests**: `npm run test:all`
-- **API Tests**: `npm run test:api`
-- **Web Tests**: `npm run test:web`
-- **E2E Tests (Local)**: `npm run test:e2e` or `cd e2e && npm test`
-- **E2E Tests (Production)**: `cd e2e && npm run test:production`
+- **Integration Tests**: `npm run test:api` (C# API), `npm run test:web` (Angular)
+- **E2E API Tests**: `npm run test:api:local`, `npm run test:api:branch`, `npm run test:api:main`
+- **E2E Web Tests**: `npm run test:web:local`, `npm run test:web:branch`, `npm run test:web:main`
+- **Legacy E2E**: `cd e2e && npm test` (falls back to web.local config)
 - **Custom Runner**: `node test-runner.js [api|web|e2e|integration|all]`
 
 ## Deployment
