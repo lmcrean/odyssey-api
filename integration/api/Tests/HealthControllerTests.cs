@@ -50,6 +50,8 @@ public class HealthControllerTests : IClassFixture<TestWebApplicationFactory<Pro
         healthResponse!.Message.Should().Be("Hello World from Competitor Analysis API");
         healthResponse.Version.Should().Be("1.0.0");
         healthResponse.Timestamp.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromMinutes(1));
+        healthResponse.GitHubToken.Should().NotBeNull();
+        healthResponse.GitHubToken.Status.Should().NotBeNullOrEmpty();
     }
 
     [Fact]

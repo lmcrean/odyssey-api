@@ -27,11 +27,20 @@ public class HealthController : ControllerBase
     {
         _observabilityService.LogInformation("Health status endpoint accessed", "HealthController");
         
+        var githubToken = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
+        var tokenPresent = !string.IsNullOrEmpty(githubToken);
+        var tokenStatus = tokenPresent ? "configured" : "not_configured";
+        
         var response = new HealthResponse
         {
             Message = "Hello World from Competitor Analysis API",
             Version = "1.0.0",
-            Timestamp = DateTime.UtcNow
+            Timestamp = DateTime.UtcNow,
+            GitHubToken = new GitHubTokenInfo
+            {
+                Present = tokenPresent,
+                Status = tokenStatus
+            }
         };
 
         return Ok(response);
