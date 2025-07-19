@@ -1,5 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
+// Full web + API integration configuration for main branch production deployments
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -12,13 +13,16 @@ export default defineConfig({
     ['junit', { outputFile: 'test-results.xml' }]
   ],
   use: {
-    baseURL: 'http://localhost:4200',
+    // Use stable production web app URL
+    baseURL: process.env.WEB_DEPLOYMENT_URL || 
+             process.env.FIREBASE_HOSTING_URL || 
+             'https://odyssey-466315.web.app',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     headless: true,
-    actionTimeout: 10000,
-    navigationTimeout: 30000
+    actionTimeout: 15000,
+    navigationTimeout: 45000
   },
 
   projects: [
@@ -44,27 +48,13 @@ export default defineConfig({
     },
   ],
 
-  // webServer: [
-  //   {
-  //     command: 'cd ../apps/api && dotnet run',
-  //     port: 5000,
-  //     reuseExistingServer: !process.env.CI,
-  //     timeout: 60000,
-  //   },
-  //   {
-  //     command: 'cd ../apps/web && npm start',
-  //     port: 4200,
-  //     reuseExistingServer: !process.env.CI,
-  //     timeout: 60000,
-  //   },
-  // ],
-
   expect: {
-    timeout: 10000,
+    timeout: 15000,
   },
 
-  timeout: 60000,
-  
-  globalSetup: './utils/global-setup.ts',
+  timeout: 120000,
+
+  // Use full global setup that checks both web and API
+  globalSetup: './utils/global-setup.web.main.ts',
   globalTeardown: './utils/global-teardown.ts',
 });

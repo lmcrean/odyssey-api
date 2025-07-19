@@ -106,9 +106,9 @@ jobs:
         run: |
           cd e2e
           
-          # Run e2e tests using the production configuration
+          # Run e2e tests using the web configuration for branch deployments
           echo "🎭 Running e2e tests against deployed services..."
-          npm run test:production
+          npm run test:web:branch
           
           echo "✅ E2E tests completed successfully"
         env:

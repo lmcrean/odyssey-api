@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-// Production configuration for E2E tests against deployed services
+// Full web + API integration configuration for branch/PR deployments
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -14,13 +14,15 @@ export default defineConfig({
   ],
   use: {
     // Use deployed web app URL from environment variable
-    baseURL: process.env.WEB_DEPLOYMENT_URL || process.env.FIREBASE_HOSTING_URL || 'https://odyssey-466315.web.app',
+    baseURL: process.env.WEB_DEPLOYMENT_URL || 
+             process.env.FIREBASE_HOSTING_URL || 
+             'http://localhost:4200',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     headless: true,
-    actionTimeout: 15000, // Increased for network delays
-    navigationTimeout: 45000 // Increased for deployed services
+    actionTimeout: 15000,
+    navigationTimeout: 45000
   },
 
   projects: [
@@ -46,15 +48,13 @@ export default defineConfig({
     },
   ],
 
-  // No webServer configuration - testing against deployed services
-  
   expect: {
-    timeout: 15000, // Increased for network delays
+    timeout: 15000,
   },
 
-  timeout: 120000, // Increased for deployed services
+  timeout: 120000,
 
-  // Use production-specific global setup
-  globalSetup: './utils/global-setup.production.ts',
+  // Use full global setup that checks both web and API
+  globalSetup: './utils/global-setup.web.ts',
   globalTeardown: './utils/global-teardown.ts',
 });

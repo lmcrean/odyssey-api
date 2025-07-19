@@ -26,7 +26,9 @@
       "Bash(copy:*)",
       "Bash(dotnet clean:*)",
       "Bash(gh secret:*)",
-      "Bash(docker build:*)"
+      "Bash(docker build:*)",
+      "Bash(mv:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }
