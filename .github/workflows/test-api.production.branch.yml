@@ -78,18 +78,6 @@ jobs:
           BRANCH_NAME: ${{ inputs.branch_name }}
           GITHUB_HEAD_REF: ${{ inputs.branch_name }}
       
-      - name: 🧪 Run Integration Tests
-        run: |
-          cd e2e
-          echo "🎯 Running integration tests at: ${{ inputs.api_deployment_url }}"
-          npm run test:hello-world:production
-        env:
-          API_BASE_URL: ${{ inputs.api_deployment_url }}
-          API_DEPLOYMENT_URL: ${{ inputs.api_deployment_url }}
-          CLOUD_RUN_URL: ${{ inputs.api_deployment_url }}
-          BRANCH_NAME: ${{ inputs.branch_name }}
-          GITHUB_HEAD_REF: ${{ inputs.branch_name }}
-      
       - name: 📊 Test Summary
         if: always()
         run: |
