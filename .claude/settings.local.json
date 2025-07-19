@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(*)"
+      "Bash(*)",
+      "Bash(curl:*)",
+      "Bash(echo)"
     ],
     "deny": [
       "Bash(git:*)"
