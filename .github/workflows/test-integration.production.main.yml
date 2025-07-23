@@ -98,11 +98,11 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: integration/package-lock.json
+          cache-dependency-path: integration/web/package-lock.json
       
       - name: 📥 Install Integration Dependencies
         run: |
-          cd integration
+          cd integration/web
           npm ci
       
       - name: 🔧 Build Observability Package
@@ -114,8 +114,8 @@ jobs:
       - name: 🧪 Run Integration Tests
         run: |
           echo "🚀 Running main production integration tests..."
-          cd integration
-          npm run test:main
+          cd integration/web
+          npm run test
         env:
           WEB_URL: ${{ inputs.web_url }}
           API_URL: ${{ inputs.api_url }}
