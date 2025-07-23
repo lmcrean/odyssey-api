@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Observability and logging utilities for CompetitorAnalysis API")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+773bdaf5698a35f68c4201649c9f2ee811fa09d4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+49ff478c7c85f8aa1785a88cb3ac250c6cfdb383")]
 [assembly: System.Reflection.AssemblyProductAttribute("CompetitorAnalysis.Observability")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CompetitorAnalysis.Observability")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -5,7 +5,7 @@
     <version>1.0.0</version>
     <authors>Odyssey Team</authors>
     <description>Observability and logging utilities for CompetitorAnalysis API</description>
-    <repository type="git" commit="773bdaf5698a35f68c4201649c9f2ee811fa09d4" />
+    <repository type="git" commit="49ff478c7c85f8aa1785a88cb3ac250c6cfdb383" />
     <dependencies>
       <group targetFramework="net9.0">
         <dependency id="Microsoft.AspNetCore.Http.Abstractions" version="2.2.0" exclude="Build,Analyzers" />
