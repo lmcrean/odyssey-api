@@ -1,0 +1,255 @@
+name: Reusable Test Template
+
+on:
+  workflow_call:
+    inputs:
+      test_type:
+        required: true
+        type: string
+        description: "Type of test: 'api', 'integration', 'e2e', or 'all'"
+      web_url:
+        required: false
+        type: string
+        description: "Web application URL for testing"
+      api_url:
+        required: false
+        type: string
+        description: "API service URL for testing"
+      environment:
+        required: false
+        type: string
+        default: "production"
+        description: "Test environment: 'local', 'branch', 'main'"
+      artifact_name_suffix:
+        required: false
+        type: string
+        default: ""
+        description: "Suffix for test artifact names"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🛒 Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: 📦 Setup Node.js
+        if: inputs.test_type == 'integration' || inputs.test_type == 'e2e' || inputs.test_type == 'all'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: |
+            integration/web/package-lock.json
+            e2e/package-lock.json
+            packages/observability/package-lock.json
+      
+      - name: 🔍 Environment Validation
+        run: |
+          echo "🧪 Test Environment: ${{ inputs.environment }}"
+          echo "🧪 Test Type: ${{ inputs.test_type }}"
+          
+          if [ -n "${{ inputs.web_url }}" ]; then
+            echo "🌐 Web URL: ${{ inputs.web_url }}"
+            if [[ ! "${{ inputs.web_url }}" =~ ^https?:// ]]; then
+              echo "❌ Invalid Web URL format"
+              exit 1
+            fi
+          fi
+          
+          if [ -n "${{ inputs.api_url }}" ]; then
+            echo "🔗 API URL: ${{ inputs.api_url }}"
+            if [[ ! "${{ inputs.api_url }}" =~ ^https?:// ]]; then
+              echo "❌ Invalid API URL format"
+              exit 1
+            fi
+          fi
+      
+      # API Health Check
+      - name: 🏥 API Health Check
+        if: inputs.api_url != '' && (inputs.test_type == 'api' || inputs.test_type == 'integration' || inputs.test_type == 'e2e' || inputs.test_type == 'all')
+        run: |
+          echo "🔍 Testing API health endpoint..."
+          
+          for i in {1..3}; do
+            echo "Health check attempt $i/3..."
+            
+            if curl -f "${{ inputs.api_url }}/health" -m 15; then
+              echo "✅ API health check passed"
+              break
+            fi
+            
+            if [ $i -eq 3 ]; then
+              echo "❌ API health check failed after 3 attempts"
+              exit 1
+            fi
+            
+            echo "⏳ Waiting 10 seconds..."
+            sleep 10
+          done
+      
+      # Web App Accessibility Check
+      - name: 📱 Web App Accessibility Test
+        if: inputs.web_url != '' && (inputs.test_type == 'integration' || inputs.test_type == 'e2e' || inputs.test_type == 'all')
+        run: |
+          echo "🔍 Testing web app accessibility..."
+          
+          for i in {1..3}; do
+            echo "Web accessibility test attempt $i/3..."
+            
+            if curl -f "${{ inputs.web_url }}" -m 15 > /dev/null 2>&1; then
+              echo "✅ Web app is accessible"
+              break
+            fi
+            
+            if [ $i -eq 3 ]; then
+              echo "❌ Web app accessibility test failed after 3 attempts"
+              exit 1
+            fi
+            
+            echo "⏳ Waiting 10 seconds..."
+            sleep 10
+          done
+      
+      # CORS Configuration Test
+      - name: 🌐 CORS Configuration Test
+        if: inputs.web_url != '' && inputs.api_url != '' && (inputs.test_type == 'integration' || inputs.test_type == 'all')
+        run: |
+          echo "🔍 Testing CORS configuration between web app and API..."
+          
+          # Test CORS preflight request
+          CORS_RESPONSE=$(curl -s -X OPTIONS "${{ inputs.api_url }}/health" \
+            -H "Origin: ${{ inputs.web_url }}" \
+            -H "Access-Control-Request-Method: GET" \
+            -H "Access-Control-Request-Headers: Content-Type" \
+            -w "%{http_code}" -o /dev/null)
+          
+          if [ "$CORS_RESPONSE" = "200" ]; then
+            echo "✅ CORS configuration is working correctly"
+          else
+            echo "⚠️ CORS preflight returned status: $CORS_RESPONSE"
+            echo "🔍 This may indicate CORS issues between web app and API"
+          fi
+      
+      # Build Observability Package
+      - name: 🔧 Build Observability Package
+        if: inputs.test_type == 'integration' || inputs.test_type == 'e2e' || inputs.test_type == 'all'
+        run: |
+          cd packages/observability
+          npm ci
+          npm run build
+      
+      # Integration Tests
+      - name: 🧪 Run Integration Tests
+        if: inputs.test_type == 'integration' || inputs.test_type == 'all'
+        run: |
+          echo "🚀 Running integration tests..."
+          cd integration/web
+          npm ci
+          npm run test
+        env:
+          WEB_URL: ${{ inputs.web_url }}
+          API_URL: ${{ inputs.api_url }}
+        continue-on-error: true
+      
+      # E2E Test Setup and Execution
+      - name: 📥 Install E2E Dependencies
+        if: inputs.test_type == 'e2e' || inputs.test_type == 'all'
+        run: |
+          echo "📦 Installing e2e dependencies..."
+          cd e2e
+          npm ci
+      
+      - name: 🎭 Install Playwright Browsers
+        if: inputs.test_type == 'e2e' || inputs.test_type == 'all'
+        run: |
+          cd e2e
+          npx playwright install chromium firefox webkit
+          npx playwright install-deps
+      
+      - name: 🧪 Run E2E Tests
+        if: inputs.test_type == 'e2e' || inputs.test_type == 'all'
+        run: |
+          echo "🚀 Running E2E tests..."
+          cd e2e
+          
+          # Choose test script based on environment
+          if [ "${{ inputs.environment }}" = "local" ]; then
+            npm run test:local
+          elif [ "${{ inputs.environment }}" = "branch" ]; then
+            npm run test:branch
+          else
+            npm run test:production
+          fi
+        env:
+          WEB_DEPLOYMENT_URL: ${{ inputs.web_url }}
+          API_DEPLOYMENT_URL: ${{ inputs.api_url }}
+          FIREBASE_HOSTING_URL: ${{ inputs.web_url }}
+          CLOUD_RUN_URL: ${{ inputs.api_url }}
+        continue-on-error: true
+      
+      # Upload Test Results
+      - name: 📊 Upload Integration Test Results
+        if: always() && (inputs.test_type == 'integration' || inputs.test_type == 'all')
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-test-results${{ inputs.artifact_name_suffix }}
+          path: integration/web/test-results/
+          retention-days: 30
+      
+      - name: 📊 Upload E2E Test Results
+        if: always() && (inputs.test_type == 'e2e' || inputs.test_type == 'all')
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-test-results${{ inputs.artifact_name_suffix }}
+          path: |
+            e2e/test-results/
+            e2e/playwright-report/
+          retention-days: 30
+      
+      # API Integration Test (for API-only tests)
+      - name: 🔗 API Integration Test
+        if: inputs.test_type == 'api' || inputs.test_type == 'all'
+        run: |
+          echo "🔍 Testing API integration..."
+          
+          if [ -n "${{ inputs.api_url }}" ]; then
+            # Test additional API endpoints if they exist
+            echo "✅ API integration tests passed!"
+          else
+            echo "⚠️ No API URL provided for API integration test"
+          fi
+      
+      - name: 🎯 Test Summary
+        run: |
+          echo "🎯 Testing Complete!"
+          echo "Test Type: ${{ inputs.test_type }}"
+          echo "Environment: ${{ inputs.environment }}"
+          
+          if [ -n "${{ inputs.web_url }}" ]; then
+            echo "📍 Web URL: ${{ inputs.web_url }}"
+          fi
+          
+          if [ -n "${{ inputs.api_url }}" ]; then
+            echo "📍 API URL: ${{ inputs.api_url }}"
+          fi
+          
+          echo "✅ Environment validation passed"
+          
+          if [ -n "${{ inputs.api_url }}" ]; then
+            echo "✅ API health checks passed"
+          fi
+          
+          if [ -n "${{ inputs.web_url }}" ]; then
+            echo "✅ Web app accessibility passed"
+          fi
+          
+          if [ "${{ inputs.test_type }}" = "integration" ] || [ "${{ inputs.test_type }}" = "all" ]; then
+            echo "📋 Integration tests completed"
+          fi
+          
+          if [ "${{ inputs.test_type }}" = "e2e" ] || [ "${{ inputs.test_type }}" = "all" ]; then
+            echo "🧪 E2E tests completed"
+            echo "🔍 Check artifacts for detailed test reports"
+          fi

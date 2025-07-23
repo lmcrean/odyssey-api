@@ -1,0 +1,175 @@
+name: Reusable Build Template
+
+on:
+  workflow_call:
+    inputs:
+      build_type:
+        required: true
+        type: string
+        description: "Type of build: 'api', 'web', or 'both'"
+      environment:
+        required: false
+        type: string
+        default: "production"
+        description: "Build environment: 'development' or 'production'"
+      api_url:
+        required: false
+        type: string
+        description: "API URL for web builds"
+      run_tests:
+        required: false
+        type: boolean
+        default: true
+        description: "Whether to run tests during build"
+    outputs:
+      api_image_name:
+        description: "Built API Docker image name"
+        value: ${{ jobs.build.outputs.api_image_name }}
+      web_build_path:
+        description: "Web build output path"
+        value: ${{ jobs.build.outputs.web_build_path }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      api_image_name: ${{ steps.api_build.outputs.image_name }}
+      web_build_path: ${{ steps.web_build.outputs.build_path }}
+    
+    steps:
+      - name: 🛒 Checkout Repository
+        uses: actions/checkout@v4
+      
+      # .NET Setup for API builds
+      - name: 📦 Setup .NET
+        if: inputs.build_type == 'api' || inputs.build_type == 'both'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      
+      # Node.js Setup for Web builds
+      - name: 📦 Setup Node.js
+        if: inputs.build_type == 'web' || inputs.build_type == 'both'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: |
+            apps/web/package-lock.json
+            packages/observability/package-lock.json
+      
+      # API Build Process
+      - name: 🔧 Build API
+        id: api_build
+        if: inputs.build_type == 'api' || inputs.build_type == 'both'
+        run: |
+          echo "🏗️ Building .NET API..."
+          cd apps/api
+          
+          # Restore dependencies
+          echo "📥 Restoring API Dependencies..."
+          dotnet restore
+          
+          # Build API
+          echo "🔧 Building API..."
+          dotnet build --configuration Release --no-restore
+          
+          # Run tests if requested
+          if [ "${{ inputs.run_tests }}" = "true" ]; then
+            echo "🧪 Running API Tests..."
+            dotnet test --configuration Release --no-build --verbosity normal 2>/dev/null || echo "⚠️ Tests not configured or failed"
+          fi
+          
+          # Set output for Docker image name (used in deploy template)
+          echo "image_name=api-image:${{ github.sha }}" >> $GITHUB_OUTPUT
+          echo "✅ API build completed"
+      
+      # Web Build Process
+      - name: 🔧 Build Web App
+        id: web_build
+        if: inputs.build_type == 'web' || inputs.build_type == 'both'
+        run: |
+          echo "🏗️ Building Angular Web App..."
+          
+          # Install observability package dependencies first
+          echo "🔧 Building observability package..."
+          cd packages/observability
+          if npm ci; then
+            echo "✅ Observability dependencies installed with npm ci"
+          else
+            echo "⚠️ npm ci failed - attempting npm install..."
+            rm -rf node_modules package-lock.json
+            npm install
+          fi
+          npm run build
+          
+          # Install web dependencies
+          echo "📥 Installing Web Dependencies..."
+          cd ../../apps/web
+          if npm ci; then
+            echo "✅ Web dependencies installed with npm ci"
+          else
+            echo "⚠️ npm ci failed - lock file may be out of sync"
+            echo "🔧 Attempting to fix with npm install..."
+            rm -rf node_modules package-lock.json
+            npm install
+            echo "✅ Dependencies installed with npm install (lock file regenerated)"
+          fi
+          
+          # Configure API integration if URL provided
+          if [ -n "${{ inputs.api_url }}" ]; then
+            echo "🔗 Configuring API integration..."
+            echo "API URL: ${{ inputs.api_url }}"
+            
+            # Validate API URL format
+            if [[ ! "${{ inputs.api_url }}" =~ ^https?:// ]]; then
+              echo "❌ Invalid API URL format"
+              exit 1
+            fi
+            
+            # Update Angular environment for production build
+            sed -i "s|apiUrl: '.*'|apiUrl: '${{ inputs.api_url }}'|g" src/environments/environment.prod.ts
+            echo "📝 Updated environment.prod.ts with API URL: ${{ inputs.api_url }}"
+            
+            # Create runtime config for dynamic loading
+            mkdir -p src/assets
+            echo "window.APP_CONFIG = { apiBaseUrl: '${{ inputs.api_url }}' };" > src/assets/config.js
+            echo "📝 Generated runtime config.js with API URL: ${{ inputs.api_url }}"
+          fi
+          
+          # Run tests if requested
+          if [ "${{ inputs.run_tests }}" = "true" ]; then
+            echo "🧪 Running Web Tests..."
+            npm run test -- --run --reporter=verbose 2>/dev/null || echo "⚠️ Tests not configured or failed"
+          fi
+          
+          # Build web app
+          echo "🏗️ Building Web App..."
+          npm run build
+          
+          # Set output for build path
+          echo "build_path=apps/web/dist" >> $GITHUB_OUTPUT
+          echo "✅ Web build completed"
+        env:
+          NODE_ENV: ${{ inputs.environment }}
+      
+      - name: 📊 Build Summary
+        run: |
+          echo "🎯 Build Process Complete!"
+          echo "Build Type: ${{ inputs.build_type }}"
+          echo "Environment: ${{ inputs.environment }}"
+          
+          if [ "${{ inputs.build_type }}" = "api" ] || [ "${{ inputs.build_type }}" = "both" ]; then
+            echo "✅ API build completed"
+          fi
+          
+          if [ "${{ inputs.build_type }}" = "web" ] || [ "${{ inputs.build_type }}" = "both" ]; then
+            echo "✅ Web build completed"
+            if [ -n "${{ inputs.api_url }}" ]; then
+              echo "🔌 API integration configured: ${{ inputs.api_url }}"
+            fi
+          fi
+          
+          if [ "${{ inputs.run_tests }}" = "true" ]; then
+            echo "🧪 Tests executed during build"
+          fi

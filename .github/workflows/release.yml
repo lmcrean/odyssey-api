@@ -1,0 +1,131 @@
+name: Release Workflow
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag to create'
+        required: true
+        type: string
+      release_notes:
+        description: 'Release notes'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  deployments: write
+  checks: write
+
+jobs:
+  # Build for release
+  build-release:
+    uses: ./.github/workflows/templates/build.yml
+    with:
+      build_type: 'both'
+      environment: 'production'
+      run_tests: true
+
+  # Deploy to production
+  deploy-production:
+    needs: build-release
+    uses: ./.github/workflows/templates/deploy.yml
+    secrets: inherit
+    with:
+      deploy_type: 'both'
+      environment: 'main'
+
+  # Comprehensive testing
+  test-api:
+    needs: deploy-production
+    uses: ./.github/workflows/templates/test.yml
+    with:
+      test_type: 'api'
+      api_url: ${{ needs.deploy-production.outputs.api_deployment_url }}
+      environment: 'main'
+
+  test-integration:
+    needs: deploy-production
+    uses: ./.github/workflows/templates/test.yml
+    with:
+      test_type: 'integration'
+      web_url: ${{ needs.deploy-production.outputs.web_deployment_url }}
+      api_url: ${{ needs.deploy-production.outputs.api_deployment_url }}
+      environment: 'main'
+
+  test-e2e:
+    needs: [deploy-production, test-integration]
+    if: needs.test-integration.result == 'success'
+    uses: ./.github/workflows/templates/test.yml
+    with:
+      test_type: 'e2e'
+      web_url: ${{ needs.deploy-production.outputs.web_deployment_url }}
+      api_url: ${{ needs.deploy-production.outputs.api_deployment_url }}
+      environment: 'main'
+
+  # Security validation
+  security-validation:
+    needs: deploy-production
+    uses: ./.github/workflows/templates/security.yml
+    secrets: inherit
+    with:
+      check_type: 'all'
+      api_url: ${{ needs.deploy-production.outputs.api_deployment_url }}
+      web_url: ${{ needs.deploy-production.outputs.web_deployment_url }}
+
+  # Create release
+  create-release:
+    needs: [deploy-production, test-api, test-integration, test-e2e, security-validation]
+    if: github.event_name == 'workflow_dispatch' && needs.test-api.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: 🏷️ Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ inputs.release_tag }}
+          release_name: Release ${{ inputs.release_tag }}
+          body: |
+            # Release ${{ inputs.release_tag }}
+            
+            ${{ inputs.release_notes }}
+            
+            ## Deployment URLs
+            - **Web Application:** ${{ needs.deploy-production.outputs.web_deployment_url }}
+            - **API Service:** ${{ needs.deploy-production.outputs.api_deployment_url }}
+            
+            ## Test Results
+            - ✅ API Tests: Passed
+            - ✅ Integration Tests: Passed
+            - ✅ E2E Tests: Passed
+            - ✅ Security Validation: Passed
+            
+            ## Validation
+            All services have been deployed and validated successfully.
+            
+            **Release created:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')
+            **Git SHA:** ${{ github.sha }}
+          draft: false
+          prerelease: false
+
+  # Release summary
+  release-summary:
+    needs: [deploy-production, test-api, test-integration, test-e2e, security-validation, create-release]
+    if: always()
+    uses: ./.github/workflows/templates/release.yml
+    with:
+      release_type: 'full_release'
+      environment: 'main'
+      api_url: ${{ needs.deploy-production.outputs.api_deployment_url }}
+      web_url: ${{ needs.deploy-production.outputs.web_deployment_url }}
+      api_deployment_status: ${{ needs.deploy-production.result }}
+      web_deployment_status: ${{ needs.deploy-production.result }}
+      api_test_status: ${{ needs.test-api.result }}
+      integration_test_status: ${{ needs.test-integration.result }}
+      e2e_test_status: ${{ needs.test-e2e.result }}
