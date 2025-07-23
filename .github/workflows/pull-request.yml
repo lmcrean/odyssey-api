@@ -23,7 +23,7 @@ permissions:
 jobs:
   # Build and Deploy API
   build-api:
-    uses: ./.github/workflows/templates/build.yml
+    uses: ./.github/workflows/template-build.yml
     with:
       build_type: 'api'
       environment: 'production'
@@ -31,7 +31,7 @@ jobs:
 
   deploy-api:
     needs: build-api
-    uses: ./.github/workflows/templates/deploy.yml
+    uses: ./.github/workflows/template-deploy.yml
     secrets: inherit
     with:
       deploy_type: 'api'
@@ -42,7 +42,7 @@ jobs:
   # Test API
   test-api:
     needs: deploy-api
-    uses: ./.github/workflows/templates/test.yml
+    uses: ./.github/workflows/template-test.yml
     with:
       test_type: 'api'
       api_url: ${{ needs.deploy-api.outputs.api_deployment_url }}
@@ -52,7 +52,7 @@ jobs:
   # Security validation for API
   security-api:
     needs: deploy-api
-    uses: ./.github/workflows/templates/security.yml
+    uses: ./.github/workflows/template-security.yml
     secrets: inherit
     with:
       check_type: 'gcp_validation'
@@ -63,7 +63,7 @@ jobs:
   build-web:
     needs: [deploy-api, test-api]
     if: needs.test-api.result == 'success'
-    uses: ./.github/workflows/templates/build.yml
+    uses: ./.github/workflows/template-build.yml
     with:
       build_type: 'web'
       environment: 'production'
@@ -73,7 +73,7 @@ jobs:
   deploy-web:
     needs: [build-web, deploy-api, test-api]
     if: needs.test-api.result == 'success'
-    uses: ./.github/workflows/templates/deploy.yml
+    uses: ./.github/workflows/template-deploy.yml
     secrets: inherit
     with:
       deploy_type: 'web'
@@ -86,7 +86,7 @@ jobs:
   test-integration:
     needs: [deploy-api, test-api, deploy-web]
     if: needs.deploy-web.result == 'success'
-    uses: ./.github/workflows/templates/test.yml
+    uses: ./.github/workflows/template-test.yml
     with:
       test_type: 'integration'
       web_url: ${{ needs.deploy-web.outputs.web_deployment_url }}
@@ -98,7 +98,7 @@ jobs:
   test-e2e:
     needs: [deploy-api, test-api, deploy-web, test-integration]
     if: needs.test-integration.result == 'success'
-    uses: ./.github/workflows/templates/test.yml
+    uses: ./.github/workflows/template-test.yml
     with:
       test_type: 'e2e'
       web_url: ${{ needs.deploy-web.outputs.web_deployment_url }}
@@ -110,7 +110,7 @@ jobs:
   security-full:
     needs: [deploy-api, deploy-web]
     if: needs.deploy-web.result == 'success'
-    uses: ./.github/workflows/templates/security.yml
+    uses: ./.github/workflows/template-security.yml
     secrets: inherit
     with:
       check_type: 'cors_test'
@@ -121,7 +121,7 @@ jobs:
   deployment-summary:
     needs: [deploy-api, test-api, deploy-web, test-integration, test-e2e, security-api, security-full]
     if: always()
-    uses: ./.github/workflows/templates/release.yml
+    uses: ./.github/workflows/template-release.yml
     with:
       release_type: 'deployment_summary'
       environment: 'branch'

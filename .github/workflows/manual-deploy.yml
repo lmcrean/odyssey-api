@@ -83,7 +83,7 @@ jobs:
   # Build (if needed)
   build:
     needs: validate-inputs
-    uses: ./.github/workflows/templates/build.yml
+    uses: ./.github/workflows/template-build.yml
     with:
       build_type: ${{ inputs.deploy_type }}
       environment: 'production'
@@ -93,7 +93,7 @@ jobs:
   # Deploy
   deploy:
     needs: [validate-inputs, build]
-    uses: ./.github/workflows/templates/deploy.yml
+    uses: ./.github/workflows/template-deploy.yml
     secrets: inherit
     with:
       deploy_type: ${{ inputs.deploy_type }}
@@ -106,7 +106,7 @@ jobs:
   test-api:
     needs: deploy
     if: inputs.run_tests && (inputs.deploy_type == 'api' || inputs.deploy_type == 'both')
-    uses: ./.github/workflows/templates/test.yml
+    uses: ./.github/workflows/template-test.yml
     with:
       test_type: 'api'
       api_url: ${{ needs.deploy.outputs.api_deployment_url || inputs.api_url }}
@@ -116,7 +116,7 @@ jobs:
   test-integration:
     needs: deploy
     if: inputs.run_tests && inputs.deploy_type == 'both'
-    uses: ./.github/workflows/templates/test.yml
+    uses: ./.github/workflows/template-test.yml
     with:
       test_type: 'integration'
       web_url: ${{ needs.deploy.outputs.web_deployment_url }}
@@ -127,7 +127,7 @@ jobs:
   test-e2e:
     needs: [deploy, test-integration]
     if: inputs.run_tests && inputs.deploy_type == 'both' && needs.test-integration.result == 'success'
-    uses: ./.github/workflows/templates/test.yml
+    uses: ./.github/workflows/template-test.yml
     with:
       test_type: 'e2e'
       web_url: ${{ needs.deploy.outputs.web_deployment_url }}
@@ -138,7 +138,7 @@ jobs:
   security-checks:
     needs: deploy
     if: inputs.run_security_checks
-    uses: ./.github/workflows/templates/security.yml
+    uses: ./.github/workflows/template-security.yml
     secrets: inherit
     with:
       check_type: 'all'
@@ -149,7 +149,7 @@ jobs:
   deployment-summary:
     needs: [deploy, test-api, test-integration, test-e2e, security-checks]
     if: always()
-    uses: ./.github/workflows/templates/release.yml
+    uses: ./.github/workflows/template-release.yml
     with:
       release_type: 'deployment_summary'
       environment: ${{ inputs.environment }}

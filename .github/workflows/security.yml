@@ -61,7 +61,7 @@ jobs:
   gcp-security:
     needs: get-production-urls
     if: inputs.check_type == 'gcp_validation' || inputs.check_type == 'all' || inputs.check_type == ''
-    uses: ./.github/workflows/templates/security.yml
+    uses: ./.github/workflows/template-security.yml
     secrets: inherit
     with:
       check_type: 'gcp_validation'
@@ -71,7 +71,7 @@ jobs:
   cors-security:
     needs: get-production-urls
     if: inputs.check_type == 'cors_test' || inputs.check_type == 'all' || inputs.check_type == ''
-    uses: ./.github/workflows/templates/security.yml
+    uses: ./.github/workflows/template-security.yml
     secrets: inherit
     with:
       check_type: 'cors_test'
@@ -82,7 +82,7 @@ jobs:
   auth-security:
     needs: get-production-urls
     if: inputs.check_type == 'auth_validation' || inputs.check_type == 'all' || inputs.check_type == ''
-    uses: ./.github/workflows/templates/security.yml
+    uses: ./.github/workflows/template-security.yml
     secrets: inherit
     with:
       check_type: 'auth_validation'

@@ -22,7 +22,7 @@ permissions:
 jobs:
   # Build for release
   build-release:
-    uses: ./.github/workflows/templates/build.yml
+    uses: ./.github/workflows/template-build.yml
     with:
       build_type: 'both'
       environment: 'production'
@@ -31,7 +31,7 @@ jobs:
   # Deploy to production
   deploy-production:
     needs: build-release
-    uses: ./.github/workflows/templates/deploy.yml
+    uses: ./.github/workflows/template-deploy.yml
     secrets: inherit
     with:
       deploy_type: 'both'
@@ -40,7 +40,7 @@ jobs:
   # Comprehensive testing
   test-api:
     needs: deploy-production
-    uses: ./.github/workflows/templates/test.yml
+    uses: ./.github/workflows/template-test.yml
     with:
       test_type: 'api'
       api_url: ${{ needs.deploy-production.outputs.api_deployment_url }}
@@ -48,7 +48,7 @@ jobs:
 
   test-integration:
     needs: deploy-production
-    uses: ./.github/workflows/templates/test.yml
+    uses: ./.github/workflows/template-test.yml
     with:
       test_type: 'integration'
       web_url: ${{ needs.deploy-production.outputs.web_deployment_url }}
@@ -58,7 +58,7 @@ jobs:
   test-e2e:
     needs: [deploy-production, test-integration]
     if: needs.test-integration.result == 'success'
-    uses: ./.github/workflows/templates/test.yml
+    uses: ./.github/workflows/template-test.yml
     with:
       test_type: 'e2e'
       web_url: ${{ needs.deploy-production.outputs.web_deployment_url }}
@@ -68,7 +68,7 @@ jobs:
   # Security validation
   security-validation:
     needs: deploy-production
-    uses: ./.github/workflows/templates/security.yml
+    uses: ./.github/workflows/template-security.yml
     secrets: inherit
     with:
       check_type: 'all'
@@ -118,7 +118,7 @@ jobs:
   release-summary:
     needs: [deploy-production, test-api, test-integration, test-e2e, security-validation, create-release]
     if: always()
-    uses: ./.github/workflows/templates/release.yml
+    uses: ./.github/workflows/template-release.yml
     with:
       release_type: 'full_release'
       environment: 'main'
