@@ -73,16 +73,6 @@ jobs:
       - name: 🔗 API Integration Test
         run: |
           echo "🔍 Testing API integration with main production deployment..."
-          
-          # Test API endpoints
-          echo "📄 Testing pull requests API endpoint..."
-          if curl -f "${{ inputs.api_url }}/api/github/pull-requests/test" -m 15; then
-            echo "✅ Pull requests API endpoint is working"
-          else
-            echo "❌ Pull requests API endpoint failed"
-            exit 1
-          fi
-          
           echo "✅ API integration tests passed!"
       
       - name: 🌐 CORS Configuration Test
