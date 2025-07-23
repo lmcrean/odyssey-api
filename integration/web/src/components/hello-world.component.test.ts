@@ -4,6 +4,7 @@ import { of, throwError } from 'rxjs';
 import { HelloWorldComponent } from '../../../../apps/web/src/app/components/hello-world/hello-world.component';
 import { ApiService } from '../../../../apps/web/src/app/services/api.service';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { API_MESSAGES, API_VERSION, HealthResponse } from '@odyssey/shared';
 
 describe('HelloWorldComponent Integration Tests', () => {
   let component: HelloWorldComponent;
@@ -32,8 +33,8 @@ describe('HelloWorldComponent Integration Tests', () => {
     it('should load data on init', () => {
       const healthSpy = vi.spyOn(apiService, 'getHealth').mockReturnValue(of('Hello World!'));
       const statusSpy = vi.spyOn(apiService, 'getHealthStatus').mockReturnValue(of({
-        message: 'Test message',
-        version: '1.0.0',
+        message: API_MESSAGES.HEALTH_STATUS,
+        version: API_VERSION,
         timestamp: new Date().toISOString()
       }));
 
@@ -48,8 +49,8 @@ describe('HelloWorldComponent Integration Tests', () => {
     it('should display loading state initially', () => {
       vi.spyOn(apiService, 'getHealth').mockReturnValue(of('Hello World!'));
       vi.spyOn(apiService, 'getHealthStatus').mockReturnValue(of({
-        message: 'Test message',
-        version: '1.0.0',
+        message: API_MESSAGES.HEALTH_STATUS,
+        version: API_VERSION,
         timestamp: new Date().toISOString()
       }));
 
@@ -60,10 +61,10 @@ describe('HelloWorldComponent Integration Tests', () => {
     });
 
     it('should handle successful API response', async () => {
-      const mockMessage = 'Hello World from C# API!';
-      const mockStatus = {
-        message: 'Hello World from Competitor Analysis API',
-        version: '1.0.0',
+      const mockMessage = API_MESSAGES.HEALTH;
+      const mockStatus: HealthResponse = {
+        message: API_MESSAGES.HEALTH_STATUS,
+        version: API_VERSION,
         timestamp: new Date().toISOString()
       };
 
@@ -146,9 +147,9 @@ describe('HelloWorldComponent Integration Tests', () => {
 
   describe('Health Status Display', () => {
     it('should display health status when available', () => {
-      const mockStatus = {
-        message: 'API is healthy',
-        version: '1.0.0',
+      const mockStatus: HealthResponse = {
+        message: API_MESSAGES.HEALTH_STATUS,
+        version: API_VERSION,
         timestamp: new Date().toISOString()
       };
 
@@ -166,8 +167,8 @@ describe('HelloWorldComponent Integration Tests', () => {
     it('should not display health status when loading', () => {
       component.loading = true;
       component.healthStatus = {
-        message: 'API is healthy',
-        version: '1.0.0',
+        message: API_MESSAGES.HEALTH_STATUS,
+        version: API_VERSION,
         timestamp: new Date().toISOString()
       };
       

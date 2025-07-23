@@ -1,26 +1,35 @@
+import { 
+  API_MESSAGES, 
+  API_VERSION, 
+  APP_TITLE, 
+  DEFAULT_URLS, 
+  TEST_TIMEOUTS,
+  HealthResponse 
+} from '@odyssey/shared';
+
 // Configuration that adapts to environment (local vs production)
 const getApiUrl = () => {
   return process.env.API_DEPLOYMENT_URL || 
          process.env.CLOUD_RUN_URL || 
-         'http://localhost:5000';
+         DEFAULT_URLS.API.LOCAL;
 };
 
 const getWebUrl = () => {
   return process.env.WEB_DEPLOYMENT_URL || 
          process.env.FIREBASE_HOSTING_URL || 
-         'http://localhost:4200';
+         DEFAULT_URLS.WEB.LOCAL;
 };
 
 export const TEST_DATA = {
   API: {
     BASE_URL: getApiUrl(),
-    EXPECTED_HEALTH_MESSAGE: 'Hello World from C# API!',
-    EXPECTED_STATUS_MESSAGE: 'Hello World from Competitor Analysis API',
-    EXPECTED_VERSION: '1.0.0'
+    EXPECTED_HEALTH_MESSAGE: API_MESSAGES.HEALTH,
+    EXPECTED_STATUS_MESSAGE: API_MESSAGES.HEALTH_STATUS,
+    EXPECTED_VERSION: API_VERSION
   },
   WEB: {
     BASE_URL: getWebUrl(),
-    TITLE: 'Competitor Analysis Dashboard'
+    TITLE: APP_TITLE
   },
   MESSAGES: {
     LOADING: 'Loading...',
@@ -28,20 +37,16 @@ export const TEST_DATA = {
     HELLO_WORLD_MESSAGE: 'Hello World Message',
     API_STATUS: 'API Status'
   },
-  TIMEOUTS: {
-    API_RESPONSE: 10000,
-    PAGE_LOAD: 30000,
-    ELEMENT_VISIBLE: 5000
-  }
+  TIMEOUTS: TEST_TIMEOUTS
 };
 
 export const MOCK_RESPONSES = {
-  HEALTH: 'Hello World from C# API!',
+  HEALTH: API_MESSAGES.HEALTH,
   HEALTH_STATUS: {
-    message: 'Hello World from Competitor Analysis API',
-    version: '1.0.0',
+    message: API_MESSAGES.HEALTH_STATUS,
+    version: API_VERSION,
     timestamp: '2024-01-01T00:00:00.000Z'
-  },
+  } as HealthResponse,
   ERROR: {
     message: 'Internal Server Error',
     status: 500

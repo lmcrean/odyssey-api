@@ -22,6 +22,7 @@
     "@angular/compiler": "^17.0.0",
     "@angular/platform-browser": "^17.0.0",
     "@angular/platform-browser-dynamic": "^17.0.0",
+    "@odyssey/shared": "file:../../packages/shared",
     "@types/node": "^20.0.0",
     "@vitest/coverage-v8": "^1.0.0",
     "jsdom": "^23.0.0",

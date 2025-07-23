@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { ApiService, HealthResponse } from '../../../../apps/web/src/app/services/api.service';
+import { ApiService } from '../../../../apps/web/src/app/services/api.service';
+import { HealthResponse, API_MESSAGES, API_VERSION } from '@odyssey/shared';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 
 // Mock environment
@@ -47,7 +48,7 @@ describe('ApiService Integration Tests', () => {
 
   describe('getHealth', () => {
     it('should return hello world message', () => {
-      const mockResponse = 'Hello World from C# API!';
+      const mockResponse = API_MESSAGES.HEALTH;
 
       service.getHealth().subscribe(response => {
         expect(response).toBe(mockResponse);
@@ -74,15 +75,15 @@ describe('ApiService Integration Tests', () => {
   describe('getHealthStatus', () => {
     it('should return structured health response', () => {
       const mockResponse: HealthResponse = {
-        message: 'Hello World from Competitor Analysis API',
-        version: '1.0.0',
+        message: API_MESSAGES.HEALTH_STATUS,
+        version: API_VERSION,
         timestamp: new Date().toISOString()
       };
 
       service.getHealthStatus().subscribe(response => {
         expect(response).toEqual(mockResponse);
-        expect(response.message).toBe('Hello World from Competitor Analysis API');
-        expect(response.version).toBe('1.0.0');
+        expect(response.message).toBe(API_MESSAGES.HEALTH_STATUS);
+        expect(response.version).toBe(API_VERSION);
         expect(response.timestamp).toBeDefined();
       });
 

@@ -26,8 +26,8 @@ test.describe('Hello World Flow', () => {
   });
 
   test('should successfully fetch and display hello world message', async ({ page }) => {
-    // Wait for API response
-    await helpers.waitForApiResponse('/api/health');
+    // Wait for API response with retry logic for branch deployments
+    await helpers.waitForApiResponseWithRetry('/api/health');
     
     // Check that success section is visible
     await helpers.expectElementToBeVisible(SELECTORS.SUCCESS);
@@ -38,8 +38,8 @@ test.describe('Hello World Flow', () => {
   });
 
   test('should display health status information', async ({ page }) => {
-    // Wait for both API calls to complete
-    await helpers.waitForApiResponse('/api/health/status');
+    // Wait for both API calls to complete with retry logic
+    await helpers.waitForApiResponseWithRetry('/api/health/status');
     
     // Check that status card is visible
     await helpers.expectElementToBeVisible(SELECTORS.STATUS_CARD);

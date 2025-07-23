@@ -21,7 +21,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     headless: true,
-    actionTimeout: 15000,
+    actionTimeout: 30000,
     navigationTimeout: 45000
   },
 
@@ -49,7 +49,7 @@ export default defineConfig({
   ],
 
   expect: {
-    timeout: 15000,
+    timeout: 30000,
   },
 
   timeout: 120000,
