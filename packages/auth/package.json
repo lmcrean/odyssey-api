@@ -1,0 +1,19 @@
+{
+  "name": "@odyssey/auth",
+  "version": "1.0.0",
+  "description": "Authentication types and utilities for Odyssey",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rimraf dist"
+  },
+  "keywords": ["odyssey", "auth", "authentication", "types"],
+  "author": "Odyssey Team",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "rimraf": "^5.0.0"
+  }
+}

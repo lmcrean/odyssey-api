@@ -49,5 +49,21 @@ pull-reqs/
 # Build artifacts
 dist/
 
+# .NET build artifacts
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.nupkg
+*.snupkg
+*.user
+*.suo
+*.cache
+*.docstates
+*.binlog
+*.runtimeconfig.json
+*.deps.json
+
 # Claude Code local settings
 .claude/settings.local.json
