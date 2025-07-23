@@ -36,7 +36,17 @@ combined_repo.md
 .archive/backend-ts-reference/**
 .archive/backend-js-reference/**
 
-.claude
+# Root .md files (CLAUDE.md, README.md, etc.)
+/*.md
+
+# Issue tracking files anywhere in codebase
+**/*_issue.md
 
 # Pull request documentation
 pull-reqs/
+
+# Build artifacts
+dist/
+
+# Claude Code local settings
+.claude/settings.local.json
