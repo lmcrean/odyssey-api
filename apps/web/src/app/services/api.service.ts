@@ -2,12 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-
-export interface HealthResponse {
-  message: string;
-  version: string;
-  timestamp: string;
-}
+import { HealthResponse } from '@odyssey/shared';
 
 @Injectable({
   providedIn: 'root'

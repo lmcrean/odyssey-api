@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApiService, HealthResponse } from '../../services/api.service';
+import { ApiService } from '../../services/api.service';
+import { HealthResponse } from '@odyssey/shared';
 
 @Component({
   selector: 'app-hello-world',

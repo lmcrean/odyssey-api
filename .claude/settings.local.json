@@ -15,7 +15,17 @@
       "Bash(gcloud config set:*)",
       "Bash(gh api:*)",
       "Bash(ls:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(ng build:*)",
+      "Bash(npx ng build:*)",
+      "Bash(npx playwright test:*)",
+      "Bash(node:*)",
+      "Bash(rm:*)",
+      "Bash(npm test)",
+      "Bash(npm run test:web:*)"
     ],
     "deny": [
       "Bash(git:*)"

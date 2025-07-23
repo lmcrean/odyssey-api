@@ -16,6 +16,7 @@
 │   │       ├── web_i2.md               # Authentication integration
 │   │       └── web_i3.md               # Full dashboard features
 │   ├── packages/
+│   │   ├── shared_i2.md                # Shared types and constants package
 │   │   └── auth_i2.md                  # Authentication package
 │   ├── workflows/
 │   │   ├── deploy-api-main-csharp.yml  # C# API deployment to Google Cloud
@@ -30,7 +31,7 @@
 ## Technology Stack
 
 ### Backend (C# ASP.NET Core)
-- **Framework**: ASP.NET Core 8.0
+- **Framework**: ASP.NET Core 9.0
 - **Database**: PostgreSQL on Google Cloud SQL
 - **Authentication**: JWT with refresh tokens
 - **Deployment**: Google Cloud Run (serverless)
@@ -38,7 +39,7 @@
 - **External APIs**: NewsAPI, Reddit API, Google News RSS
 
 ### Frontend (Angular)
-- **Framework**: Angular 17+ with TypeScript
+- **Framework**: Angular 18+ with TypeScript
 - **State Management**: Services with RxJS
 - **UI Components**: Angular Material or Bootstrap
 - **Testing**: Vitest for integration tests
@@ -69,6 +70,7 @@
 - **Goal**: Secure B2B authentication system
 - **Duration**: 2-3 weeks
 - **Deliverables**:
+  - Enhanced packages/shared with authentication types
   - JWT authentication in packages/auth
   - User registration and login
   - Role-based access control
