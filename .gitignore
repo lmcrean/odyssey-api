@@ -36,8 +36,9 @@ combined_repo.md
 .archive/backend-ts-reference/**
 .archive/backend-js-reference/**
 
-# Root .md files (CLAUDE.md, README.md, etc.)
+# Root .md files
 /*.md
+/*.log
 
 # Issue tracking files anywhere in codebase
 **/*_issue.md
