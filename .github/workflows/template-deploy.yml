@@ -1,0 +1,303 @@
+name: Reusable Deploy Template
+
+on:
+  workflow_call:
+    inputs:
+      deploy_type:
+        required: true
+        type: string
+        description: "Type of deployment: 'api', 'web', or 'both'"
+      environment:
+        required: true
+        type: string
+        description: "Deployment environment: 'main', 'branch'"
+      branch_name:
+        required: false
+        type: string
+        description: "Branch name for branch deployments"
+      pr_number:
+        required: false
+        type: string
+        description: "PR number for branch deployments"
+      api_url:
+        required: false
+        type: string
+        description: "API URL for web deployments"
+    outputs:
+      api_deployment_url:
+        description: "API deployment URL"
+        value: ${{ jobs.deploy.outputs.api_deployment_url }}
+      web_deployment_url:
+        description: "Web deployment URL"
+        value: ${{ jobs.deploy.outputs.web_deployment_url }}
+    secrets:
+      GCP_SA_KEY:
+        required: false
+      GCP_PROJECT_ID:
+        required: false
+      FIREBASE_SERVICE_ACCOUNT_KEY:
+        required: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    outputs:
+      api_deployment_url: ${{ steps.api_deploy.outputs.deployment_url }}
+      web_deployment_url: ${{ steps.web_deploy.outputs.deployment_url }}
+    
+    steps:
+      - name: 🛒 Checkout Repository
+        uses: actions/checkout@v4
+      
+      # GCP Authentication (for API deployments)
+      - name: 🔐 Authenticate to Google Cloud
+        if: (inputs.deploy_type == 'api' || inputs.deploy_type == 'both') && secrets.GCP_SA_KEY != ''
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      
+      - name: 🛠️ Set up Cloud SDK
+        if: (inputs.deploy_type == 'api' || inputs.deploy_type == 'both') && secrets.GCP_SA_KEY != ''
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+      
+      - name: 🐳 Configure Docker for Artifact Registry
+        if: (inputs.deploy_type == 'api' || inputs.deploy_type == 'both') && secrets.GCP_SA_KEY != ''
+        run: |
+          gcloud auth configure-docker us-central1-docker.pkg.dev
+      
+      # API Deployment
+      - name: 🏗️ Build and Push API Docker Image
+        if: inputs.deploy_type == 'api' || inputs.deploy_type == 'both'
+        run: |
+          # Determine service name based on environment
+          if [ "${{ inputs.environment }}" = "branch" ]; then
+            # Clean branch name for use in service names (remove special characters)
+            CLEAN_BRANCH=$(echo "${{ inputs.branch_name }}" | sed 's/[^a-zA-Z0-9-]/-/g' | tr '[:upper:]' '[:lower:]' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
+            SERVICE_NAME="api-csharp-${CLEAN_BRANCH}"
+          else
+            SERVICE_NAME="api-csharp-main"
+          fi
+          
+          IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/api-images/${SERVICE_NAME}:${{ github.sha }}"
+          
+          echo "🏷️ Building image: $IMAGE_NAME"
+          echo "🔖 Service name: $SERVICE_NAME"
+          
+          # Build and push the image from repository root with correct context
+          docker build -t $IMAGE_NAME -f apps/api/Dockerfile .
+          docker push $IMAGE_NAME
+          
+          # Store values for next step
+          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
+          echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
+      
+      - name: 🚀 Deploy API to Cloud Run
+        id: api_deploy
+        if: inputs.deploy_type == 'api' || inputs.deploy_type == 'both'
+        run: |
+          echo "🚀 Deploying API service..."
+          
+          # Clean up any existing conflicting services for branch deployments
+          if [ "${{ inputs.environment }}" = "branch" ]; then
+            echo "🗑️ Cleaning up any existing conflicting services..."
+            
+            if gcloud run services describe $SERVICE_NAME --region=us-central1 --quiet > /dev/null 2>&1; then
+              echo "📍 Found existing service, deleting..."
+              gcloud run services delete $SERVICE_NAME --region=us-central1 --quiet
+              
+              # Wait for deletion to complete
+              echo "⏳ Waiting for service deletion to complete..."
+              while gcloud run services describe $SERVICE_NAME --region=us-central1 --quiet > /dev/null 2>&1; do
+                echo "   Still deleting..."
+                sleep 5
+              done
+              echo "✅ Service deletion completed"
+            fi
+          fi
+          
+          # Deploy the service
+          echo "🚀 Deploying service: $SERVICE_NAME"
+          gcloud run deploy $SERVICE_NAME \
+            --image $IMAGE_NAME \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated \
+            --memory=512Mi \
+            --cpu=1 \
+            --min-instances=0 \
+            --max-instances=10 \
+            --timeout=60s \
+            --concurrency=100 \
+            --set-env-vars="ASPNETCORE_ENVIRONMENT=Production"
+          
+          # Get the service URL
+          SERVICE_URL=$(gcloud run services describe $SERVICE_NAME --platform managed --region us-central1 --format 'value(status.url)')
+          
+          echo "🌐 Service deployed at: $SERVICE_URL"
+          echo "deployment_url=$SERVICE_URL" >> $GITHUB_OUTPUT
+          
+          # Validate deployment with health check
+          echo "🔍 Validating API deployment..."
+          for i in {1..5}; do
+            echo "🏥 Health check attempt $i/5..."
+            
+            if curl -s -f "$SERVICE_URL/health" -m 15; then
+              echo "✅ API deployment validated successfully!"
+              break
+            else
+              echo "❌ API health check failed"
+              if [ $i -eq 5 ]; then
+                echo "❌ API deployment validation failed after 5 attempts"
+                exit 1
+              fi
+            fi
+            
+            echo "⏳ Waiting 10 seconds before retry..."
+            sleep 10
+          done
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      
+      # Web Deployment Setup
+      - name: 📦 Setup Node.js for Web Deployment
+        if: (inputs.deploy_type == 'web' || inputs.deploy_type == 'both') && secrets.FIREBASE_SERVICE_ACCOUNT_KEY != ''
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: apps/web/package-lock.json
+      
+      - name: 📥 Install Web Dependencies
+        if: (inputs.deploy_type == 'web' || inputs.deploy_type == 'both') && secrets.FIREBASE_SERVICE_ACCOUNT_KEY != ''
+        run: |
+          cd apps/web
+          echo "🔍 Checking package-lock.json sync..."
+          
+          # Try npm ci first (preferred for CI)
+          if npm ci; then
+            echo "✅ Dependencies installed with npm ci"
+          else
+            echo "⚠️ npm ci failed - lock file may be out of sync"
+            echo "🔧 Attempting to fix with npm install..."
+            
+            # Remove node_modules and package-lock.json to start fresh
+            rm -rf node_modules package-lock.json
+            
+            # Install dependencies and regenerate lock file
+            npm install
+            
+            echo "✅ Dependencies installed with npm install (lock file regenerated)"
+          fi
+      
+      - name: 🔧 Configure Web API Integration
+        if: (inputs.deploy_type == 'web' || inputs.deploy_type == 'both') && inputs.api_url != ''
+        run: |
+          echo "🔗 API URL: ${{ inputs.api_url }}"
+          if [[ ! "${{ inputs.api_url }}" =~ ^https?:// ]]; then
+            echo "❌ Invalid API URL format"
+            exit 1
+          fi
+          
+          cd apps/web
+          
+          # Update Angular environment for production build
+          sed -i "s|apiUrl: '.*'|apiUrl: '${{ inputs.api_url }}'|g" src/environments/environment.prod.ts
+          echo "📝 Updated environment.prod.ts with API URL: ${{ inputs.api_url }}"
+          
+          # Create runtime config for dynamic loading
+          mkdir -p src/assets
+          echo "window.APP_CONFIG = { apiBaseUrl: '${{ inputs.api_url }}' };" > src/assets/config.js
+          echo "📝 Generated runtime config.js with API URL: ${{ inputs.api_url }}"
+          
+          echo "✅ API integration configured"
+      
+      - name: 🏗️ Build Web App
+        if: (inputs.deploy_type == 'web' || inputs.deploy_type == 'both') && secrets.FIREBASE_SERVICE_ACCOUNT_KEY != ''
+        run: |
+          cd apps/web
+          npm run build
+        env:
+          NODE_ENV: production
+      
+      - name: 🔥 Deploy Web to Firebase
+        id: web_deploy
+        if: (inputs.deploy_type == 'web' || inputs.deploy_type == 'both') && secrets.FIREBASE_SERVICE_ACCOUNT_KEY != ''
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+          projectId: odyssey-466315
+          channelId: ${{ inputs.environment == 'main' && 'live' || format('pr-{0}', inputs.pr_number) }}
+          entryPoint: apps/web
+      
+      - name: 🔗 Set Web Deployment URL
+        if: (inputs.deploy_type == 'web' || inputs.deploy_type == 'both') && secrets.FIREBASE_SERVICE_ACCOUNT_KEY != ''
+        run: |
+          # Determine deployment URL based on environment
+          if [ "${{ inputs.environment }}" = "main" ]; then
+            # Try Firebase action outputs first for main deployments
+            DETAILS_URL="${{ steps.web_deploy.outputs.details_url }}"
+            URLS_OUTPUT="${{ steps.web_deploy.outputs.urls }}"
+            
+            if [[ -n "$DETAILS_URL" && "$DETAILS_URL" != "null" ]]; then
+              DEPLOYMENT_URL="$DETAILS_URL"
+              echo "✅ Using details_url from Firebase action: $DEPLOYMENT_URL"
+            elif [[ -n "$URLS_OUTPUT" && "$URLS_OUTPUT" != "null" ]]; then
+              DEPLOYMENT_URL=$(echo "$URLS_OUTPUT" | head -n1 | sed 's/,.*$//')
+              echo "✅ Using first URL from Firebase action: $DEPLOYMENT_URL"
+            else
+              # Fallback to predictable Firebase main URL
+              DEPLOYMENT_URL="https://odyssey-466315.web.app"
+              echo "⚠️ Firebase action outputs empty, using fallback URL: $DEPLOYMENT_URL"
+            fi
+          else
+            # For branch deployments, construct preview URL
+            DEPLOYMENT_URL="https://odyssey-466315--pr-${{ inputs.pr_number }}.web.app"
+            echo "🔗 Branch deployment URL: $DEPLOYMENT_URL"
+          fi
+          
+          echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          
+          # Validate web deployment
+          echo "🔍 Validating web deployment..."
+          for i in {1..3}; do
+            echo "📱 Web accessibility test $i/3..."
+            if curl -f "$DEPLOYMENT_URL" -m 15 >/dev/null 2>&1; then
+              echo "✅ Web deployment validated successfully!"
+              break
+            fi
+            
+            if [ $i -eq 3 ]; then
+              echo "❌ Web deployment validation failed"
+              exit 1
+            fi
+            
+            echo "⏳ Waiting 10 seconds before retry..."
+            sleep 10
+          done
+      
+      - name: 📊 Deployment Summary
+        run: |
+          echo "🎯 Deployment Complete!"
+          echo "Deploy Type: ${{ inputs.deploy_type }}"
+          echo "Environment: ${{ inputs.environment }}"
+          
+          if [ "${{ inputs.deploy_type }}" = "api" ] || [ "${{ inputs.deploy_type }}" = "both" ]; then
+            echo "🚀 API deployed at: ${{ steps.api_deploy.outputs.deployment_url }}"
+          fi
+          
+          if [ "${{ inputs.deploy_type }}" = "web" ] || [ "${{ inputs.deploy_type }}" = "both" ]; then
+            echo "🌐 Web deployed at: ${{ steps.web_deploy.outputs.deployment_url }}"
+            if [ -n "${{ inputs.api_url }}" ]; then
+              echo "🔌 Connected to API: ${{ inputs.api_url }}"
+            fi
+          fi
+          
+          if [ "${{ inputs.environment }}" = "branch" ]; then
+            echo "🌿 Branch: ${{ inputs.branch_name }}"
+            echo "🔢 PR: ${{ inputs.pr_number }}"
+          fi
+          
+          echo "✅ All deployments validated and ready!"

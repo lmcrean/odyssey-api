@@ -1,14 +1,24 @@
-name: Deploy Main Production (API → Web → Test)
+name: Pull Request Workflow
 
 on:
-  push:
+  pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Branch name for deployment'
+        required: true
+        type: string
+      pr_number:
+        description: 'PR number for deployment'
+        required: true
+        type: string
 
 permissions:
   contents: read
   deployments: write
   checks: write
+  pull-requests: write
 
 jobs:
   # Build and Deploy API
@@ -25,7 +35,9 @@ jobs:
     secrets: inherit
     with:
       deploy_type: 'api'
-      environment: 'main'
+      environment: 'branch'
+      branch_name: ${{ github.event.pull_request.head.ref || inputs.branch_name }}
+      pr_number: ${{ github.event.pull_request.number || inputs.pr_number }}
 
   # Test API
   test-api:
@@ -34,7 +46,8 @@ jobs:
     with:
       test_type: 'api'
       api_url: ${{ needs.deploy-api.outputs.api_deployment_url }}
-      environment: 'main'
+      environment: 'branch'
+      artifact_name_suffix: '-branch'
 
   # Security validation for API
   security-api:
@@ -44,8 +57,9 @@ jobs:
     with:
       check_type: 'gcp_validation'
       api_url: ${{ needs.deploy-api.outputs.api_deployment_url }}
+      branch_name: ${{ github.event.pull_request.head.ref || inputs.branch_name }}
 
-  # Build and Deploy Web
+  # Build and Deploy Web (optional for branch deployments)
   build-web:
     needs: [deploy-api, test-api]
     if: needs.test-api.result == 'success'
@@ -63,20 +77,24 @@ jobs:
     secrets: inherit
     with:
       deploy_type: 'web'
-      environment: 'main'
+      environment: 'branch'
       api_url: ${{ needs.deploy-api.outputs.api_deployment_url }}
+      branch_name: ${{ github.event.pull_request.head.ref || inputs.branch_name }}
+      pr_number: ${{ github.event.pull_request.number || inputs.pr_number }}
 
   # Integration Tests
   test-integration:
     needs: [deploy-api, test-api, deploy-web]
+    if: needs.deploy-web.result == 'success'
     uses: ./.github/workflows/template-test.yml
     with:
       test_type: 'integration'
       web_url: ${{ needs.deploy-web.outputs.web_deployment_url }}
       api_url: ${{ needs.deploy-api.outputs.api_deployment_url }}
-      environment: 'main'
+      environment: 'branch'
+      artifact_name_suffix: '-branch'
 
-  # E2E Tests
+  # E2E Tests (optional for branch deployments)
   test-e2e:
     needs: [deploy-api, test-api, deploy-web, test-integration]
     if: needs.test-integration.result == 'success'
@@ -85,11 +103,13 @@ jobs:
       test_type: 'e2e'
       web_url: ${{ needs.deploy-web.outputs.web_deployment_url }}
       api_url: ${{ needs.deploy-api.outputs.api_deployment_url }}
-      environment: 'main'
+      environment: 'branch'
+      artifact_name_suffix: '-branch'
 
   # Security validation for full deployment
   security-full:
     needs: [deploy-api, deploy-web]
+    if: needs.deploy-web.result == 'success'
     uses: ./.github/workflows/template-security.yml
     secrets: inherit
     with:
@@ -97,14 +117,14 @@ jobs:
       api_url: ${{ needs.deploy-api.outputs.api_deployment_url }}
       web_url: ${{ needs.deploy-web.outputs.web_deployment_url }}
 
-  # Release Summary
+  # Deployment Summary
   deployment-summary:
     needs: [deploy-api, test-api, deploy-web, test-integration, test-e2e, security-api, security-full]
     if: always()
     uses: ./.github/workflows/template-release.yml
     with:
-      release_type: 'full_release'
-      environment: 'main'
+      release_type: 'deployment_summary'
+      environment: 'branch'
       api_url: ${{ needs.deploy-api.outputs.api_deployment_url }}
       web_url: ${{ needs.deploy-web.outputs.web_deployment_url }}
       api_deployment_status: ${{ needs.deploy-api.result }}
@@ -112,3 +132,5 @@ jobs:
       api_test_status: ${{ needs.test-api.result }}
       integration_test_status: ${{ needs.test-integration.result }}
       e2e_test_status: ${{ needs.test-e2e.result }}
+      branch_name: ${{ github.event.pull_request.head.ref || inputs.branch_name }}
+      pr_number: ${{ github.event.pull_request.number || inputs.pr_number }}

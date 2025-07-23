@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\packages\observability\csharp\CompetitorAnalysis.Observability.csproj" />
+    <ProjectReference Include="..\..\packages\auth\CompetitorAnalysis.Auth.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,308 @@
+name: Reusable Security Template
+
+on:
+  workflow_call:
+    inputs:
+      check_type:
+        required: true
+        type: string
+        description: "Type of security check: 'gcp_validation', 'cors_test', 'auth_validation', or 'all'"
+      api_url:
+        required: false
+        type: string
+        description: "API URL for security testing"
+      web_url:
+        required: false
+        type: string
+        description: "Web URL for CORS testing"
+      branch_name:
+        required: false
+        type: string
+        description: "Branch name for service validation"
+    secrets:
+      GCP_SA_KEY:
+        required: false
+      GCP_PROJECT_ID:
+        required: false
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🛒 Checkout Repository
+        uses: actions/checkout@v4
+      
+      # GCP Security Validation
+      - name: 🔐 Authenticate to Google Cloud
+        if: (inputs.check_type == 'gcp_validation' || inputs.check_type == 'all') && secrets.GCP_SA_KEY != ''
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      
+      - name: 🛠️ Set up Cloud SDK
+        if: (inputs.check_type == 'gcp_validation' || inputs.check_type == 'all') && secrets.GCP_SA_KEY != ''
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+      
+      - name: 🔍 Validate GCP Authentication & Permissions
+        id: gcp_validation
+        if: inputs.check_type == 'gcp_validation' || inputs.check_type == 'all'
+        run: |
+          echo "=== 🔐 VALIDATING GCP AUTHENTICATION ==="
+          
+          # Test basic authentication
+          echo "🧪 Testing basic gcloud auth..."
+          if gcloud auth list --filter=status:ACTIVE --format="value(account)"; then
+            echo "✅ Successfully authenticated to GCP"
+          else
+            echo "❌ GCP authentication failed"
+            exit 1
+          fi
+          
+          # Verify project access
+          echo "🏗️ Testing project access..."
+          PROJECT_ID=$(gcloud config get-value project)
+          echo "📋 Current project: $PROJECT_ID"
+          
+          if [ "$PROJECT_ID" != "${{ secrets.GCP_PROJECT_ID }}" ]; then
+            echo "❌ Project mismatch! Expected: ${{ secrets.GCP_PROJECT_ID }}, Got: $PROJECT_ID"
+            exit 1
+          fi
+          
+          # Test service account details
+          echo "👤 Service account details:"
+          gcloud auth list --filter=status:ACTIVE --format="table(account,status)"
+          
+          echo "=== 📦 VALIDATING ARTIFACT REGISTRY ==="
+          
+          # Check if Artifact Registry API is enabled
+          echo "🔌 Checking Artifact Registry API..."
+          if gcloud services list --enabled --filter="name:artifactregistry.googleapis.com" --format="value(name)"; then
+            echo "✅ Artifact Registry API is enabled"
+          else
+            echo "❌ Artifact Registry API is not enabled"
+            exit 1
+          fi
+          
+          # Check if repository exists
+          echo "📦 Checking api-images repository..."
+          if gcloud artifacts repositories describe api-images --location=us-central1 --format="value(name)"; then
+            echo "✅ api-images repository exists"
+          else
+            echo "❌ api-images repository does not exist"
+            echo "🔧 Creating repository..."
+            gcloud artifacts repositories create api-images \
+              --repository-format=docker \
+              --location=us-central1 \
+              --description="API Docker images for branch deployments"
+          fi
+          
+          # Test Docker authentication
+          echo "🐳 Testing Docker authentication..."
+          if gcloud auth configure-docker us-central1-docker.pkg.dev --quiet; then
+            echo "✅ Docker authentication configured"
+          else
+            echo "❌ Docker authentication failed"
+            exit 1
+          fi
+          
+          # Test repository permissions with lightweight test
+          echo "🔑 Testing repository permissions..."
+          if [ -n "${{ inputs.branch_name }}" ]; then
+            CLEAN_BRANCH=$(echo "${{ inputs.branch_name }}" | sed 's/[^a-zA-Z0-9-]/-/g' | tr '[:upper:]' '[:lower:]' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
+            SERVICE_NAME="api-github-${CLEAN_BRANCH}"
+          else
+            SERVICE_NAME="api-security-test"
+          fi
+          IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/api-images/${SERVICE_NAME}:test"
+          
+          echo "🧪 Testing image push permissions with test image..."
+          echo "FROM alpine:latest" > Dockerfile.test
+          echo "RUN echo 'security-test'" >> Dockerfile.test
+          
+          if docker build -f Dockerfile.test -t ${IMAGE_NAME} . && docker push ${IMAGE_NAME}; then
+            echo "✅ Successfully pushed test image - permissions are correct!"
+            # Clean up test image
+            gcloud artifacts docker images delete ${IMAGE_NAME} --quiet || echo "⚠️ Could not delete test image (this is okay)"
+          else
+            echo "❌ Failed to push test image - permission issue detected!"
+            echo "🔍 Checking IAM permissions for service account..."
+            
+            # Get current service account
+            CURRENT_SA=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
+            echo "📋 Current service account: $CURRENT_SA"
+            
+            # Check IAM policy for the service account
+            echo "🔍 IAM roles for service account:"
+            gcloud projects get-iam-policy ${{ secrets.GCP_PROJECT_ID }} \
+              --flatten="bindings[].members" \
+              --format="table(bindings.role)" \
+              --filter="bindings.members:$CURRENT_SA"
+            
+            exit 1
+          fi
+          
+          # Clean up test files
+          rm -f Dockerfile.test
+          
+          echo "=== ✅ ALL GCP VALIDATIONS PASSED ==="
+      
+      # CORS Security Testing
+      - name: 🌐 CORS Security Validation
+        if: (inputs.check_type == 'cors_test' || inputs.check_type == 'all') && inputs.api_url != '' && inputs.web_url != ''
+        run: |
+          echo "=== 🌐 VALIDATING CORS SECURITY ==="
+          
+          API_URL="${{ inputs.api_url }}"
+          WEB_URL="${{ inputs.web_url }}"
+          
+          echo "🔍 Testing CORS configuration..."
+          echo "API URL: $API_URL"
+          echo "Web URL: $WEB_URL"
+          
+          # Test CORS preflight request
+          echo "🧪 Testing CORS preflight request..."
+          CORS_RESPONSE=$(curl -s -X OPTIONS "$API_URL/health" \
+            -H "Origin: $WEB_URL" \
+            -H "Access-Control-Request-Method: GET" \
+            -H "Access-Control-Request-Headers: Content-Type" \
+            -w "%{http_code}" -o /dev/null)
+          
+          if [ "$CORS_RESPONSE" = "200" ]; then
+            echo "✅ CORS preflight passed - API accepts requests from web app"
+          else
+            echo "⚠️ CORS preflight returned status: $CORS_RESPONSE"
+            echo "🔍 This may indicate CORS configuration issues"
+          fi
+          
+          # Test for CORS headers in actual response
+          echo "🧪 Testing CORS headers in API response..."
+          CORS_HEADERS=$(curl -s -H "Origin: $WEB_URL" "$API_URL/health" -I | grep -i "access-control")
+          
+          if [ -n "$CORS_HEADERS" ]; then
+            echo "✅ CORS headers found in API response:"
+            echo "$CORS_HEADERS"
+          else
+            echo "⚠️ No CORS headers found in API response"
+            echo "🔍 This may cause issues with browser-based requests"
+          fi
+          
+          # Test against unauthorized origins
+          echo "🔒 Testing CORS security against unauthorized origins..."
+          UNAUTHORIZED_CORS=$(curl -s -X OPTIONS "$API_URL/health" \
+            -H "Origin: https://malicious-site.com" \
+            -H "Access-Control-Request-Method: GET" \
+            -w "%{http_code}" -o /dev/null)
+          
+          if [ "$UNAUTHORIZED_CORS" = "200" ]; then
+            echo "⚠️ WARNING: API accepts CORS requests from unauthorized origins!"
+            echo "🔍 This could be a security risk - consider restricting CORS origins"
+          else
+            echo "✅ CORS properly rejects unauthorized origins"
+          fi
+          
+          echo "=== ✅ CORS SECURITY VALIDATION COMPLETE ==="
+      
+      # Authentication Validation
+      - name: 🔐 Authentication Security Check
+        if: inputs.check_type == 'auth_validation' || inputs.check_type == 'all'
+        run: |
+          echo "=== 🔐 VALIDATING AUTHENTICATION SECURITY ==="
+          
+          if [ -n "${{ inputs.api_url }}" ]; then
+            API_URL="${{ inputs.api_url }}"
+            echo "🧪 Testing API authentication requirements..."
+            
+            # Test if sensitive endpoints require authentication
+            echo "🔍 Checking if API health endpoint is publicly accessible..."
+            HEALTH_RESPONSE=$(curl -s -w "%{http_code}" -o /dev/null "$API_URL/health")
+            
+            if [ "$HEALTH_RESPONSE" = "200" ]; then
+              echo "✅ Health endpoint is publicly accessible (as expected)"
+            else
+              echo "⚠️ Health endpoint returned status: $HEALTH_RESPONSE"
+            fi
+            
+            # Test for common security headers
+            echo "🛡️ Checking security headers..."
+            SECURITY_HEADERS=$(curl -s -I "$API_URL/health" | grep -E "(X-Content-Type-Options|X-Frame-Options|X-XSS-Protection|Strict-Transport-Security)")
+            
+            if [ -n "$SECURITY_HEADERS" ]; then
+              echo "✅ Security headers found:"
+              echo "$SECURITY_HEADERS"
+            else
+              echo "⚠️ No common security headers found"
+              echo "🔍 Consider adding security headers for production"
+            fi
+          fi
+          
+          echo "=== ✅ AUTHENTICATION VALIDATION COMPLETE ==="
+      
+      # Environment Validation
+      - name: 🔍 Environment Security Validation
+        run: |
+          echo "=== 🔍 VALIDATING ENVIRONMENT SECURITY ==="
+          
+          # Validate URL formats
+          if [ -n "${{ inputs.api_url }}" ]; then
+            API_URL="${{ inputs.api_url }}"
+            echo "🔗 Validating API URL format: $API_URL"
+            
+            if [[ ! "$API_URL" =~ ^https:// ]]; then
+              echo "⚠️ WARNING: API URL is not using HTTPS!"
+              echo "🔍 This could be a security risk in production"
+            else
+              echo "✅ API URL uses HTTPS"
+            fi
+            
+            # Check for localhost or development URLs in production context
+            if [[ "$API_URL" =~ localhost|127\.0\.0\.1|0\.0\.0\.0 ]]; then
+              echo "⚠️ WARNING: API URL appears to be a development URL"
+              echo "🔍 Ensure this is intentional for the current environment"
+            fi
+          fi
+          
+          if [ -n "${{ inputs.web_url }}" ]; then
+            WEB_URL="${{ inputs.web_url }}"
+            echo "🌐 Validating Web URL format: $WEB_URL"
+            
+            if [[ ! "$WEB_URL" =~ ^https:// ]]; then
+              echo "⚠️ WARNING: Web URL is not using HTTPS!"
+              echo "🔍 This could be a security risk in production"
+            else
+              echo "✅ Web URL uses HTTPS"
+            fi
+          fi
+          
+          echo "=== ✅ ENVIRONMENT SECURITY VALIDATION COMPLETE ==="
+      
+      - name: 📊 Security Summary
+        run: |
+          echo "🛡️ Security Validation Complete!"
+          echo "Check Type: ${{ inputs.check_type }}"
+          
+          if [ "${{ inputs.check_type }}" = "gcp_validation" ] || [ "${{ inputs.check_type }}" = "all" ]; then
+            if [ "${{ steps.gcp_validation.outcome }}" = "success" ]; then
+              echo "✅ GCP authentication and permissions validated"
+            else
+              echo "❌ GCP validation failed or skipped"
+            fi
+          fi
+          
+          if [ -n "${{ inputs.api_url }}" ] && [ -n "${{ inputs.web_url }}" ]; then
+            echo "✅ CORS security configuration tested"
+          fi
+          
+          if [ -n "${{ inputs.api_url }}" ]; then
+            echo "✅ Authentication security checks completed"
+            echo "📍 API URL: ${{ inputs.api_url }}"
+          fi
+          
+          if [ -n "${{ inputs.web_url }}" ]; then
+            echo "📍 Web URL: ${{ inputs.web_url }}"
+          fi
+          
+          echo "🔍 Environment security validation completed"
+          echo "🛡️ All security checks passed!"

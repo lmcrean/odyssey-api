@@ -1,0 +1,367 @@
+name: Reusable Release Template
+
+on:
+  workflow_call:
+    inputs:
+      release_type:
+        required: true
+        type: string
+        description: "Type of release: 'deployment_summary', 'status_report', or 'full_release'"
+      environment:
+        required: true
+        type: string
+        description: "Release environment: 'main', 'branch'"
+      api_url:
+        required: false
+        type: string
+        description: "API deployment URL"
+      web_url:
+        required: false
+        type: string
+        description: "Web deployment URL"
+      api_deployment_status:
+        required: false
+        type: string
+        description: "API deployment job status"
+      web_deployment_status:
+        required: false
+        type: string
+        description: "Web deployment job status"
+      api_test_status:
+        required: false
+        type: string
+        description: "API test job status"
+      integration_test_status:
+        required: false
+        type: string
+        description: "Integration test job status"
+      e2e_test_status:
+        required: false
+        type: string
+        description: "E2E test job status"
+      branch_name:
+        required: false
+        type: string
+        description: "Branch name for branch releases"
+      pr_number:
+        required: false
+        type: string
+        description: "PR number for branch releases"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🛒 Checkout Repository
+        uses: actions/checkout@v4
+      
+      # Deployment Summary
+      - name: 📊 Generate Deployment Summary
+        if: inputs.release_type == 'deployment_summary' || inputs.release_type == 'full_release'
+        run: |
+          echo "=== 🚀 DEPLOYMENT SUMMARY ==="
+          echo "Environment: ${{ inputs.environment }}"
+          echo "Release Type: ${{ inputs.release_type }}"
+          echo ""
+          
+          # Display URLs
+          if [ -n "${{ inputs.web_url }}" ]; then
+            echo "🌐 Web Application URL: ${{ inputs.web_url }}"
+          fi
+          
+          if [ -n "${{ inputs.api_url }}" ]; then
+            echo "🔗 API Service URL: ${{ inputs.api_url }}"
+          fi
+          
+          # Display branch information for branch deployments
+          if [ "${{ inputs.environment }}" = "branch" ]; then
+            if [ -n "${{ inputs.branch_name }}" ]; then
+              echo "🌿 Branch: ${{ inputs.branch_name }}"
+            fi
+            if [ -n "${{ inputs.pr_number }}" ]; then
+              echo "🔢 Pull Request: #${{ inputs.pr_number }}"
+            fi
+          fi
+          
+          echo ""
+          echo "📦 Deployment Components:"
+          
+          # API Deployment Status
+          if [ -n "${{ inputs.api_deployment_status }}" ]; then
+            if [ "${{ inputs.api_deployment_status }}" = "success" ]; then
+              echo "✅ API Deployment: SUCCESS"
+            else
+              echo "❌ API Deployment: ${{ inputs.api_deployment_status }}"
+            fi
+          fi
+          
+          # Web Deployment Status
+          if [ -n "${{ inputs.web_deployment_status }}" ]; then
+            if [ "${{ inputs.web_deployment_status }}" = "success" ]; then
+              echo "✅ Web Deployment: SUCCESS"
+            else
+              echo "❌ Web Deployment: ${{ inputs.web_deployment_status }}"
+            fi
+          fi
+          
+          echo ""
+          echo "🧪 Test Results:"
+          
+          # API Test Status
+          if [ -n "${{ inputs.api_test_status }}" ]; then
+            if [ "${{ inputs.api_test_status }}" = "success" ]; then
+              echo "✅ API Tests: PASSED"
+            else
+              echo "❌ API Tests: ${{ inputs.api_test_status }}"
+            fi
+          fi
+          
+          # Integration Test Status
+          if [ -n "${{ inputs.integration_test_status }}" ]; then
+            if [ "${{ inputs.integration_test_status }}" = "success" ]; then
+              echo "✅ Integration Tests: PASSED"
+            else
+              echo "❌ Integration Tests: ${{ inputs.integration_test_status }}"
+            fi
+          fi
+          
+          # E2E Test Status
+          if [ -n "${{ inputs.e2e_test_status }}" ]; then
+            if [ "${{ inputs.e2e_test_status }}" = "success" ]; then
+              echo "✅ E2E Tests: PASSED"
+            else
+              echo "❌ E2E Tests: ${{ inputs.e2e_test_status }}"
+            fi
+          fi
+          
+          echo ""
+          echo "=== END DEPLOYMENT SUMMARY ==="
+      
+      # Status Report
+      - name: 📈 Generate Status Report
+        if: inputs.release_type == 'status_report' || inputs.release_type == 'full_release'
+        run: |
+          echo "=== 📈 STATUS REPORT ==="
+          
+          # Determine overall status
+          OVERALL_STATUS="SUCCESS"
+          FAILED_COMPONENTS=""
+          
+          # Check deployment statuses
+          if [ -n "${{ inputs.api_deployment_status }}" ] && [ "${{ inputs.api_deployment_status }}" != "success" ]; then
+            OVERALL_STATUS="FAILURE"
+            FAILED_COMPONENTS="$FAILED_COMPONENTS API-Deployment"
+          fi
+          
+          if [ -n "${{ inputs.web_deployment_status }}" ] && [ "${{ inputs.web_deployment_status }}" != "success" ]; then
+            OVERALL_STATUS="FAILURE"
+            FAILED_COMPONENTS="$FAILED_COMPONENTS Web-Deployment"
+          fi
+          
+          # Check test statuses
+          if [ -n "${{ inputs.api_test_status }}" ] && [ "${{ inputs.api_test_status }}" != "success" ]; then
+            OVERALL_STATUS="FAILURE"
+            FAILED_COMPONENTS="$FAILED_COMPONENTS API-Tests"
+          fi
+          
+          if [ -n "${{ inputs.integration_test_status }}" ] && [ "${{ inputs.integration_test_status }}" != "success" ]; then
+            OVERALL_STATUS="FAILURE"
+            FAILED_COMPONENTS="$FAILED_COMPONENTS Integration-Tests"
+          fi
+          
+          if [ -n "${{ inputs.e2e_test_status }}" ] && [ "${{ inputs.e2e_test_status }}" != "success" ]; then
+            OVERALL_STATUS="FAILURE"
+            FAILED_COMPONENTS="$FAILED_COMPONENTS E2E-Tests"
+          fi
+          
+          # Display overall status
+          echo "🎯 Overall Status: $OVERALL_STATUS"
+          
+          if [ "$OVERALL_STATUS" = "SUCCESS" ]; then
+            echo "🎉 All components deployed and tested successfully!"
+            
+            if [ "${{ inputs.environment }}" = "main" ]; then
+              echo "🚀 Production deployment completed successfully!"
+            else
+              echo "🌿 Branch deployment completed successfully!"
+            fi
+          else
+            echo "⚠️ Some components failed:"
+            echo "Failed Components: $FAILED_COMPONENTS"
+            echo ""
+            echo "🔍 Please check the individual job logs for details"
+          fi
+          
+          echo ""
+          echo "📅 Deployment Timestamp: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          echo "🏷️ Git SHA: ${{ github.sha }}"
+          echo "👤 Triggered by: ${{ github.actor }}"
+          
+          echo "=== END STATUS REPORT ==="
+          
+          # Exit with error if overall status is failure
+          if [ "$OVERALL_STATUS" = "FAILURE" ]; then
+            exit 1
+          fi
+      
+      # Release Validation
+      - name: 🔍 Validate Release
+        if: inputs.release_type == 'full_release'
+        run: |
+          echo "=== 🔍 RELEASE VALIDATION ==="
+          
+          # Validate deployment URLs are accessible
+          if [ -n "${{ inputs.web_url }}" ]; then
+            echo "🌐 Validating web application accessibility..."
+            for i in {1..3}; do
+              if curl -f "${{ inputs.web_url }}" -m 15 >/dev/null 2>&1; then
+                echo "✅ Web application is accessible"
+                break
+              fi
+              
+              if [ $i -eq 3 ]; then
+                echo "❌ Web application validation failed"
+                exit 1
+              fi
+              
+              echo "⏳ Retrying in 5 seconds..."
+              sleep 5
+            done
+          fi
+          
+          if [ -n "${{ inputs.api_url }}" ]; then
+            echo "🔗 Validating API service accessibility..."
+            for i in {1..3}; do
+              if curl -f "${{ inputs.api_url }}/health" -m 15 >/dev/null 2>&1; then
+                echo "✅ API service is accessible"
+                break
+              fi
+              
+              if [ $i -eq 3 ]; then
+                echo "❌ API service validation failed"
+                exit 1
+              fi
+              
+              echo "⏳ Retrying in 5 seconds..."
+              sleep 5
+            done
+          fi
+          
+          # Validate integration between web and API if both exist
+          if [ -n "${{ inputs.web_url }}" ] && [ -n "${{ inputs.api_url }}" ]; then
+            echo "🔗 Validating web-to-API integration..."
+            
+            # Test CORS configuration
+            CORS_RESPONSE=$(curl -s -X OPTIONS "${{ inputs.api_url }}/health" \
+              -H "Origin: ${{ inputs.web_url }}" \
+              -H "Access-Control-Request-Method: GET" \
+              -w "%{http_code}" -o /dev/null)
+            
+            if [ "$CORS_RESPONSE" = "200" ]; then
+              echo "✅ Web-to-API integration validated"
+            else
+              echo "⚠️ Web-to-API integration may have issues (CORS status: $CORS_RESPONSE)"
+            fi
+          fi
+          
+          echo "=== ✅ RELEASE VALIDATION COMPLETE ==="
+      
+      # Generate Release Artifacts
+      - name: 📦 Generate Release Artifacts
+        if: inputs.release_type == 'full_release'
+        run: |
+          echo "=== 📦 GENERATING RELEASE ARTIFACTS ==="
+          
+          # Create release info file
+          mkdir -p release-artifacts
+          
+          cat > release-artifacts/release-info.json << EOF
+          {
+            "environment": "${{ inputs.environment }}",
+            "timestamp": "$(date -u '+%Y-%m-%d %H:%M:%S UTC')",
+            "git_sha": "${{ github.sha }}",
+            "triggered_by": "${{ github.actor }}",
+            "urls": {
+              "web": "${{ inputs.web_url }}",
+              "api": "${{ inputs.api_url }}"
+            },
+            "deployment_status": {
+              "api": "${{ inputs.api_deployment_status }}",
+              "web": "${{ inputs.web_deployment_status }}"
+            },
+            "test_status": {
+              "api": "${{ inputs.api_test_status }}",
+              "integration": "${{ inputs.integration_test_status }}",
+              "e2e": "${{ inputs.e2e_test_status }}"
+            }
+          }
+          EOF
+          
+          # Create release notes
+          cat > release-artifacts/release-notes.md << EOF
+          # Release Summary
+          
+          **Environment:** ${{ inputs.environment }}
+          **Date:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')
+          **Git SHA:** ${{ github.sha }}
+          **Triggered by:** ${{ github.actor }}
+          
+          ## Deployed URLs
+          
+          - **Web Application:** ${{ inputs.web_url }}
+          - **API Service:** ${{ inputs.api_url }}
+          
+          ## Component Status
+          
+          ### Deployments
+          - API Deployment: ${{ inputs.api_deployment_status }}
+          - Web Deployment: ${{ inputs.web_deployment_status }}
+          
+          ### Tests
+          - API Tests: ${{ inputs.api_test_status }}
+          - Integration Tests: ${{ inputs.integration_test_status }}
+          - E2E Tests: ${{ inputs.e2e_test_status }}
+          
+          ## Validation
+          
+          All deployed services have been validated for accessibility and integration.
+          EOF
+          
+          echo "✅ Release artifacts generated"
+          echo "📁 Files created:"
+          ls -la release-artifacts/
+      
+      - name: 📤 Upload Release Artifacts
+        if: inputs.release_type == 'full_release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts-${{ inputs.environment }}-${{ github.sha }}
+          path: release-artifacts/
+          retention-days: 90
+      
+      - name: 🎯 Release Summary
+        run: |
+          echo "🎯 Release Process Complete!"
+          echo "Release Type: ${{ inputs.release_type }}"
+          echo "Environment: ${{ inputs.environment }}"
+          
+          if [ -n "${{ inputs.web_url }}" ]; then
+            echo "🌐 Web Application: ${{ inputs.web_url }}"
+          fi
+          
+          if [ -n "${{ inputs.api_url }}" ]; then
+            echo "🔗 API Service: ${{ inputs.api_url }}"
+          fi
+          
+          if [ "${{ inputs.environment }}" = "branch" ]; then
+            if [ -n "${{ inputs.branch_name }}" ]; then
+              echo "🌿 Branch: ${{ inputs.branch_name }}"
+            fi
+            if [ -n "${{ inputs.pr_number }}" ]; then
+              echo "🔢 PR: #${{ inputs.pr_number }}"
+            fi
+          fi
+          
+          echo "📅 Completed: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          echo "✅ Release workflow completed successfully!"

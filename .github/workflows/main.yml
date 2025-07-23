@@ -1,4 +1,4 @@
-name: Deploy Main Production (API → Web → Test)
+name: Main Branch Workflow
 
 on:
   push:

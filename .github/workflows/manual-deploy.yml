@@ -1,0 +1,164 @@
+name: Manual Deployment Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_type:
+        description: 'What to deploy'
+        required: true
+        type: choice
+        options:
+          - 'api'
+          - 'web'
+          - 'both'
+        default: 'both'
+      environment:
+        description: 'Deployment environment'
+        required: true
+        type: choice
+        options:
+          - 'main'
+          - 'branch'
+        default: 'main'
+      branch_name:
+        description: 'Branch name (required for branch deployments)'
+        required: false
+        type: string
+      pr_number:
+        description: 'PR number (required for branch deployments)'
+        required: false
+        type: string
+      api_url:
+        description: 'Existing API URL (for web-only deployments)'
+        required: false
+        type: string
+      run_tests:
+        description: 'Run tests after deployment'
+        required: false
+        type: boolean
+        default: true
+      run_security_checks:
+        description: 'Run security validation'
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  deployments: write
+  checks: write
+
+jobs:
+  # Validate inputs
+  validate-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔍 Validate Deployment Inputs
+        run: |
+          echo "=== 🔍 VALIDATING DEPLOYMENT INPUTS ==="
+          echo "Deploy Type: ${{ inputs.deploy_type }}"
+          echo "Environment: ${{ inputs.environment }}"
+          echo "Branch Name: ${{ inputs.branch_name }}"
+          echo "PR Number: ${{ inputs.pr_number }}"
+          echo "API URL: ${{ inputs.api_url }}"
+          echo "Run Tests: ${{ inputs.run_tests }}"
+          echo "Run Security Checks: ${{ inputs.run_security_checks }}"
+          
+          # Validate branch deployment inputs
+          if [ "${{ inputs.environment }}" = "branch" ]; then
+            if [ -z "${{ inputs.branch_name }}" ] || [ -z "${{ inputs.pr_number }}" ]; then
+              echo "❌ Branch deployments require both branch_name and pr_number"
+              exit 1
+            fi
+          fi
+          
+          # Validate web-only deployment
+          if [ "${{ inputs.deploy_type }}" = "web" ] && [ -z "${{ inputs.api_url }}" ]; then
+            echo "❌ Web-only deployments require an existing API URL"
+            exit 1
+          fi
+          
+          echo "✅ All inputs validated"
+
+  # Build (if needed)
+  build:
+    needs: validate-inputs
+    uses: ./.github/workflows/template-build.yml
+    with:
+      build_type: ${{ inputs.deploy_type }}
+      environment: 'production'
+      api_url: ${{ inputs.api_url }}
+      run_tests: ${{ inputs.run_tests }}
+
+  # Deploy
+  deploy:
+    needs: [validate-inputs, build]
+    uses: ./.github/workflows/template-deploy.yml
+    secrets: inherit
+    with:
+      deploy_type: ${{ inputs.deploy_type }}
+      environment: ${{ inputs.environment }}
+      branch_name: ${{ inputs.branch_name }}
+      pr_number: ${{ inputs.pr_number }}
+      api_url: ${{ inputs.api_url }}
+
+  # API Tests (if API was deployed and tests requested)
+  test-api:
+    needs: deploy
+    if: inputs.run_tests && (inputs.deploy_type == 'api' || inputs.deploy_type == 'both')
+    uses: ./.github/workflows/template-test.yml
+    with:
+      test_type: 'api'
+      api_url: ${{ needs.deploy.outputs.api_deployment_url || inputs.api_url }}
+      environment: ${{ inputs.environment }}
+
+  # Integration Tests (if both web and API are available and tests requested)
+  test-integration:
+    needs: deploy
+    if: inputs.run_tests && inputs.deploy_type == 'both'
+    uses: ./.github/workflows/template-test.yml
+    with:
+      test_type: 'integration'
+      web_url: ${{ needs.deploy.outputs.web_deployment_url }}
+      api_url: ${{ needs.deploy.outputs.api_deployment_url }}
+      environment: ${{ inputs.environment }}
+
+  # E2E Tests (if both web and API are available and tests requested)
+  test-e2e:
+    needs: [deploy, test-integration]
+    if: inputs.run_tests && inputs.deploy_type == 'both' && needs.test-integration.result == 'success'
+    uses: ./.github/workflows/template-test.yml
+    with:
+      test_type: 'e2e'
+      web_url: ${{ needs.deploy.outputs.web_deployment_url }}
+      api_url: ${{ needs.deploy.outputs.api_deployment_url }}
+      environment: ${{ inputs.environment }}
+
+  # Security Checks (if requested)
+  security-checks:
+    needs: deploy
+    if: inputs.run_security_checks
+    uses: ./.github/workflows/template-security.yml
+    secrets: inherit
+    with:
+      check_type: 'all'
+      api_url: ${{ needs.deploy.outputs.api_deployment_url || inputs.api_url }}
+      web_url: ${{ needs.deploy.outputs.web_deployment_url }}
+
+  # Deployment Summary
+  deployment-summary:
+    needs: [deploy, test-api, test-integration, test-e2e, security-checks]
+    if: always()
+    uses: ./.github/workflows/template-release.yml
+    with:
+      release_type: 'deployment_summary'
+      environment: ${{ inputs.environment }}
+      api_url: ${{ needs.deploy.outputs.api_deployment_url || inputs.api_url }}
+      web_url: ${{ needs.deploy.outputs.web_deployment_url }}
+      api_deployment_status: ${{ needs.deploy.result }}
+      web_deployment_status: ${{ needs.deploy.result }}
+      api_test_status: ${{ needs.test-api.result }}
+      integration_test_status: ${{ needs.test-integration.result }}
+      e2e_test_status: ${{ needs.test-e2e.result }}
+      branch_name: ${{ inputs.branch_name }}
+      pr_number: ${{ inputs.pr_number }}

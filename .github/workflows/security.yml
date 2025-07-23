@@ -1,0 +1,126 @@
+name: Security Checks Workflow
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Daily at 2 AM UTC
+  workflow_dispatch:
+    inputs:
+      check_type:
+        description: 'Type of security check'
+        required: false
+        type: choice
+        options:
+          - 'all'
+          - 'gcp_validation'
+          - 'cors_test'
+          - 'auth_validation'
+        default: 'all'
+      api_url:
+        description: 'API URL to test (optional)'
+        required: false
+        type: string
+      web_url:
+        description: 'Web URL to test (optional)'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  # Get production URLs if not provided
+  get-production-urls:
+    runs-on: ubuntu-latest
+    outputs:
+      api_url: ${{ steps.urls.outputs.api_url }}
+      web_url: ${{ steps.urls.outputs.web_url }}
+    steps:
+      - name: 🔗 Set Production URLs
+        id: urls
+        run: |
+          # Use provided URLs or default to production URLs
+          API_URL="${{ inputs.api_url }}"
+          WEB_URL="${{ inputs.web_url }}"
+          
+          if [ -z "$API_URL" ]; then
+            API_URL="https://api-csharp-main.us-central1.run.app"
+          fi
+          
+          if [ -z "$WEB_URL" ]; then
+            WEB_URL="https://odyssey-466315.web.app"
+          fi
+          
+          echo "api_url=$API_URL" >> $GITHUB_OUTPUT
+          echo "web_url=$WEB_URL" >> $GITHUB_OUTPUT
+          
+          echo "🔗 API URL: $API_URL"
+          echo "🌐 Web URL: $WEB_URL"
+
+  # GCP Security Validation
+  gcp-security:
+    needs: get-production-urls
+    if: inputs.check_type == 'gcp_validation' || inputs.check_type == 'all' || inputs.check_type == ''
+    uses: ./.github/workflows/template-security.yml
+    secrets: inherit
+    with:
+      check_type: 'gcp_validation'
+      api_url: ${{ needs.get-production-urls.outputs.api_url }}
+
+  # CORS Security Testing
+  cors-security:
+    needs: get-production-urls
+    if: inputs.check_type == 'cors_test' || inputs.check_type == 'all' || inputs.check_type == ''
+    uses: ./.github/workflows/template-security.yml
+    secrets: inherit
+    with:
+      check_type: 'cors_test'
+      api_url: ${{ needs.get-production-urls.outputs.api_url }}
+      web_url: ${{ needs.get-production-urls.outputs.web_url }}
+
+  # Authentication Security Testing
+  auth-security:
+    needs: get-production-urls
+    if: inputs.check_type == 'auth_validation' || inputs.check_type == 'all' || inputs.check_type == ''
+    uses: ./.github/workflows/template-security.yml
+    secrets: inherit
+    with:
+      check_type: 'auth_validation'
+      api_url: ${{ needs.get-production-urls.outputs.api_url }}
+
+  # Security Summary
+  security-summary:
+    needs: [get-production-urls, gcp-security, cors-security, auth-security]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛡️ Security Summary
+        run: |
+          echo "=== 🛡️ SECURITY VALIDATION SUMMARY ==="
+          echo "Check Type: ${{ inputs.check_type || 'all' }}"
+          echo "API URL: ${{ needs.get-production-urls.outputs.api_url }}"
+          echo "Web URL: ${{ needs.get-production-urls.outputs.web_url }}"
+          echo ""
+          
+          # Check results
+          GCP_RESULT="${{ needs.gcp-security.result }}"
+          CORS_RESULT="${{ needs.cors-security.result }}"
+          AUTH_RESULT="${{ needs.auth-security.result }}"
+          
+          echo "🔐 GCP Security: ${GCP_RESULT:-'skipped'}"
+          echo "🌐 CORS Security: ${CORS_RESULT:-'skipped'}"
+          echo "🔒 Auth Security: ${AUTH_RESULT:-'skipped'}"
+          echo ""
+          
+          # Determine overall status
+          OVERALL_STATUS="SUCCESS"
+          
+          if [ "$GCP_RESULT" = "failure" ] || [ "$CORS_RESULT" = "failure" ] || [ "$AUTH_RESULT" = "failure" ]; then
+            OVERALL_STATUS="FAILURE"
+            echo "❌ Some security checks failed!"
+            exit 1
+          else
+            echo "✅ All security checks passed!"
+          fi
+          
+          echo "📅 Completed: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
