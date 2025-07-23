@@ -14,7 +14,8 @@
       "Bash(gcloud config get-value:*)",
       "Bash(gcloud config set:*)",
       "Bash(gh api:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(grep:*)"
     ],
     "deny": [
       "Bash(git:*)"

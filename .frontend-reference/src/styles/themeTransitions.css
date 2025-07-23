@@ -1,4 +1,0 @@
-[data-theme-transition],
-[data-theme-transition] > * {
-  transition: background-color .5s, color .5s, border-color .5s;
-}
