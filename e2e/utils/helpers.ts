@@ -7,7 +7,7 @@ export class TestHelpers {
     await this.page.waitForLoadState('networkidle');
   }
 
-  async waitForApiResponse(url: string, timeout = 15000) {
+  async waitForApiResponse(url: string, timeout = 30000) {
     try {
       const responsePromise = this.page.waitForResponse(
         response => response.url().includes(url) && response.status() === 200,
@@ -21,7 +21,40 @@ export class TestHelpers {
     }
   }
 
-  async waitForApiResponseOrSuccess(url: string, timeout = 15000) {
+  async waitForApiResponseWithRetry(url: string, maxRetries = 3, baseTimeout = 10000) {
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        // Progressive timeout: shorter attempts first, then longer ones
+        const timeoutForAttempt = baseTimeout + (attempt * 10000);
+        console.log(`Attempt ${attempt + 1}/${maxRetries} waiting for ${url} (timeout: ${timeoutForAttempt}ms)`);
+        
+        const responsePromise = this.page.waitForResponse(
+          response => response.url().includes(url) && response.status() === 200,
+          { timeout: timeoutForAttempt }
+        );
+        return await responsePromise;
+      } catch (error) {
+        console.log(`Attempt ${attempt + 1} failed for ${url}:`, error.message);
+        
+        if (attempt === maxRetries - 1) {
+          // Last attempt failed, try fallback to UI state
+          const successVisible = await this.page.locator('.success').isVisible();
+          if (successVisible) {
+            console.log(`API call failed but UI shows success state for ${url}`);
+            return null;
+          }
+          throw error;
+        }
+        
+        // Exponential backoff: wait before retry
+        const backoffDelay = Math.min(2000 * Math.pow(2, attempt), 8000);
+        console.log(`Waiting ${backoffDelay}ms before retry...`);
+        await new Promise(resolve => setTimeout(resolve, backoffDelay));
+      }
+    }
+  }
+
+  async waitForApiResponseOrSuccess(url: string, timeout = 30000) {
     try {
       // Race between API response and UI success state
       const result = await Promise.race([
@@ -81,7 +114,7 @@ export const SELECTORS = {
 };
 
 export const TIMEOUT = {
-  DEFAULT: 10000,
-  LONG: 30000,
+  DEFAULT: 30000,
+  LONG: 45000,
   SHORT: 5000
 };

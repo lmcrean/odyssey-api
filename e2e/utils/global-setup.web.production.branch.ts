@@ -30,6 +30,10 @@ async function globalSetup(config: FullConfig) {
     waitForService(webUrl, 'Web App')
   ]);
   
+  // Pre-warm critical API endpoints to reduce cold start latency
+  console.log('🔥 Pre-warming API endpoints...');
+  await warmApiEndpoints(apiUrl);
+  
   console.log('✅ Web + API global setup complete!');
 }
 
@@ -51,6 +55,31 @@ async function waitForService(url: string, serviceName: string, maxRetries = 20)
   }
   
   throw new Error(`❌ ${serviceName} failed to respond after ${maxRetries * 3} seconds`);
+}
+
+async function warmApiEndpoints(apiUrl: string) {
+  const endpoints = ['/api/health', '/api/health/status'];
+  
+  const warmPromises = endpoints.map(async (endpoint) => {
+    try {
+      console.log(`🔥 Warming ${endpoint}...`);
+      const response = await fetch(`${apiUrl}${endpoint}`);
+      if (response.ok) {
+        console.log(`✅ ${endpoint} warmed successfully`);
+      } else {
+        console.log(`⚠️ ${endpoint} returned ${response.status}`);
+      }
+    } catch (error) {
+      console.log(`⚠️ Failed to warm ${endpoint}:`, error.message);
+    }
+  });
+  
+  await Promise.all(warmPromises);
+  
+  // Give the API a moment to stabilize after warming
+  console.log('⏳ Allowing API to stabilize...');
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  console.log('✅ API endpoints pre-warmed');
 }
 
 export default globalSetup;

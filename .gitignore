@@ -37,3 +37,6 @@ combined_repo.md
 .archive/backend-js-reference/**
 
 .claude
+
+# Pull request documentation
+pull-reqs/
